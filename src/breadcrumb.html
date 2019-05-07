@@ -1,0 +1,11 @@
+<script>
+Vue.component('breadcrumb', {
+  props: {
+    segment: {
+      type: Object,
+      required: true
+    }
+  },
+  template: '<span> &nbsp; &gt; &nbsp; <a v-on:click.prevent="$emit(\'click\', segment.id)" style="cursor: pointer;">{{segment.name}}</a></span>'
+});
+</script>
