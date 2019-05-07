@@ -1,0 +1,15 @@
+{
+  "name": "shared-drive-mover",
+  "version": "0.1.0",
+  "description": "Move files from regular Google Drive to a Shared Drive",
+  "keywords": [
+    "google",
+    "google drive",
+    "drive",
+    "shared drive",
+    "move",
+    "skaut"
+  ],
+  "license": "MIT",
+  "author": "Marek Dědič"
+}
