@@ -5,6 +5,7 @@ module.exports = {
   mode: 'development',
   plugins: [
     new CopyPlugin([
+      {from: 'src/appsscript.json', to: '.'},
       {from: 'src/backend', to: '.'},
       {from: 'src/frontend', to: '.'}
     ])
