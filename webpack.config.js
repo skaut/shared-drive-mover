@@ -1,5 +1,7 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 
 module.exports = {
   mode: 'development',
@@ -8,11 +10,17 @@ module.exports = {
       {from: 'src/appsscript.json', to: '.'},
       {from: 'src/backend', to: '.'},
       {from: 'src/frontend', to: '.'}
-    ])
+    ]),
+    new HtmlWebpackPlugin({
+      inlineSource: '.(js)$'
+    }),
+    new HtmlWebpackInlineSourcePlugin()
   ],
-  entry: './src/main.js',
+  entry: {
+    frontend: './src/frontend/index.js'
+  },
   output: {
-    filename: 'main.bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist')
   }
 };
