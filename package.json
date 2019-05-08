@@ -11,5 +11,13 @@
     "skaut"
   ],
   "license": "MIT",
-  "author": "Marek Dědič"
+  "author": "Marek Dědič",
+  "devDependencies": {
+    "copy-webpack-plugin": "^5.0.3",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.2"
+  },
+  "scripts": {
+    "build": "webpack"
+  }
 }
