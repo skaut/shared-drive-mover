@@ -38,12 +38,6 @@ export default Vue.extend({
       validator: prop => typeof prop === 'object' || prop === null,
       required: true
     }
-  },
-  methods: {
-    navigate: function()
-    {
-      google.script.run.withSuccessHandler(this.setFolders).getFolders();
-    }
   }
 });
 </script>

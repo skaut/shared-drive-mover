@@ -3,26 +3,10 @@ import App from './App.vue';
 
 Vue.use(VueMaterial.default);
 
-var app = new Vue({
+new Vue({
   el: '#app',
   components: {
     App
   },
-  methods: {
-    getFolders: function()
-    {
-      this.$children[0].getFolders();
-    },
-    getSharedDrives: function()
-    {
-      this.$children[0].getSharedDrives();
-    }
-  },
-  render: function(createElement)
-  {
-    return createElement(App);
-  }
+  template: '<App></App>'
 });
-
-app.getFolders();
-app.getSharedDrives();

@@ -52,10 +52,10 @@ export default Vue.extend({
   {
     return {
       activeStep: "folder-selection",
-      folders: null,
-      currentPath: [],
+      folders: [] as Array<Folder>,
+      currentPath: [] as Array<Folder>,
       folder: null,
-      sharedDrives: null,
+      sharedDrives: [] as Array<Folder>,
       sharedDrive: null,
       copyComments: false,
       deleteOriginals: true, // TODO: Change
@@ -63,12 +63,12 @@ export default Vue.extend({
     };
   },
   methods: {
-    setFolders: function(folders)
+    setFolders: function(folders: Folders)
     {
       this.currentPath = folders.path;
       this.folders = folders.folders;
     },
-    navigateBreadcrumb: function(folderId)
+    navigateBreadcrumb: function(folderId: String)
     {
       if(folderId === undefined)
       {
@@ -81,14 +81,14 @@ export default Vue.extend({
           return segment.id === folderId;
         }) + 1 );
       }
-      this.folders = null;
+      this.folders = [];
       this.folder = null;
       this.getFolders();
     },
-    navigateFolder: function(folder)
+    navigateFolder: function(folder: String)
     {
-      this.currentPath.push({id: folder});
-      this.folders = null;
+      this.currentPath.push({id: folder, name: ''});
+      this.folders = [];
       this.folder = null;
       this.getFolders();
     },
@@ -96,7 +96,7 @@ export default Vue.extend({
     {
       google.script.run.withSuccessHandler(this.setFolders).getFolders(this.currentPath);
     },
-    setSharedDrives: function(sharedDrives)
+    setSharedDrives: function(sharedDrives: Array<Folder>)
     {
       this.sharedDrives = sharedDrives;
     },
@@ -113,7 +113,7 @@ export default Vue.extend({
     {
       google.script.run.withSuccessHandler(this.handleResponse).start(this.folder, this.sharedDrive, this.copyComments, this.deleteOriginals, true);
     },
-    handleResponse: function(response)
+    handleResponse: function(response: MoveResponse)
     {
       if(response.status === 'error')
       {
@@ -127,6 +127,11 @@ export default Vue.extend({
         this.activeStep = 'done';
       }
     }
+  },
+  created: function()
+  {
+    this.getFolders();
+    this.getSharedDrives();
   }
 });
 </script>

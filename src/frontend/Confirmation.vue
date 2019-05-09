@@ -12,15 +12,19 @@ import Vue from 'vue';
 export default Vue.extend({
   props: {
     folders: {
+      type: Array,
       required: true
     },
     folder: {
+      type: String,
       required: true
     },
     sharedDrives: {
+      type: Array,
       required: true
     },
     sharedDrive: {
+      type: String,
       required: true
     }
   },
@@ -32,10 +36,10 @@ export default Vue.extend({
         return '';
       }
       var folderId = this.folder;
-      return this.folders.find(function(i)
+      return (this.folders as Array<Folder>).find(function(i: Folder)
       {
         return i.id === folderId;
-      }).name;
+      })!.name;
     },
     sharedDriveName: function()
     {
@@ -44,10 +48,10 @@ export default Vue.extend({
         return '';
       }
       var sharedDriveId = this.sharedDrive;
-      return this.sharedDrives.find(function(i)
+      return (this.sharedDrives as Array<Folder>).find(function(i: Folder)
       {
         return i.id === sharedDriveId;
-      }).name;
+      })!.name;
     }
   }
 });
