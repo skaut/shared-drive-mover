@@ -12,7 +12,8 @@ module.exports = {
       {from: 'src/frontend', to: '.'}
     ]),
     new HtmlWebpackPlugin({
-      inlineSource: '.(js)$'
+      inlineSource: '.(js)$',
+      template: 'src/frontend/index.html'
     }),
     new HtmlWebpackInlineSourcePlugin()
   ],
