@@ -21,7 +21,7 @@
           <InProgress></InProgress>
         </md-step>
         <md-step id="done" md-label="Done">
-          <done></done>
+          <Done></Done>
         </md-step>
       </md-steppers>
       <md-dialog-confirm v-bind:md-active.sync="displayNonEmptyDialog" md-title="Not empty" md-content="The selected Shared drive is not empty. Do you want to proceed anyway?" md-confirm-text="Yes" md-cancel-text="No" v-on:md-confirm="startNonEmpty" v-on:md-cancel="activeStep = 'shared-drive-selection'"></md-dialog-confirm>
@@ -34,6 +34,7 @@ import Vue from 'vue';
 
 import Configuration from './Configuration.vue';
 import Confirmation from './Confirmation.vue';
+import Done from './Done.vue';
 import FolderSelector from './FolderSelector.vue';
 import InProgress from './InProgress.vue';
 import SharedDriveSelector from './FolderSelector.vue';
@@ -42,6 +43,7 @@ export default Vue.extend({
   components: {
     Configuration,
     Confirmation,
+    Done,
     FolderSelector,
     InProgress,
     SharedDriveSelector
