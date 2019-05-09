@@ -12,8 +12,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new CopyPlugin([
       {from: 'src/appsscript.json', to: '.'},
-      {from: 'src/backend', to: '.'},
-      {context: 'src/frontend', from: '*.html', to: '.'}
+      {from: 'src/backend', to: '.'}
     ]),
     new HtmlWebpackPlugin({
       inlineSource: '.(js)$',

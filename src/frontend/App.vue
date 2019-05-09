@@ -54,9 +54,9 @@ export default Vue.extend({
       activeStep: "folder-selection",
       folders: [] as Array<Folder>,
       currentPath: [] as Array<Folder>,
-      folder: null,
+      folder: '',
       sharedDrives: [] as Array<Folder>,
-      sharedDrive: null,
+      sharedDrive: '',
       copyComments: false,
       deleteOriginals: true, // TODO: Change
       displayNonEmptyDialog: false
@@ -82,14 +82,14 @@ export default Vue.extend({
         }) + 1 );
       }
       this.folders = [];
-      this.folder = null;
+      this.folder = '';
       this.getFolders();
     },
     navigateFolder: function(folder: String)
     {
       this.currentPath.push({id: folder, name: ''});
       this.folders = [];
-      this.folder = null;
+      this.folder = '';
       this.getFolders();
     },
     getFolders: function()
