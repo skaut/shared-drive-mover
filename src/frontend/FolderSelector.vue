@@ -40,7 +40,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    navigate: function(id)
+    navigate: function()
     {
       google.script.run.withSuccessHandler(this.setFolders).getFolders();
     }
