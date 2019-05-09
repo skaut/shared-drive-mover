@@ -13,7 +13,7 @@ module.exports = {
     new CopyPlugin([
       {from: 'src/appsscript.json', to: '.'},
       {from: 'src/backend', to: '.'},
-      {from: 'src/frontend', to: '.'}
+      {context: 'src/frontend', from: '*.html', to: '.'}
     ]),
     new HtmlWebpackPlugin({
       inlineSource: '.(js)$',
@@ -25,11 +25,12 @@ module.exports = {
   ],
   module: {
     rules: [
+      {test: /\.tsx?$/, use: 'ts-loader'},
       {test: /\.vue$/, use: 'vue-loader'}
     ]
   },
   entry: {
-    index: './src/frontend/index.js'
+    index: './src/frontend/index.ts'
   },
   output: {
     filename: '[name].js',

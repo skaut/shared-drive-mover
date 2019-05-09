@@ -18,6 +18,8 @@
     "html-webpack-inline-source-plugin": "0.0.10",
     "html-webpack-plugin": "^3.2.0",
     "ignore-assets-webpack-plugin": "^2.0.1",
+    "ts-loader": "^6.0.0",
+    "typescript": "^3.4.5",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",

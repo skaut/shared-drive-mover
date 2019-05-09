@@ -1,3 +1,5 @@
+//import Vue from 'vue';
+
 Vue.use(VueMaterial.default);
 
 var app = new Vue({
