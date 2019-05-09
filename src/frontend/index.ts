@@ -5,6 +5,9 @@ Vue.use(VueMaterial.default);
 
 var app = new Vue({
   el: '#app',
+  components: {
+    App
+  },
   methods: {
     getFolders: function()
     {

@@ -6,7 +6,7 @@
     <md-app-content>
       <md-steppers md-linear v-bind:md-active-step.sync="activeStep">
         <md-step id="folder-selection" md-label="Source folder selection">
-          <folder-selector v-bind:items="folders" v-bind:path="currentPath" v-bind:selected="folder" v-on:select-folder="folder = $event" v-on:navigate-breadcrumb="navigateBreadcrumb" v-on:navigate-folder="navigateFolder" v-on:next-step="activeStep = 'shared-drive-selection'"></folder-selector>
+          <FolderSelector v-bind:items="folders" v-bind:path="currentPath" v-bind:selected="folder" v-on:select-folder="folder = $event" v-on:navigate-breadcrumb="navigateBreadcrumb" v-on:navigate-folder="navigateFolder" v-on:next-step="activeStep = 'shared-drive-selection'"></FolderSelector>
         </md-step>
         <md-step id="shared-drive-selection" md-label="Destination Shared drive selection">
           <shareddrive-selector v-bind:items="sharedDrives" v-bind:selected="sharedDrive" v-on:select-shareddrive="sharedDrive = $event" v-on:next-step="activeStep = 'configuration'"></shareddrive-selector>
@@ -31,8 +31,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import FolderSelector from './FolderSelector.vue';
 
 export default Vue.extend({
+  components: {
+    FolderSelector
+  },
   data: function()
   {
     return {
