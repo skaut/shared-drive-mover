@@ -9,7 +9,7 @@
           <FolderSelector v-bind:items="folders" v-bind:path="currentPath" v-bind:selected="folder" v-on:select-folder="folder = $event" v-on:navigate-breadcrumb="navigateBreadcrumb" v-on:navigate-folder="navigateFolder" v-on:next-step="activeStep = 'shared-drive-selection'"></FolderSelector>
         </md-step>
         <md-step id="shared-drive-selection" md-label="Destination Shared drive selection">
-          <shareddrive-selector v-bind:items="sharedDrives" v-bind:selected="sharedDrive" v-on:select-shareddrive="sharedDrive = $event" v-on:next-step="activeStep = 'configuration'"></shareddrive-selector>
+          <SharedDriveSelector v-bind:items="sharedDrives" v-bind:selected="sharedDrive" v-on:select-shareddrive="sharedDrive = $event" v-on:next-step="activeStep = 'configuration'"></SharedDriveSelector>
         </md-step>
         <md-step id="configuration" md-label="Configuration">
           <configuration v-bind:copyComments="copyComments" v-on:changeCopyComments="copyComments = !copyComments" v-bind:deleteOriginals="deleteOriginals" v-on:changeDeleteOriginals="deleteOriginals = !deleteOriginals" v-on:next-step="activeStep = 'confirmation'"></configuration>
@@ -31,11 +31,14 @@
 
 <script lang="ts">
 import Vue from 'vue';
+
 import FolderSelector from './FolderSelector.vue';
+import SharedDriveSelector from './FolderSelector.vue';
 
 export default Vue.extend({
   components: {
-    FolderSelector
+    FolderSelector,
+    SharedDriveSelector
   },
   data: function()
   {
