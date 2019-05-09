@@ -2,6 +2,7 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
+const IgnoreAssetsWebpackPlugin = require('ignore-assets-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -15,7 +16,8 @@ module.exports = {
       inlineSource: '.(js)$',
       template: 'src/frontend/index.html'
     }),
-    new HtmlWebpackInlineSourcePlugin()
+    new HtmlWebpackInlineSourcePlugin(),
+    new IgnoreAssetsWebpackPlugin({ignore: 'index.js'})
   ],
   entry: {
     index: './src/frontend/index.js'
