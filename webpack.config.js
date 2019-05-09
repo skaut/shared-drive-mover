@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 const IgnoreAssetsWebpackPlugin = require('ignore-assets-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
   mode: 'development',
@@ -19,8 +20,14 @@ module.exports = {
       template: 'src/frontend/index.html'
     }),
     new HtmlWebpackInlineSourcePlugin(),
-    new IgnoreAssetsWebpackPlugin({ignore: 'index.js'})
+    new IgnoreAssetsWebpackPlugin({ignore: 'index.js'}),
+    new VueLoaderPlugin()
   ],
+  module: {
+    rules: [
+      {test: /\.vue$/, use: 'vue-loader'}
+    ]
+  },
   entry: {
     index: './src/frontend/index.js'
   },

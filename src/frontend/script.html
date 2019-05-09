@@ -1,18 +1,18 @@
 <script>
-Vue.use(VueMaterial.default);
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    activeStep: "folder-selection",
-    folders: null,
-    currentPath: [],
-    folder: null,
-    sharedDrives: null,
-    sharedDrive: null,
-    copyComments: false,
-    deleteOriginals: true, // TODO: Change
-    displayNonEmptyDialog: false
+Vue.component('App', {
+  data: function()
+  {
+    return {
+      activeStep: "folder-selection",
+      folders: null,
+      currentPath: [],
+      folder: null,
+      sharedDrives: null,
+      sharedDrive: null,
+      copyComments: false,
+      deleteOriginals: true, // TODO: Change
+      displayNonEmptyDialog: false
+    };
   },
   methods: {
     setFolders: function(folders)
@@ -109,7 +109,4 @@ var app = new Vue({
     </md-app-content>\
   </md-app>'
 });
-
-app.getFolders();
-app.getSharedDrives();
 </script>
