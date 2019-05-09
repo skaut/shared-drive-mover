@@ -3,10 +3,12 @@ const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 const IgnoreAssetsWebpackPlugin = require('ignore-assets-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   mode: 'development',
   plugins: [
+    new CleanWebpackPlugin(),
     new CopyPlugin([
       {from: 'src/appsscript.json', to: '.'},
       {from: 'src/backend', to: '.'},
