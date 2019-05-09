@@ -7,7 +7,7 @@
       <selector-row v-for="item in items" v-bind:item="item" v-bind:selected="item.id === selected" v-bind:key="item.id" v-on:click="$emit('select-shareddrive', $event)"></selector-row>
     </md-list>
     <md-button class="md-raised md-primary" v-on:click="$emit('next-step')" v-bind:disabled="!selected">Continue</md-button>
-  </div>'
+  </div>
 </template>
 
 <script lang="ts">

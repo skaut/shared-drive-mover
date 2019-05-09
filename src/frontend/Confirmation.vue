@@ -1,5 +1,15 @@
-<script>
-Vue.component('confirmation', {
+<template>
+  <div>
+    Are you sure you want to move the contents of the "{{folderName}}" folder into the "{{sharedDriveName}}" Shared drive?
+    <br>
+    <md-button class="md-raised md-primary" v-on:click="$emit('next-step')">Move</md-button>
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   props: {
     folders: {
       required: true
@@ -39,11 +49,6 @@ Vue.component('confirmation', {
         return i.id === sharedDriveId;
       }).name;
     }
-  },
-  template: '<div>\
-    Are you sure you want to move the contents of the "{{folderName}}" folder into the "{{sharedDriveName}}" Shared drive?\
-    <br>\
-    <md-button class="md-raised md-primary" v-on:click="$emit(\'next-step\')">Move</md-button>\
-  </div>'
+  }
 });
 </script>

@@ -15,7 +15,7 @@
           <Configuration v-bind:copyComments="copyComments" v-on:changeCopyComments="copyComments = !copyComments" v-bind:deleteOriginals="deleteOriginals" v-on:changeDeleteOriginals="deleteOriginals = !deleteOriginals" v-on:next-step="activeStep = 'confirmation'"></Configuration>
         </md-step>
         <md-step id="confirmation" md-label="Confirmation">
-          <confirmation v-bind:folders="folders" v-bind:folder="folder" v-bind:sharedDrives="sharedDrives" v-bind:sharedDrive="sharedDrive" v-on:next-step="start"></confirmation>
+          <Confirmation v-bind:folders="folders" v-bind:folder="folder" v-bind:sharedDrives="sharedDrives" v-bind:sharedDrive="sharedDrive" v-on:next-step="start"></Confirmation>
         </md-step>
         <md-step id="progress" md-label="In progress">
           <in-progress></in-progress>
@@ -33,12 +33,14 @@
 import Vue from 'vue';
 
 import Configuration from './Configuration.vue';
+import Confirmation from './Confirmation.vue';
 import FolderSelector from './FolderSelector.vue';
 import SharedDriveSelector from './FolderSelector.vue';
 
 export default Vue.extend({
   components: {
     Configuration,
+    Confirmation,
     FolderSelector,
     SharedDriveSelector
   },
