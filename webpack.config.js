@@ -18,7 +18,7 @@ module.exports = {
     new HtmlWebpackInlineSourcePlugin()
   ],
   entry: {
-    frontend: './src/frontend/index.js'
+    index: './src/frontend/index.js'
   },
   output: {
     filename: '[name].js',
