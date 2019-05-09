@@ -18,7 +18,7 @@
           <Confirmation v-bind:folders="folders" v-bind:folder="folder" v-bind:sharedDrives="sharedDrives" v-bind:sharedDrive="sharedDrive" v-on:next-step="start"></Confirmation>
         </md-step>
         <md-step id="progress" md-label="In progress">
-          <in-progress></in-progress>
+          <InProgress></InProgress>
         </md-step>
         <md-step id="done" md-label="Done">
           <done></done>
@@ -35,6 +35,7 @@ import Vue from 'vue';
 import Configuration from './Configuration.vue';
 import Confirmation from './Confirmation.vue';
 import FolderSelector from './FolderSelector.vue';
+import InProgress from './InProgress.vue';
 import SharedDriveSelector from './FolderSelector.vue';
 
 export default Vue.extend({
@@ -42,6 +43,7 @@ export default Vue.extend({
     Configuration,
     Confirmation,
     FolderSelector,
+    InProgress,
     SharedDriveSelector
   },
   data: function()
