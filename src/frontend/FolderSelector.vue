@@ -8,7 +8,7 @@
         <a v-on:click.prevent="$emit('navigate-breadcrumb')">My Drive</a>
         <breadcrumb v-for="segment in path" v-bind:key="segment.id" v-bind:segment="segment" v-on:click="$emit('navigate-breadcrumb', $event)"></breadcrumb>
       </md-subheader>
-      <selector-row v-for="item in items" v-bind:item="item" v-bind:selected="item.id === selected" v-bind:key="item.id" v-on:click="$emit('select-folder', $event)" v-on:dblclick="$emit('navigate-folder', $event)"></selector-row>
+      <SelectorRow v-for="item in items" v-bind:item="item" v-bind:selected="item.id === selected" v-bind:key="item.id" v-on:click="$emit('select-folder', $event)" v-on:dblclick="$emit('navigate-folder', $event)"></SelectorRow>
     </md-list>
     <md-button class="md-raised md-primary" v-on:click="$emit('next-step')" v-bind:disabled="!selected">Continue</md-button>
   </div>
@@ -17,7 +17,12 @@
 <script lang="ts">
 import Vue from 'vue';
 
+import SelectorRow from './SelectorRow.vue';
+
 export default Vue.extend({
+  components: {
+    SelectorRow
+  },
   props: {
     selected: {
       type: String,

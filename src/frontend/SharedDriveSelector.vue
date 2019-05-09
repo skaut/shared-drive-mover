@@ -4,14 +4,21 @@
       <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
     </div>
     <md-list v-else>
-      <selector-row v-for="item in items" v-bind:item="item" v-bind:selected="item.id === selected" v-bind:key="item.id" v-on:click="$emit('select-shareddrive', $event)"></selector-row>
+      <SelectorRow v-for="item in items" v-bind:item="item" v-bind:selected="item.id === selected" v-bind:key="item.id" v-on:click="$emit('select-shareddrive', $event)"></SelectorRow>
     </md-list>
     <md-button class="md-raised md-primary" v-on:click="$emit('next-step')" v-bind:disabled="!selected">Continue</md-button>
   </div>
 </template>
 
 <script lang="ts">
+import Vue from 'vue';
+
+import SelectorRow from './SelectorRow.vue';
+
 export default Vue.extend({
+  components: {
+    SelectorRow
+  },
   props: {
     selected: {
       type: String,

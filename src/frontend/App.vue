@@ -37,7 +37,7 @@ import Confirmation from './Confirmation.vue';
 import Done from './Done.vue';
 import FolderSelector from './FolderSelector.vue';
 import InProgress from './InProgress.vue';
-import SharedDriveSelector from './FolderSelector.vue';
+import SharedDriveSelector from './SharedDriveSelector.vue';
 
 export default Vue.extend({
   components: {
