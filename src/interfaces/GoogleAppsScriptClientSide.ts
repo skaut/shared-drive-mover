@@ -1,0 +1,4 @@
+interface GoogleAppsScriptClientSide
+{
+	script: GoogleAppsScriptClientSideScript;
+}

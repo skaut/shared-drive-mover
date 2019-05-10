@@ -1,1 +1,1 @@
-declare var global: any;
+declare var global: PublicEndpoints;

@@ -1,0 +1,4 @@
+interface GoogleAppsScriptClientSideScript
+{
+	run: GoogleAppsScriptFunctions;
+}
