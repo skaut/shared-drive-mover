@@ -125,7 +125,7 @@ export default Vue.extend({
 		this.getSharedDrives();
 	},
 	methods: {
-		setFolders(folders: Folders)
+		setFolders(folders: FoldersResponse)
 		{
 			this.currentPath = folders.path;
 			this.folders = folders.folders;

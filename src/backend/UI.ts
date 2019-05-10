@@ -39,7 +39,7 @@ function getFolderList_(root: string): Array<Folder>
 	return ret;
 }
 
-global.getFolders = function(path: Array<Folder>): Folders
+global.getFolders = function(path: Array<Folder>): FoldersResponse
 {
 	const root = path.length === 0 ? 'root' : path[path.length - 1].id;
 	return {path: getCurrentPath_(path), folders: getFolderList_(root)};
