@@ -4,6 +4,6 @@ declare module '*.vue'
   export default Vue;
 }
 
-declare module 'vue-material';
+declare module 'vue-material/dist/components';
 
 declare var google: any;
