@@ -20,7 +20,7 @@ $ cd shared-drive-mover
 $ npm install
 ```
 
-Create a new script project on (https://script.google.com) under a G Suite account and in the Project properties, copy the Script ID. Put this inside `.clasp.json`. Build the code and push it to the online project by running:
+Create a new script project on https://script.google.com under a G Suite account and in the Project properties, copy the Script ID. Put this inside `.clasp.json`. Build the code and push it to the online project by running:
 
 ```sh
 $ npm run build
