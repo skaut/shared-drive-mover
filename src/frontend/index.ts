@@ -19,9 +19,9 @@ Vue.use(MdSubheader);
 Vue.use(MdToolbar);
 
 new Vue({
-  el: '#app',
-  components: {
-    App
-  },
-  render: h => h(App)
+	el: '#app',
+	components: {
+		App
+	},
+	render: h => h(App)
 });
