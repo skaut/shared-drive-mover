@@ -14,11 +14,12 @@ module.exports = [
 			new CleanWebpackPlugin(),
 			new CopyPlugin([
 				{from: 'src/appsscript.json', to: '.'}
-			])
+			]),
+			new IgnoreAssetsWebpackPlugin({ignore: 'index.js'}),
 		],
 		entry: {
 			index: './src/appsscript.json'
-		},
+		}
 	},
 	{
 		mode: 'development',
