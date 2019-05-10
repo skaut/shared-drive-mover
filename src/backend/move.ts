@@ -36,7 +36,7 @@ function moveFolderContentsFiles_(source: string, destination: string, copyComme
   var pageToken = null;
   do
   {
-    var response: DriveFileList = Drive.Files!.list({
+    var response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
       q: '"' + source + '" in parents and mimeType != "application/vnd.google-apps.folder" and trashed = false',
       pageToken: pageToken,
       maxResults: 1000,
@@ -101,7 +101,7 @@ function moveFolderContentsFolders_(source: string, destination: string, copyCom
   var pageToken = null;
   do
   {
-    var response: DriveFileList = Drive.Files!.list({
+    var response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
       q: '"' + source + '" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
       pageToken: pageToken,
       maxResults: 1000,

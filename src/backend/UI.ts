@@ -37,7 +37,7 @@ function getFolderList_(root: string)
   var pageToken = null;
   do
   {
-    var response: DriveFileList = Drive.Files!.list({
+    var response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
       q: '"' + root + '" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
       pageToken: pageToken,
       maxResults: 1000,
@@ -59,7 +59,7 @@ global.getSharedDrives = function()
   do
   {
     // @ts-ignore
-    var response = Drive.Drives.list({
+    var response: GoogleAppsScript.Drive.Schema.DriveList = Drive.Drives.list({
       pageToken: pageToken,
       maxResults: 100,
       fields: 'nextPageToken, items(id, name)'
