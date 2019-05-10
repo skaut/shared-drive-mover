@@ -200,6 +200,7 @@ export default Vue.extend({
 			{
 				this.optionalErrorMessage = '<br>Error message: ' + response.message;
 			}
+			this.activeStep = 'folder-selection'
 			this.displayErrorDialog = true;
 		}
 	}
