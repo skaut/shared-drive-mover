@@ -29,7 +29,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    folderName: function()
+    folderName()
     {
       if(!this.folder)
       {
@@ -37,7 +37,7 @@ export default Vue.extend({
       }
       return (this.folders as Array<Folder>).find(i => i.id === this.folder)!.name;
     },
-    sharedDriveName: function()
+    sharedDriveName()
     {
       if(!this.sharedDrive)
       {

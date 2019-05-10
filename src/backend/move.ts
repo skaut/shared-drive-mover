@@ -14,7 +14,7 @@ function isSharedDriveEmpty_(sharedDrive: string, notEmptyOverride: boolean)
   {
     return true;
   }
-  var response = Drive.Files!.list({
+  const response = Drive.Files!.list({
     includeItemsFromAllDrives: true,
     maxResults: 1,
     q: '"' + sharedDrive + '" in parents and trashed = false',
@@ -32,32 +32,32 @@ function moveFolderContents_(source: string, destination: string, copyComments: 
 
 function moveFolderContentsFiles_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean)
 {
-  var files = [];
-  var pageToken = null;
+  let files = [];
+  let pageToken = null;
   do
   {
-    var response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
+    const response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
       q: '"' + source + '" in parents and mimeType != "application/vnd.google-apps.folder" and trashed = false',
       pageToken: pageToken,
       maxResults: 1000,
       fields: 'items(id, title, capabilities(canMoveItemOutOfDrive))'
     });
-    for(var i in response.items)
+    for(let item of response.items!)
     {
       // @ts-ignore
-      files.push({id: response.items[i].id, name: response.items[i].title, canMove: response.items[i].capabilities.canMoveItemOutOfDrive});
+      files.push({id: item.id, name: item.title, canMove: item.capabilities!.canMoveItemOutOfDrive});
     }
     pageToken = response.nextPageToken;
   } while (pageToken !== undefined);
-  for(var i in files)
+  for(let file of files)
   {
-    if(files[i].canMove)
+    if(file.canMove)
     {
-      moveFile_(files[i].id, source, destination);
+      moveFile_(file.id!, source, destination);
     }
     else
     {
-      moveFileByCopy_(files[i].id, files[i].name, destination, copyComments, deleteOriginals);
+      moveFileByCopy_(file.id!, file.name!, destination, copyComments, deleteOriginals);
     }
   }
 }
@@ -69,7 +69,7 @@ function moveFile_(file: string, source: string, destination: string)
 
 function moveFileByCopy_(file: string, name: string, destination: string, copyComments: boolean, deleteOriginals: boolean)
 {
-  var copy = Drive.Files!.copy({parents: [{id: destination}], title: name}, file, {supportsAllDrives: true, fields: 'id'});
+  const copy = Drive.Files!.copy({parents: [{id: destination}], title: name}, file, {supportsAllDrives: true, fields: 'id'});
   if(copyComments)
   {
     copyFileComments_(file, copy.id!);
@@ -87,7 +87,7 @@ function copyFileComments_(source: string, destination: string)
 
 function deleteFile_(file: string)
 {
-  var record = Drive.Files!.get(file, {fields: 'capabilities'});
+  const record = Drive.Files!.get(file, {fields: 'capabilities'});
   Logger.log(record);
   if(true || record.capabilities!.canTrash)
   {
@@ -97,27 +97,27 @@ function deleteFile_(file: string)
 
 function moveFolderContentsFolders_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean)
 {
-  var folders = [];
-  var pageToken = null;
+  let folders = [];
+  let pageToken = null;
   do
   {
-    var response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
+    const response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
       q: '"' + source + '" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
       pageToken: pageToken,
       maxResults: 1000,
       fields: 'items(id, title)'
     });
-    for(var item of response.items!)
+    for(let item of response.items!)
     {
       folders.push({id: item.id, name: item.title});
     }
     pageToken = response.nextPageToken;
   } while (pageToken !== undefined);
-  for(var i in folders)
+  for(let folder of folders)
   {
-    var newFolder = Drive.Files!.insert({parents: [{id: destination}], title: folders[i].name, mimeType: 'application/vnd.google-apps.folder'}, undefined, {supportsAllDrives: true, fields: 'id'});
-    moveFolderContents_(folders[i].id!, newFolder.id!, copyComments, deleteOriginals);
-    deleteFolderIfEmpty_(folders[i].id!);
+    const newFolder = Drive.Files!.insert({parents: [{id: destination}], title: folder.name, mimeType: 'application/vnd.google-apps.folder'}, undefined, {supportsAllDrives: true, fields: 'id'});
+    moveFolderContents_(folder.id!, newFolder.id!, copyComments, deleteOriginals);
+    deleteFolderIfEmpty_(folder.id!);
   }
 }
 

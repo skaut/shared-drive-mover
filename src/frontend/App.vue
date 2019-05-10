@@ -48,7 +48,7 @@ export default Vue.extend({
     InProgress,
     SharedDriveSelector
   },
-  data: function()
+  data()
   {
     return {
       activeStep: "folder-selection",
@@ -63,12 +63,12 @@ export default Vue.extend({
     };
   },
   methods: {
-    setFolders: function(folders: Folders)
+    setFolders(folders: Folders)
     {
       this.currentPath = folders.path;
       this.folders = folders.folders;
     },
-    navigateBreadcrumb: function(folderId: string)
+    navigateBreadcrumb(folderId: string)
     {
       if(folderId === undefined)
       {
@@ -82,35 +82,35 @@ export default Vue.extend({
       this.folder = '';
       this.getFolders();
     },
-    navigateFolder: function(folder: string)
+    navigateFolder(folder: string)
     {
       this.currentPath.push({id: folder, name: ''});
       this.folders = [];
       this.folder = '';
       this.getFolders();
     },
-    getFolders: function()
+    getFolders()
     {
       google.script.run.withSuccessHandler(this.setFolders).getFolders(this.currentPath);
     },
-    setSharedDrives: function(sharedDrives: Array<Folder>)
+    setSharedDrives(sharedDrives: Array<Folder>)
     {
       this.sharedDrives = sharedDrives;
     },
-    getSharedDrives: function()
+    getSharedDrives()
     {
       google.script.run.withSuccessHandler(this.setSharedDrives).getSharedDrives();
     },
-    start: function()
+    start()
     {
       this.activeStep = 'progress';
       google.script.run.withSuccessHandler(this.handleResponse).start(this.folder, this.sharedDrive, this.copyComments, this.deleteOriginals, false);
     },
-    startNonEmpty: function()
+    startNonEmpty()
     {
       google.script.run.withSuccessHandler(this.handleResponse).start(this.folder, this.sharedDrive, this.copyComments, this.deleteOriginals, true);
     },
-    handleResponse: function(response: MoveResponse)
+    handleResponse(response: MoveResponse)
     {
       if(response.status === 'error')
       {
@@ -125,7 +125,7 @@ export default Vue.extend({
       }
     }
   },
-  created: function()
+  created()
   {
     this.getFolders();
     this.getSharedDrives();

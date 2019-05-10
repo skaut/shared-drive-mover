@@ -1,31 +1,24 @@
 global.getFolders = function(path: Array<Folder>)
 {
-  if(path.length === 0)
-  {
-    var root = 'root';
-  }
-  else
-  {
-    root = path[path.length - 1].id;
-  }
+  const root = path.length === 0 ? 'root' : path[path.length - 1].id;
   return {path: getCurrentPath_(path), folders: getFolderList_(root)};
 };
 
 function getCurrentPath_(path: Array<Folder>)
 {
-  var ret = [];
-  for(var i in path)
+  let ret = [];
+  for(let segment of path)
   {
-    if(path[i].name)
+    if(segment.name)
     {
-      ret.push(path[i]);
+      ret.push(segment);
     }
     else
     {
-      var response = Drive.Files!.get(path[i].id, {
+      const response = Drive.Files!.get(segment.id, {
         fields: 'title'
       });
-      ret.push({id: path[i].id, name: response.title});
+      ret.push({id: segment.id, name: response.title});
     }
   }
   return ret;
@@ -33,17 +26,17 @@ function getCurrentPath_(path: Array<Folder>)
 
 function getFolderList_(root: string)
 {
-  var ret = [];
-  var pageToken = null;
+  let ret = [];
+  let pageToken = null;
   do
   {
-    var response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
+    const response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
       q: '"' + root + '" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
       pageToken: pageToken,
       maxResults: 1000,
       fields: 'nextPageToken, items(id, title)'
     });
-    for(var item of response.items!)
+    for(let item of response.items!)
     {
       ret.push({id: item.id, name: item.title});
     }
@@ -54,19 +47,19 @@ function getFolderList_(root: string)
 
 global.getSharedDrives = function()
 {  
-  var ret = [];
-  var pageToken = null;
+  let ret = [];
+  let pageToken = null;
   do
   {
     // @ts-ignore
-    var response: GoogleAppsScript.Drive.Schema.DriveList = Drive.Drives.list({
+    const response: GoogleAppsScript.Drive.Schema.DriveList = Drive.Drives.list({
       pageToken: pageToken,
       maxResults: 100,
       fields: 'nextPageToken, items(id, name)'
     });
-    for(var i in response.items)
+    for(let item of response.items)
     {
-      ret.push({id: response.items[i].id, name: response.items[i].name});
+      ret.push({id: item.id, name: item.name});
     }
     pageToken = response.nextPageToken;
   } while (pageToken !== undefined);
