@@ -82,6 +82,11 @@
 				@md-confirm="startNonEmpty"
 				@md-cancel="activeStep = 'shared-drive-selection'"
 			/>
+			<md-dialog-alert
+				:md-active.sync="displayErrorDialog"
+				md-title="Error"
+				:md-content="'An unknown error occured. Please check the source folder and the destination Shared Drive and try again.' + optionalErrorMessage"
+			/>
 		</md-app-content>
 	</md-app>
 </template>
@@ -116,7 +121,9 @@ export default Vue.extend({
 			sharedDrive: '',
 			copyComments: false,
 			deleteOriginals: true, // TODO: Change
-			displayNonEmptyDialog: false
+			displayNonEmptyDialog: false,
+			displayErrorDialog: false,
+			optionalErrorMessage: ''
 		};
 	},
 	created()
@@ -166,11 +173,11 @@ export default Vue.extend({
 		start()
 		{
 			this.activeStep = 'progress';
-			google.script.run.withSuccessHandler(this.handleResponse).start(this.folder, this.sharedDrive, this.copyComments, this.deleteOriginals, false);
+			google.script.run.withSuccessHandler(this.handleResponse).withFailureHandler(this.handleError).start(this.folder, this.sharedDrive, this.copyComments, this.deleteOriginals, false);
 		},
 		startNonEmpty()
 		{
-			google.script.run.withSuccessHandler(this.handleResponse).start(this.folder, this.sharedDrive, this.copyComments, this.deleteOriginals, true);
+			google.script.run.withSuccessHandler(this.handleResponse).withFailureHandler(this.handleError).start(this.folder, this.sharedDrive, this.copyComments, this.deleteOriginals, true);
 		},
 		handleResponse(response: MoveResponse)
 		{
@@ -185,6 +192,15 @@ export default Vue.extend({
 			{
 				this.activeStep = 'done';
 			}
+		},
+		handleError(response: Error)
+		{
+			this.optionalErrorMessage = '';
+			if(response.message)
+			{
+				this.optionalErrorMessage = '<br>Error message: ' + response.message;
+			}
+			this.displayErrorDialog = true;
 		}
 	}
 });
