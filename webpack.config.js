@@ -59,8 +59,8 @@ module.exports = [
       new GasPlugin()
     ],
     entry: {
-      UI: './src/backend/UI.js',
-      move: './src/backend/move.js'
+      UI: './src/backend/UI.ts',
+      move: './src/backend/move.ts'
     },
     output: {
       filename: '[name].gs',

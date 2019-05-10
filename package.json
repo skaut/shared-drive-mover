@@ -13,6 +13,7 @@
   "license": "MIT",
   "author": "Marek Dědič",
   "devDependencies": {
+    "@types/google-apps-script": "0.0.46",
     "clean-webpack-plugin": "^2.0.2",
     "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^2.1.1",

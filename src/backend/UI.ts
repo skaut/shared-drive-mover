@@ -2,7 +2,7 @@ global.getFolders = function(path)
 {
   if(path.length === 0)
   {
-    root = 'root';
+    var root = 'root';
   }
   else
   {
@@ -34,7 +34,7 @@ function getCurrentPath_(path)
 function getFolderList_(root)
 {
   var ret = [];
-  pageToken = null;
+  var pageToken = null;
   do
   {
     var response = Drive.Files.list({
@@ -55,9 +55,10 @@ function getFolderList_(root)
 global.getSharedDrives = function()
 {  
   var ret = [];
-  pageToken = null;
+  var pageToken = null;
   do
   {
+    // @ts-ignore
     var response = Drive.Drives.list({
       pageToken: pageToken,
       maxResults: 100,

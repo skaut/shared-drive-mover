@@ -33,7 +33,7 @@ function moveFolderContents_(source, destination, copyComments, deleteOriginals)
 function moveFolderContentsFiles_(source, destination, copyComments, deleteOriginals)
 {
   var files = [];
-  pageToken = null;
+  var pageToken = null;
   do
   {
     var response = Drive.Files.list({
@@ -44,6 +44,7 @@ function moveFolderContentsFiles_(source, destination, copyComments, deleteOrigi
     });
     for(var i in response.items)
     {
+      // @ts-ignore
       files.push({id: response.items[i].id, name: response.items[i].title, canMove: response.items[i].capabilities.canMoveItemOutOfDrive});
     }
     pageToken = response.nextPageToken;
@@ -97,7 +98,7 @@ function deleteFile_(file)
 function moveFolderContentsFolders_(source, destination, copyComments, deleteOriginals)
 {
   var folders = [];
-  pageToken = null;
+  var pageToken = null;
   do
   {
     var response = Drive.Files.list({
