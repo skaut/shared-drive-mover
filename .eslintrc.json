@@ -1,0 +1,27 @@
+{
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "ecmaVersion": 6
+  },
+  "env": {
+    "browser": true,
+    "node": false
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:vue/recommended"
+  ],
+  "rules": {
+    "no-warning-comments": "warn",
+    "strict": ["error", "never"],
+    "@typescript-eslint/array-type": ["error", "generic"],
+    "@typescript-eslint/indent": ["error", "tab"],
+    "@typescript-eslint/member-ordering": "error",
+    "@typescript-eslint/no-extraneous-class": "error",
+    "@typescript-eslint/no-namespace": ["error", {"allowDeclarations": true}],
+    "@typescript-eslint/no-non-null-assertion": "off"
+  }
+}

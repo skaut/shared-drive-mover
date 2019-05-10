@@ -14,9 +14,13 @@
   "author": "Marek Dědič",
   "devDependencies": {
     "@types/google-apps-script": "0.0.46",
+    "@typescript-eslint/eslint-plugin": "^1.7.0",
+    "@typescript-eslint/parser": "^1.7.0",
     "clean-webpack-plugin": "^2.0.2",
     "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^2.1.1",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.2.2",
     "gas-webpack-plugin": "^1.0.2",
     "html-webpack-inline-source-plugin": "0.0.10",
     "html-webpack-plugin": "^3.2.0",
@@ -30,7 +34,9 @@
     "webpack-cli": "^3.3.2"
   },
   "scripts": {
-    "build": "webpack"
+    "eslint": "eslint \"src/**/*.!(json)\"",
+    "build": "webpack",
+    "lint": "npm run eslint"
   },
   "dependencies": {
     "vue": "^2.6.10",
