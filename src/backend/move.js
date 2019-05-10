@@ -1,4 +1,4 @@
-function start(folder, sharedDrive, copyComments, deleteOriginals, notEmptyOverride)
+global.start = function(folder, sharedDrive, copyComments, deleteOriginals, notEmptyOverride)
 {
   if(!isSharedDriveEmpty_(sharedDrive, notEmptyOverride))
   {

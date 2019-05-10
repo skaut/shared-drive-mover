@@ -1,4 +1,4 @@
-function getFolders(path)
+global.getFolders = function(path)
 {
   if(path.length === 0)
   {
@@ -9,7 +9,7 @@ function getFolders(path)
     root = path[path.length - 1].id;
   }
   return {path: getCurrentPath_(path), folders: getFolderList_(root)};
-}
+};
 
 function getCurrentPath_(path)
 {
@@ -52,7 +52,7 @@ function getFolderList_(root)
   return ret;
 }
 
-function getSharedDrives()
+global.getSharedDrives = function()
 {  
   var ret = [];
   pageToken = null;
@@ -70,10 +70,10 @@ function getSharedDrives()
     pageToken = response.nextPageToken;
   } while (pageToken !== undefined);
   return ret;
-}
+};
 
-function doGet() {
+global.doGet = function() {
   return HtmlService.createTemplateFromFile('index')
   .evaluate()
   .setTitle('Shared Drive Mover');
-}
+};
