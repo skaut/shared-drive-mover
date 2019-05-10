@@ -76,10 +76,7 @@ export default Vue.extend({
       }
       else
       {
-        this.currentPath = this.currentPath.slice( 0, this.currentPath.findIndex( function(segment)
-        {
-          return segment.id === folderId;
-        }) + 1 );
+        this.currentPath = this.currentPath.slice( 0, this.currentPath.findIndex(segment => segment.id === folderId) + 1 );
       }
       this.folders = [];
       this.folder = '';

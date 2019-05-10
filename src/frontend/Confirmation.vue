@@ -35,11 +35,7 @@ export default Vue.extend({
       {
         return '';
       }
-      var folderId = this.folder;
-      return (this.folders as Array<Folder>).find(function(i: Folder)
-      {
-        return i.id === folderId;
-      })!.name;
+      return (this.folders as Array<Folder>).find(i => i.id === this.folder)!.name;
     },
     sharedDriveName: function()
     {
@@ -47,11 +43,7 @@ export default Vue.extend({
       {
         return '';
       }
-      var sharedDriveId = this.sharedDrive;
-      return (this.sharedDrives as Array<Folder>).find(function(i: Folder)
-      {
-        return i.id === sharedDriveId;
-      })!.name;
+      return (this.sharedDrives as Array<Folder>).find(i => i.id === this.sharedDrive)!.name;
     }
   }
 });
