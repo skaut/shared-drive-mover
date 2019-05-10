@@ -1,4 +1,4 @@
-function isSharedDriveEmpty_(sharedDrive: string, notEmptyOverride: boolean)
+function isSharedDriveEmpty_(sharedDrive: string, notEmptyOverride: boolean): boolean
 {
 	if(notEmptyOverride)
 	{
@@ -14,17 +14,17 @@ function isSharedDriveEmpty_(sharedDrive: string, notEmptyOverride: boolean)
 	return response.items!.length === 0;
 }
 
-function moveFile_(file: string, source: string, destination: string)
+function moveFile_(file: string, source: string, destination: string): void
 {
 	Drive.Files!.update({}, file, null, {addParents: destination, removeParents: source, supportsAllDrives: true, fields: ''});
 }
 
-function copyFileComments_(source: string, destination: string)
+function copyFileComments_(source: string, destination: string): void
 {
 	// TODO
 }
 
-function deleteFile_(file: string)
+function deleteFile_(file: string): void
 {
 	const record = Drive.Files!.get(file, {fields: 'capabilities'});
 	Logger.log(record);
@@ -34,7 +34,7 @@ function deleteFile_(file: string)
 	}
 }
 
-function moveFileByCopy_(file: string, name: string, destination: string, copyComments: boolean, deleteOriginals: boolean)
+function moveFileByCopy_(file: string, name: string, destination: string, copyComments: boolean, deleteOriginals: boolean): void
 {
 	const copy = Drive.Files!.copy({parents: [{id: destination}], title: name}, file, {supportsAllDrives: true, fields: 'id'});
 	if(copyComments)
@@ -47,7 +47,7 @@ function moveFileByCopy_(file: string, name: string, destination: string, copyCo
 	}
 }
 
-function moveFolderContentsFiles_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean)
+function moveFolderContentsFiles_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean): void
 {
 	let files = [];
 	let pageToken = null;
@@ -79,12 +79,12 @@ function moveFolderContentsFiles_(source: string, destination: string, copyComme
 	}
 }
 
-function deleteFolderIfEmpty_(folder: string)
+function deleteFolderIfEmpty_(folder: string): void
 {
 	// TODO
 }
 
-function moveFolderContentsFolders_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean)
+function moveFolderContentsFolders_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean): void
 {
 	let folders = [];
 	let pageToken = null;
@@ -110,13 +110,13 @@ function moveFolderContentsFolders_(source: string, destination: string, copyCom
 	}
 }
 
-function moveFolderContents_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean)
+function moveFolderContents_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean): void
 {
 	moveFolderContentsFiles_(source, destination, copyComments, deleteOriginals);
 	moveFolderContentsFolders_(source, destination, copyComments, deleteOriginals);
 }
 
-global.start = function(folder: string, sharedDrive: string, copyComments: boolean, deleteOriginals: boolean, notEmptyOverride: boolean)
+global.start = function(folder: string, sharedDrive: string, copyComments: boolean, deleteOriginals: boolean, notEmptyOverride: boolean): MoveResponse
 {
 	if(!isSharedDriveEmpty_(sharedDrive, notEmptyOverride))
 	{

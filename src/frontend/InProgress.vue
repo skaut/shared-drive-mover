@@ -1,7 +1,7 @@
 <template>
-  <div class="spinner-center">
-    <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
-  </div>
+	<div class="spinner-center">
+		<md-progress-spinner md-mode="indeterminate" />
+	</div>
 </template>
 
 <script lang="ts">
@@ -13,7 +13,7 @@ export default Vue.extend({});
 <style scoped>
 .spinner-center
 {
-  display: table;
-  margin: 100px auto;
+	display: table;
+	margin: 100px auto;
 }
 </style>

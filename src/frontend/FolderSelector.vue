@@ -1,16 +1,41 @@
 <template>
 	<div>
-		<div class="spinner-center" v-if="items === null">
-			<md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
+		<div
+			v-if="items === null"
+			class="spinner-center"
+		>
+			<md-progress-spinner md-mode="indeterminate" />
 		</div>
 		<md-list v-else>
 			<md-subheader>
-				<a v-on:click.prevent="$emit('navigate-breadcrumb')">My Drive</a>
-				<Breadcrumb v-for="segment in path" v-bind:key="segment.id" v-bind:segment="segment" v-on:click="$emit('navigate-breadcrumb', $event)"></Breadcrumb>
+				<a
+					@click.prevent="$emit('navigate-breadcrumb')"
+				>
+					My Drive
+				</a>
+				<Breadcrumb
+					v-for="segment in path"
+					:key="segment.id"
+					:segment="segment"
+					@click="$emit('navigate-breadcrumb', $event)"
+				/>
 			</md-subheader>
-			<SelectorRow v-for="item in items" v-bind:item="item" v-bind:selected="item.id === selected" v-bind:key="item.id" v-on:click="$emit('select-folder', $event)" v-on:dblclick="$emit('navigate-folder', $event)"></SelectorRow>
+			<SelectorRow
+				v-for="item in items"
+				:key="item.id"
+				:item="item"
+				:selected="item.id === selected"
+				@click="$emit('select-folder', $event)"
+				@dblclick="$emit('navigate-folder', $event)"
+			/>
 		</md-list>
-		<md-button class="md-raised md-primary" v-on:click="$emit('next-step')" v-bind:disabled="!selected">Continue</md-button>
+		<md-button
+			class="md-raised md-primary"
+			:disabled="!selected"
+			@click="$emit('next-step')"
+		>
+			Continue
+		</md-button>
 	</div>
 </template>
 
@@ -28,7 +53,7 @@ export default Vue.extend({
 	props: {
 		selected: {
 			type: String,
-			required: false
+			default: ''
 		},
 		path: {
 			type: Array,

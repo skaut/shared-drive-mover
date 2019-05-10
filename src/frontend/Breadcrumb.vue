@@ -1,5 +1,5 @@
 <template>
-	<span> &nbsp; &gt; &nbsp; <a v-on:click.prevent="$emit('click', segment.id)">{{segment.name}}</a></span>
+	<span> &nbsp; &gt; &nbsp; <a @click.prevent="$emit('click', segment.id)">{{ segment.name }}</a></span>
 </template>
 
 <script lang="ts">

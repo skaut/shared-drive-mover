@@ -1,7 +1,7 @@
 <template>
-  <div>
-    Successfully moved.
-  </div>
+	<div>
+		Successfully moved.
+	</div>
 </template>
 
 <script lang="ts">

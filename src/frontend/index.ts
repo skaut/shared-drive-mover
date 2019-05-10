@@ -23,5 +23,5 @@ new Vue({
 	components: {
 		App
 	},
-	render: h => h(App)
+	render: (h): Vue.VNode => h(App)
 });

@@ -1,12 +1,27 @@
 <template>
 	<div>
-		<div class="spinner-center" v-if="items === null">
-			<md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
+		<div
+			v-if="items === null"
+			class="spinner-center"
+		>
+			<md-progress-spinner md-mode="indeterminate" />
 		</div>
 		<md-list v-else>
-			<SelectorRow v-for="item in items" v-bind:item="item" v-bind:selected="item.id === selected" v-bind:key="item.id" v-on:click="$emit('select-shareddrive', $event)"></SelectorRow>
+			<SelectorRow
+				v-for="item in items"
+				:key="item.id"
+				:item="item"
+				:selected="item.id === selected"
+				@click="$emit('select-shareddrive', $event)"
+			/>
 		</md-list>
-		<md-button class="md-raised md-primary" v-on:click="$emit('next-step')" v-bind:disabled="!selected">Continue</md-button>
+		<md-button
+			class="md-raised md-primary"
+			:disabled="!selected"
+			@click="$emit('next-step')"
+		>
+			Continue
+		</md-button>
 	</div>
 </template>
 
@@ -22,7 +37,7 @@ export default Vue.extend({
 	props: {
 		selected: {
 			type: String,
-			required: false
+			default: ''
 		},
 		items: {
 			validator: prop => typeof prop === 'object' || prop === null,

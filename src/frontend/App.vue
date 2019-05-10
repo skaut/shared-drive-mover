@@ -1,30 +1,87 @@
 <template>
-	<md-app md-waterfall md-mode="fixed">
+	<md-app
+		md-waterfall
+		md-mode="fixed"
+	>
 		<md-app-toolbar class="md-primary">
 			<span class="md-title">Shared Drive mover</span>
 		</md-app-toolbar>
 		<md-app-content>
-			<md-steppers md-linear v-bind:md-active-step.sync="activeStep">
-				<md-step id="folder-selection" md-label="Source folder selection">
-					<FolderSelector v-bind:items="folders" v-bind:path="currentPath" v-bind:selected="folder" v-on:select-folder="folder = $event" v-on:navigate-breadcrumb="navigateBreadcrumb" v-on:navigate-folder="navigateFolder" v-on:next-step="activeStep = 'shared-drive-selection'"></FolderSelector>
+			<md-steppers
+				md-linear
+				:md-active-step.sync="activeStep"
+			>
+				<md-step
+					id="folder-selection"
+					md-label="Source folder selection"
+				>
+					<FolderSelector
+						:items="folders"
+						:path="currentPath"
+						:selected="folder"
+						@select-folder="folder = $event"
+						@navigate-breadcrumb="navigateBreadcrumb"
+						@navigate-folder="navigateFolder"
+						@next-step="activeStep = 'shared-drive-selection'"
+					/>
 				</md-step>
-				<md-step id="shared-drive-selection" md-label="Destination Shared drive selection">
-					<SharedDriveSelector v-bind:items="sharedDrives" v-bind:selected="sharedDrive" v-on:select-shareddrive="sharedDrive = $event" v-on:next-step="activeStep = 'configuration'"></SharedDriveSelector>
+				<md-step
+					id="shared-drive-selection"
+					md-label="Destination Shared drive selection"
+				>
+					<SharedDriveSelector
+						:items="sharedDrives"
+						:selected="sharedDrive"
+						@select-shareddrive="sharedDrive = $event"
+						@next-step="activeStep = 'configuration'"
+					/>
 				</md-step>
-				<md-step id="configuration" md-label="Configuration">
-					<Configuration v-bind:copyComments="copyComments" v-on:changeCopyComments="copyComments = !copyComments" v-bind:deleteOriginals="deleteOriginals" v-on:changeDeleteOriginals="deleteOriginals = !deleteOriginals" v-on:next-step="activeStep = 'confirmation'"></Configuration>
+				<md-step
+					id="configuration"
+					md-label="Configuration"
+				>
+					<Configuration
+						:copyComments="copyComments"
+						:deleteOriginals="deleteOriginals"
+						@changeCopyComments="copyComments = !copyComments"
+						@changeDeleteOriginals="deleteOriginals = !deleteOriginals"
+						@next-step="activeStep = 'confirmation'"
+					/>
 				</md-step>
-				<md-step id="confirmation" md-label="Confirmation">
-					<Confirmation v-bind:folders="folders" v-bind:folder="folder" v-bind:sharedDrives="sharedDrives" v-bind:sharedDrive="sharedDrive" v-on:next-step="start"></Confirmation>
+				<md-step
+					id="confirmation"
+					md-label="Confirmation"
+				>
+					<Confirmation
+						:folders="folders"
+						:folder="folder"
+						:sharedDrives="sharedDrives"
+						:sharedDrive="sharedDrive"
+						@next-step="start"
+					/>
 				</md-step>
-				<md-step id="progress" md-label="In progress">
-					<InProgress></InProgress>
+				<md-step
+					id="progress"
+					md-label="In progress"
+				>
+					<InProgress />
 				</md-step>
-				<md-step id="done" md-label="Done">
-					<Done></Done>
+				<md-step
+					id="done"
+					md-label="Done"
+				>
+					<Done />
 				</md-step>
 			</md-steppers>
-			<md-dialog-confirm v-bind:md-active.sync="displayNonEmptyDialog" md-title="Not empty" md-content="The selected Shared drive is not empty. Do you want to proceed anyway?" md-confirm-text="Yes" md-cancel-text="No" v-on:md-confirm="startNonEmpty" v-on:md-cancel="activeStep = 'shared-drive-selection'"></md-dialog-confirm>
+			<md-dialog-confirm
+				:md-active.sync="displayNonEmptyDialog"
+				md-title="Not empty"
+				md-content="The selected Shared drive is not empty. Do you want to proceed anyway?"
+				md-confirm-text="Yes"
+				md-cancel-text="No"
+				@md-confirm="startNonEmpty"
+				@md-cancel="activeStep = 'shared-drive-selection'"
+			/>
 		</md-app-content>
 	</md-app>
 </template>
@@ -61,6 +118,11 @@ export default Vue.extend({
 			deleteOriginals: true, // TODO: Change
 			displayNonEmptyDialog: false
 		};
+	},
+	created()
+	{
+		this.getFolders();
+		this.getSharedDrives();
 	},
 	methods: {
 		setFolders(folders: Folders)
@@ -124,11 +186,6 @@ export default Vue.extend({
 				this.activeStep = 'done';
 			}
 		}
-	},
-	created()
-	{
-		this.getFolders();
-		this.getSharedDrives();
 	}
 });
 </script>

@@ -1,7 +1,11 @@
 <template>
-	<md-list-item v-bind:class="{'router-link-exact-active': selected}" @click="$emit('click', item.id)" @dblclick="$emit('dblclick', item.id)">
+	<md-list-item
+		:class="{'router-link-exact-active': selected}"
+		@click="$emit('click', item.id)"
+		@dblclick="$emit('dblclick', item.id)"
+	>
 		<md-icon>folder</md-icon>
-		<span class="md-list-item-text">{{item.name}}</span>
+		<span class="md-list-item-text">{{ item.name }}</span>
 	</md-list-item>
 </template>
 

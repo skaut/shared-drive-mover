@@ -1,8 +1,13 @@
 <template>
 	<div>
-		Are you sure you want to move the contents of the "{{folderName}}" folder into the "{{sharedDriveName}}" Shared drive?
+		Are you sure you want to move the contents of the "{{ folderName }}" folder into the "{{ sharedDriveName }}" Shared drive?
 		<br>
-		<md-button class="md-raised md-primary" v-on:click="$emit('next-step')">Move</md-button>
+		<md-button
+			class="md-raised md-primary"
+			@click="$emit('next-step')"
+		>
+			Move
+		</md-button>
 	</div>
 </template>
 

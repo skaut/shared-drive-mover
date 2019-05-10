@@ -1,4 +1,4 @@
-function getCurrentPath_(path: Array<Folder>)
+function getCurrentPath_(path: Array<Folder>): Array<Folder>
 {
 	let ret = [];
 	for(let segment of path)
@@ -12,13 +12,13 @@ function getCurrentPath_(path: Array<Folder>)
 			const response = Drive.Files!.get(segment.id, {
 				fields: 'title'
 			});
-			ret.push({id: segment.id, name: response.title});
+			ret.push({id: segment.id!, name: response.title!});
 		}
 	}
 	return ret;
 }
 
-function getFolderList_(root: string)
+function getFolderList_(root: string): Array<Folder>
 {
 	let ret = [];
 	let pageToken = null;
@@ -32,20 +32,20 @@ function getFolderList_(root: string)
 		});
 		for(let item of response.items!)
 		{
-			ret.push({id: item.id, name: item.title});
+			ret.push({id: item.id!, name: item.title!});
 		}
 		pageToken = response.nextPageToken;
 	} while (pageToken !== undefined);
 	return ret;
 }
 
-global.getFolders = function(path: Array<Folder>)
+global.getFolders = function(path: Array<Folder>): Folders
 {
 	const root = path.length === 0 ? 'root' : path[path.length - 1].id;
 	return {path: getCurrentPath_(path), folders: getFolderList_(root)};
 };
 
-global.getSharedDrives = function()
+global.getSharedDrives = function(): Array<Folder>
 {  
 	let ret = [];
 	let pageToken = null;
@@ -66,6 +66,7 @@ global.getSharedDrives = function()
 	return ret;
 };
 
-global.doGet = function() {
+global.doGet = function(): GoogleAppsScript.HTML.HtmlOutput
+{
 	return HtmlService.createTemplateFromFile('index').evaluate().setTitle('Shared Drive Mover');
 };
