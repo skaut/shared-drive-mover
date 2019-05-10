@@ -1,13 +1,3 @@
-global.start = function(folder: string, sharedDrive: string, copyComments: boolean, deleteOriginals: boolean, notEmptyOverride: boolean)
-{
-	if(!isSharedDriveEmpty_(sharedDrive, notEmptyOverride))
-	{
-		return {status: 'error', reason: 'notEmpty'};
-	}
-	moveFolderContents_(folder, sharedDrive, copyComments, deleteOriginals);
-	return {status: 'success'};
-}
-
 function isSharedDriveEmpty_(sharedDrive: string, notEmptyOverride: boolean)
 {
 	if(notEmptyOverride)
@@ -24,10 +14,37 @@ function isSharedDriveEmpty_(sharedDrive: string, notEmptyOverride: boolean)
 	return response.items!.length === 0;
 }
 
-function moveFolderContents_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean)
+function moveFile_(file: string, source: string, destination: string)
 {
-	moveFolderContentsFiles_(source, destination, copyComments, deleteOriginals);
-	moveFolderContentsFolders_(source, destination, copyComments, deleteOriginals);
+	Drive.Files!.update({}, file, null, {addParents: destination, removeParents: source, supportsAllDrives: true, fields: ''});
+}
+
+function copyFileComments_(source: string, destination: string)
+{
+	// TODO
+}
+
+function deleteFile_(file: string)
+{
+	const record = Drive.Files!.get(file, {fields: 'capabilities'});
+	Logger.log(record);
+	if(true || record.capabilities!.canTrash)
+	{
+		Drive.Files!.trash(file);
+	}
+}
+
+function moveFileByCopy_(file: string, name: string, destination: string, copyComments: boolean, deleteOriginals: boolean)
+{
+	const copy = Drive.Files!.copy({parents: [{id: destination}], title: name}, file, {supportsAllDrives: true, fields: 'id'});
+	if(copyComments)
+	{
+		copyFileComments_(file, copy.id!);
+	}
+	if(deleteOriginals)
+	{
+		deleteFile_(file);
+	}
 }
 
 function moveFolderContentsFiles_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean)
@@ -62,37 +79,9 @@ function moveFolderContentsFiles_(source: string, destination: string, copyComme
 	}
 }
 
-function moveFile_(file: string, source: string, destination: string)
-{
-	Drive.Files!.update({}, file, null, {addParents: destination, removeParents: source, supportsAllDrives: true, fields: ''});
-}
-
-function moveFileByCopy_(file: string, name: string, destination: string, copyComments: boolean, deleteOriginals: boolean)
-{
-	const copy = Drive.Files!.copy({parents: [{id: destination}], title: name}, file, {supportsAllDrives: true, fields: 'id'});
-	if(copyComments)
-	{
-		copyFileComments_(file, copy.id!);
-	}
-	if(deleteOriginals)
-	{
-		deleteFile_(file);
-	}
-}
-
-function copyFileComments_(source: string, destination: string)
+function deleteFolderIfEmpty_(folder: string)
 {
 	// TODO
-}
-
-function deleteFile_(file: string)
-{
-	const record = Drive.Files!.get(file, {fields: 'capabilities'});
-	Logger.log(record);
-	if(true || record.capabilities!.canTrash)
-	{
-		Drive.Files!.trash(file);
-	}
 }
 
 function moveFolderContentsFolders_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean)
@@ -116,12 +105,23 @@ function moveFolderContentsFolders_(source: string, destination: string, copyCom
 	for(let folder of folders)
 	{
 		const newFolder = Drive.Files!.insert({parents: [{id: destination}], title: folder.name, mimeType: 'application/vnd.google-apps.folder'}, undefined, {supportsAllDrives: true, fields: 'id'});
-		moveFolderContents_(folder.id!, newFolder.id!, copyComments, deleteOriginals);
+		moveFolderContents_(folder.id!, newFolder.id!, copyComments, deleteOriginals); // eslint-disable-line @typescript-eslint/no-use-before-define
 		deleteFolderIfEmpty_(folder.id!);
 	}
 }
 
-function deleteFolderIfEmpty_(folder: string)
+function moveFolderContents_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean)
 {
-	// TODO
+	moveFolderContentsFiles_(source, destination, copyComments, deleteOriginals);
+	moveFolderContentsFolders_(source, destination, copyComments, deleteOriginals);
+}
+
+global.start = function(folder: string, sharedDrive: string, copyComments: boolean, deleteOriginals: boolean, notEmptyOverride: boolean)
+{
+	if(!isSharedDriveEmpty_(sharedDrive, notEmptyOverride))
+	{
+		return {status: 'error', reason: 'notEmpty'};
+	}
+	moveFolderContents_(folder, sharedDrive, copyComments, deleteOriginals);
+	return {status: 'success'};
 }

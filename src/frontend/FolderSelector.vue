@@ -32,7 +32,7 @@ export default Vue.extend({
 		},
 		path: {
 			type: Array,
-			default: []
+			default: () => []
 		},
 		items: {
 			validator: prop => typeof prop === 'object' || prop === null,

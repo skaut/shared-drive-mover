@@ -1,9 +1,3 @@
-global.getFolders = function(path: Array<Folder>)
-{
-	const root = path.length === 0 ? 'root' : path[path.length - 1].id;
-	return {path: getCurrentPath_(path), folders: getFolderList_(root)};
-};
-
 function getCurrentPath_(path: Array<Folder>)
 {
 	let ret = [];
@@ -44,6 +38,12 @@ function getFolderList_(root: string)
 	} while (pageToken !== undefined);
 	return ret;
 }
+
+global.getFolders = function(path: Array<Folder>)
+{
+	const root = path.length === 0 ? 'root' : path[path.length - 1].id;
+	return {path: getCurrentPath_(path), folders: getFolderList_(root)};
+};
 
 global.getSharedDrives = function()
 {  
