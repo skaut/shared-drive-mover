@@ -41,8 +41,8 @@
 					md-label="Configuration"
 				>
 					<Configuration
-						:copyComments="copyComments"
-						:deleteOriginals="deleteOriginals"
+						:copy-comments="copyComments"
+						:delete-originals="deleteOriginals"
 						@changeCopyComments="copyComments = !copyComments"
 						@changeDeleteOriginals="deleteOriginals = !deleteOriginals"
 						@next-step="activeStep = 'confirmation'"
@@ -55,8 +55,8 @@
 					<Confirmation
 						:folders="folders"
 						:folder="folder"
-						:sharedDrives="sharedDrives"
-						:sharedDrive="sharedDrive"
+						:shared-drives="sharedDrives"
+						:shared-drive="sharedDrive"
 						@next-step="start"
 					/>
 				</md-step>
