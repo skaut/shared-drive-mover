@@ -28,4 +28,4 @@ $ clasp login
 $ clasp push
 ```
 
-In the online project and deploy it as a Web App. This should give you an URL to run the project.
+Deploy the online project as a Web App. This should give you an URL to run the project.
