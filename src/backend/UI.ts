@@ -1,4 +1,4 @@
-global.getFolders = function(path)
+global.getFolders = function(path: Array<Folder>)
 {
   if(path.length === 0)
   {
@@ -11,7 +11,7 @@ global.getFolders = function(path)
   return {path: getCurrentPath_(path), folders: getFolderList_(root)};
 };
 
-function getCurrentPath_(path)
+function getCurrentPath_(path: Array<Folder>)
 {
   var ret = [];
   for(var i in path)
@@ -22,7 +22,7 @@ function getCurrentPath_(path)
     }
     else
     {
-      var response = Drive.Files.get(path[i].id, {
+      var response = Drive.Files!.get(path[i].id, {
         fields: 'title'
       });
       ret.push({id: path[i].id, name: response.title});
@@ -31,21 +31,21 @@ function getCurrentPath_(path)
   return ret;
 }
 
-function getFolderList_(root)
+function getFolderList_(root: string)
 {
   var ret = [];
   var pageToken = null;
   do
   {
-    var response = Drive.Files.list({
+    var response: DriveFileList = Drive.Files!.list({
       q: '"' + root + '" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
       pageToken: pageToken,
       maxResults: 1000,
       fields: 'nextPageToken, items(id, title)'
     });
-    for(var i in response.items)
+    for(var item of response.items!)
     {
-      ret.push({id: response.items[i].id, name: response.items[i].title});
+      ret.push({id: item.id, name: item.title});
     }
     pageToken = response.nextPageToken;
   } while (pageToken !== undefined);

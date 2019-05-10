@@ -62,6 +62,15 @@ module.exports = [
       UI: './src/backend/UI.ts',
       move: './src/backend/move.ts'
     },
+    module: {
+      rules: [
+        {
+          test: /\.ts$/,
+          loader: 'ts-loader',
+          exclude: /node_modules/
+        },
+      ]
+    },
     output: {
       filename: '[name].gs',
       path: path.resolve(__dirname, 'dist')

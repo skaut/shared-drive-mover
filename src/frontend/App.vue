@@ -68,7 +68,7 @@ export default Vue.extend({
       this.currentPath = folders.path;
       this.folders = folders.folders;
     },
-    navigateBreadcrumb: function(folderId: String)
+    navigateBreadcrumb: function(folderId: string)
     {
       if(folderId === undefined)
       {
@@ -82,7 +82,7 @@ export default Vue.extend({
       this.folder = '';
       this.getFolders();
     },
-    navigateFolder: function(folder: String)
+    navigateFolder: function(folder: string)
     {
       this.currentPath.push({id: folder, name: ''});
       this.folders = [];
