@@ -52,14 +52,14 @@ global.getSharedDrives = function(): Array<Folder>
 	do
 	{
 		// @ts-ignore
-		const response: GoogleAppsScript.Drive.Schema.DriveList = Drive.Drives.list({
+		const response: GoogleAppsScript.Drive.Schema.DriveList = Drive.Drives!.list({
 			pageToken: pageToken,
 			maxResults: 100,
 			fields: 'nextPageToken, items(id, name)'
 		});
-		for(let item of response.items)
+		for(let item of response.items!)
 		{
-			ret.push({id: item.id, name: item.name});
+			ret.push({id: item.id!, name: item.name!});
 		}
 		pageToken = response.nextPageToken;
 	} while (pageToken !== undefined);
