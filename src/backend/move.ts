@@ -113,7 +113,20 @@ function moveFolderContentsFiles_(source: string, destination: string, copyComme
 
 function deleteFolderIfEmpty_(folder: string): void
 {
-	// TODO
+	const response = Drive.Files!.list({
+		maxResults: 1,
+		q: '"' + folder + '" in parents and trashed = false',
+		fields: 'items(id)'
+	});
+	Logger.log(response);
+	if(response.items!.length === 0)
+	{
+		const response2 = Drive.Files!.get(folder, {fields: 'userPermission(role)'});
+		if(response2.userPermission!.role === 'owner' || response2.userPermission!.role === 'organizer')
+		{
+			Drive.Files!.remove(folder);
+		}
+	}
 }
 
 function moveFolderContentsFolders_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean): void
