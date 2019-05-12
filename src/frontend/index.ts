@@ -4,6 +4,7 @@ import 'vue-material/dist/vue-material.css'
 import 'vue-material/dist/theme/default.css'
 
 import App from './App.vue';
+import I18n from './I18n';
 
 Vue.use(MdApp);
 Vue.use(MdButton);
@@ -20,6 +21,7 @@ Vue.use(MdSubheader);
 Vue.use(MdToolbar);
 
 new Vue({
+	i18n: I18n,
 	el: '#app',
 	components: {
 		App

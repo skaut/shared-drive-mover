@@ -53,6 +53,9 @@ module.exports = [
 				}
 			]
 		},
+		resolve: {
+			extensions: ['.ts', '.js']
+		},
 		entry: {
 			index: './src/frontend/index.ts'
 		},

@@ -1,3 +1,4 @@
+/// <reference types="Vue-i18n" />
 declare module '*.vue'
 {
 	import Vue from 'vue';
