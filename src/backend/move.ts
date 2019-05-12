@@ -21,7 +21,39 @@ function moveFile_(file: string, source: string, destination: string): void
 
 function copyFileComments_(source: string, destination: string): void
 {
-	// TODO
+	let comments = [];
+	let pageToken = null;
+	do {
+		const response: GoogleAppsScript.Drive.Schema.CommentList = Drive.Comments!.list(source, {
+			maxResults: 100,
+			pageToken: pageToken,
+			fields: 'nextPageToken, items(author(isAuthenticatedUser, displayName), content, status, context, anchor, replies(author(isAuthenticatedUser, displayName), content, verb))'
+		});
+		for(let comment of response.items!)
+		{
+			comments.push(comment);
+		}
+		pageToken = response.nextPageToken;
+	} while (pageToken !== undefined);
+	Logger.log(comments);
+	for(let comment of comments)
+	{
+		if(!comment.author!.isAuthenticatedUser)
+		{
+			comment.content = '*' + comment.author!.displayName + ':*\n' + comment.content;
+		}
+		let replies = comment.replies!;
+		delete comment.replies;
+		const commentId = Drive.Comments!.insert(comment, destination).commentId!;
+		for(let reply of replies)
+		{
+			if(!reply.author!.isAuthenticatedUser)
+			{
+				reply.content = '*' + reply.author!.displayName + ':*\n' + reply.content;
+			}
+			Drive.Replies!.insert(reply, destination, commentId);
+		}
+	}
 }
 
 function deleteFile_(file: string): void
@@ -57,7 +89,7 @@ function moveFolderContentsFiles_(source: string, destination: string, copyComme
 			q: '"' + source + '" in parents and mimeType != "application/vnd.google-apps.folder" and trashed = false',
 			pageToken: pageToken,
 			maxResults: 1000,
-			fields: 'items(id, title, capabilities(canMoveItemOutOfDrive))'
+			fields: 'nextPageToken, items(id, title, capabilities(canMoveItemOutOfDrive))'
 		});
 		for(let item of response.items!)
 		{
@@ -94,7 +126,7 @@ function moveFolderContentsFolders_(source: string, destination: string, copyCom
 			q: '"' + source + '" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
 			pageToken: pageToken,
 			maxResults: 1000,
-			fields: 'items(id, title)'
+			fields: 'nextPageToken, items(id, title)'
 		});
 		for(let item of response.items!)
 		{

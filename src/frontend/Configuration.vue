@@ -4,7 +4,6 @@
 		<br>
 		<md-checkbox
 			:value="!copyComments"
-			disabled
 			@change="$emit('changeCopyComments')"
 		>
 			Copy comments

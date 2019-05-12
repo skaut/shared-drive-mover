@@ -119,8 +119,8 @@ export default Vue.extend({
 			folder: '',
 			sharedDrives: [] as Array<Folder>,
 			sharedDrive: '',
-			copyComments: false,
-			deleteOriginals: true, // TODO: Change
+			copyComments: true,
+			deleteOriginals: false, // TODO: Change
 			displayNonEmptyDialog: false,
 			displayErrorDialog: false,
 			optionalErrorMessage: ''
