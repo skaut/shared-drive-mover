@@ -11,16 +11,6 @@
 			Copy comments from the original files. The comments will be created as if you made them, with the original commenter tagged. Note that may slow the moving significantly.
 		</md-checkbox>
 		<br>
-		<md-checkbox
-			:value="!deleteOriginals"
-			disabled
-			@change="$emit('changeDeleteOriginals')"
-		>
-			Delete originals
-			<br>
-			Delete the original files after they have been copied.
-		</md-checkbox>
-		<br>
 		<md-button
 			class="md-raised md-primary"
 			@click="$emit('next-step')"
@@ -38,10 +28,6 @@ export default Vue.extend({
 		copyComments: {
 			type: Boolean,
 			default: false
-		},
-		deleteOriginals: {
-			type: Boolean,
-			default: true
 		}
 	}
 });

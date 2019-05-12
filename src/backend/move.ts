@@ -56,30 +56,16 @@ function copyFileComments_(source: string, destination: string): void
 	}
 }
 
-function deleteFile_(file: string): void
-{
-	const record = Drive.Files!.get(file, {fields: 'capabilities'});
-	Logger.log(record);
-	if(true || record.capabilities!.canTrash)
-	{
-		Drive.Files!.trash(file);
-	}
-}
-
-function moveFileByCopy_(file: string, name: string, destination: string, copyComments: boolean, deleteOriginals: boolean): void
+function moveFileByCopy_(file: string, name: string, destination: string, copyComments: boolean): void
 {
 	const copy = Drive.Files!.copy({parents: [{id: destination}], title: name}, file, {supportsAllDrives: true, fields: 'id'});
 	if(copyComments)
 	{
 		copyFileComments_(file, copy.id!);
 	}
-	if(deleteOriginals)
-	{
-		deleteFile_(file);
-	}
 }
 
-function moveFolderContentsFiles_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean): void
+function moveFolderContentsFiles_(source: string, destination: string, copyComments: boolean): void
 {
 	let files = [];
 	let pageToken = null;
@@ -106,7 +92,7 @@ function moveFolderContentsFiles_(source: string, destination: string, copyComme
 		}
 		else
 		{
-			moveFileByCopy_(file.id!, file.name!, destination, copyComments, deleteOriginals);
+			moveFileByCopy_(file.id!, file.name!, destination, copyComments);
 		}
 	}
 }
@@ -129,7 +115,7 @@ function deleteFolderIfEmpty_(folder: string): void
 	}
 }
 
-function moveFolderContentsFolders_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean): void
+function moveFolderContentsFolders_(source: string, destination: string, copyComments: boolean): void
 {
 	let folders = [];
 	let pageToken = null;
@@ -150,23 +136,23 @@ function moveFolderContentsFolders_(source: string, destination: string, copyCom
 	for(let folder of folders)
 	{
 		const newFolder = Drive.Files!.insert({parents: [{id: destination}], title: folder.name, mimeType: 'application/vnd.google-apps.folder'}, undefined, {supportsAllDrives: true, fields: 'id'});
-		moveFolderContents_(folder.id!, newFolder.id!, copyComments, deleteOriginals); // eslint-disable-line @typescript-eslint/no-use-before-define
+		moveFolderContents_(folder.id!, newFolder.id!, copyComments); // eslint-disable-line @typescript-eslint/no-use-before-define
 		deleteFolderIfEmpty_(folder.id!);
 	}
 }
 
-function moveFolderContents_(source: string, destination: string, copyComments: boolean, deleteOriginals: boolean): void
+function moveFolderContents_(source: string, destination: string, copyComments: boolean): void
 {
-	moveFolderContentsFiles_(source, destination, copyComments, deleteOriginals);
-	moveFolderContentsFolders_(source, destination, copyComments, deleteOriginals);
+	moveFolderContentsFiles_(source, destination, copyComments);
+	moveFolderContentsFolders_(source, destination, copyComments);
 }
 
-global.start = function(folder: string, sharedDrive: string, copyComments: boolean, deleteOriginals: boolean, notEmptyOverride: boolean): MoveResponse
+global.start = function(folder: string, sharedDrive: string, copyComments: boolean, notEmptyOverride: boolean): MoveResponse
 {
 	if(!isSharedDriveEmpty_(sharedDrive, notEmptyOverride))
 	{
 		return {status: 'error', reason: 'notEmpty'};
 	}
-	moveFolderContents_(folder, sharedDrive, copyComments, deleteOriginals);
+	moveFolderContents_(folder, sharedDrive, copyComments);
 	return {status: 'success'};
 }

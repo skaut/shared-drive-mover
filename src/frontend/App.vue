@@ -42,7 +42,6 @@
 				>
 					<Configuration
 						:copy-comments="copyComments"
-						:delete-originals="deleteOriginals"
 						@changeCopyComments="copyComments = !copyComments"
 						@changeDeleteOriginals="deleteOriginals = !deleteOriginals"
 						@next-step="activeStep = 'confirmation'"
@@ -120,7 +119,6 @@ export default Vue.extend({
 			sharedDrives: [] as Array<Folder>,
 			sharedDrive: '',
 			copyComments: true,
-			deleteOriginals: false, // TODO: Change
 			displayNonEmptyDialog: false,
 			displayErrorDialog: false,
 			optionalErrorMessage: ''
@@ -173,11 +171,11 @@ export default Vue.extend({
 		start()
 		{
 			this.activeStep = 'progress';
-			google.script.run.withSuccessHandler(this.handleResponse).withFailureHandler(this.handleError).start(this.folder, this.sharedDrive, this.copyComments, this.deleteOriginals, false);
+			google.script.run.withSuccessHandler(this.handleResponse).withFailureHandler(this.handleError).start(this.folder, this.sharedDrive, this.copyComments, false);
 		},
 		startNonEmpty()
 		{
-			google.script.run.withSuccessHandler(this.handleResponse).withFailureHandler(this.handleError).start(this.folder, this.sharedDrive, this.copyComments, this.deleteOriginals, true);
+			google.script.run.withSuccessHandler(this.handleResponse).withFailureHandler(this.handleError).start(this.folder, this.sharedDrive, this.copyComments, true);
 		},
 		handleResponse(response: MoveResponse)
 		{
