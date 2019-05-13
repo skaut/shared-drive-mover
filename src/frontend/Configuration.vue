@@ -1,21 +1,21 @@
 <template>
 	<div>
-		When moving files of which you are not the owner, instead of moving the file a copy is created in the destination Shared drive. For such a case, there are several options that can be configured:
+		{{ $t('configuration.description') }}
 		<br>
 		<md-checkbox
 			:value="!copyComments"
 			@change="$emit('changeCopyComments')"
 		>
-			Copy comments
+			{{ $t('configuration.copy.title') }}
 			<br>
-			Copy comments from the original files. The comments will be created as if you made them, with the original commenter tagged. Note that may slow the moving significantly.
+			{{ $t('configuration.copy.description') }}
 		</md-checkbox>
 		<br>
 		<md-button
 			class="md-raised md-primary"
 			@click="$emit('next-step')"
 		>
-			Continue
+			{{ $t('continueButton') }}
 		</md-button>
 	</div>
 </template>

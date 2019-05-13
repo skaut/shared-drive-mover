@@ -20,7 +20,7 @@
 			:disabled="!selected"
 			@click="$emit('next-step')"
 		>
-			Continue
+			{{ $t('continueButton') }}
 		</md-button>
 	</div>
 </template>

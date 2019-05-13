@@ -11,7 +11,7 @@
 				<a
 					@click.prevent="$emit('navigate-breadcrumb')"
 				>
-					My Drive
+					{{ $t('folderSelector.myDrive') }}
 				</a>
 				<Breadcrumb
 					v-for="segment in path"
@@ -34,7 +34,7 @@
 			:disabled="!selected"
 			@click="$emit('next-step')"
 		>
-			Continue
+			{{ $t('continueButton') }}
 		</md-button>
 	</div>
 </template>

@@ -13,7 +13,7 @@
 			>
 				<md-step
 					id="folder-selection"
-					md-label="Source folder selection"
+					:md-label="$t('steps.folderSelection')"
 				>
 					<FolderSelector
 						:items="folders"
@@ -27,7 +27,7 @@
 				</md-step>
 				<md-step
 					id="shared-drive-selection"
-					md-label="Destination Shared drive selection"
+					:md-label="$t('steps.sharedDriveSelection')"
 				>
 					<SharedDriveSelector
 						:items="sharedDrives"
@@ -38,7 +38,7 @@
 				</md-step>
 				<md-step
 					id="configuration"
-					md-label="Configuration"
+					:md-label="$t('steps.configuration')"
 				>
 					<Configuration
 						:copy-comments="copyComments"
@@ -49,7 +49,7 @@
 				</md-step>
 				<md-step
 					id="confirmation"
-					md-label="Confirmation"
+					:md-label="$t('steps.confirmation')"
 				>
 					<Confirmation
 						:folders="folders"
@@ -61,30 +61,30 @@
 				</md-step>
 				<md-step
 					id="progress"
-					md-label="In progress"
+					:md-label="$t('steps.progress')"
 				>
 					<InProgress />
 				</md-step>
 				<md-step
 					id="done"
-					md-label="Done"
+					:md-label="$t('steps.done')"
 				>
 					<Done />
 				</md-step>
 			</md-steppers>
 			<md-dialog-confirm
 				:md-active.sync="displayNonEmptyDialog"
-				md-title="Not empty"
-				md-content="The selected Shared drive is not empty. Do you want to proceed anyway?"
-				md-confirm-text="Yes"
-				md-cancel-text="No"
+				:md-title="$t('dialogs.nonEmpty.title')"
+				:md-content="$t('dialogs.nonEmpty.content')"
+				:md-confirm-text="$t('dialogs.nonEmpty.confirm')"
+				:md-cancel-text="$t('dialogs.nonEmpty.cancel')"
 				@md-confirm="startNonEmpty"
 				@md-cancel="activeStep = 'shared-drive-selection'"
 			/>
 			<md-dialog-alert
 				:md-active.sync="displayErrorDialog"
-				md-title="Error"
-				:md-content="'An unknown error occured. Please check the source folder and the destination Shared Drive and try again.' + optionalErrorMessage"
+				:md-title="$t('dialogs.error.title')"
+				:md-content="$t('dialogs.error.content') + optionalErrorMessage"
 			/>
 		</md-app-content>
 	</md-app>
@@ -196,7 +196,7 @@ export default Vue.extend({
 			this.optionalErrorMessage = '';
 			if(response.message)
 			{
-				this.optionalErrorMessage = '<br>Error message: ' + response.message;
+				this.optionalErrorMessage = '<br><br>' + this.$t('dialogs.error.optionalErrorMessage') + response.message;
 			}
 			this.activeStep = 'folder-selection'
 			this.displayErrorDialog = true;

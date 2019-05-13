@@ -1,12 +1,12 @@
 <template>
 	<div>
-		Are you sure you want to move the contents of the "{{ folderName }}" folder into the "{{ sharedDriveName }}" Shared drive?
+		{{ $t('confirmation.description', {folderName: folderName, sharedDriveName: sharedDriveName}) }}
 		<br>
 		<md-button
 			class="md-raised md-primary"
 			@click="$emit('next-step')"
 		>
-			Move
+			{{ $t('moveButton') }}
 		</md-button>
 	</div>
 </template>
