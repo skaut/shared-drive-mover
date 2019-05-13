@@ -9,3 +9,9 @@ import Vue from 'vue';
 
 export default Vue.extend({});
 </script>
+
+<style scoped>
+div {
+	margin-top: 20px;
+}
+</style>

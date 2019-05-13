@@ -11,6 +11,7 @@
 			{{ $t('configuration.copy.description') }}
 		</md-checkbox>
 		<br>
+		<br>
 		<md-button
 			class="md-raised md-primary"
 			@click="$emit('next-step')"
@@ -32,3 +33,9 @@ export default Vue.extend({
 	}
 });
 </script>
+
+<style scoped>
+div {
+	margin-top: 20px;
+}
+</style>

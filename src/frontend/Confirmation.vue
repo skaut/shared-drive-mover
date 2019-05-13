@@ -2,6 +2,7 @@
 	<div>
 		{{ $t('confirmation.description', {folderName, sharedDriveName}) }}
 		<br>
+		<br>
 		<md-button
 			class="md-raised md-primary"
 			@click="$emit('next-step')"
@@ -63,3 +64,9 @@ export default Vue.extend({
 	}
 });
 </script>
+
+<style scoped>
+div {
+	margin-top: 20px;
+}
+</style>
