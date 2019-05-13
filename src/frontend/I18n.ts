@@ -39,7 +39,7 @@ export default new VueI18n({
 				}
 			},
 			confirmation: {
-				description: 'Are you sure you want to move the contents of the "{folderName}" folder into the "{sharedDriveName}" Shared drive?'
+				description: 'Are you sure you want to move the contents of the folder "{folderName}" into the Shared drive "{sharedDriveName}"?'
 			},
 			done: {
 				description: 'Successfully moved. You can delete the original files from your Google Drive - some of them may have been left behind as they cannot be removed automatically.'

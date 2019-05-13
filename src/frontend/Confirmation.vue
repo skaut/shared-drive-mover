@@ -1,6 +1,6 @@
 <template>
 	<div>
-		{{ $t('confirmation.description', {folderName: folderName, sharedDriveName: sharedDriveName}) }}
+		{{ $t('confirmation.description', {folderName, sharedDriveName}) }}
 		<br>
 		<md-button
 			class="md-raised md-primary"
@@ -17,6 +17,10 @@ import Vue from 'vue';
 export default Vue.extend({
 	props: {
 		folders: {
+			type: Array,
+			required: true
+		},
+		currentPath: {
 			type: Array,
 			required: true
 		},
@@ -40,7 +44,13 @@ export default Vue.extend({
 			{
 				return '';
 			}
-			return (this.folders as Array<Folder>).find(i => i.id === this.folder)!.name;
+			let ret = '';
+			for(let segment of this.currentPath as Array<Folder>)
+			{
+				ret += segment.name + '/';
+			}
+			ret += (this.folders as Array<Folder>).find(i => i.id === this.folder)!.name;
+			return ret;
 		},
 		sharedDriveName()
 		{

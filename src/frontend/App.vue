@@ -53,6 +53,7 @@
 				>
 					<Confirmation
 						:folders="folders"
+						:current-path="currentPath"
 						:folder="folder"
 						:shared-drives="sharedDrives"
 						:shared-drive="sharedDrive"
