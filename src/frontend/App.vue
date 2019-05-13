@@ -56,7 +56,7 @@
 						:folder="folder"
 						:shared-drives="sharedDrives"
 						:shared-drive="sharedDrive"
-						@next-step="start"
+						@next-step="move"
 					/>
 				</md-step>
 				<md-step
@@ -78,7 +78,7 @@
 				:md-content="$t('dialogs.nonEmpty.content')"
 				:md-confirm-text="$t('dialogs.nonEmpty.confirm')"
 				:md-cancel-text="$t('dialogs.nonEmpty.cancel')"
-				@md-confirm="startNonEmpty"
+				@md-confirm="moveNonEmpty"
 				@md-cancel="activeStep = 'shared-drive-selection'"
 			/>
 			<md-dialog-alert
@@ -168,14 +168,14 @@ export default Vue.extend({
 		{
 			google.script.run.withSuccessHandler(this.setSharedDrives).getSharedDrives();
 		},
-		start()
+		move()
 		{
 			this.activeStep = 'progress';
-			google.script.run.withSuccessHandler(this.handleResponse).withFailureHandler(this.handleError).start(this.folder, this.sharedDrive, this.copyComments, false);
+			google.script.run.withSuccessHandler(this.handleResponse).withFailureHandler(this.handleError).move(this.folder, this.sharedDrive, this.copyComments, false);
 		},
-		startNonEmpty()
+		moveNonEmpty()
 		{
-			google.script.run.withSuccessHandler(this.handleResponse).withFailureHandler(this.handleError).start(this.folder, this.sharedDrive, this.copyComments, true);
+			google.script.run.withSuccessHandler(this.handleResponse).withFailureHandler(this.handleError).move(this.folder, this.sharedDrive, this.copyComments, true);
 		},
 		handleResponse(response: MoveResponse)
 		{

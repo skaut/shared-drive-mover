@@ -1,4 +1,4 @@
-function isSharedDriveEmpty_(sharedDrive: string, notEmptyOverride: boolean): boolean
+function isSharedDriveEmpty(sharedDrive: string, notEmptyOverride: boolean): boolean
 {
 	if(notEmptyOverride)
 	{
@@ -14,12 +14,12 @@ function isSharedDriveEmpty_(sharedDrive: string, notEmptyOverride: boolean): bo
 	return response.items!.length === 0;
 }
 
-function moveFile_(file: string, source: string, destination: string): void
+function moveFile(file: string, source: string, destination: string): void
 {
 	Drive.Files!.update({}, file, null, {addParents: destination, removeParents: source, supportsAllDrives: true, fields: ''});
 }
 
-function copyFileComments_(source: string, destination: string): void
+function copyFileComments(source: string, destination: string): void
 {
 	let comments = [];
 	let pageToken = null;
@@ -56,16 +56,16 @@ function copyFileComments_(source: string, destination: string): void
 	}
 }
 
-function moveFileByCopy_(file: string, name: string, destination: string, copyComments: boolean): void
+function moveFileByCopy(file: string, name: string, destination: string, copyComments: boolean): void
 {
 	const copy = Drive.Files!.copy({parents: [{id: destination}], title: name}, file, {supportsAllDrives: true, fields: 'id'});
 	if(copyComments)
 	{
-		copyFileComments_(file, copy.id!);
+		copyFileComments(file, copy.id!);
 	}
 }
 
-function moveFolderContentsFiles_(source: string, destination: string, copyComments: boolean): void
+function moveFolderContentsFiles(source: string, destination: string, copyComments: boolean): void
 {
 	let files = [];
 	let pageToken = null;
@@ -88,16 +88,16 @@ function moveFolderContentsFiles_(source: string, destination: string, copyComme
 	{
 		if(file.canMove)
 		{
-			moveFile_(file.id!, source, destination);
+			moveFile(file.id!, source, destination);
 		}
 		else
 		{
-			moveFileByCopy_(file.id!, file.name!, destination, copyComments);
+			moveFileByCopy(file.id!, file.name!, destination, copyComments);
 		}
 	}
 }
 
-function deleteFolderIfEmpty_(folder: string): void
+function deleteFolderIfEmpty(folder: string): void
 {
 	const response = Drive.Files!.list({
 		maxResults: 1,
@@ -115,7 +115,7 @@ function deleteFolderIfEmpty_(folder: string): void
 	}
 }
 
-function moveFolderContentsFolders_(source: string, destination: string, copyComments: boolean): void
+function moveFolderContentsFolders(source: string, destination: string, copyComments: boolean): void
 {
 	let folders = [];
 	let pageToken = null;
@@ -136,23 +136,23 @@ function moveFolderContentsFolders_(source: string, destination: string, copyCom
 	for(let folder of folders)
 	{
 		const newFolder = Drive.Files!.insert({parents: [{id: destination}], title: folder.name, mimeType: 'application/vnd.google-apps.folder'}, undefined, {supportsAllDrives: true, fields: 'id'});
-		moveFolderContents_(folder.id!, newFolder.id!, copyComments); // eslint-disable-line @typescript-eslint/no-use-before-define
-		deleteFolderIfEmpty_(folder.id!);
+		moveFolderContents(folder.id!, newFolder.id!, copyComments); // eslint-disable-line @typescript-eslint/no-use-before-define
+		deleteFolderIfEmpty(folder.id!);
 	}
 }
 
-function moveFolderContents_(source: string, destination: string, copyComments: boolean): void
+function moveFolderContents(source: string, destination: string, copyComments: boolean): void
 {
-	moveFolderContentsFiles_(source, destination, copyComments);
-	moveFolderContentsFolders_(source, destination, copyComments);
+	moveFolderContentsFiles(source, destination, copyComments);
+	moveFolderContentsFolders(source, destination, copyComments);
 }
 
-global.start = function(folder: string, sharedDrive: string, copyComments: boolean, notEmptyOverride: boolean): MoveResponse
+export default function(folder: string, sharedDrive: string, copyComments: boolean, notEmptyOverride: boolean): MoveResponse
 {
-	if(!isSharedDriveEmpty_(sharedDrive, notEmptyOverride))
+	if(!isSharedDriveEmpty(sharedDrive, notEmptyOverride))
 	{
 		return {status: 'error', reason: 'notEmpty'};
 	}
-	moveFolderContents_(folder, sharedDrive, copyComments);
+	moveFolderContents(folder, sharedDrive, copyComments);
 	return {status: 'success'};
 }

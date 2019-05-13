@@ -71,10 +71,6 @@ module.exports = [
 			new CleanWebpackPlugin(),
 			new GasPlugin()
 		],
-		entry: {
-			UI: './src/backend/UI.ts',
-			move: './src/backend/move.ts'
-		},
 		module: {
 			rules: [
 				{
@@ -83,6 +79,12 @@ module.exports = [
 					exclude: /node_modules/
 				},
 			]
+		},
+		resolve: {
+			extensions: ['.ts', '.js']
+		},
+		entry: {
+			backend: './src/backend/backend.ts',
 		},
 		output: {
 			filename: '[name].gs',
