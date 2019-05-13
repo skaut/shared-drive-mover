@@ -38,6 +38,7 @@
   "scripts": {
     "eslint": "eslint \"src/**/*.!(json)\"",
     "build": "webpack",
+    "build-prod": "webpack --mode production",
     "lint": "npm run eslint"
   },
   "dependencies": {
