@@ -4,7 +4,6 @@ export default function(): Array<Folder>
 	let pageToken = null;
 	do
 	{
-		// @ts-ignore
 		const response: GoogleAppsScript.Drive.Schema.DriveList = Drive.Drives!.list({
 			pageToken: pageToken,
 			maxResults: 100,

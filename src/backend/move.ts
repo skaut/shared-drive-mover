@@ -79,7 +79,6 @@ function moveFolderContentsFiles(source: string, destination: string, copyCommen
 		});
 		for(let item of response.items!)
 		{
-			// @ts-ignore
 			files.push({id: item.id, name: item.title, canMove: item.capabilities!.canMoveItemOutOfDrive});
 		}
 		pageToken = response.nextPageToken;
