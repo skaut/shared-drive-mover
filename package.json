@@ -13,9 +13,9 @@
   "license": "MIT",
   "author": "Marek Dědič",
   "devDependencies": {
-    "@types/google-apps-script": "0.0.46",
-    "@typescript-eslint/eslint-plugin": "^1.7.0",
-    "@typescript-eslint/parser": "^1.7.0",
+    "@types/google-apps-script": "0.0.48",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.9.0",
     "clasp": "^1.0.0",
     "clean-webpack-plugin": "^2.0.2",
     "copy-webpack-plugin": "^5.0.3",
@@ -43,6 +43,6 @@
   },
   "dependencies": {
     "vue": "^2.6.10",
-    "vue-material": "^1.0.0-beta-10.2"
+    "vue-material": "^1.0.0-beta-11"
   }
 }
