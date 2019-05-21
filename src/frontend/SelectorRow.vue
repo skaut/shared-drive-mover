@@ -1,6 +1,6 @@
 <template>
 	<md-list-item
-		:class="{'router-link-exact-active': selected}"
+		:class="{'active': selected}"
 		@click="$emit('click', item.id)"
 		@dblclick="$emit('dblclick', item.id)"
 	>
@@ -25,3 +25,11 @@ export default Vue.extend({
 	}
 });
 </script>
+
+<style scoped>
+.active button
+{
+	color: #448aff !important;
+	color: var(--md-theme-default-primary-on-background, #448aff) !important;
+}
+</style>
