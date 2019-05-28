@@ -164,7 +164,7 @@ export default Vue.extend({
 		},
 		getFolders()
 		{
-			google.script.run.withSuccessHandler(this.setFolders).getFolders(this.folderPath);
+			google.script.run.withSuccessHandler(this.setFolders).withFailureHandler(this.handleError).getFolders(this.folderPath);
 		},
 		setSharedDrives(sharedDrives: PathResponse)
 		{
@@ -194,7 +194,7 @@ export default Vue.extend({
 		},
 		getSharedDrives()
 		{
-			google.script.run.withSuccessHandler(this.setSharedDrives).getSharedDrives(this.sharedDrivePath);
+			google.script.run.withSuccessHandler(this.setSharedDrives).withFailureHandler(this.handleError).getSharedDrives(this.sharedDrivePath);
 		},
 		move()
 		{
