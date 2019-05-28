@@ -1,8 +1,8 @@
-import getCurrentPath from './getCurrentPath';
-import getFolderList from './getFolderList';
+import addFolderPathNames from './addFolderPathNames';
+import listFoldersInFolder from './listFoldersInFolder';
 
 export default function(path: Array<Folder>): PathResponse
 {
 	const root = path.length === 0 ? 'root' : path[path.length - 1].id;
-	return {path: getCurrentPath(path), children: getFolderList(root)};
+	return {path: addFolderPathNames(path), children: listFoldersInFolder(root)};
 };

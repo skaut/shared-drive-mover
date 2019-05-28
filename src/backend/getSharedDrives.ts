@@ -1,7 +1,7 @@
-import getCurrentPath from './getCurrentPath';
-import getFolderList from './getFolderList';
+import addFolderPathNames from './addFolderPathNames';
+import listFoldersInFolder from './listFoldersInFolder';
 
-function getSharedDriveName(sharedDrive: Folder): Folder
+function addSharedDriveName(sharedDrive: Folder): Folder
 {
 	if(sharedDrive.name)
 	{
@@ -11,7 +11,7 @@ function getSharedDriveName(sharedDrive: Folder): Folder
 	return {id: sharedDrive.id, name: response.name!};
 }
 
-function getSharedDriveList(): Array<Folder>
+function listSharedDrives(): Array<Folder>
 {
 	let ret = [];
 	let pageToken = null;
@@ -35,12 +35,12 @@ export default function(path: Array<Folder>): PathResponse
 {
 	if(path.length == 0)
 	{
-		return {path: [], children: getSharedDriveList()};
+		return {path: [], children: listSharedDrives()};
 	}
-	let namedPath = [getSharedDriveName(path[0])];
+	let namedPath = [addSharedDriveName(path[0])];
 	if(path.length > 1)
 	{
-		namedPath.push(...getCurrentPath(path.slice(1)));
+		namedPath.push(...addFolderPathNames(path.slice(1)));
 	}
-	return {path: namedPath, children: getFolderList(path[path.length - 1].id)};
+	return {path: namedPath, children: listFoldersInFolder(path[path.length - 1].id)};
 };
