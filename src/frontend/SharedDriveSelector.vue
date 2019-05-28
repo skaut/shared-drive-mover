@@ -7,12 +7,26 @@
 			<md-progress-spinner md-mode="indeterminate" />
 		</div>
 		<md-list v-else>
+			<md-subheader>
+				<a
+					@click.prevent="$emit('navigate-breadcrumb')"
+				>
+					{{ $t('sharedDriveSelector.sharedDriveList') }}
+				</a>
+				<Breadcrumb
+					v-for="segment in path"
+					:key="segment.id"
+					:segment="segment"
+					@click="$emit('navigate-breadcrumb', $event)"
+				/>
+			</md-subheader>
 			<SelectorRow
 				v-for="item in items"
 				:key="item.id"
 				:item="item"
 				:selected="item.id === selected"
 				@click="$emit('select-shareddrive', $event)"
+				@dblclick="$emit('navigate-shareddrive', $event)"
 			/>
 		</md-list>
 		<md-button
@@ -28,16 +42,22 @@
 <script lang="ts">
 import Vue from 'vue';
 
+import Breadcrumb from './Breadcrumb.vue';
 import SelectorRow from './SelectorRow.vue';
 
 export default Vue.extend({
 	components: {
+		Breadcrumb,
 		SelectorRow
 	},
 	props: {
 		selected: {
 			type: String,
 			default: ''
+		},
+		path: {
+			type: Array,
+			default: () => []
 		},
 		items: {
 			validator: prop => typeof prop === 'object' || prop === null,
@@ -52,5 +72,10 @@ export default Vue.extend({
 {
 	display: table;
 	margin: 100px auto;
+}
+
+a
+{
+	cursor: pointer;
 }
 </style>
