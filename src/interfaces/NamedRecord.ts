@@ -1,4 +1,4 @@
-interface Folder
+interface NamedRecord
 {
 	id: string;
 	name: string;

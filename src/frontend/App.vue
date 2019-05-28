@@ -17,10 +17,10 @@
 				>
 					<FolderSelector
 						:items="folders"
-						:path="currentPath"
+						:path="folderPath"
 						:selected="folder"
 						@select-folder="folder = $event"
-						@navigate-breadcrumb="navigateBreadcrumb"
+						@navigate-breadcrumb="navigateFolderBreadcrumb"
 						@navigate-folder="navigateFolder"
 						@next-step="activeStep = 'shared-drive-selection'"
 					/>
@@ -31,8 +31,11 @@
 				>
 					<SharedDriveSelector
 						:items="sharedDrives"
+						:path="sharedDrivePath"
 						:selected="sharedDrive"
 						@select-shareddrive="sharedDrive = $event"
+						@navigate-breadcrumb="navigateSharedDriveBreadcrumb"
+						@navigate-shareddrive="navigateSharedDrive"
 						@next-step="activeStep = 'configuration'"
 					/>
 				</md-step>
@@ -53,9 +56,10 @@
 				>
 					<Confirmation
 						:folders="folders"
-						:current-path="currentPath"
+						:folder-path="folderPath"
 						:folder="folder"
 						:shared-drives="sharedDrives"
+						:shared-drive-path="sharedDrivePath"
 						:shared-drive="sharedDrive"
 						@next-step="move"
 					/>
@@ -114,10 +118,11 @@ export default Vue.extend({
 	{
 		return {
 			activeStep: "folder-selection",
-			folders: [] as Array<Folder>,
-			currentPath: [] as Array<Folder>,
+			folders: [] as Array<NamedRecord>,
+			folderPath: [] as Array<NamedRecord>,
 			folder: '',
-			sharedDrives: [] as Array<Folder>,
+			sharedDrives: [] as Array<NamedRecord>,
+			sharedDrivePath: [] as Array<NamedRecord>,
 			sharedDrive: '',
 			copyComments: true,
 			displayNonEmptyDialog: false,
@@ -131,20 +136,20 @@ export default Vue.extend({
 		this.getSharedDrives();
 	},
 	methods: {
-		setFolders(folders: FoldersResponse)
+		setFolders(folders: ListResponse)
 		{
-			this.currentPath = folders.path;
-			this.folders = folders.folders;
+			this.folderPath = folders.path;
+			this.folders = folders.children;
 		},
-		navigateBreadcrumb(folderId: string)
+		navigateFolderBreadcrumb(folderId: string)
 		{
 			if(folderId === undefined)
 			{
-				this.currentPath = [];
+				this.folderPath = [];
 			}
 			else
 			{
-				this.currentPath = this.currentPath.slice( 0, this.currentPath.findIndex(segment => segment.id === folderId) + 1 );
+				this.folderPath = this.folderPath.slice( 0, this.folderPath.findIndex(segment => segment.id === folderId) + 1 );
 			}
 			this.folders = [];
 			this.folder = '';
@@ -152,22 +157,44 @@ export default Vue.extend({
 		},
 		navigateFolder(folder: string)
 		{
-			this.currentPath.push({id: folder, name: ''});
+			this.folderPath.push({id: folder, name: ''});
 			this.folders = [];
 			this.folder = '';
 			this.getFolders();
 		},
 		getFolders()
 		{
-			google.script.run.withSuccessHandler(this.setFolders).getFolders(this.currentPath);
+			google.script.run.withSuccessHandler(this.setFolders).withFailureHandler(this.handleError).getFolders(this.folderPath);
 		},
-		setSharedDrives(sharedDrives: Array<Folder>)
+		setSharedDrives(sharedDrives: ListResponse)
 		{
-			this.sharedDrives = sharedDrives;
+			this.sharedDrivePath = sharedDrives.path
+			this.sharedDrives = sharedDrives.children;
+		},
+		navigateSharedDriveBreadcrumb(sharedDriveId: string)
+		{
+			if(sharedDriveId === undefined)
+			{
+				this.sharedDrivePath = [];
+			}
+			else
+			{
+				this.sharedDrivePath = this.sharedDrivePath.slice( 0, this.sharedDrivePath.findIndex(segment => segment.id === sharedDriveId) + 1 );
+			}
+			this.sharedDrives = [];
+			this.sharedDrive = '';
+			this.getSharedDrives();
+		},
+		navigateSharedDrive(sharedDrive: string)
+		{
+			this.sharedDrivePath.push({id: sharedDrive, name: ''});
+			this.sharedDrives = [];
+			this.sharedDrive = '';
+			this.getSharedDrives();
 		},
 		getSharedDrives()
 		{
-			google.script.run.withSuccessHandler(this.setSharedDrives).getSharedDrives();
+			google.script.run.withSuccessHandler(this.setSharedDrives).withFailureHandler(this.handleError).getSharedDrives(this.sharedDrivePath);
 		},
 		move()
 		{

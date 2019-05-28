@@ -1,4 +1,17 @@
-export default function(): Array<Folder>
+import addFolderPathNames from './addFolderPathNames';
+import listFoldersInFolder from './listFoldersInFolder';
+
+function addSharedDriveName(sharedDrive: NamedRecord): NamedRecord
+{
+	if(sharedDrive.name)
+	{
+		return sharedDrive;
+	}
+	const response = Drive.Drives!.get(sharedDrive.id, {fields: 'name'});
+	return {id: sharedDrive.id, name: response.name!};
+}
+
+function listSharedDrives(): Array<NamedRecord>
 {
 	let ret = [];
 	let pageToken = null;
@@ -16,4 +29,18 @@ export default function(): Array<Folder>
 		pageToken = response.nextPageToken;
 	} while (pageToken !== undefined);
 	return ret;
+};
+
+export default function(path: Array<NamedRecord>): ListResponse
+{
+	if(path.length == 0)
+	{
+		return {path: [], children: listSharedDrives()};
+	}
+	let namedPath = [addSharedDriveName(path[0])];
+	if(path.length > 1)
+	{
+		namedPath.push(...addFolderPathNames(path.slice(1)));
+	}
+	return {path: namedPath, children: listFoldersInFolder(path[path.length - 1].id)};
 };

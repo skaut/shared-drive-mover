@@ -21,7 +21,7 @@ export default Vue.extend({
 			type: Array,
 			required: true
 		},
-		currentPath: {
+		folderPath: {
 			type: Array,
 			required: true
 		},
@@ -30,6 +30,10 @@ export default Vue.extend({
 			required: true
 		},
 		sharedDrives: {
+			type: Array,
+			required: true
+		},
+		sharedDrivePath: {
 			type: Array,
 			required: true
 		},
@@ -46,11 +50,11 @@ export default Vue.extend({
 				return '';
 			}
 			let ret = '';
-			for(let segment of this.currentPath as Array<Folder>)
+			for(let segment of this.folderPath as Array<NamedRecord>)
 			{
 				ret += segment.name + '/';
 			}
-			ret += (this.folders as Array<Folder>).find(i => i.id === this.folder)!.name;
+			ret += (this.folders as Array<NamedRecord>).find(i => i.id === this.folder)!.name;
 			return ret;
 		},
 		sharedDriveName()
@@ -59,7 +63,13 @@ export default Vue.extend({
 			{
 				return '';
 			}
-			return (this.sharedDrives as Array<Folder>).find(i => i.id === this.sharedDrive)!.name;
+			let ret = '';
+			for(let segment of this.sharedDrivePath as Array<NamedRecord>)
+			{
+				ret += segment.name + '/';
+			}
+			ret += (this.sharedDrives as Array<NamedRecord>).find(i => i.id === this.sharedDrive)!.name;
+			return ret;
 		}
 	}
 });
