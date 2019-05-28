@@ -31,7 +31,7 @@ function listSharedDrives(): Array<NamedRecord>
 	return ret;
 };
 
-export default function(path: Array<NamedRecord>): PathResponse
+export default function(path: Array<NamedRecord>): ListResponse
 {
 	if(path.length == 0)
 	{

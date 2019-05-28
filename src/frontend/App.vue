@@ -136,7 +136,7 @@ export default Vue.extend({
 		this.getSharedDrives();
 	},
 	methods: {
-		setFolders(folders: PathResponse)
+		setFolders(folders: ListResponse)
 		{
 			this.folderPath = folders.path;
 			this.folders = folders.children;
@@ -166,7 +166,7 @@ export default Vue.extend({
 		{
 			google.script.run.withSuccessHandler(this.setFolders).withFailureHandler(this.handleError).getFolders(this.folderPath);
 		},
-		setSharedDrives(sharedDrives: PathResponse)
+		setSharedDrives(sharedDrives: ListResponse)
 		{
 			this.sharedDrivePath = sharedDrives.path
 			this.sharedDrives = sharedDrives.children;
