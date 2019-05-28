@@ -5,7 +5,9 @@ export default function(root: string): Array<Folder>
 	do
 	{
 		const response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
+			includeItemsFromAllDrives: true,
 			q: '"' + root + '" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
+			supportsAllDrives: true,
 			pageToken: pageToken,
 			maxResults: 1000,
 			fields: 'nextPageToken, items(id, title)'
