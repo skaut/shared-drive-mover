@@ -32,6 +32,7 @@ export default new VueI18n({
 			continueButton: 'Continue',
 			moveButton: 'Move',
 			configuration: {
+				introduction: 'Welcome to the Shared drive mover, a tool for moving files and folders from regular Google Drive (i. e. "My Drive") to a Shared drive (formerly known as a Team drive). In the following steps, you will select a folder and a Shared drive (or a subfolder of a Shared drive). The contents of the selected folder will then be moved to the Shared drive (or to the selected subfolder). This process can take some time, so please be patient.',
 				description: 'When moving files of which you are not the owner, instead of moving the file a copy is created in the destination Shared drive. For such a case, there are several options that can be configured:',
 				copy: {
 					title: 'Copy comments',
@@ -76,6 +77,7 @@ export default new VueI18n({
 			continueButton: 'Pokračovat',
 			moveButton: 'Přesunout',
 			configuration: {
+				introduction: 'Vítejte v nástroji "Shared drive mover", sloužícím k přesouvání souborů a složek z běžného Google Disku (tzv. "Můj Disk") do Sdílených disků (dříve označovaných jako Týmové disky). V následujících krocích vyberete složku a sdílený disk (nebo jeho podsložku). Obsah vybrané složky pak bude přesunut do vybraného Sdíleného disku (nebo jeho podsložky). Přesun může trvat déle, buďte prosím trpěliví.',
 				description: 'U souborů, jichž nejste vlastníkem, se místo jejich přesunutí vytvoří kopie v cílovém Sdíleném disku. V takovém případě lze nastavit několik možností:',
 				copy: {
 					title: 'Kopírovat komentáře',
