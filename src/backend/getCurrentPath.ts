@@ -10,7 +10,8 @@ export default function(path: Array<Folder>): Array<Folder>
 		else
 		{
 			const response = Drive.Files!.get(segment.id, {
-				fields: 'title'
+				fields: 'title',
+				supportsAllDrives: true
 			});
 			ret.push({id: segment.id!, name: response.title!});
 		}
