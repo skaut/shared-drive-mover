@@ -12,6 +12,17 @@
 				:md-active-step.sync="activeStep"
 			>
 				<md-step
+					id="configuration"
+					:md-label="$t('steps.configuration')"
+				>
+					<Configuration
+						:copy-comments="copyComments"
+						@changeCopyComments="copyComments = !copyComments"
+						@changeDeleteOriginals="deleteOriginals = !deleteOriginals"
+						@next-step="activeStep = 'folder-selection'"
+					/>
+				</md-step>
+				<md-step
 					id="folder-selection"
 					:md-label="$t('steps.folderSelection')"
 				>
@@ -36,17 +47,6 @@
 						@select-shareddrive="sharedDrive = $event"
 						@navigate-breadcrumb="navigateSharedDriveBreadcrumb"
 						@navigate-shareddrive="navigateSharedDrive"
-						@next-step="activeStep = 'configuration'"
-					/>
-				</md-step>
-				<md-step
-					id="configuration"
-					:md-label="$t('steps.configuration')"
-				>
-					<Configuration
-						:copy-comments="copyComments"
-						@changeCopyComments="copyComments = !copyComments"
-						@changeDeleteOriginals="deleteOriginals = !deleteOriginals"
 						@next-step="activeStep = 'confirmation'"
 					/>
 				</md-step>
@@ -117,7 +117,7 @@ export default Vue.extend({
 	data()
 	{
 		return {
-			activeStep: "folder-selection",
+			activeStep: "configuration",
 			folders: [] as Array<NamedRecord>,
 			folderPath: [] as Array<NamedRecord>,
 			folder: '',
