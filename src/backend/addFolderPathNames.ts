@@ -1,4 +1,4 @@
-export default function(path: Array<Folder>): Array<Folder>
+export default function(path: Array<NamedRecord>): Array<NamedRecord>
 {
 	let ret = [];
 	for(let segment of path)

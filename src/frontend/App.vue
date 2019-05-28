@@ -118,11 +118,11 @@ export default Vue.extend({
 	{
 		return {
 			activeStep: "folder-selection",
-			folders: [] as Array<Folder>,
-			folderPath: [] as Array<Folder>,
+			folders: [] as Array<NamedRecord>,
+			folderPath: [] as Array<NamedRecord>,
 			folder: '',
-			sharedDrives: [] as Array<Folder>,
-			sharedDrivePath: [] as Array<Folder>,
+			sharedDrives: [] as Array<NamedRecord>,
+			sharedDrivePath: [] as Array<NamedRecord>,
 			sharedDrive: '',
 			copyComments: true,
 			displayNonEmptyDialog: false,

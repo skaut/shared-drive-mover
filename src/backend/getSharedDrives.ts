@@ -1,7 +1,7 @@
 import addFolderPathNames from './addFolderPathNames';
 import listFoldersInFolder from './listFoldersInFolder';
 
-function addSharedDriveName(sharedDrive: Folder): Folder
+function addSharedDriveName(sharedDrive: NamedRecord): NamedRecord
 {
 	if(sharedDrive.name)
 	{
@@ -11,7 +11,7 @@ function addSharedDriveName(sharedDrive: Folder): Folder
 	return {id: sharedDrive.id, name: response.name!};
 }
 
-function listSharedDrives(): Array<Folder>
+function listSharedDrives(): Array<NamedRecord>
 {
 	let ret = [];
 	let pageToken = null;
@@ -31,7 +31,7 @@ function listSharedDrives(): Array<Folder>
 	return ret;
 };
 
-export default function(path: Array<Folder>): PathResponse
+export default function(path: Array<NamedRecord>): PathResponse
 {
 	if(path.length == 0)
 	{

@@ -1,5 +1,5 @@
 interface PathResponse
 {
-	path: Array<Folder>;
-	children: Array<Folder>;
+	path: Array<NamedRecord>;
+	children: Array<NamedRecord>;
 }

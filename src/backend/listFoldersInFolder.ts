@@ -1,4 +1,4 @@
-export default function(root: string): Array<Folder>
+export default function(root: string): Array<NamedRecord>
 {
 	let ret = [];
 	let pageToken = null;
