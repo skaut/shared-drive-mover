@@ -46,6 +46,9 @@ export default new VueI18n({
 			},
 			folderSelector: {
 				myDrive: 'My Drive'
+			},
+			sharedDriveSelector: {
+				sharedDriveList: 'Shared drive list'
 			}
 		},
 		cs: {
@@ -87,6 +90,9 @@ export default new VueI18n({
 			},
 			folderSelector: {
 				myDrive: 'Můj Disk'
+			},
+			sharedDriveSelector: {
+				sharedDriveList: 'Seznam Sdílených disků'
 			}
 		}
 	}
