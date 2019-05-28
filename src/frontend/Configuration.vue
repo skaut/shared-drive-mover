@@ -1,7 +1,11 @@
 <template>
 	<div>
-		{{ $t('configuration.description') }}
-		<br>
+		<p>
+			{{ $t('configuration.introduction') }}
+		</p>
+		<p>
+			{{ $t('configuration.description') }}
+		</p>
 		<md-checkbox
 			:value="!copyComments"
 			@change="$emit('changeCopyComments')"
