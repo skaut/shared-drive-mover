@@ -11,33 +11,40 @@ job-references:
   node_env: &node_env
     docker:
       - image: circleci/node:7.10
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - node-v1-{{ checksum "package.json" }}
-            - node-v1-
-      - run:
-          name: "Install NPM dependencies"
-          command: |
-            npm ci
-      - save_cache:
-          key: node-v1-{{ checksum "package.json" }}
-          paths:
-             node_modules
+
+  restore_npm: &restore_npm
+    keys:
+      - node-v1-{{ checksum "package.json" }}
+      - node-v1-
+
+  install_npm: &install_npm
+    name: "Install NPM dependencies"
+    command: npm ci
+
+  save_npm:
+    key: node-v1-{{ checksum "package.json" }}
+    paths:
+       node_modules
 
 jobs:
   build:
     <<: *node_env
     steps:
+      - checkout
+      - restore_cache: *restore_npm
+      - run: *install_npm
+      - save_cache: *save_npm
       - run:
           name: "Build"
-          command: |
-            npm run build
+          command: npm run build
+
   lint:
     <<: *node_env
     steps:
+      - checkout
+      - restore_cache: *restore_npm
+      - run: *install_npm
+      - save_cache: *save_npm
       - run:
-          name: "Build"
-          command: |
-            npm run lint
+          name: "Lint"
+          command: npm run lint
