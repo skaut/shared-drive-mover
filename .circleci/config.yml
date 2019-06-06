@@ -21,7 +21,7 @@ job-references:
     name: "Install NPM dependencies"
     command: npm ci
 
-  save_npm:
+  save_npm: &save_npm
     key: node-v1-{{ checksum "package.json" }}
     paths:
        node_modules
