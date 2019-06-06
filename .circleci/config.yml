@@ -28,14 +28,14 @@ job-references:
 
 jobs:
   build:
-    << *node_env
+    <<: *node_env
     steps:
       - run:
           name: "Build"
           command: |
             npm run build
   lint:
-    << *node_env
+    <<: *node_env
     steps:
       - run:
           name: "Build"
