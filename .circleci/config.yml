@@ -29,13 +29,15 @@ job-references:
 jobs:
   build:
     << *node_env
-    - run:
-        name: "Build"
-        command: |
-          npm run build
+    steps:
+      - run:
+          name: "Build"
+          command: |
+            npm run build
   lint:
     << *node_env
-    - run:
-        name: "Build"
-        command: |
-        npm run lint
+    steps:
+      - run:
+          name: "Build"
+          command: |
+          npm run lint
