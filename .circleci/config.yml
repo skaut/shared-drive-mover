@@ -4,8 +4,8 @@ workflows:
     jobs:
       - build
       - lint:
-        requires:
-          - build
+          requires:
+            - build
 
 job-references:
   node_env: &node_env
