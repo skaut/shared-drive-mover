@@ -1,0 +1,41 @@
+version: 2.1
+workflows:
+  main:
+    jobs:
+      - build
+      - lint:
+        requires:
+          - build
+
+job-references:
+  node_env: &node_env
+    docker:
+      - image: circleci/node:7.10
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "package.json" }}
+            - node-v1-
+      - run:
+          name: "Install NPM dependencies"
+          command: |
+            npm ci
+      - save_cache:
+          key: node-v1-{{ checksum "package.json" }}
+          paths:
+             node_modules
+
+jobs:
+  build:
+    << *node_env
+    - run:
+        name: "Build"
+        command: |
+          npm run build
+  lint:
+    << *node_env
+    - run:
+        name: "Build"
+        command: |
+        npm run lint
