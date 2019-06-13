@@ -24,7 +24,6 @@ module.exports = [
 	{
 		mode: 'development',
 		plugins: [
-			new CleanWebpackPlugin(),
 			new HtmlWebpackPlugin({
 				inlineSource: '.(js)$',
 				template: 'src/frontend/index.html'
@@ -68,7 +67,6 @@ module.exports = [
 		mode: 'development',
 		devtool: false,
 		plugins: [
-			new CleanWebpackPlugin(),
 			new GasPlugin()
 		],
 		module: {
