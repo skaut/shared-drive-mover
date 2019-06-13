@@ -39,7 +39,7 @@ jobs:
           command: npm run build
       - run:
           name: "Check output exists"
-          command: [ -s dist/appsscript.json ] && [ -s dist/backend.gs ] && [ -s dist/index.html ]
+          command: "[ -s dist/appsscript.json ] && [ -s dist/backend.gs ] && [ -s dist/index.html ]"
 
   lint:
     <<: *node_env
