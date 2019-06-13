@@ -8,7 +8,7 @@ The app is intended to run as a [Google Apps Script Web App](https://developers.
 
 ### skaut.cz deployment
 
-The app is currently running for skaut.cz G Suite users [here](https://script.google.com/a/skaut.cz/macros/s/AKfycbyKMLfhOnMl5ckaSUVEzA8b_N_iyMKYJyQ8hZwDizsGiuXlabw/exec).
+The app is currently running for skaut.cz G Suite users at [presun-disku.skauting.cz](https://presun-disku.skauting.cz).
 
 ### Own deployment
 
