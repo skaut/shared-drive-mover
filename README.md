@@ -1,5 +1,7 @@
 # Shared drive mover
 
+![CircleCI](https://img.shields.io/circleci/build/github/skaut/shared-drive-mover/master.svg)
+
 This app enables G Suite users to easily move files from their personal drives to a Shared Drive (previously known as a Team Drive).
 
 The app is intended to run as a [Google Apps Script Web App](https://developers.google.com/apps-script/guides/web).
