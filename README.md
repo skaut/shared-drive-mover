@@ -22,7 +22,7 @@ $ cd shared-drive-mover
 $ npm install
 ```
 
-Create a new script project on https://script.google.com under a G Suite account and in the Project properties, copy the Script ID. Put this inside `.clasp.json`. Build the code and push it to the online project by running:
+Create a new script project on https://script.google.com under a G Suite account and in the Project properties, copy the Script ID. Put this inside `.clasp.json`. Then enable [Google Apps Script API](https://script.google.com/home/usersettings). Build the code and push it to the online project by running:
 
 ```sh
 $ npm run build
@@ -30,4 +30,6 @@ $ clasp login
 $ clasp push
 ```
 
-Deploy the online project as a Web App. This should give you an URL to run the project.
+When asked `Manifest file has been updated. Do you want to push and overwrite?` type `y`.
+
+[Deploy the online project as a Web App](https://developers.google.com/apps-script/guides/web#deploying_a_script_as_a_web_app). This should give you an URL to run the project.
