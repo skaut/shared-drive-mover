@@ -43,28 +43,28 @@ export default Vue.extend({
 		}
 	},
 	computed: {
-		folderName()
+		folderName(): string
 		{
 			if(!this.folder)
 			{
 				return '';
 			}
 			let ret = '';
-			for(let segment of this.folderPath as Array<NamedRecord>)
+			for(const segment of this.folderPath as Array<NamedRecord>)
 			{
 				ret += segment.name + '/';
 			}
 			ret += (this.folders as Array<NamedRecord>).find(i => i.id === this.folder)!.name;
 			return ret;
 		},
-		sharedDriveName()
+		sharedDriveName(): string
 		{
 			if(!this.sharedDrive)
 			{
 				return '';
 			}
 			let ret = '';
-			for(let segment of this.sharedDrivePath as Array<NamedRecord>)
+			for(const segment of this.sharedDrivePath as Array<NamedRecord>)
 			{
 				ret += segment.name + '/';
 			}

@@ -21,7 +21,7 @@ function moveFile(file: string, source: string, destination: string): void
 
 function copyFileComments(source: string, destination: string): void
 {
-	let comments = [];
+	const comments = [];
 	let pageToken = null;
 	do {
 		const response: GoogleAppsScript.Drive.Schema.CommentList = Drive.Comments!.list(source, {
@@ -29,23 +29,23 @@ function copyFileComments(source: string, destination: string): void
 			pageToken: pageToken,
 			fields: 'nextPageToken, items(author(isAuthenticatedUser, displayName), content, status, context, anchor, replies(author(isAuthenticatedUser, displayName), content, verb))'
 		});
-		for(let comment of response.items!)
+		for(const comment of response.items!)
 		{
 			comments.push(comment);
 		}
 		pageToken = response.nextPageToken;
 	} while (pageToken !== undefined);
 	Logger.log(comments);
-	for(let comment of comments)
+	for(const comment of comments)
 	{
 		if(!comment.author!.isAuthenticatedUser)
 		{
 			comment.content = '*' + comment.author!.displayName + ':*\n' + comment.content;
 		}
-		let replies = comment.replies!;
+		const replies = comment.replies!;
 		delete comment.replies;
 		const commentId = Drive.Comments!.insert(comment, destination).commentId!;
-		for(let reply of replies)
+		for(const reply of replies)
 		{
 			if(!reply.author!.isAuthenticatedUser)
 			{
@@ -67,7 +67,7 @@ function moveFileByCopy(file: string, name: string, destination: string, copyCom
 
 function moveFolderContentsFiles(source: string, destination: string, copyComments: boolean): void
 {
-	let files = [];
+	const files = [];
 	let pageToken = null;
 	do
 	{
@@ -77,13 +77,13 @@ function moveFolderContentsFiles(source: string, destination: string, copyCommen
 			maxResults: 1000,
 			fields: 'nextPageToken, items(id, title, capabilities(canMoveItemOutOfDrive))'
 		});
-		for(let item of response.items!)
+		for(const item of response.items!)
 		{
 			files.push({id: item.id, name: item.title, canMove: item.capabilities!.canMoveItemOutOfDrive});
 		}
 		pageToken = response.nextPageToken;
 	} while (pageToken !== undefined);
-	for(let file of files)
+	for(const file of files)
 	{
 		if(file.canMove)
 		{
@@ -116,7 +116,7 @@ function deleteFolderIfEmpty(folder: string): void
 
 function moveFolderContentsFolders(source: string, destination: string, copyComments: boolean): void
 {
-	let folders = [];
+	const folders = [];
 	let pageToken = null;
 	do
 	{
@@ -126,13 +126,13 @@ function moveFolderContentsFolders(source: string, destination: string, copyComm
 			maxResults: 1000,
 			fields: 'nextPageToken, items(id, title)'
 		});
-		for(let item of response.items!)
+		for(const item of response.items!)
 		{
 			folders.push({id: item.id, name: item.title});
 		}
 		pageToken = response.nextPageToken;
 	} while (pageToken !== undefined);
-	for(let folder of folders)
+	for(const folder of folders)
 	{
 		const newFolder = Drive.Files!.insert({parents: [{id: destination}], title: folder.name, mimeType: 'application/vnd.google-apps.folder'}, undefined, {supportsAllDrives: true, fields: 'id'});
 		moveFolderContents(folder.id!, newFolder.id!, copyComments); // eslint-disable-line @typescript-eslint/no-use-before-define

@@ -1,1 +1,1 @@
-declare var global: PublicEndpoints;
+declare let global: PublicEndpoints;

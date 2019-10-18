@@ -13,7 +13,7 @@ function addSharedDriveName(sharedDrive: NamedRecord): NamedRecord
 
 function listSharedDrives(): Array<NamedRecord>
 {
-	let ret = [];
+	const ret = [];
 	let pageToken = null;
 	do
 	{
@@ -22,14 +22,14 @@ function listSharedDrives(): Array<NamedRecord>
 			maxResults: 100,
 			fields: 'nextPageToken, items(id, name)'
 		});
-		for(let item of response.items!)
+		for(const item of response.items!)
 		{
 			ret.push({id: item.id!, name: item.name!});
 		}
 		pageToken = response.nextPageToken;
 	} while (pageToken !== undefined);
 	return ret;
-};
+}
 
 export default function(path: Array<NamedRecord>): ListResponse
 {
@@ -37,10 +37,10 @@ export default function(path: Array<NamedRecord>): ListResponse
 	{
 		return {path: [], children: listSharedDrives()};
 	}
-	let namedPath = [addSharedDriveName(path[0])];
+	const namedPath = [addSharedDriveName(path[0])];
 	if(path.length > 1)
 	{
 		namedPath.push(...addFolderPathNames(path.slice(1)));
 	}
 	return {path: namedPath, children: listFoldersInFolder(path[path.length - 1].id)};
-};
+}

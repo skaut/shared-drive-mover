@@ -1,7 +1,7 @@
 export default function(path: Array<NamedRecord>): Array<NamedRecord>
 {
-	let ret = [];
-	for(let segment of path)
+	const ret = [];
+	for(const segment of path)
 	{
 		if(segment.name)
 		{
@@ -13,7 +13,7 @@ export default function(path: Array<NamedRecord>): Array<NamedRecord>
 				fields: 'title',
 				supportsAllDrives: true
 			});
-			ret.push({id: segment.id!, name: response.title!});
+			ret.push({id: segment.id, name: response.title!});
 		}
 	}
 	return ret;

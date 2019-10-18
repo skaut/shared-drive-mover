@@ -1,6 +1,6 @@
 export default function(root: string): Array<NamedRecord>
 {
-	let ret = [];
+	const ret = [];
 	let pageToken = null;
 	do
 	{
@@ -12,7 +12,7 @@ export default function(root: string): Array<NamedRecord>
 			maxResults: 1000,
 			fields: 'nextPageToken, items(id, title)'
 		});
-		for(let item of response.items!)
+		for(const item of response.items!)
 		{
 			ret.push({id: item.id!, name: item.title!});
 		}
