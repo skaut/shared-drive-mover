@@ -57,10 +57,10 @@ export default Vue.extend({
 		},
 		path: {
 			type: Array,
-			default: () => []
+			default: (): Array<NamedRecord> => []
 		},
 		items: {
-			validator: prop => typeof prop === 'object' || prop === null,
+			validator: (prop): boolean => typeof prop === 'object' || prop === null,
 			required: true
 		}
 	}

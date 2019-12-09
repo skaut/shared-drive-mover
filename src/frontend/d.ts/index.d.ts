@@ -7,4 +7,4 @@ declare module '*.vue'
 
 declare module 'vue-material/dist/components';
 
-declare var google: GoogleAppsScriptClientSide;
+declare let google: GoogleAppsScriptClientSide;
