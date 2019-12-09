@@ -19,6 +19,7 @@
     "plugin:vue/recommended"
   ],
   "rules": {
+    "no-undef": "off",
     "no-warning-comments": "warn",
     "strict": ["error", "never"],
     "@typescript-eslint/array-type": ["error", {"default": "generic"}],

@@ -35,7 +35,7 @@
     "webpack-cli": "^3.3.10"
   },
   "scripts": {
-    "eslint": "eslint \"src/**/*.!(json)\"",
+    "eslint": "eslint \"src/**/*.!(json|html)\"",
     "build": "webpack",
     "build-prod": "webpack --mode production",
     "lint": "npm run eslint"

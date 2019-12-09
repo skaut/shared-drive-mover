@@ -164,7 +164,7 @@ export default Vue.extend({
 		},
 		getFolders(): void
 		{
-			google.script.run.withSuccessHandler(this.setFolders).withFailureHandler(this.handleError).getFolders(this.folderPath);
+			google.script.run.withSuccessHandler((folders: ListResponse) => this.setFolders(folders)).withFailureHandler((response: Error) => this.handleError(response)).getFolders(this.folderPath);
 		},
 		setSharedDrives(sharedDrives: ListResponse): void
 		{
@@ -194,16 +194,16 @@ export default Vue.extend({
 		},
 		getSharedDrives(): void
 		{
-			google.script.run.withSuccessHandler(this.setSharedDrives).withFailureHandler(this.handleError).getSharedDrives(this.sharedDrivePath);
+			google.script.run.withSuccessHandler((sharedDrives: ListResponse) => this.setSharedDrives(sharedDrives)).withFailureHandler((response: Error) => this.handleError(response)).getSharedDrives(this.sharedDrivePath);
 		},
 		move(): void
 		{
 			this.activeStep = 'progress';
-			google.script.run.withSuccessHandler(this.handleResponse).withFailureHandler(this.handleError).move(this.folder, this.sharedDrive, this.copyComments, false);
+			google.script.run.withSuccessHandler((response: MoveResponse) => this.handleResponse(response)).withFailureHandler((response: Error) => this.handleError(response)).move(this.folder, this.sharedDrive, this.copyComments, false);
 		},
 		moveNonEmpty(): void
 		{
-			google.script.run.withSuccessHandler(this.handleResponse).withFailureHandler(this.handleError).move(this.folder, this.sharedDrive, this.copyComments, true);
+			google.script.run.withSuccessHandler((response: MoveResponse) => this.handleResponse(response)).withFailureHandler((response: Error) => this.handleError(response)).move(this.folder, this.sharedDrive, this.copyComments, true);
 		},
 		handleResponse(response: MoveResponse): void
 		{
