@@ -13,7 +13,7 @@
   "license": "MIT",
   "author": "Marek Dědič",
   "devDependencies": {
-    "@types/google-apps-script": "1.0.7",
+    "@types/google-apps-script": "1.0.8",
     "@typescript-eslint/eslint-plugin": "^2.15.0",
     "@typescript-eslint/parser": "^2.15.0",
     "clasp": "^1.0.0",
