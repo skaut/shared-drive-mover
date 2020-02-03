@@ -14,7 +14,7 @@
   "author": "Marek Dědič",
   "devDependencies": {
     "@types/google-apps-script": "1.0.10",
-    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/eslint-plugin": "^2.19.0",
     "@typescript-eslint/parser": "^2.19.0",
     "clasp": "^1.0.0",
     "clean-webpack-plugin": "^3.0.0",
