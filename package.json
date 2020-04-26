@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "vue": "^2.6.11",
-    "vue-i18n": "^8.17.3",
+    "vue-i18n": "^8.17.4",
     "vue-material": "^1.0.0-beta-12"
   }
 }
