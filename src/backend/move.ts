@@ -35,7 +35,6 @@ function copyFileComments(source: string, destination: string): void
 		}
 		pageToken = response.nextPageToken;
 	} while (pageToken !== undefined);
-	Logger.log(comments);
 	for(const comment of comments)
 	{
 		if(!comment.author!.isAuthenticatedUser)
@@ -103,7 +102,6 @@ function deleteFolderIfEmpty(folder: string): void
 		q: '"' + folder + '" in parents and trashed = false',
 		fields: 'items(id)'
 	});
-	Logger.log(response);
 	if(response.items!.length === 0)
 	{
 		const response2 = Drive.Files!.get(folder, {fields: 'userPermission(role)'});
