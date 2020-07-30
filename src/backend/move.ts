@@ -39,7 +39,7 @@ function copyFileComments(source: string, destination: string): void
 	{
 		if(!comment.author!.isAuthenticatedUser)
 		{
-			comment.content = '*' + comment.author!.displayName + ':*\n' + comment.content;
+			comment.content = '*' + comment.author!.displayName! + ':*\n' + comment.content!;
 		}
 		const replies = comment.replies!;
 		delete comment.replies;
@@ -48,7 +48,7 @@ function copyFileComments(source: string, destination: string): void
 		{
 			if(!reply.author!.isAuthenticatedUser)
 			{
-				reply.content = '*' + reply.author!.displayName + ':*\n' + reply.content;
+				reply.content = '*' + reply.author!.displayName! + ':*\n' + reply.content!;
 			}
 			Drive.Replies!.insert(reply, destination, commentId);
 		}
