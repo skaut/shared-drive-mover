@@ -1,4 +1,0 @@
-interface GoogleAppsScriptClientSideScript
-{
-	run: GoogleAppsScriptFunctions;
-}

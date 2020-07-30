@@ -224,7 +224,7 @@ export default Vue.extend({
 			this.optionalErrorMessage = '';
 			if(response.message)
 			{
-				this.optionalErrorMessage = '<br><br>' + this.$t('dialogs.error.optionalErrorMessage') + response.message;
+				this.optionalErrorMessage = '<br><br>' + (this.$t('dialogs.error.optionalErrorMessage') as string) + response.message;
 			}
 			this.activeStep = 'folder-selection'
 			this.displayErrorDialog = true;

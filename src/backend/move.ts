@@ -35,12 +35,11 @@ function copyFileComments(source: string, destination: string): void
 		}
 		pageToken = response.nextPageToken;
 	} while (pageToken !== undefined);
-	Logger.log(comments);
 	for(const comment of comments)
 	{
 		if(!comment.author!.isAuthenticatedUser)
 		{
-			comment.content = '*' + comment.author!.displayName + ':*\n' + comment.content;
+			comment.content = '*' + comment.author!.displayName! + ':*\n' + comment.content!;
 		}
 		const replies = comment.replies!;
 		delete comment.replies;
@@ -49,7 +48,7 @@ function copyFileComments(source: string, destination: string): void
 		{
 			if(!reply.author!.isAuthenticatedUser)
 			{
-				reply.content = '*' + reply.author!.displayName + ':*\n' + reply.content;
+				reply.content = '*' + reply.author!.displayName! + ':*\n' + reply.content!;
 			}
 			Drive.Replies!.insert(reply, destination, commentId);
 		}
@@ -103,7 +102,6 @@ function deleteFolderIfEmpty(folder: string): void
 		q: '"' + folder + '" in parents and trashed = false',
 		fields: 'items(id)'
 	});
-	Logger.log(response);
 	if(response.items!.length === 0)
 	{
 		const response2 = Drive.Files!.get(folder, {fields: 'userPermission(role)'});

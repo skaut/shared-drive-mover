@@ -1,4 +1,0 @@
-interface GoogleAppsScriptClientSide
-{
-	script: GoogleAppsScriptClientSideScript;
-}
