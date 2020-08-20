@@ -31,7 +31,7 @@
     "typescript": "^3.9.7",
     "vue-loader": "^15.9.3",
     "vue-style-loader": "^4.1.2",
-    "vue-template-compiler": "^2.6.11",
+    "vue-template-compiler": "^2.6.12",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   },
@@ -42,7 +42,7 @@
     "lint": "npm run eslint"
   },
   "dependencies": {
-    "vue": "^2.6.11",
+    "vue": "^2.6.12",
     "vue-i18n": "^8.21.0",
     "vue-material": "^1.0.0-beta-15"
   }
