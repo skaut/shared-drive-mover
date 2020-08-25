@@ -15,7 +15,7 @@
   "devDependencies": {
     "@types/google-apps-script": "1.0.14",
     "@types/google.script.client-side": "^0.1.0",
-    "@typescript-eslint/eslint-plugin": "^3.10.0",
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^3.10.1",
     "clasp": "^1.0.0",
     "clean-webpack-plugin": "^3.0.0",
