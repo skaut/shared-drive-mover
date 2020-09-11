@@ -32,5 +32,5 @@ jobs:
           npm run build
 
       - name: "Check non-empty output"
-        run |
+        run: |
           "[ -s dist/appsscript.json ] && [ -s dist/backend.gs ] && [ -s dist/index.html ]"
