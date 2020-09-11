@@ -33,4 +33,4 @@ jobs:
 
       - name: "Check non-empty output"
         run: |
-          "[ -s dist/appsscript.json ] && [ -s dist/backend.gs ] && [ -s dist/index.html ]"
+          [ -s dist/appsscript.json ] && [ -s dist/backend.gs ] && [ -s dist/index.html ]
