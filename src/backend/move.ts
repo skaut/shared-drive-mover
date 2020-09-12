@@ -64,7 +64,7 @@ function moveFileByCopy(file: string, name: string, destination: string, copyCom
 	}
 }
 
-function moveFolderContentsFiles(source: string, destination: string, copyComments: boolean): void
+function moveFolderContentsFiles(source: string, destination: string, copyComments: boolean): number
 {
 	const files = [];
 	let pageToken = null;
@@ -82,17 +82,24 @@ function moveFolderContentsFiles(source: string, destination: string, copyCommen
 		}
 		pageToken = response.nextPageToken;
 	} while (pageToken !== undefined);
+	let errors = 0;
 	for(const file of files)
 	{
-		if(file.canMove)
-		{
-			moveFile(file.id!, source, destination);
-		}
-		else
-		{
-			moveFileByCopy(file.id!, file.name!, destination, copyComments);
+		try {
+			if(file.canMove)
+			{
+				moveFile(file.id!, source, destination);
+			}
+			else
+			{
+				moveFileByCopy(file.id!, file.name!, destination, copyComments);
+			}
+		} catch (e) {
+			console.warn(e)
+			errors++;
 		}
 	}
+	return errors;
 }
 
 function deleteFolderIfEmpty(folder: string): void
@@ -138,10 +145,11 @@ function moveFolderContentsFolders(source: string, destination: string, copyComm
 	}
 }
 
-function moveFolderContents(source: string, destination: string, copyComments: boolean): void
+function moveFolderContents(source: string, destination: string, copyComments: boolean): number
 {
-	moveFolderContentsFiles(source, destination, copyComments);
+	const moveFileErrors = moveFolderContentsFiles(source, destination, copyComments);
 	moveFolderContentsFolders(source, destination, copyComments);
+	return moveFileErrors;
 }
 
 export default function(folder: string, sharedDrive: string, copyComments: boolean, notEmptyOverride: boolean): MoveResponse
@@ -150,6 +158,6 @@ export default function(folder: string, sharedDrive: string, copyComments: boole
 	{
 		return {status: 'error', reason: 'notEmpty'};
 	}
-	moveFolderContents(folder, sharedDrive, copyComments);
-	return {status: 'success'};
+	const errors = moveFolderContents(folder, sharedDrive, copyComments);
+	return {status: 'success', errors};
 }
