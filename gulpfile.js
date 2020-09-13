@@ -4,7 +4,6 @@ const webpack = require( 'webpack-stream' );
 
 gulp.task( 'build:appsscript', function() {
 	return gulp.src( 'src/appsscript.json' )
-		.pipe(webpack( require( './appsscript.webpack.config.js' ) ))
 		.pipe(gulp.dest('dist/'));
 } );
 
