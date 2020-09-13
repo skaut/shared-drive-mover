@@ -144,7 +144,7 @@ function moveFolderContents(source: string, destination: string, copyComments: b
 	moveFolderContentsFolders(source, destination, copyComments);
 }
 
-export default function(folder: string, sharedDrive: string, copyComments: boolean, notEmptyOverride: boolean): MoveResponse
+function move(folder: string, sharedDrive: string, copyComments: boolean, notEmptyOverride: boolean): MoveResponse
 {
 	if(!isSharedDriveEmpty(sharedDrive, notEmptyOverride))
 	{

@@ -2,6 +2,8 @@
 
 const gulp = require( 'gulp' );
 
+const concat = require( 'gulp-concat' );
+const ts = require( 'gulp-typescript' );
 const webpack = require( 'webpack-stream' );
 
 gulp.task( 'build:appsscript', function() {
@@ -16,8 +18,10 @@ gulp.task( 'build:frontend', function() {
 } );
 
 gulp.task( 'build:backend', function() {
-	return gulp.src( 'src/backend/backend.ts' )
-		.pipe(webpack( require( './backend.webpack.config.js' ) ))
+	const tsProject = ts.createProject( 'tsconfig.json', { lib: [ 'es5' ], types: [ 'google-apps-script' ] } );
+	return gulp.src( ['src/backend/*.ts', 'src/backend/d.ts/*.d.ts', 'src/interfaces/*.ts' ] )
+		.pipe(tsProject())
+		.js.pipe( concat( 'backend.gs' ) )
 		.pipe(gulp.dest('dist/'));
 } );
 
