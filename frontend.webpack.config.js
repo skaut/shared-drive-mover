@@ -3,7 +3,7 @@ const ScriptExtHtmlWebPackPlugin = require("script-ext-html-webpack-plugin");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 module.exports = {
-  mode: "development",
+  mode: "production",
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/frontend/index.html",
