@@ -1,7 +1,5 @@
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebPackPlugin = require('script-ext-html-webpack-plugin');
-const IgnoreAssetsWebpackPlugin = require('ignore-assets-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
@@ -13,7 +11,6 @@ module.exports = {
 		new ScriptExtHtmlWebPackPlugin({
 			inline: /\.js$/
 		}),
-		new IgnoreAssetsWebpackPlugin({ignore: 'index.js'}),
 		new VueLoaderPlugin()
 	],
 	module: {
@@ -44,6 +41,5 @@ module.exports = {
 	},
 	output: {
 		filename: '[name].js',
-		path: path.resolve(__dirname, 'dist')
 	}
 };
