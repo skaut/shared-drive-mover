@@ -36,8 +36,6 @@
   },
   "scripts": {
     "build": "gulp build",
-    "build-webpack": "webpack",
-    "build-prod": "webpack --mode production",
     "lint:ts:eslint": "eslint \"src/**/*.!(json|html)\" gulpfile.js",
     "lint:ts": "npm run lint:ts:eslint",
     "lint": "npm run lint:ts"
