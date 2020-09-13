@@ -1,3 +1,5 @@
+/* exported PublicEndpoints */
+
 interface PublicEndpoints {
   doGet(): GoogleAppsScript.HTML.HtmlOutput;
   getFolders(path: Array<NamedRecord>): void;
