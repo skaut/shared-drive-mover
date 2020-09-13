@@ -1,4 +1,6 @@
-export default function(path: Array<NamedRecord>): Array<NamedRecord>
+/* exported addFolderPathNames */
+
+function addFolderPathNames(path: Array<NamedRecord>): Array<NamedRecord>
 {
 	const ret = [];
 	for(const segment of path)

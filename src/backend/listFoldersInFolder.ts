@@ -1,4 +1,6 @@
-export default function(root: string): Array<NamedRecord>
+/* exported listFoldersInFolder */
+
+function listFoldersInFolder(root: string): Array<NamedRecord>
 {
 	const ret = [];
 	let pageToken = null;

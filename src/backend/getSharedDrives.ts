@@ -1,5 +1,4 @@
-import addFolderPathNames from './addFolderPathNames';
-import listFoldersInFolder from './listFoldersInFolder';
+/* exported getSharedDrives */
 
 function addSharedDriveName(sharedDrive: NamedRecord): NamedRecord
 {
@@ -31,7 +30,7 @@ function listSharedDrives(): Array<NamedRecord>
 	return ret;
 }
 
-export default function(path: Array<NamedRecord>): ListResponse
+function getSharedDrives(path: Array<NamedRecord>): ListResponse
 {
 	if(path.length == 0)
 	{
