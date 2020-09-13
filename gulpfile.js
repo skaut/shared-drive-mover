@@ -25,4 +25,4 @@ gulp.task( 'build:backend', function() {
 		.pipe(gulp.dest('dist/'));
 } );
 
-gulp.task( 'build', gulp.series( 'build:appsscript', 'build:frontend', 'build:backend' ) );
+gulp.task( 'build', gulp.parallel( 'build:appsscript', 'build:frontend', 'build:backend' ) );
