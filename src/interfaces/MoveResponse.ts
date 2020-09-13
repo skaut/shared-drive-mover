@@ -1,5 +1,4 @@
-interface MoveResponse
-{
-	status: 'success' | 'error';
-	reason?: string;
+interface MoveResponse {
+  status: "success" | "error";
+  reason?: string;
 }
