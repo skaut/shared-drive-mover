@@ -1,3 +1,5 @@
+/* exported getSharedDrives */
+
 function addSharedDriveName(sharedDrive: NamedRecord): NamedRecord
 {
 	if(sharedDrive.name)

@@ -1,3 +1,5 @@
+/* exported move */
+
 function isSharedDriveEmpty(sharedDrive: string, notEmptyOverride: boolean): boolean
 {
 	if(notEmptyOverride)

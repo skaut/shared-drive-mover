@@ -1,3 +1,5 @@
+/* exported addFolderPathNames */
+
 function addFolderPathNames(path: Array<NamedRecord>): Array<NamedRecord>
 {
 	const ret = [];
