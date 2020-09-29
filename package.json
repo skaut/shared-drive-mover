@@ -15,7 +15,7 @@
   "devDependencies": {
     "@types/google-apps-script": "1.0.16",
     "@types/google.script.client-side": "^0.1.0",
-    "@typescript-eslint/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/eslint-plugin": "^4.3.0",
     "@typescript-eslint/parser": "^4.3.0",
     "clasp": "^1.0.0",
     "css-loader": "^4.3.0",
