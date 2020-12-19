@@ -110,7 +110,11 @@ function moveFolderContentsFiles(
   } while (pageToken !== undefined);
   for (const file of files) {
     if (file.canMove) {
-      moveFile(file.id!, source, destination);
+      try {
+        moveFile(file.id!, source, destination);
+      } catch (_) {
+        moveFileByCopy(file.id!, file.name!, destination, copyComments);
+      }
     } else {
       moveFileByCopy(file.id!, file.name!, destination, copyComments);
     }
