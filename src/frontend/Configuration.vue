@@ -6,7 +6,7 @@
     <p>
       {{ $t("configuration.description") }}
     </p>
-    <md-checkbox :value="!copyComments" @change="$emit('changeCopyComments')">
+    <md-checkbox :value="!copyComments" @change="$emit('change-copy-comments')">
       {{ $t("configuration.copy.title") }}
       <br />
       {{ $t("configuration.copy.description") }}

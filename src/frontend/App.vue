@@ -8,7 +8,7 @@
         <md-step id="configuration" :md-label="$t('steps.configuration')">
           <Configuration
             :copy-comments="copyComments"
-            @changeCopyComments="copyComments = !copyComments"
+            @change-copy-comments="copyComments = !copyComments"
             @changeDeleteOriginals="deleteOriginals = !deleteOriginals"
             @next-step="activeStep = 'folder-selection'"
           />
