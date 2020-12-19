@@ -121,7 +121,7 @@ function moveFolderContentsFiles(
         moveFileByCopy(file.id!, file.name!, destination, copyComments);
       }
     } catch (e) {
-      console.warn(e)
+      console.warn(e);
       errors++;
     }
   }
@@ -189,7 +189,11 @@ function moveFolderContents(
   destination: string,
   copyComments: boolean
 ): number {
-  const moveFileErrors = moveFolderContentsFiles(source, destination, copyComments);
+  const moveFileErrors = moveFolderContentsFiles(
+    source,
+    destination,
+    copyComments
+  );
   moveFolderContentsFolders(source, destination, copyComments);
   return moveFileErrors;
 }
@@ -204,5 +208,5 @@ function move(
     return { status: "error", reason: "notEmpty" };
   }
   const errors = moveFolderContents(folder, sharedDrive, copyComments);
-  return {status: 'success', errors};
+  return { status: "success", errors };
 }
