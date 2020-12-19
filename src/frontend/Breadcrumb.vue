@@ -1,23 +1,25 @@
 <template>
-	<span> &nbsp; &gt; &nbsp; <a @click.prevent="$emit('click', segment.id)">{{ segment.name }}</a></span>
+  <span>
+    &nbsp; &gt; &nbsp;
+    <a @click.prevent="$emit('click', segment.id)">{{ segment.name }}</a>
+  </span>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 
 export default Vue.extend({
-	props: {
-		segment: {
-			type: Object,
-			required: true
-		}
-	}
+  props: {
+    segment: {
+      type: Object,
+      required: true,
+    },
+  },
 });
 </script>
 
 <style scoped>
-a
-{
-	cursor: pointer;
+a {
+  cursor: pointer;
 }
 </style>

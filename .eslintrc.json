@@ -15,18 +15,31 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "plugin:vue/recommended"
+    "plugin:vue/recommended",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint",
+    "prettier/vue"
   ],
   "rules": {
     "no-undef": "off",
     "no-warning-comments": "warn",
     "strict": ["error", "never"],
     "@typescript-eslint/array-type": ["error", {"default": "generic"}],
-    "@typescript-eslint/indent": ["error", "tab"],
     "@typescript-eslint/member-ordering": "error",
     "@typescript-eslint/no-extraneous-class": "error",
     "@typescript-eslint/no-namespace": ["error", {"allowDeclarations": true}],
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "vue/html-indent": ["warn", "tab"]
-  }
+    "@typescript-eslint/no-non-null-assertion": "off"
+  },
+  "overrides": [
+    {
+      "files": ["gulpfile.js", "frontend.webpack.config.js"],
+      "rules": {
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
+  ]
 }

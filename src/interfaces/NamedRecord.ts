@@ -1,4 +1,6 @@
+/* exported NamedRecord */
+
 type NamedRecord = {
-	id: string;
-	name: string;
-}
+  id: string;
+  name: string;
+};
