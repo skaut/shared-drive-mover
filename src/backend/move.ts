@@ -17,13 +17,23 @@ function isSharedDriveEmpty(
   return response.items!.length === 0;
 }
 
-function moveFile(file: string, source: string, destination: string): void {
-  Drive.Files!.update({}, file, null, {
-    addParents: destination,
-    removeParents: source,
-    supportsAllDrives: true,
-    fields: "",
-  });
+function moveFile(
+  file: string,
+  name: string,
+  source: string,
+  destination: string
+): MoveErrors {
+  try {
+    Drive.Files!.update({}, file, null, {
+      addParents: destination,
+      removeParents: source,
+      supportsAllDrives: true,
+      fields: "",
+    });
+    return [];
+  } catch (_) {
+    return [name];
+  }
 }
 
 function copyFileComments(source: string, destination: string): void {
@@ -67,17 +77,22 @@ function moveFileByCopy(
   name: string,
   destination: string,
   copyComments: boolean
-): void {
-  const copy = Drive.Files!.copy(
-    {
-      parents: [{ id: destination }],
-      title: name,
-    },
-    file,
-    { supportsAllDrives: true, fields: "id" }
-  );
-  if (copyComments) {
-    copyFileComments(file, copy.id!);
+): MoveErrors {
+  try {
+    const copy = Drive.Files!.copy(
+      {
+        parents: [{ id: destination }],
+        title: name,
+      },
+      file,
+      { supportsAllDrives: true, fields: "id" }
+    );
+    if (copyComments) {
+      copyFileComments(file, copy.id!);
+    }
+    return [];
+  } catch (_) {
+    return [name];
   }
 }
 
@@ -85,7 +100,7 @@ function moveFolderContentsFiles(
   source: string,
   destination: string,
   copyComments: boolean
-): void {
+): MoveErrors {
   const files = [];
   let pageToken = null;
   do {
@@ -108,17 +123,23 @@ function moveFolderContentsFiles(
     }
     pageToken = response.nextPageToken;
   } while (pageToken !== undefined);
+  const errors: MoveErrors = [];
   for (const file of files) {
     if (file.canMove) {
       try {
-        moveFile(file.id!, source, destination);
+        errors.concat(moveFile(file.id!, file.name!, source, destination));
       } catch (_) {
-        moveFileByCopy(file.id!, file.name!, destination, copyComments);
+        errors.concat(
+          moveFileByCopy(file.id!, file.name!, destination, copyComments)
+        );
       }
     } else {
-      moveFileByCopy(file.id!, file.name!, destination, copyComments);
+      errors.concat(
+        moveFileByCopy(file.id!, file.name!, destination, copyComments)
+      );
     }
   }
+  return errors;
 }
 
 function deleteFolderIfEmpty(folder: string): void {
@@ -144,7 +165,7 @@ function moveFolderContentsFolders(
   source: string,
   destination: string,
   copyComments: boolean
-): void {
+): MoveErrors {
   const folders = [];
   let pageToken = null;
   do {
@@ -162,28 +183,37 @@ function moveFolderContentsFolders(
     }
     pageToken = response.nextPageToken;
   } while (pageToken !== undefined);
+  let errors: MoveErrors = [];
   for (const folder of folders) {
-    const newFolder = Drive.Files!.insert(
-      {
-        parents: [{ id: destination }],
-        title: folder.name,
-        mimeType: "application/vnd.google-apps.folder",
-      },
-      undefined,
-      { supportsAllDrives: true, fields: "id" }
-    );
-    moveFolderContents(folder.id!, newFolder.id!, copyComments); // eslint-disable-line @typescript-eslint/no-use-before-define
-    deleteFolderIfEmpty(folder.id!);
+    try {
+      const newFolder = Drive.Files!.insert(
+        {
+          parents: [{ id: destination }],
+          title: folder.name,
+          mimeType: "application/vnd.google-apps.folder",
+        },
+        undefined,
+        { supportsAllDrives: true, fields: "id" }
+      );
+      errors = errors.concat(
+        moveFolderContents(folder.id!, newFolder.id!, copyComments) // eslint-disable-line @typescript-eslint/no-use-before-define
+      );
+      deleteFolderIfEmpty(folder.id!);
+    } catch (_) {
+      errors.push(folder.name!);
+    }
   }
+  return errors;
 }
 
 function moveFolderContents(
   source: string,
   destination: string,
   copyComments: boolean
-): void {
-  moveFolderContentsFiles(source, destination, copyComments);
-  moveFolderContentsFolders(source, destination, copyComments);
+): MoveErrors {
+  return moveFolderContentsFiles(source, destination, copyComments).concat(
+    moveFolderContentsFolders(source, destination, copyComments)
+  );
 }
 
 function move(
@@ -195,6 +225,6 @@ function move(
   if (!isSharedDriveEmpty(sharedDrive, notEmptyOverride)) {
     return { status: "error", reason: "notEmpty" };
   }
-  moveFolderContents(folder, sharedDrive, copyComments);
-  return { status: "success" };
+  const errors = moveFolderContents(folder, sharedDrive, copyComments);
+  return { status: "success", errors };
 }
