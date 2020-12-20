@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ScriptExtHtmlWebPackPlugin = require("script-ext-html-webpack-plugin");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
