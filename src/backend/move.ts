@@ -70,6 +70,7 @@ function moveFileByCopy(
   fileID: string,
   name: string,
   destinationID: string,
+  path: Array<string>,
   copyComments: boolean
 ): MoveError | null {
   try {
@@ -86,13 +87,17 @@ function moveFileByCopy(
     }
     return null;
   } catch (e) {
-    return { file: name, error: (e as GoogleJsonResponseException).message };
+    return {
+      file: path.concat([name]),
+      error: (e as GoogleJsonResponseException).message,
+    };
   }
 }
 
 function moveFolderContentsFiles(
   sourceID: string,
   destinationID: string,
+  path: Array<string>,
   copyComments: boolean
 ): Array<MoveError> {
   const files = [];
@@ -128,11 +133,18 @@ function moveFolderContentsFiles(
           file.id!,
           file.name!,
           destinationID,
+          path,
           copyComments
         );
       }
     } else {
-      error = moveFileByCopy(file.id!, file.name!, destinationID, copyComments);
+      error = moveFileByCopy(
+        file.id!,
+        file.name!,
+        destinationID,
+        path,
+        copyComments
+      );
     }
     if (error !== null) {
       errors.push(error);
@@ -163,6 +175,7 @@ function deleteFolderIfEmpty(folderID: string): void {
 function moveFolderContentsFolders(
   sourceID: string,
   destinationID: string,
+  path: Array<string>,
   copyComments: boolean
 ): Array<MoveError> {
   const folders = [];
@@ -195,11 +208,16 @@ function moveFolderContentsFolders(
         { supportsAllDrives: true, fields: "id" }
       );
       errors = errors.concat(
-        moveFolderContents(folder.id!, newFolder.id!, copyComments) // eslint-disable-line @typescript-eslint/no-use-before-define
+        moveFolderContents(
+          folder.id!,
+          newFolder.id!,
+          path.concat([folder.name!]),
+          copyComments
+        )
       );
       deleteFolderIfEmpty(folder.id!);
     } catch (e) {
-      errors.push({ file: folder.name!, error: e as string });
+      errors.push({ file: path.concat([folder.name!]), error: e as string });
     }
   }
   return errors;
@@ -208,10 +226,16 @@ function moveFolderContentsFolders(
 function moveFolderContents(
   sourceID: string,
   destinationID: string,
+  path: Array<string>,
   copyComments: boolean
 ): Array<MoveError> {
-  return moveFolderContentsFiles(sourceID, destinationID, copyComments).concat(
-    moveFolderContentsFolders(sourceID, destinationID, copyComments)
+  return moveFolderContentsFiles(
+    sourceID,
+    destinationID,
+    path,
+    copyComments
+  ).concat(
+    moveFolderContentsFolders(sourceID, destinationID, path, copyComments)
   );
 }
 
@@ -224,6 +248,6 @@ function move(
   if (!isDirectoryEmpty(destinationID, notEmptyOverride)) {
     return { status: "error", reason: "notEmpty" };
   }
-  const errors = moveFolderContents(sourceID, destinationID, copyComments);
+  const errors = moveFolderContents(sourceID, destinationID, [], copyComments);
   return { status: "success", errors };
 }
