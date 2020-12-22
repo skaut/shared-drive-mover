@@ -22,18 +22,13 @@ function moveFile(
   name: string,
   source: string,
   destination: string
-): MoveErrors {
-  try {
-    Drive.Files!.update({}, file, null, {
-      addParents: destination,
-      removeParents: source,
-      supportsAllDrives: true,
-      fields: "",
-    });
-    return [];
-  } catch (_) {
-    return [name];
-  }
+): void {
+  Drive.Files!.update({}, file, null, {
+    addParents: destination,
+    removeParents: source,
+    supportsAllDrives: true,
+    fields: "",
+  });
 }
 
 function copyFileComments(source: string, destination: string): void {
@@ -77,7 +72,7 @@ function moveFileByCopy(
   name: string,
   destination: string,
   copyComments: boolean
-): MoveErrors {
+): MoveError | null {
   try {
     const copy = Drive.Files!.copy(
       {
@@ -90,9 +85,9 @@ function moveFileByCopy(
     if (copyComments) {
       copyFileComments(file, copy.id!);
     }
-    return [];
-  } catch (_) {
-    return [name];
+    return null;
+  } catch (e) {
+    return { file: name, error: (e as GoogleJsonResponseException).message };
   }
 }
 
@@ -100,7 +95,7 @@ function moveFolderContentsFiles(
   source: string,
   destination: string,
   copyComments: boolean
-): MoveErrors {
+): Array<MoveError> {
   const files = [];
   let pageToken = null;
   do {
@@ -123,20 +118,20 @@ function moveFolderContentsFiles(
     }
     pageToken = response.nextPageToken;
   } while (pageToken !== undefined);
-  const errors: MoveErrors = [];
+  const errors: Array<MoveError> = [];
   for (const file of files) {
+    let error = null;
     if (file.canMove) {
       try {
-        errors.concat(moveFile(file.id!, file.name!, source, destination));
+        moveFile(file.id!, file.name!, source, destination);
       } catch (_) {
-        errors.concat(
-          moveFileByCopy(file.id!, file.name!, destination, copyComments)
-        );
+        error = moveFileByCopy(file.id!, file.name!, destination, copyComments);
       }
     } else {
-      errors.concat(
-        moveFileByCopy(file.id!, file.name!, destination, copyComments)
-      );
+      error = moveFileByCopy(file.id!, file.name!, destination, copyComments);
+    }
+    if (error !== null) {
+      errors.push(error);
     }
   }
   return errors;
@@ -165,7 +160,7 @@ function moveFolderContentsFolders(
   source: string,
   destination: string,
   copyComments: boolean
-): MoveErrors {
+): Array<MoveError> {
   const folders = [];
   let pageToken = null;
   do {
@@ -183,7 +178,7 @@ function moveFolderContentsFolders(
     }
     pageToken = response.nextPageToken;
   } while (pageToken !== undefined);
-  let errors: MoveErrors = [];
+  let errors: Array<MoveError> = [];
   for (const folder of folders) {
     try {
       const newFolder = Drive.Files!.insert(
@@ -199,8 +194,8 @@ function moveFolderContentsFolders(
         moveFolderContents(folder.id!, newFolder.id!, copyComments) // eslint-disable-line @typescript-eslint/no-use-before-define
       );
       deleteFolderIfEmpty(folder.id!);
-    } catch (_) {
-      errors.push(folder.name!);
+    } catch (e) {
+      errors.push({ file: folder.name!, error: e as string });
     }
   }
   return errors;
@@ -210,7 +205,7 @@ function moveFolderContents(
   source: string,
   destination: string,
   copyComments: boolean
-): MoveErrors {
+): Array<MoveError> {
   return moveFolderContentsFiles(source, destination, copyComments).concat(
     moveFolderContentsFolders(source, destination, copyComments)
   );
