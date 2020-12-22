@@ -249,5 +249,8 @@ function move(
     return { status: "error", reason: "notEmpty" };
   }
   const errors = moveFolderContents(sourceID, destinationID, [], copyComments);
+  if (errors.length > 0) {
+    console.error(errors);
+  }
   return { status: "success", errors };
 }
