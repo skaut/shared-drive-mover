@@ -4,8 +4,17 @@
       {{ $t("done.description") }}
     </p>
     <div v-if="errors.length > 0">
-      <p>
-        {{ $t("done.errorHeader") }}
+      <p class="md-body-2">
+        <md-icon class="md-accent">error</md-icon>
+        <i18n path="done.errorHeader.text">
+          <template #link>
+            <a
+              href="https://github.com/skaut/shared-drive-mover/issues"
+              target="_blank"
+              >{{ $t("done.errorHeader.github") }}</a
+            >
+          </template>
+        </i18n>
       </p>
       <md-table>
         <md-table-row>
