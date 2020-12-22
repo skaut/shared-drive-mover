@@ -43,6 +43,7 @@
   "globals": {
 	  "google": "readonly",
 	  "ListResponse": "readonly",
+	  "MoveError": "readonly",
 	  "MoveResponse": "readonly",
 	  "NamedRecord": "readonly"
   }

@@ -12,6 +12,7 @@ import {
   MdProgress,
   MdSteppers,
   MdSubheader,
+  MdTable,
   MdToolbar,
 } from "vue-material/dist/components";
 import "vue-material/dist/vue-material.css";
@@ -32,6 +33,7 @@ Vue.use(MdList);
 Vue.use(MdProgress);
 Vue.use(MdSteppers);
 Vue.use(MdSubheader);
+Vue.use(MdTable);
 Vue.use(MdToolbar);
 
 new Vue({
