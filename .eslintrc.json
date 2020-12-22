@@ -21,9 +21,7 @@
     "prettier/vue"
   ],
   "rules": {
-    "no-undef": "off",
     "no-warning-comments": "warn",
-    "strict": ["error", "never"],
     "@typescript-eslint/array-type": ["error", {"default": "generic"}],
     "@typescript-eslint/member-ordering": "error",
     "@typescript-eslint/no-extraneous-class": "error",
@@ -41,5 +39,12 @@
         "@typescript-eslint/no-var-requires": "off"
       }
     }
-  ]
+  ],
+  "globals": {
+	  "google": "readonly",
+	  "ListResponse": "readonly",
+	  "MoveError": "readonly",
+	  "MoveResponse": "readonly",
+	  "NamedRecord": "readonly"
+  }
 }

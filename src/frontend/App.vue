@@ -53,7 +53,7 @@
           <InProgress />
         </md-step>
         <md-step id="done" :md-label="$t('steps.done')">
-          <Done />
+          <Done :errors="errors" />
         </md-step>
       </md-steppers>
       <md-dialog-confirm
@@ -106,6 +106,7 @@ export default Vue.extend({
       displayNonEmptyDialog: false,
       displayErrorDialog: false,
       optionalErrorMessage: "",
+      errors: [] as Array<MoveError>,
     };
   },
   created() {
@@ -198,6 +199,7 @@ export default Vue.extend({
           this.displayNonEmptyDialog = true;
         }
       } else {
+        this.errors = response.errors!;
         this.activeStep = "done";
       }
     },
