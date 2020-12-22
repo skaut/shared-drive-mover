@@ -1,7 +1,7 @@
 /* exported move */
 
-function isSharedDriveEmpty(
-  sharedDrive: string,
+function isDirectoryEmpty(
+  directoryID: string,
   notEmptyOverride: boolean
 ): boolean {
   if (notEmptyOverride) {
@@ -10,7 +10,7 @@ function isSharedDriveEmpty(
   const response = Drive.Files!.list({
     includeItemsFromAllDrives: true,
     maxResults: 1,
-    q: '"' + sharedDrive + '" in parents and trashed = false',
+    q: '"' + directoryID + '" in parents and trashed = false',
     supportsAllDrives: true,
     fields: "items(id)",
   });
@@ -18,25 +18,24 @@ function isSharedDriveEmpty(
 }
 
 function moveFile(
-  file: string,
-  name: string,
-  source: string,
-  destination: string
+  fileID: string,
+  sourceID: string,
+  destinationID: string
 ): void {
-  Drive.Files!.update({}, file, null, {
-    addParents: destination,
-    removeParents: source,
+  Drive.Files!.update({}, fileID, null, {
+    addParents: destinationID,
+    removeParents: sourceID,
     supportsAllDrives: true,
     fields: "",
   });
 }
 
-function copyFileComments(source: string, destination: string): void {
+function copyFileComments(sourceID: string, destinationID: string): void {
   const comments = [];
   let pageToken = null;
   do {
     const response: GoogleAppsScript.Drive.Schema.CommentList = Drive.Comments!.list(
-      source,
+      sourceID,
       {
         maxResults: 100,
         pageToken: pageToken,
@@ -56,34 +55,34 @@ function copyFileComments(source: string, destination: string): void {
     }
     const replies = comment.replies!;
     delete comment.replies;
-    const commentId = Drive.Comments!.insert(comment, destination).commentId!;
+    const commentId = Drive.Comments!.insert(comment, destinationID).commentId!;
     for (const reply of replies) {
       if (!reply.author!.isAuthenticatedUser) {
         reply.content =
           "*" + reply.author!.displayName! + ":*\n" + reply.content!;
       }
-      Drive.Replies!.insert(reply, destination, commentId);
+      Drive.Replies!.insert(reply, destinationID, commentId);
     }
   }
 }
 
 function moveFileByCopy(
-  file: string,
+  fileID: string,
   name: string,
-  destination: string,
+  destinationID: string,
   copyComments: boolean
 ): MoveError | null {
   try {
     const copy = Drive.Files!.copy(
       {
-        parents: [{ id: destination }],
+        parents: [{ id: destinationID }],
         title: name,
       },
-      file,
+      fileID,
       { supportsAllDrives: true, fields: "id" }
     );
     if (copyComments) {
-      copyFileComments(file, copy.id!);
+      copyFileComments(fileID, copy.id!);
     }
     return null;
   } catch (e) {
@@ -92,8 +91,8 @@ function moveFileByCopy(
 }
 
 function moveFolderContentsFiles(
-  source: string,
-  destination: string,
+  sourceID: string,
+  destinationID: string,
   copyComments: boolean
 ): Array<MoveError> {
   const files = [];
@@ -102,7 +101,7 @@ function moveFolderContentsFiles(
     const response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
       q:
         '"' +
-        source +
+        sourceID +
         '" in parents and mimeType != "application/vnd.google-apps.folder" and trashed = false',
       pageToken: pageToken,
       maxResults: 1000,
@@ -123,12 +122,17 @@ function moveFolderContentsFiles(
     let error = null;
     if (file.canMove) {
       try {
-        moveFile(file.id!, file.name!, source, destination);
+        moveFile(file.id!, sourceID, destinationID);
       } catch (_) {
-        error = moveFileByCopy(file.id!, file.name!, destination, copyComments);
+        error = moveFileByCopy(
+          file.id!,
+          file.name!,
+          destinationID,
+          copyComments
+        );
       }
     } else {
-      error = moveFileByCopy(file.id!, file.name!, destination, copyComments);
+      error = moveFileByCopy(file.id!, file.name!, destinationID, copyComments);
     }
     if (error !== null) {
       errors.push(error);
@@ -137,28 +141,28 @@ function moveFolderContentsFiles(
   return errors;
 }
 
-function deleteFolderIfEmpty(folder: string): void {
+function deleteFolderIfEmpty(folderID: string): void {
   const response = Drive.Files!.list({
     maxResults: 1,
-    q: '"' + folder + '" in parents and trashed = false',
+    q: '"' + folderID + '" in parents and trashed = false',
     fields: "items(id)",
   });
   if (response.items!.length === 0) {
-    const response2 = Drive.Files!.get(folder, {
+    const response2 = Drive.Files!.get(folderID, {
       fields: "userPermission(role)",
     });
     if (
       response2.userPermission!.role === "owner" ||
       response2.userPermission!.role === "organizer"
     ) {
-      Drive.Files!.remove(folder);
+      Drive.Files!.remove(folderID);
     }
   }
 }
 
 function moveFolderContentsFolders(
-  source: string,
-  destination: string,
+  sourceID: string,
+  destinationID: string,
   copyComments: boolean
 ): Array<MoveError> {
   const folders = [];
@@ -167,7 +171,7 @@ function moveFolderContentsFolders(
     const response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
       q:
         '"' +
-        source +
+        sourceID +
         '" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
       pageToken: pageToken,
       maxResults: 1000,
@@ -183,7 +187,7 @@ function moveFolderContentsFolders(
     try {
       const newFolder = Drive.Files!.insert(
         {
-          parents: [{ id: destination }],
+          parents: [{ id: destinationID }],
           title: folder.name,
           mimeType: "application/vnd.google-apps.folder",
         },
@@ -202,24 +206,24 @@ function moveFolderContentsFolders(
 }
 
 function moveFolderContents(
-  source: string,
-  destination: string,
+  sourceID: string,
+  destinationID: string,
   copyComments: boolean
 ): Array<MoveError> {
-  return moveFolderContentsFiles(source, destination, copyComments).concat(
-    moveFolderContentsFolders(source, destination, copyComments)
+  return moveFolderContentsFiles(sourceID, destinationID, copyComments).concat(
+    moveFolderContentsFolders(sourceID, destinationID, copyComments)
   );
 }
 
 function move(
-  folder: string,
-  sharedDrive: string,
+  sourceID: string,
+  destinationID: string,
   copyComments: boolean,
   notEmptyOverride: boolean
 ): MoveResponse {
-  if (!isSharedDriveEmpty(sharedDrive, notEmptyOverride)) {
+  if (!isDirectoryEmpty(destinationID, notEmptyOverride)) {
     return { status: "error", reason: "notEmpty" };
   }
-  const errors = moveFolderContents(folder, sharedDrive, copyComments);
+  const errors = moveFolderContents(sourceID, destinationID, copyComments);
   return { status: "success", errors };
 }
