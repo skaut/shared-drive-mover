@@ -169,12 +169,21 @@ export default Vue.extend({
       this.getSharedDrives();
     },
     getSharedDrives(): void {
-      google.script.run
-        .withSuccessHandler((sharedDrives: ListResponse) =>
-          this.setSharedDrives(sharedDrives)
-        )
-        .withFailureHandler((response: Error) => this.handleError(response))
-        .getSharedDrives(this.sharedDrivePath);
+      if (this.sharedDrivePath.length === 0) {
+        google.script.run
+          .withSuccessHandler((sharedDrives: Array<NamedRecord>) =>
+            this.setSharedDrives({ path: [], children: sharedDrives })
+          )
+          .withFailureHandler((response: Error) => this.handleError(response))
+          .listSharedDrives();
+      } else {
+        google.script.run
+          .withSuccessHandler((sharedDrives: ListResponse) =>
+            this.setSharedDrives(sharedDrives)
+          )
+          .withFailureHandler((response: Error) => this.handleError(response))
+          .getSharedDrives(this.sharedDrivePath);
+      }
     },
     move(): void {
       this.activeStep = "progress";
