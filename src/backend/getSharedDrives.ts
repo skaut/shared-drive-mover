@@ -18,6 +18,6 @@ function getSharedDrives(path: Array<NamedRecord>): ListResponse {
   }
   return {
     path: namedPath,
-    children: listFoldersInFolder(path[path.length - 1].id),
+    children: listFolders(path[path.length - 1].id),
   };
 }
