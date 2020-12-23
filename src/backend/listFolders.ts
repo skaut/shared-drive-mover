@@ -1,6 +1,6 @@
-/* exported listFoldersInFolder */
+/* exported listFolders */
 
-function listFoldersInFolder(root: string): Array<NamedRecord> {
+function listFolders(parentID: string): Array<NamedRecord> {
   const ret = [];
   let pageToken = null;
   do {
@@ -8,7 +8,7 @@ function listFoldersInFolder(root: string): Array<NamedRecord> {
       includeItemsFromAllDrives: true,
       q:
         '"' +
-        root +
+        parentID +
         '" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
       supportsAllDrives: true,
       pageToken: pageToken,

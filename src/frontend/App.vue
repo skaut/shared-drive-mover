@@ -114,9 +114,8 @@ export default Vue.extend({
     this.getSharedDrives();
   },
   methods: {
-    setFolders(folders: ListResponse): void {
-      this.folderPath = folders.path;
-      this.folders = folders.children;
+    setFolders(folders: Array<NamedRecord>): void {
+      this.folders = folders;
     },
     navigateFolderBreadcrumb(folderId: string): void {
       if (folderId === undefined) {
@@ -132,20 +131,28 @@ export default Vue.extend({
       this.getFolders();
     },
     navigateFolder(folder: string): void {
-      this.folderPath.push({ id: folder, name: "" });
+      this.folderPath.push({
+        id: folder,
+        name: this.folders.find((item) => item.id === folder)!.name,
+      });
       this.folders = [];
       this.folder = "";
       this.getFolders();
     },
     getFolders(): void {
+      let parentID = "root";
+      if (this.folderPath.length > 0) {
+        parentID = this.folderPath[this.folderPath.length - 1].id;
+      }
       google.script.run
-        .withSuccessHandler((folders: ListResponse) => this.setFolders(folders))
+        .withSuccessHandler((folders: Array<NamedRecord>) =>
+          this.setFolders(folders)
+        )
         .withFailureHandler((response: Error) => this.handleError(response))
-        .getFolders(this.folderPath);
+        .listFolders(parentID);
     },
-    setSharedDrives(sharedDrives: ListResponse): void {
-      this.sharedDrivePath = sharedDrives.path;
-      this.sharedDrives = sharedDrives.children;
+    setSharedDrives(sharedDrives: Array<NamedRecord>): void {
+      this.sharedDrives = sharedDrives;
     },
     navigateSharedDriveBreadcrumb(sharedDriveId: string): void {
       if (sharedDriveId === undefined) {
@@ -163,18 +170,32 @@ export default Vue.extend({
       this.getSharedDrives();
     },
     navigateSharedDrive(sharedDrive: string): void {
-      this.sharedDrivePath.push({ id: sharedDrive, name: "" });
+      this.sharedDrivePath.push({
+        id: sharedDrive,
+        name: this.sharedDrives.find((item) => item.id === sharedDrive)!.name,
+      });
       this.sharedDrives = [];
       this.sharedDrive = "";
       this.getSharedDrives();
     },
     getSharedDrives(): void {
-      google.script.run
-        .withSuccessHandler((sharedDrives: ListResponse) =>
-          this.setSharedDrives(sharedDrives)
-        )
-        .withFailureHandler((response: Error) => this.handleError(response))
-        .getSharedDrives(this.sharedDrivePath);
+      if (this.sharedDrivePath.length === 0) {
+        google.script.run
+          .withSuccessHandler((sharedDrives: Array<NamedRecord>) =>
+            this.setSharedDrives(sharedDrives)
+          )
+          .withFailureHandler((response: Error) => this.handleError(response))
+          .listSharedDrives();
+      } else {
+        google.script.run
+          .withSuccessHandler((sharedDrives: Array<NamedRecord>) =>
+            this.setSharedDrives(sharedDrives)
+          )
+          .withFailureHandler((response: Error) => this.handleError(response))
+          .listFolders(
+            this.sharedDrivePath[this.sharedDrivePath.length - 1].id
+          );
+      }
     },
     move(): void {
       this.activeStep = "progress";
