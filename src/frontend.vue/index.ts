@@ -16,7 +16,7 @@ import {
   MdToolbar,
 } from "vue-material/dist/components";
 import "vue-material/dist/vue-material.css";
-import "vue-material/dist/theme/default.css";
+import "vue-material/dist/theme/default-dark.css";
 
 import App from "./App.vue";
 import I18n from "./I18n";
