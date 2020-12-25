@@ -15,7 +15,7 @@ gulp.task("build:frontend", function () {
   return gulp
     .src("src/frontend/index.ts")
     .pipe(webpack(require("./frontend.webpack.config.js")))
-    .pipe(filter(["!dist/index.js"]))
+    .pipe(filter(["index.html"]))
     .pipe(gulp.dest("dist/"));
 });
 
