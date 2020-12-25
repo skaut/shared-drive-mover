@@ -3,6 +3,7 @@
 const gulp = require("gulp");
 
 const concat = require("gulp-concat");
+const filter = require("gulp-filter");
 const ts = require("gulp-typescript");
 const webpack = require("webpack-stream");
 
@@ -14,6 +15,7 @@ gulp.task("build:frontend", function () {
   return gulp
     .src("src/frontend/index.ts")
     .pipe(webpack(require("./frontend.webpack.config.js")))
+    .pipe(filter(["!dist/index.js"]))
     .pipe(gulp.dest("dist/"));
 });
 
