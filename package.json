@@ -13,6 +13,13 @@
   "license": "MIT",
   "author": "Marek Dědič",
   "devDependencies": {
+    "@material/theme": "^8.0.0",
+    "@smui/button": "^1.0.0",
+    "@smui/checkbox": "^1.0.0",
+    "@smui/form-field": "^1.0.0",
+    "@smui/tab": "^1.0.0",
+    "@smui/tab-bar": "^1.0.0",
+    "@smui/top-app-bar": "^1.0.0",
     "@types/google-apps-script": "1.0.20",
     "@types/google.script.client-side": "^0.1.0",
     "@typescript-eslint/eslint-plugin": "^4.11.0",
@@ -22,18 +29,21 @@
     "eslint": "^7.16.0",
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-prettier": "^3.3.0",
-    "eslint-plugin-vue": "^7.3.0",
+    "eslint-plugin-svelte3": "^3.0.0",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-typescript": "^6.0.0-alpha.1",
     "html-webpack-plugin": "^4.5.0",
     "prettier": "^2.2.1",
+    "sass": "^1.30.0",
+    "sass-loader": "^10.1.0",
     "script-ext-html-webpack-plugin": "^2.1.5",
+    "style-loader": "^2.0.0",
+    "svelte": "^3.31.0",
+    "svelte-loader": "^2.13.6",
+    "svelte-preprocess": "^4.6.1",
     "ts-loader": "^8.0.12",
     "typescript": "^4.1.3",
-    "vue-loader": "^15.9.6",
-    "vue-style-loader": "^4.1.2",
-    "vue-template-compiler": "^2.6.12",
     "webpack": "^4.44.2",
     "webpack-stream": "^6.1.1"
   },
@@ -42,10 +52,5 @@
     "lint:ts:eslint": "eslint \"src/**/*.!(json|html)\" gulpfile.js frontend.webpack.config.js",
     "lint:ts": "npm run lint:ts:eslint",
     "lint": "npm run lint:ts"
-  },
-  "dependencies": {
-    "vue": "^2.6.12",
-    "vue-i18n": "^8.22.2",
-    "vue-material": "^1.0.0-beta-15"
   }
 }

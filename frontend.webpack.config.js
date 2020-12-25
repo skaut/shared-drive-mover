@@ -2,7 +2,8 @@
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ScriptExtHtmlWebPackPlugin = require("script-ext-html-webpack-plugin");
-const VueLoaderPlugin = require("vue-loader/lib/plugin");
+
+const path = require("path");
 
 module.exports = {
   mode: "production",
@@ -13,38 +14,42 @@ module.exports = {
     new ScriptExtHtmlWebPackPlugin({
       inline: /\.js$/,
     }),
-    new VueLoaderPlugin(),
   ],
   module: {
     rules: [
       {
-        test: /\.vue$/,
-        loader: "vue-loader",
-      },
-      {
-        test: /\.ts$/,
-        loader: "ts-loader",
-        options: {
-          appendTsSuffixTo: [/\.vue$/],
+        test: /\.svelte/,
+        //exclude: /node_modules/,
+        use: {
+          loader: "svelte-loader",
+          options: {
+            preprocess: require("svelte-preprocess")({tsconfigFile: "./frontend.tsconfig.json"}),
+          },
         },
-        exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
+        test: /\.(sa|sc|c)ss$/,
         use: [
-          "vue-style-loader",
+          "style-loader",
+          "css-loader",
           {
-            loader: "css-loader",
+            loader: "sass-loader",
             options: {
-              esModule: false,
+              sassOptions: {
+                includePaths: ["./src/frontend", "./node_modules"],
+              },
             },
           },
         ],
       },
     ],
-  },
   resolve: {
-    extensions: [".ts", ".js"],
+    alias: {
+      svelte: path.resolve("node_modules", "svelte"),
+    },
+    extensions: [".ts", ".js", ".svelte"],
+    mainFields: ["svelte", "browser", "module", "main"],
+  },
   },
   entry: {
     index: "./src/frontend/index.ts",
