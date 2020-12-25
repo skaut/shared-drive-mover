@@ -23,13 +23,14 @@
 </div>
 
 <script lang="ts">
-  import "./_smui-theme.scss"
+  import "svelte-i18n";
   import TopAppBar, {Row, Section, Title} from '@smui/top-app-bar';
   import Tab, {Icon, Label} from '@smui/tab';
   import TabBar from '@smui/tab-bar';
 
+  import "./_smui-theme.scss"
   import Introduction from "./Introduction.svelte";
-import ContinueTab from "./ContinueTab.svelte";
+  import ContinueTab from "./ContinueTab.svelte";
 
   const tabs = [
     {
