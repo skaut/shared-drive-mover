@@ -1,7 +1,6 @@
 /* eslint-env node */
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ScriptExtHtmlWebPackPlugin = require("script-ext-html-webpack-plugin");
 
 const path = require("path");
 
@@ -10,20 +9,20 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/frontend/index.html",
-    }),
-    new ScriptExtHtmlWebPackPlugin({
-      inline: /\.js$/,
+      minify: false,
+      inject: false,
     }),
   ],
   module: {
     rules: [
       {
         test: /\.svelte/,
-        //exclude: /node_modules/,
         use: {
           loader: "svelte-loader",
           options: {
-            preprocess: require("svelte-preprocess")({tsconfigFile: "./frontend.tsconfig.json"}),
+            preprocess: require("svelte-preprocess")({
+              tsconfigFile: "./frontend.tsconfig.json",
+            }),
           },
         },
       },
