@@ -43,13 +43,13 @@ module.exports = {
         ],
       },
     ],
+  },
   resolve: {
     alias: {
       svelte: path.resolve("node_modules", "svelte"),
     },
     extensions: [".ts", ".js", ".svelte"],
     mainFields: ["svelte", "browser", "module", "main"],
-  },
   },
   entry: {
     index: "./src/frontend/index.ts",
