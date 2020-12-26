@@ -1,22 +1,19 @@
-<p>
-  {$_("steps.source-selection.introduction")}
-</p>
-{#if items === null}
-  <LinearProgress indeterminate/>
-{:else}
-  <List singleSelection>
-    <Subheader>
-      <a on:click={rootNavigation}>
-        {$_("drive.driveList")}
+<List singleSelection>
+  <Subheader>
+    <a on:click={rootNavigation}>
+      {$_("drive.driveList")}
+    </a>
+    {#each path as segment (segment.id)}
+      &nbsp; &gt; &nbsp;
+      <a on:click={() => breadcrumbNavigation(segment)}>
+        {segment.name}
       </a>
-      {#each path as segment (segment.id)}
-        &nbsp; &gt; &nbsp;
-        <a on:click={() => breadcrumbNavigation(segment)}>
-          {segment.name}
-        </a>
-      {/each}
-    </Subheader>
-    <Separator/>
+    {/each}
+  </Subheader>
+  <Separator/>
+  {#if items === null}
+    <LinearProgress indeterminate/>
+  {:else}
     {#each items as item (item.id)}
       <Item on:dblclick={() => itemNavigation(item)} on:SMUI:action={() => selected = item.id} selected={selected === item.id}>
         <Text>
@@ -24,8 +21,8 @@
         </Text>
       </Item>
     {/each}
-  </List>
-{/if}
+  {/if}
+</List>
 
 <script lang="ts">
   import {createEventDispatcher} from "svelte";
@@ -41,19 +38,16 @@
   let items = null;
 
   function rootNavigation(): void {
-    selected = null;
     path = [];
     getItems();
   }
 
   function breadcrumbNavigation(segment: NamedRecord): void {
-    selected = null;
     path = path.slice(0, path.findIndex((item) => item.id === segment.id) + 1);
     getItems();
   }
 
   function itemNavigation(item: NamedRecord): void {
-    selected = null;
     path = [...path, item];
     getItems();
   }
@@ -73,6 +67,8 @@
   }
 
   function getItems(): void {
+    selected = null;
+    items = null;
     if(path.length === 0) {
       google.script.run
         .withSuccessHandler(handleSharedDriveResponse)
