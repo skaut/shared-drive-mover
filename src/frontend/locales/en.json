@@ -10,6 +10,19 @@
 					"description": "Copy comments from the original files. The comments will be created as if you made them, with the original commenter tagged. Note that this may slow down the moving."
 				}
 			}
+		},
+		"source-selection": {
+			"tabLabel": "Source selection",
+			"introduction": "Please select the folder to copy files from."
+		},
+		"destination-selection": {
+			"tabLabel": "Destination selection"
+		},
+		"confirmation": {
+			"tabLabel": "Confirmation"
+		},
+		"done": {
+			"tabLabel": "Done"
 		}
 	},
 	"continue": {

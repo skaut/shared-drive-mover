@@ -19,6 +19,10 @@
     <ContinueTab on:next={() => currentTab = tabs[1]}>
       <Introduction bind:copyComments={copyComments}/>
     </ContinueTab>
+  {:else if currentTab.id === "source-selection"}
+    <ContinueTab on:next={() => currentTab = tabs[2]}>
+      <FolderSelection on:error={() => {}} bind:path={sourcePath}/> <!-- TODO -->
+    </ContinueTab>
   {/if}
 </div>
 
@@ -31,6 +35,7 @@
   import "./_smui-theme.scss"
   import Introduction from "./Introduction.svelte";
   import ContinueTab from "./ContinueTab.svelte";
+  import FolderSelection from "./FolderSelection.svelte";
 
   import en from "./locales/en.json"
   import cs from "./locales/cs.json"
@@ -45,16 +50,30 @@
   const tabs = [
     {
       id: "introduction",
-      icon: "check_box",
+      icon: "settings",
     },
     {
-      id: "bogus",
-      icon: "near_me",
+      id: "source-selection",
+      icon: "content_copy",
+    },
+    {
+      id: "destination-selection",
+      icon: "content_paste",
+    },
+    {
+      id: "confirmation",
+      icon: "check_box_outline_blank",
+    },
+    {
+      id: "done",
+      icon: "check_box",
     },
   ]
-  let currentTab = tabs[0];
+  let currentTab = tabs[1];
 
   let copyComments = true;
+  let sourcePath: Array<NamedRecord> = [];
+  let destinationPath: Array<NamedRecord> = [];
 </script>
 
 <style lang="scss">
