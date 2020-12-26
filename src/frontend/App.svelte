@@ -11,12 +11,12 @@
 <TabBar tabs={tabs} let:tab key={tab => tab.id} bind:active={currentTab}>
   <Tab {tab}>
     <Icon class="material-icons">{tab.icon}</Icon>
-    <Label>{tab.label}</Label>
+    <Label>{$_("steps." + tab.id + ".tabLabel")}</Label>
   </Tab>
 </TabBar>
 <div id="tab">
   {#if currentTab.id === "introduction"}
-    <ContinueTab on:next={currentTab = tabs[1]}>
+    <ContinueTab on:next={() => currentTab = tabs[1]}>
       <Introduction/>
     </ContinueTab>
   {/if}
@@ -33,9 +33,10 @@
   import ContinueTab from "./ContinueTab.svelte";
 
   import en from "./locales/en.json"
-  import en from "./locales/cs.json"
+  import cs from "./locales/cs.json"
 
   addMessages('en', en);
+  addMessages('cs', cs);
   init({
     fallbackLocale: "en",
     initialLocale: "<?= Session.getActiveUserLocale() ?>",
@@ -44,16 +45,13 @@
   const tabs = [
     {
       id: "introduction",
-      icon: "favorite",
-      label: $_("steps.introduction.tabLabel"),
+      icon: "check_box",
     },
     {
       id: "bogus",
       icon: "near_me",
-      label: "Near me",
     },
   ]
-
   let currentTab = tabs[0];
 </script>
 
@@ -63,6 +61,6 @@
   }
 
   #tab {
-    margin: 8px;
+    margin: 15px;
   }
 </style>

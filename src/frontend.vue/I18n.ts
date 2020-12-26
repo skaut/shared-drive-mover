@@ -31,19 +31,7 @@ export default new VueI18n({
           optionalErrorMessage: "Error message: ",
         },
       },
-      continueButton: "Continue",
       moveButton: "Move",
-      configuration: {
-        introduction:
-          'Welcome to the Shared drive mover, a tool for moving files and folders from regular Google Drive (i. e. "My Drive") to a Shared drive (formerly known as a Team drive). In the following steps, you will select a folder and a Shared drive (or a subfolder of a Shared drive). The contents of the selected folder will then be moved to the Shared drive (or to the selected subfolder). This process can take some time, so please be patient.',
-        description:
-          "When moving files of which you are not the owner, instead of moving the file a copy is created in the destination Shared drive. For such a case, there are several options that can be configured:",
-        copy: {
-          title: "Copy comments",
-          description:
-            "Copy comments from the original files. The comments will be created as if you made them, with the original commenter tagged. Note that this may slow down the moving.",
-        },
-      },
       confirmation: {
         description:
           'Are you sure you want to move the contents of the folder "{folderName}" into the Shared drive "{sharedDriveName}"?',

@@ -1,7 +1,18 @@
 {
 	"steps": {
 		"introduction": {
-			"tabLabel": "HOORAY"
+			"tabLabel": "Introduction",
+			"welcome": "Welcome to the Shared drive mover, a tool for moving files and folders from regular Google Drive (i. e. \"My Drive\") to a Shared drive (formerly known as a Team drive). In the following steps, you will select a folder and a Shared drive (or a subfolder of a Shared drive). The contents of the selected folder will then be moved to the Shared drive (or to the selected subfolder). This process can take some time, so please be patient.",
+			"configuration": {
+				"header": "When moving files of which you are not the owner, instead of moving the file a copy is created in the destination Shared drive. For such a case, there are several options that can be configured:",
+				"copyComments": {
+					"title": "Copy comments",
+					"description": "Copy comments from the original files. The comments will be created as if you made them, with the original commenter tagged. Note that this may slow down the moving."
+				}
+			}
 		}
+	},
+	"continue": {
+		"buttonLabel": "Continue"
 	}
 }

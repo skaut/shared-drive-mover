@@ -1,19 +1,20 @@
 <p>
-  welcome.text
+  {$_("steps.introduction.welcome")}
 </p>
 <p>
-  config.header
+  {$_("steps.introduction.configuration.header")}
 </p>
 <FormField>
   <Checkbox bind:checked={copyComments}/>
   <span slot="label">
-    copy.title
+    {$_("steps.introduction.configuration.copyComments.title")}
     <br/>
-    copy.description
+    {$_("steps.introduction.configuration.copyComments.description")}
   </span>
 </FormField>
 
 <script lang="ts">
+  import {_} from "svelte-i18n";
   import FormField from "@smui/form-field";
   import Checkbox from "@smui/checkbox";
 
