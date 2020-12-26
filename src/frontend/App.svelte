@@ -23,7 +23,7 @@
 </div>
 
 <script lang="ts">
-  import "svelte-i18n";
+  import {addMessages, init, _} from "svelte-i18n";
   import TopAppBar, {Row, Section, Title} from '@smui/top-app-bar';
   import Tab, {Icon, Label} from '@smui/tab';
   import TabBar from '@smui/tab-bar';
@@ -32,11 +32,20 @@
   import Introduction from "./Introduction.svelte";
   import ContinueTab from "./ContinueTab.svelte";
 
+  import en from "./locales/en.json"
+  import en from "./locales/cs.json"
+
+  addMessages('en', en);
+  init({
+    fallbackLocale: "en",
+    initialLocale: "<?= Session.getActiveUserLocale() ?>",
+  })
+
   const tabs = [
     {
       id: "introduction",
       icon: "favorite",
-      label: "Introduction",
+      label: $_("steps.introduction.tabLabel"),
     },
     {
       id: "bogus",
