@@ -27,5 +27,9 @@
 	},
 	"continue": {
 		"buttonLabel": "Continue"
+	},
+	"drive": {
+		"driveList": "Drive Selection",
+		"myDrive": "My Drive"
 	}
 }

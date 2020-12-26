@@ -21,7 +21,7 @@
     </ContinueTab>
   {:else if currentTab.id === "source-selection"}
     <ContinueTab on:next={() => currentTab = tabs[2]}>
-      <FolderSelection on:error={() => {}} bind:path={sourcePath}/> <!-- TODO -->
+      <FolderSelection on:error={() => {}} bind:path={sourcePath} bind:selected={source} /> <!-- TODO -->
     </ContinueTab>
   {/if}
 </div>
@@ -74,6 +74,7 @@
   let copyComments = true;
   let sourcePath: Array<NamedRecord> = [];
   let destinationPath: Array<NamedRecord> = [];
+  let source: NamedRecord|null = null;
 </script>
 
 <style lang="scss">
