@@ -1,4 +1,3 @@
-<slot/>
 <br/>
 <br/>
 <Button variant="raised" on:click={() => dispatch("next")}>

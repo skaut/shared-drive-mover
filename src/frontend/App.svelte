@@ -16,13 +16,11 @@
 </TabBar>
 <div id="tab">
   {#if currentTab.id === "introduction"}
-    <ContinueTab on:next={() => currentTab = tabs[1]}>
-      <Introduction bind:copyComments={copyComments}/>
-    </ContinueTab>
+    <Introduction bind:copyComments={copyComments}/>
+    <ContinueTab on:next={() => currentTab = tabs[1]}/>
   {:else if currentTab.id === "source-selection"}
-    <ContinueTab on:next={() => currentTab = tabs[2]}>
-      <FolderSelection on:error={() => {}} bind:path={sourcePath} bind:selected={source} /> <!-- TODO -->
-    </ContinueTab>
+    <FolderSelection on:error={() => {}} bind:path={sourcePath} bind:selected={source} /> <!-- TODO -->
+    <ContinueTab on:next={() => currentTab = tabs[2]}/>
   {/if}
 </div>
 
