@@ -17,7 +17,7 @@
 <div id="tab">
   {#if currentTab.id === "introduction"}
     <ContinueTab on:next={() => currentTab = tabs[1]}>
-      <Introduction/>
+      <Introduction bind:copyComments={copyComments}/>
     </ContinueTab>
   {/if}
 </div>
@@ -53,6 +53,8 @@
     },
   ]
   let currentTab = tabs[0];
+
+  let copyComments = true;
 </script>
 
 <style lang="scss">
