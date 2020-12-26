@@ -33,6 +33,7 @@
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-filter": "^6.0.0",
+    "gulp-replace": "^1.0.0",
     "gulp-typescript": "^6.0.0-alpha.1",
     "html-webpack-plugin": "^4.5.0",
     "prettier": "^2.2.1",

@@ -4,6 +4,7 @@ const gulp = require("gulp");
 
 const concat = require("gulp-concat");
 const filter = require("gulp-filter");
+const replace = require("gulp-replace");
 const ts = require("gulp-typescript");
 const webpack = require("webpack-stream");
 
@@ -16,6 +17,7 @@ gulp.task("build:frontend", function () {
     .src("src/frontend/index.ts")
     .pipe(webpack(require("./frontend.webpack.config.js")))
     .pipe(filter(["index.html"]))
+    .pipe(replace("\u0085", "\\u0085"))
     .pipe(gulp.dest("dist/"));
 });
 
