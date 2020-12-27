@@ -18,5 +18,5 @@
   import FormField from "@smui/form-field";
   import Checkbox from "@smui/checkbox";
 
-  export let copyComments: bool;
+  export let copyComments: boolean;
 </script>

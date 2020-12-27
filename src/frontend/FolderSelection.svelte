@@ -1,13 +1,13 @@
 <List singleSelection>
   <Subheader>
-    <a on:click={rootNavigation}>
+    <span class="breadcrumb" on:click={rootNavigation}>
       {$_("drive.driveList")}
-    </a>
+    </span>
     {#each path as segment (segment.id)}
       &nbsp; &gt; &nbsp;
-      <a on:click={() => breadcrumbNavigation(segment)}>
+      <span class="breadcrumb" on:click={() => breadcrumbNavigation(segment)}>
         {segment.name}
-      </a>
+      </span>
     {/each}
   </Subheader>
   <Separator/>
@@ -35,7 +35,7 @@
 
   const dispatch = createEventDispatcher();
 
-  let items = null;
+  let items: Array<NamedRecord>|null = null;
 
   function rootNavigation(): void {
     selected = null;
@@ -65,7 +65,7 @@
 
   function handleError(response: Error): void {
     dispatch("error", {
-      message: reponse.message,
+      message: response.message,
     })
   }
 
@@ -90,7 +90,7 @@
 <style lang="scss">
   @import "./_smui-theme.scss";
 
-  a {
+  .breadcrumb {
     cursor: pointer;
     color: $mdc-theme-primary;
   }

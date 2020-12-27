@@ -1,5 +1,5 @@
 <p>
-{$_("steps.confirmation.introduction", {values: { source: sourceDisplay, destination: destinationDisplay }})}
+  {$_("steps.confirmation.introduction", {values: { source: sourceDisplay, destination: destinationDisplay }})}
 </p>
 <Button variant="raised" on:click={() => dispatch("next")}>
   <Label>{$_("steps.confirmation.buttonLabel")}</Label>
@@ -13,11 +13,11 @@
 
   export let sourcePath: Array<NamedRecord> = [];
   export let destinationPath: Array<NamedRecord> = [];
-  export let source: NamedRecord|null = {id: "", name: "BAD"};
-  export let destination: NamedRecord;
+  export let source: NamedRecord|null;
+  export let destination: NamedRecord|null;
 
   const dispatch = createEventDispatcher();
 
-  $: sourceDisplay = sourcePath.map((segment) => segment.name + "/").join("") + source.name;
-  $: destinationDisplay = destinationPath.map((segment) => segment.name + "/").join("") + destination.name;
+  $: sourceDisplay = sourcePath.map((segment) => segment.name + "/").join("") + source?.name;
+  $: destinationDisplay = destinationPath.map((segment) => segment.name + "/").join("") + destination?.name;
 </script>
