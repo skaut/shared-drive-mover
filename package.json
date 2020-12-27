@@ -38,11 +38,13 @@
     "gulp-replace": "^1.0.0",
     "gulp-typescript": "^6.0.0-alpha.1",
     "html-webpack-plugin": "^4.5.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.2.1",
     "sass": "^1.30.0",
     "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
     "svelte": "^3.31.0",
+    "svelte-check": "^1.1.23",
     "svelte-i18n": "^3.3.0",
     "svelte-loader": "^2.13.6",
     "svelte-preprocess": "^4.6.1",
@@ -53,8 +55,10 @@
   },
   "scripts": {
     "build": "gulp build",
+    "lint:svelte:svelte-check": "svelte-check",
+    "lint:svelte": "run-s -c lint:svelte:*",
     "lint:ts:eslint": "eslint \"src/**/*.!(json|html)\" gulpfile.js frontend.webpack.config.js",
-    "lint:ts": "npm run lint:ts:eslint",
-    "lint": "npm run lint:ts"
+    "lint:ts": "run-s -c lint:ts:*",
+    "lint": "run-s -c lint:*"
   }
 }

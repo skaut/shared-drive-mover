@@ -1,8 +1,7 @@
 {
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
-    "project": "./tsconfig.json",
-    "extraFileExtensions": ["vue"]
+    "project": "./tsconfig.json"
   },
   "env": {
     "browser": true,
@@ -15,10 +14,8 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "plugin:vue/recommended",
     "plugin:prettier/recommended",
-    "prettier/@typescript-eslint",
-    "prettier/vue"
+    "prettier/@typescript-eslint"
   ],
   "rules": {
     "no-warning-comments": "warn",
