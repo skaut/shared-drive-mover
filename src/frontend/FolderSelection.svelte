@@ -15,7 +15,7 @@
     <LinearProgress indeterminate/>
   {:else}
     {#each items as item (item.id)}
-      <Item on:dblclick={() => itemNavigation(item)} on:SMUI:action={() => selected = item.id} selected={selected === item.id}>
+      <Item on:dblclick={() => itemNavigation(item)} on:SMUI:action={() => selected = item} selected={selected !== null && selected.id === item.id}>
         <Text>
           {item.name}
         </Text>
@@ -38,16 +38,19 @@
   let items = null;
 
   function rootNavigation(): void {
+    selected = null;
     path = [];
     getItems();
   }
 
   function breadcrumbNavigation(segment: NamedRecord): void {
+    selected = null;
     path = path.slice(0, path.findIndex((item) => item.id === segment.id) + 1);
     getItems();
   }
 
   function itemNavigation(item: NamedRecord): void {
+    selected = null;
     path = [...path, item];
     getItems();
   }
@@ -67,7 +70,6 @@
   }
 
   function getItems(): void {
-    selected = null;
     items = null;
     if(path.length === 0) {
       google.script.run

@@ -22,24 +22,33 @@
     <p>
       {$_("steps.source-selection.introduction")}
     </p>
-    <FolderSelection on:error={() => {}} bind:path={sourcePath} bind:selected={source} /> <!-- TODO -->
+    <FolderSelection on:error={() => {}} bind:path={sourcePath} bind:selected={source}/> <!-- TODO -->
     <ContinueTab on:next={() => currentTab = tabs[2]}/>
+  {:else if currentTab.id === "destination-selection"}
+    <p>
+      {$_("steps.destination-selection.introduction")}
+    </p>
+    <FolderSelection on:error={() => {}} bind:path={destinationPath} bind:selected={destination}/> <!-- TODO -->
+    <ContinueTab on:next={() => currentTab = tabs[3]}/>
+  {:else if currentTab.id === "confirmation"}
+    <Confirmation on:next={() => currentTab = tabs[4]} {sourcePath} {destinationPath} {source} {destination}/>
   {/if}
 </div>
 
 <script lang="ts">
   import {addMessages, init, _} from "svelte-i18n";
-  import TopAppBar, {Row, Section, Title} from '@smui/top-app-bar';
   import Tab, {Icon, Label} from '@smui/tab';
   import TabBar from '@smui/tab-bar';
+  import TopAppBar, {Row, Section, Title} from '@smui/top-app-bar';
 
   import "./_smui-theme.scss"
-  import Introduction from "./Introduction.svelte";
+  import Confirmation from "./Confirmation.svelte";
   import ContinueTab from "./ContinueTab.svelte";
   import FolderSelection from "./FolderSelection.svelte";
+  import Introduction from "./Introduction.svelte";
 
-  import en from "./locales/en.json"
   import cs from "./locales/cs.json"
+  import en from "./locales/en.json"
 
   addMessages('en', en);
   addMessages('cs', cs);
@@ -76,6 +85,7 @@
   let sourcePath: Array<NamedRecord> = [];
   let destinationPath: Array<NamedRecord> = [];
   let source: NamedRecord|null = null;
+  let destination: NamedRecord|null = null;
 </script>
 
 <style lang="scss">

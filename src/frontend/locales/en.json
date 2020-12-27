@@ -16,10 +16,13 @@
 			"introduction": "Please select the folder to copy files from."
 		},
 		"destination-selection": {
-			"tabLabel": "Destination selection"
+			"tabLabel": "Destination selection",
+			"introduction": "Please select the folder to copy files to."
 		},
 		"confirmation": {
-			"tabLabel": "Confirmation"
+			"tabLabel": "Confirmation",
+			"introduction": "Are you sure you want to move the contents of the folder \"{source}\" into the folder \"{destination}\"?",
+			"buttonLabel": "Move"
 		},
 		"done": {
 			"tabLabel": "Done"
