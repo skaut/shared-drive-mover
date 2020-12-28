@@ -1,7 +1,6 @@
 {
 	"steps": {
 		"introduction": {
-			"tabLabel": "Introduction",
 			"welcome": "Welcome to the Shared drive mover, a tool for moving files and folders from regular Google Drive (i. e. \"My Drive\") to a Shared drive (formerly known as a Team drive). In the following steps, you will select a folder and a Shared drive (or a subfolder of a Shared drive). The contents of the selected folder will then be moved to the Shared drive (or to the selected subfolder). This process can take some time, so please be patient.",
 			"configuration": {
 				"header": "When moving files of which you are not the owner, instead of moving the file a copy is created in the destination Shared drive. For such a case, there are several options that can be configured:",
@@ -12,20 +11,26 @@
 			}
 		},
 		"source-selection": {
-			"tabLabel": "Source selection",
 			"introduction": "Please select the folder to copy files from."
 		},
 		"destination-selection": {
-			"tabLabel": "Destination selection",
 			"introduction": "Please select the folder to copy files to."
 		},
 		"confirmation": {
-			"tabLabel": "Confirmation",
 			"introduction": "Are you sure you want to move the contents of the folder \"{source}\" into the folder \"{destination}\"?",
 			"buttonLabel": "Move"
 		},
+		"moving": {
+			"introduction": "Shared Drive mover is moving your files. Please do not close this tab."
+		},
 		"done": {
-			"tabLabel": "Done"
+			"introduction": "Successfully moved. You can delete the original files from your Google Drive - some of them may have been left behind as they cannot be removed automatically.",
+			"errors": {
+				"introduction": "While moving the files, some errors were encountered and the following files couldn't be moved. Please move these files manually and report these failures in {link} if you think they are caused by bugs in this tool.",
+				"github": "GitHub",
+				"file": "File",
+				"message": "Error message"
+			}
 		}
 	},
 	"continue": {

@@ -8,14 +8,6 @@ export default new VueI18n({
   fallbackLocale: "en",
   messages: {
     en: {
-      steps: {
-        folderSelection: "Source folder selection",
-        sharedDriveSelection: "Destination Shared drive selection",
-        configuration: "Configuration",
-        confirmation: "Confirmation",
-        progress: "In progress",
-        done: "Done",
-      },
       dialogs: {
         nonEmpty: {
           title: "Shared drive not empty",
@@ -30,23 +22,6 @@ export default new VueI18n({
             "An unknown error occured. Please check the source folder and the destination Shared Drive and try again.",
           optionalErrorMessage: "Error message: ",
         },
-      },
-      done: {
-        description:
-          "Successfully moved. You can delete the original files from your Google Drive - some of them may have been left behind as they cannot be removed automatically.",
-        errorHeader: {
-          text:
-            "While moving the files, some errors were encountered and the following files couldn't be moved. Please move these files manually and report these failures in {link} if you think they are caused by bugs in this tool.",
-          github: "GitHub",
-        },
-        file: "File",
-        message: "Error message",
-      },
-      folderSelector: {
-        myDrive: "My Drive",
-      },
-      sharedDriveSelector: {
-        sharedDriveList: "Shared drive list",
       },
     },
     cs: {

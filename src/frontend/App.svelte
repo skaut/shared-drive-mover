@@ -8,7 +8,12 @@
     </Section>
   </Row>
 </TopAppBar>
-<LinearProgress {progress} />
+{#if progress > 0}
+  <LinearProgress {progress} />
+{/if}
+{#if moving}
+  <LinearProgress indeterminate />
+{/if}
 <div id="tab">
   {#if currentTab === "introduction"}
     <Introduction bind:copyComments={copyComments}/>
@@ -26,7 +31,13 @@
     <FolderSelection on:error={() => {}} bind:path={destinationPath} bind:selected={destination}/> <!-- TODO -->
     <ContinueTab disabled={destination === null} on:next={() => currentTab = "confirmation"}/>
   {:else if currentTab === "confirmation"}
-    <Confirmation on:next={() => currentTab = "done"} {sourcePath} {destinationPath} {source} {destination}/>
+    <Confirmation on:next={move} {sourcePath} {destinationPath} {source} {destination}/>
+  {:else if currentTab === "moving"}
+    <p>
+      {$_("steps.moving.introduction")}
+    </p>
+  {:else if currentTab === "done"}
+    <Done {errors}/>
   {/if}
 </div>
 
@@ -38,6 +49,7 @@
   import "./_smui-theme.scss"
   import Confirmation from "./Confirmation.svelte";
   import ContinueTab from "./ContinueTab.svelte";
+  import Done from "./Done.svelte";
   import FolderSelection from "./FolderSelection.svelte";
   import Introduction from "./Introduction.svelte";
 
@@ -51,19 +63,39 @@
     initialLocale: "<?= Session.getActiveUserLocale() ?>",
   })
 
-  let currentTab = "introduction";
+  let currentTab: "introduction"|"source-selection"|"destination-selection"|"confirmation"|"moving"|"done" = "introduction";
+  let moving = false;
 
   $: progress = currentTab === "introduction" ? 1/5 :
     currentTab === "source-selection" ? 2/5 :
     currentTab === "destination-selection" ? 3/5 :
-    currentTab === "confirmation" ? 4/5 :
-    currentTab === "done" ? 1 : 0;
+    currentTab === "confirmation" ? 4/5 : 0;
 
   let copyComments = true;
   let sourcePath: Array<NamedRecord> = [];
   let destinationPath: Array<NamedRecord> = [];
   let source: NamedRecord|null = null;
   let destination: NamedRecord|null = null;
+  let errors: Array<MoveError>|null = null;
+
+  function move(): void {
+    currentTab = "moving";
+    moving = true;
+    google.script.run
+      .withSuccessHandler(moveSuccessHandler)
+      .withFailureHandler()
+      .move(source.id, destination.id, copyComments, false);
+  }
+
+  function moveSuccessHandler(response: MoveResponse|Error): void {
+    moving = false;
+    if (response.status === "error") {
+      // TODO
+      return;
+    }
+    errors = response.errors;
+    currentTab = "done";
+  }
 </script>
 
 <style lang="scss">
