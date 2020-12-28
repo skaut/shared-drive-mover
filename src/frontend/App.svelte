@@ -8,37 +8,29 @@
     </Section>
   </Row>
 </TopAppBar>
-<TabBar tabs={tabs} let:tab key={tab => tab.id} bind:active={currentTab}>
-  <Tab {tab}>
-    <Icon class="material-icons">{tab.icon}</Icon>
-    <Label>{$_("steps." + tab.id + ".tabLabel")}</Label>
-  </Tab>
-</TabBar>
 <div id="tab">
-  {#if currentTab.id === "introduction"}
+  {#if currentTab === "introduction"}
     <Introduction bind:copyComments={copyComments}/>
-    <ContinueTab on:next={() => currentTab = tabs[1]}/>
-  {:else if currentTab.id === "source-selection"}
+    <ContinueTab disabled={false} on:next={() => currentTab = "source-selection"}/>
+  {:else if currentTab === "source-selection"}
     <p>
       {$_("steps.source-selection.introduction")}
     </p>
     <FolderSelection on:error={() => {}} bind:path={sourcePath} bind:selected={source}/> <!-- TODO -->
-    <ContinueTab on:next={() => currentTab = tabs[2]}/>
-  {:else if currentTab.id === "destination-selection"}
+    <ContinueTab disabled={source === null} on:next={() => currentTab = "destination-selection"}/>
+  {:else if currentTab === "destination-selection"}
     <p>
       {$_("steps.destination-selection.introduction")}
     </p>
     <FolderSelection on:error={() => {}} bind:path={destinationPath} bind:selected={destination}/> <!-- TODO -->
-    <ContinueTab on:next={() => currentTab = tabs[3]}/>
-  {:else if currentTab.id === "confirmation"}
-    <Confirmation on:next={() => currentTab = tabs[4]} {sourcePath} {destinationPath} {source} {destination}/>
+    <ContinueTab disabled={destination === null} on:next={() => currentTab = "confirmation"}/>
+  {:else if currentTab === "confirmation"}
+    <Confirmation on:next={() => currentTab = "done"} {sourcePath} {destinationPath} {source} {destination}/>
   {/if}
 </div>
 
 <script lang="ts">
   import {addMessages, init, _} from "svelte-i18n";
-  import Tab, {Icon, Label} from '@smui/tab';
-  import TabBar from '@smui/tab-bar';
   import TopAppBar, {Row, Section, Title} from '@smui/top-app-bar';
 
   import "./_smui-theme.scss"
@@ -57,29 +49,7 @@
     initialLocale: "<?= Session.getActiveUserLocale() ?>",
   })
 
-  const tabs = [
-    {
-      id: "introduction",
-      icon: "settings",
-    },
-    {
-      id: "source-selection",
-      icon: "content_copy",
-    },
-    {
-      id: "destination-selection",
-      icon: "content_paste",
-    },
-    {
-      id: "confirmation",
-      icon: "check_box_outline_blank",
-    },
-    {
-      id: "done",
-      icon: "check_box",
-    },
-  ]
-  let currentTab = tabs[1];
+  let currentTab = "introduction";
 
   let copyComments = true;
   let sourcePath: Array<NamedRecord> = [];

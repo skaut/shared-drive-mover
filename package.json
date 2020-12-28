@@ -19,8 +19,6 @@
     "@smui/form-field": "^1.0.0",
     "@smui/linear-progress": "^1.1.0",
     "@smui/list": "^1.1.0",
-    "@smui/tab": "^1.0.0",
-    "@smui/tab-bar": "^1.0.0",
     "@smui/top-app-bar": "^1.0.0",
     "@types/google-apps-script": "1.0.20",
     "@types/google.script.client-side": "^0.1.0",
