@@ -21,7 +21,13 @@
 			"buttonLabel": "Move"
 		},
 		"moving": {
-			"introduction": "Shared Drive mover is moving your files. Please do not close this tab."
+			"introduction": "Shared Drive mover is moving your files. Please do not close this tab.",
+			"nonEmptyDialog": {
+				"title": "Destination not empty",
+				"content": "The selected destination is not empty. Do you want to proceed anyway?",
+				"cancel": "No",
+				"confirm": "Yes"
+			}
 		},
 		"done": {
 			"introduction": "Successfully moved. You can delete the original files from your Google Drive - some of them may have been left behind as they cannot be removed automatically.",

@@ -31,11 +31,9 @@
     <FolderSelection on:error={() => {}} bind:path={destinationPath} bind:selected={destination}/> <!-- TODO -->
     <ContinueTab disabled={destination === null} on:next={() => currentTab = "confirmation"}/>
   {:else if currentTab === "confirmation"}
-    <Confirmation on:next={move} {sourcePath} {destinationPath} {source} {destination}/>
+    <Confirmation on:next={() => move()} {sourcePath} {destinationPath} {source} {destination}/>
   {:else if currentTab === "moving"}
-    <p>
-      {$_("steps.moving.introduction")}
-    </p>
+    <Moving bind:this={movingComponent} on:nonEmptyDialogCancel={() => currentTab = "destination-selection"} on:nonEmptyDialogConfirm={() => move(true)}/>
   {:else if currentTab === "done"}
     <Done {errors}/>
   {/if}
@@ -52,6 +50,7 @@
   import Done from "./Done.svelte";
   import FolderSelection from "./FolderSelection.svelte";
   import Introduction from "./Introduction.svelte";
+  import Moving from "./Moving.svelte";
 
   import cs from "./locales/cs.json"
   import en from "./locales/en.json"
@@ -77,20 +76,25 @@
   let source: NamedRecord|null = null;
   let destination: NamedRecord|null = null;
   let errors: Array<MoveError>|null = null;
+  let movingComponent: Moving;
 
-  function move(): void {
+  function move(forceNonEmpty: boolean = false): void {
     currentTab = "moving";
     moving = true;
     google.script.run
       .withSuccessHandler(moveSuccessHandler)
       .withFailureHandler()
-      .move(source.id, destination.id, copyComments, false);
+      .move(source.id, destination.id, copyComments, forceNonEmpty);
   }
 
   function moveSuccessHandler(response: MoveResponse|Error): void {
     moving = false;
     if (response.status === "error") {
-      // TODO
+      if (response.reason === "notEmpty") {
+        movingComponent.showNonEmptyDialog();
+      } else {
+        // TODO
+      }
       return;
     }
     errors = response.errors;

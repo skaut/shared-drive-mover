@@ -9,13 +9,6 @@ export default new VueI18n({
   messages: {
     en: {
       dialogs: {
-        nonEmpty: {
-          title: "Shared drive not empty",
-          content:
-            "The selected destination Shared drive is not empty. Do you want to proceed anyway?",
-          confirm: "Yes",
-          cancel: "No",
-        },
         error: {
           title: "Error",
           content:
