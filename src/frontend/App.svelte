@@ -8,6 +8,7 @@
     </Section>
   </Row>
 </TopAppBar>
+<LinearProgress {progress} />
 <div id="tab">
   {#if currentTab === "introduction"}
     <Introduction bind:copyComments={copyComments}/>
@@ -31,6 +32,7 @@
 
 <script lang="ts">
   import {addMessages, init, _} from "svelte-i18n";
+  import LinearProgress from '@smui/linear-progress';
   import TopAppBar, {Row, Section, Title} from '@smui/top-app-bar';
 
   import "./_smui-theme.scss"
@@ -50,6 +52,12 @@
   })
 
   let currentTab = "introduction";
+
+  $: progress = currentTab === "introduction" ? 1/5 :
+    currentTab === "source-selection" ? 2/5 :
+    currentTab === "destination-selection" ? 3/5 :
+    currentTab === "confirmation" ? 4/5 :
+    currentTab === "done" ? 1 : 0;
 
   let copyComments = true;
   let sourcePath: Array<NamedRecord> = [];
