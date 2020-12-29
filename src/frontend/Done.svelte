@@ -1,7 +1,7 @@
 <p>
   {$_("steps.done.introduction")}
 </p>
-{#if errors.length > 0}
+{#if errors !== null && errors.length > 0}
   <p class="mdc-typography--subtitle2">
     {@html $_("steps.done.errors.introduction", {values: {link: '<a href="https://github.com/skaut/shared-drive-mover/issues" target="_blank">' + $_("steps.done.errors.github") + "</a>"}})}
   </p>
@@ -35,7 +35,7 @@
   import {_} from "svelte-i18n";
   import DataTable, {Body, Cell, Head, Row} from "@smui/data-table"
 
-  export let errors: Array<MoveError> = [];
+  export let errors: Array<MoveError>|null = [];
 </script>
 
 <style lang="scss">

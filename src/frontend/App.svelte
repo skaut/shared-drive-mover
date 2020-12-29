@@ -101,27 +101,33 @@
     currentTab = "moving";
     moving = true;
     google.script.run
-      .withSuccessHandler(MoveResponseHandler)
-      .withFailureHandler(MoveResponseHandler)
-      .move(source.id, destination.id, copyComments, forceNonEmpty);
+      .withSuccessHandler(moveSuccessHandler)
+      .withFailureHandler(moveErrorHandler)
+      .move(source!.id, destination!.id, copyComments, forceNonEmpty);
   }
 
-  function MoveResponseHandler(response: MoveResponse|Error): void {
+  function moveSuccessHandler(response: MoveResponse): void {
     moving = false;
     if (response.status === "error") {
       if (response.reason === "notEmpty") {
         movingComponent.showNonEmptyDialog();
       } else {
-        showErrorDialog(response.message)
+        currentTab = "confirmation";
+        showErrorDialog(response.reason!)
       }
       return;
     }
-    errors = response.errors;
+    errors = response.errors ?? null;
     currentTab = "done";
   }
 
+  function moveErrorHandler(response: Error) {
+    moving = false;
+    currentTab = "confirmation";
+    showErrorDialog(response.message)
+  }
+
   function showErrorDialog(message: string): void {
-    currentTab="confirmation";
     errorMessage = message;
     errorDialog.open();
   }

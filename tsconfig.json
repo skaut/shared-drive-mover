@@ -8,6 +8,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "strict": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
   }
 }
