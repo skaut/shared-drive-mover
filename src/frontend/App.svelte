@@ -22,13 +22,13 @@
     <p>
       {$_("steps.source-selection.introduction")}
     </p>
-    <FolderSelection on:error={() => {}} bind:path={sourcePath} bind:selected={source}/> <!-- TODO -->
+    <FolderSelection on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
     <ContinueTab disabled={source === null} on:next={() => currentTab = "destination-selection"}/>
   {:else if currentTab === "destination-selection"}
     <p>
       {$_("steps.destination-selection.introduction")}
     </p>
-    <FolderSelection on:error={() => {}} bind:path={destinationPath} bind:selected={destination}/> <!-- TODO -->
+    <FolderSelection on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={destinationPath} bind:selected={destination}/>
     <ContinueTab disabled={destination === null} on:next={() => currentTab = "confirmation"}/>
   {:else if currentTab === "confirmation"}
     <Confirmation on:next={() => move()} {sourcePath} {destinationPath} {source} {destination}/>
