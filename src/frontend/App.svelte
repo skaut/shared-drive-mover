@@ -4,7 +4,7 @@
 <TopAppBar variant="static" color="primary">
   <Row>
     <Section>
-      <Title>Shared Drive mover</Title>
+      <TopAppBarTitle>Shared Drive mover</TopAppBarTitle>
     </Section>
   </Row>
 </TopAppBar>
@@ -37,12 +37,29 @@
   {:else if currentTab === "done"}
     <Done {errors}/>
   {/if}
+  <Dialog bind:this={errorDialog} aria-labelledby="errorDialogTitle" aria-describedby="errorDialogContent">
+    <DialogTitle id="errorDialogTitle">
+      {$_("errorDialog.title")}
+    </DialogTitle>
+    <Content id="errorDialogContent">
+      {$_("errorDialog.content") + errorMessage}
+    </Content>
+    <Actions>
+      <Button>
+        <Label>
+          {$_("errorDialog.ok")}
+        </Label>
+      </Button>
+    </Actions>
+  </Dialog>
 </div>
 
 <script lang="ts">
   import {addMessages, init, _} from "svelte-i18n";
+  import Button, {Label} from "@smui/button";
+  import Dialog, {Actions, Content, Title as DialogTitle} from "@smui/dialog";
   import LinearProgress from '@smui/linear-progress';
-  import TopAppBar, {Row, Section, Title} from '@smui/top-app-bar';
+  import TopAppBar, {Row, Section, Title as TopAppBarTitle} from '@smui/top-app-bar';
 
   import "./_smui-theme.scss"
   import Confirmation from "./Confirmation.svelte";
@@ -64,6 +81,9 @@
 
   let currentTab: "introduction"|"source-selection"|"destination-selection"|"confirmation"|"moving"|"done" = "introduction";
   let moving = false;
+  let movingComponent: Moving;
+  let errorDialog;
+  let errorMessage: string = "";
 
   $: progress = currentTab === "introduction" ? 1/5 :
     currentTab === "source-selection" ? 2/5 :
@@ -76,29 +96,34 @@
   let source: NamedRecord|null = null;
   let destination: NamedRecord|null = null;
   let errors: Array<MoveError>|null = null;
-  let movingComponent: Moving;
 
   function move(forceNonEmpty: boolean = false): void {
     currentTab = "moving";
     moving = true;
     google.script.run
-      .withSuccessHandler(moveSuccessHandler)
-      .withFailureHandler()
+      .withSuccessHandler(MoveResponseHandler)
+      .withFailureHandler(MoveResponseHandler)
       .move(source.id, destination.id, copyComments, forceNonEmpty);
   }
 
-  function moveSuccessHandler(response: MoveResponse|Error): void {
+  function MoveResponseHandler(response: MoveResponse|Error): void {
     moving = false;
     if (response.status === "error") {
       if (response.reason === "notEmpty") {
         movingComponent.showNonEmptyDialog();
       } else {
-        // TODO
+        showErrorDialog(response.message)
       }
       return;
     }
     errors = response.errors;
     currentTab = "done";
+  }
+
+  function showErrorDialog(message: string): void {
+    currentTab="confirmation";
+    errorMessage = message;
+    errorDialog.open();
   }
 </script>
 

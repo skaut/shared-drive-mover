@@ -45,5 +45,10 @@
 	"drive": {
 		"driveList": "Drive Selection",
 		"myDrive": "My Drive"
+	},
+	"errorDialog": {
+		"title": "An error occured",
+		"content": "An unknown error occured. Please check the source and destination folders and try again. Error message: ",
+		"ok": "Ok"
 	}
 }

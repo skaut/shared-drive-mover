@@ -7,16 +7,6 @@ export default new VueI18n({
   locale: "<?= Session.getActiveUserLocale() ?>",
   fallbackLocale: "en",
   messages: {
-    en: {
-      dialogs: {
-        error: {
-          title: "Error",
-          content:
-            "An unknown error occured. Please check the source folder and the destination Shared Drive and try again.",
-          optionalErrorMessage: "Error message: ",
-        },
-      },
-    },
     cs: {
       steps: {
         folderSelection: "Výběr zdrojové složky",
