@@ -1,3 +1,4 @@
+<StepHeader step="done"/>
 <p>
   {$_("steps.done.introduction")}
 </p>
@@ -34,6 +35,8 @@
 <script lang="ts">
   import {_} from "svelte-i18n";
   import DataTable, {Body, Cell, Head, Row} from "@smui/data-table"
+
+  import StepHeader from "./StepHeader.svelte";
 
   export let errors: Array<MoveError>|null = [];
 </script>

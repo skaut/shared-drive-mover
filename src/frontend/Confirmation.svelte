@@ -1,3 +1,4 @@
+<StepHeader step="confirmation"/>
 <p>
   {$_("steps.confirmation.introduction", {values: { source: sourceDisplay, destination: destinationDisplay }})}
 </p>
@@ -10,6 +11,8 @@
   import {createEventDispatcher} from "svelte";
   import {_} from "svelte-i18n";
   import Button, {Icon, Label} from "@smui/button";
+
+  import StepHeader from "./StepHeader.svelte";
 
   export let sourcePath: Array<NamedRecord> = [];
   export let destinationPath: Array<NamedRecord> = [];

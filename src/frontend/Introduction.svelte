@@ -1,3 +1,4 @@
+<StepHeader step="introduction"/>
 <p>
   {$_("steps.introduction.welcome")}
 </p>
@@ -17,6 +18,8 @@
   import {_} from "svelte-i18n";
   import FormField from "@smui/form-field";
   import Checkbox from "@smui/checkbox";
+
+  import StepHeader from "./StepHeader.svelte";
 
   export let copyComments: boolean;
 </script>

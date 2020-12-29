@@ -1,3 +1,7 @@
+<StepHeader {step}/>
+<p>
+  {$_("steps." + step + ".introduction")}
+</p>
 <List singleSelection>
   <Subheader>
     <span class="breadcrumb" on:click={rootNavigation}>
@@ -30,6 +34,9 @@
   import LinearProgress from "@smui/linear-progress";
   import List, {Item, Separator, Subheader, Text} from "@smui/list";
 
+  import StepHeader from "./StepHeader.svelte";
+
+  export let step: string;
   export let path: Array<NamedRecord> = [];
   export let selected: NamedRecord|null = null;
 

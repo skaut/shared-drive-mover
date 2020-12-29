@@ -19,16 +19,10 @@
     <Introduction bind:copyComments={copyComments}/>
     <ContinueTab disabled={false} on:next={() => currentTab = "source-selection"}/>
   {:else if currentTab === "source-selection"}
-    <p>
-      {$_("steps.source-selection.introduction")}
-    </p>
-    <FolderSelection on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
+    <FolderSelection step="source-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
     <ContinueTab disabled={source === null} on:next={() => currentTab = "destination-selection"}/>
   {:else if currentTab === "destination-selection"}
-    <p>
-      {$_("steps.destination-selection.introduction")}
-    </p>
-    <FolderSelection on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={destinationPath} bind:selected={destination}/>
+    <FolderSelection step="destination-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={destinationPath} bind:selected={destination}/>
     <ContinueTab disabled={destination === null} on:next={() => currentTab = "confirmation"}/>
   {:else if currentTab === "confirmation"}
     <Confirmation on:next={() => move()} {sourcePath} {destinationPath} {source} {destination}/>
