@@ -17,13 +17,13 @@
 <div id="tab">
   {#if currentTab === "introduction"}
     <Introduction bind:copyComments={copyComments}/>
-    <ContinueTab disabled={false} on:next={() => currentTab = "source-selection"}/>
+    <ContinueButton disabled={false} on:next={() => currentTab = "source-selection"}/>
   {:else if currentTab === "source-selection"}
     <FolderSelection step="source-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
-    <ContinueTab disabled={source === null} on:next={() => currentTab = "destination-selection"}/>
+    <ContinueButton disabled={source === null} on:next={() => currentTab = "destination-selection"}/>
   {:else if currentTab === "destination-selection"}
     <FolderSelection step="destination-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={destinationPath} bind:selected={destination}/>
-    <ContinueTab disabled={destination === null} on:next={() => currentTab = "confirmation"}/>
+    <ContinueButton disabled={destination === null} on:next={() => currentTab = "confirmation"}/>
   {:else if currentTab === "confirmation"}
     <Confirmation on:next={() => move()} {sourcePath} {destinationPath} {source} {destination}/>
   {:else if currentTab === "moving"}
@@ -57,7 +57,7 @@
 
   import "./_smui-theme.scss"
   import Confirmation from "./Confirmation.svelte";
-  import ContinueTab from "./ContinueTab.svelte";
+  import ContinueButton from "./ContinueButton.svelte";
   import Done from "./Done.svelte";
   import FolderSelection from "./FolderSelection.svelte";
   import Introduction from "./Introduction.svelte";
