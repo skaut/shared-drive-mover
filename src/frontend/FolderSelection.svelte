@@ -3,6 +3,7 @@
   {$_("steps." + step + ".introduction")}
 </p>
 <List singleSelection>
+  <Separator/>
   <Subheader>
     <span class="breadcrumb" on:click={rootNavigation}>
       {$_("drive.driveList")}
@@ -26,6 +27,7 @@
       </Item>
     {/each}
   {/if}
+  <Separator/>
 </List>
 
 <script lang="ts">
