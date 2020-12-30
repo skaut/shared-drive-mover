@@ -1,5 +1,4 @@
 <br/>
-<br/>
 <Button variant="raised" {disabled} on:click={() => dispatch("next")}>
   <Label>{$_("continue.buttonLabel")}</Label>
   <Icon class="material-icons">navigate_next</Icon>

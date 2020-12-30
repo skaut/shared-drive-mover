@@ -13,6 +13,8 @@
     {$_("steps.introduction.configuration.copyComments.description")}
   </span>
 </FormField>
+<br/>
+<br/>
 
 <script lang="ts">
   import {_} from "svelte-i18n";
