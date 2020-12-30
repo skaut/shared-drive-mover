@@ -45,6 +45,9 @@
 			}
 		}
 	},
+	"back": {
+		"buttonLabel": "Back"
+	},
 	"continue": {
 		"buttonLabel": "Continue"
 	},

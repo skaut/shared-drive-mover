@@ -20,12 +20,14 @@
     <ContinueButton disabled={false} on:next={() => currentTab = "source-selection"}/>
   {:else if currentTab === "source-selection"}
     <FolderSelection step="source-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
+    <BackButton on:previous={() => currentTab = "introduction"}/>
     <ContinueButton disabled={source === null} on:next={() => currentTab = "destination-selection"}/>
   {:else if currentTab === "destination-selection"}
     <FolderSelection step="destination-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={destinationPath} bind:selected={destination}/>
+    <BackButton on:previous={() => currentTab = "source-selection"}/>
     <ContinueButton disabled={destination === null} on:next={() => currentTab = "confirmation"}/>
   {:else if currentTab === "confirmation"}
-    <Confirmation on:next={() => move()} {sourcePath} {destinationPath} {source} {destination}/>
+    <Confirmation on:previous={() => currentTab = "destination-selection"} on:next={() => move()} {sourcePath} {destinationPath} {source} {destination}/>
   {:else if currentTab === "moving"}
     <Moving bind:this={movingComponent} on:nonEmptyDialogCancel={() => currentTab = "destination-selection"} on:nonEmptyDialogConfirm={() => move(true)}/>
   {:else if currentTab === "done"}
@@ -56,6 +58,7 @@
   import TopAppBar, {Row, Section, Title as TopAppBarTitle} from '@smui/top-app-bar';
 
   import "./_smui-theme.scss"
+  import BackButton from "./BackButton.svelte";
   import Confirmation from "./Confirmation.svelte";
   import ContinueButton from "./ContinueButton.svelte";
   import Done from "./Done.svelte";

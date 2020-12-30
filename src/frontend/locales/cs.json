@@ -45,6 +45,9 @@
 			}
 		}
 	},
+	"back": {
+		"buttonLabel": "Zpět"
+	},
 	"continue": {
 		"buttonLabel": "Pokračovat"
 	},

@@ -2,6 +2,7 @@
 <p>
   {$_("steps.confirmation.introduction", {values: { source: sourceDisplay, destination: destinationDisplay }})}
 </p>
+<BackButton on:previous={() => dispatch("previous")}/>
 <Button variant="raised" on:click={() => dispatch("next")}>
   <Label>{$_("steps.confirmation.buttonLabel")}</Label>
   <Icon class="material-icons">cloud_done</Icon>
@@ -12,6 +13,7 @@
   import {_} from "svelte-i18n";
   import Button, {Icon, Label} from "@smui/button";
 
+  import BackButton from "./BackButton.svelte";
   import StepHeader from "./StepHeader.svelte";
 
   export let sourcePath: Array<NamedRecord> = [];
