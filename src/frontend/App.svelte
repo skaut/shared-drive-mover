@@ -4,7 +4,7 @@
 <TopAppBar variant="static" color="primary">
   <Row>
     <Section>
-      <TopAppBarTitle>Shared Drive mover</TopAppBarTitle>
+      <TopAppBarTitle>Shared drive mover</TopAppBarTitle>
     </Section>
   </Row>
 </TopAppBar>
