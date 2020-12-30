@@ -2,8 +2,11 @@
 <p>
   {$_("steps.introduction.welcome")}
 </p>
-<p>
+<h5>
   {$_("steps.introduction.configuration.header")}
+</h5>
+<p>
+  {$_("steps.introduction.configuration.introduction")}
 </p>
 <FormField>
   <Checkbox bind:checked={copyComments}/>
@@ -25,3 +28,11 @@
 
   export let copyComments: boolean;
 </script>
+
+<style lang="scss">
+  @import "@material/typography/mdc-typography";
+
+  h5 {
+    @include mdc-typography('headline5');
+  }
+</style>
