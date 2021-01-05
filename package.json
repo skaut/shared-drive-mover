@@ -22,7 +22,7 @@
     "eslint": "^7.17.0",
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-prettier": "^3.3.0",
-    "eslint-plugin-vue": "^7.4.0",
+    "eslint-plugin-vue": "^7.4.1",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-typescript": "^6.0.0-alpha.1",
