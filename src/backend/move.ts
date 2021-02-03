@@ -1,12 +1,6 @@
 /* exported move */
 
-function isDirectoryEmpty(
-  directoryID: string,
-  notEmptyOverride: boolean
-): boolean {
-  if (notEmptyOverride) {
-    return true;
-  }
+function isDirectoryEmpty(directoryID: string): boolean {
   const response = Drive.Files!.list({
     includeItemsFromAllDrives: true,
     maxResults: 1,
@@ -245,7 +239,7 @@ function move(
   copyComments: boolean,
   notEmptyOverride: boolean
 ): MoveResponse {
-  if (!isDirectoryEmpty(destinationID, notEmptyOverride)) {
+  if (!notEmptyOverride && !isDirectoryEmpty(destinationID)) {
     return { status: "error", reason: "notEmpty" };
   }
   const errors = moveFolderContents(sourceID, destinationID, [], copyComments);
