@@ -170,7 +170,8 @@ function moveFolderContentsFolders(
   sourceID: string,
   destinationID: string,
   path: Array<string>,
-  copyComments: boolean
+  copyComments: boolean,
+  mergeFolders: boolean
 ): Array<MoveError> {
   const folders = [];
   let pageToken = null;
@@ -206,7 +207,8 @@ function moveFolderContentsFolders(
           folder.id!,
           newFolder.id!,
           path.concat([folder.name!]),
-          copyComments
+          copyComments,
+          mergeFolders
         )
       );
       deleteFolderIfEmpty(folder.id!);
@@ -221,7 +223,8 @@ function moveFolderContents(
   sourceID: string,
   destinationID: string,
   path: Array<string>,
-  copyComments: boolean
+  copyComments: boolean,
+  mergeFolders: boolean
 ): Array<MoveError> {
   return moveFolderContentsFiles(
     sourceID,
@@ -229,7 +232,13 @@ function moveFolderContents(
     path,
     copyComments
   ).concat(
-    moveFolderContentsFolders(sourceID, destinationID, path, copyComments)
+    moveFolderContentsFolders(
+      sourceID,
+      destinationID,
+      path,
+      copyComments,
+      mergeFolders
+    )
   );
 }
 
@@ -237,12 +246,19 @@ function move(
   sourceID: string,
   destinationID: string,
   copyComments: boolean,
+  mergeFolders: boolean,
   notEmptyOverride: boolean
 ): MoveResponse {
   if (!notEmptyOverride && !isDirectoryEmpty(destinationID)) {
     return { status: "error", reason: "notEmpty" };
   }
-  const errors = moveFolderContents(sourceID, destinationID, [], copyComments);
+  const errors = moveFolderContents(
+    sourceID,
+    destinationID,
+    [],
+    copyComments,
+    mergeFolders
+  );
   if (errors.length > 0) {
     console.error(errors);
   }
