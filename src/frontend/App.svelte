@@ -100,7 +100,7 @@
     google.script.run
       .withSuccessHandler(moveSuccessHandler)
       .withFailureHandler(moveErrorHandler)
-      .move(source!.id, destination!.id, copyComments, forceNonEmpty);
+      .move(source!.id, destination!.id, copyComments, false, forceNonEmpty);
   }
 
   function moveSuccessHandler(response: MoveResponse): void {
