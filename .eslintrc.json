@@ -2,7 +2,8 @@
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
     "project": "./tsconfig.json",
-    "extraFileExtensions": ["vue"]
+    "extraFileExtensions": ["vue"],
+    "sourceType": "script"
   },
   "env": {
     "browser": true,
