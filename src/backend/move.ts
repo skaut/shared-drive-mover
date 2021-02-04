@@ -2,10 +2,10 @@
 
 function isDirectoryEmpty(directoryID: string): boolean {
   const response = Drive.Files!.list({
-    includeItemsFromAllDrives: true,
-    maxResults: 1,
     q: '"' + directoryID + '" in parents and trashed = false',
+    includeItemsFromAllDrives: true,
     supportsAllDrives: true,
+    maxResults: 1,
     fields: "items(id)",
   });
   return response.items!.length === 0;

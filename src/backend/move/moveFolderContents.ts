@@ -9,6 +9,8 @@ function listFilesInFolder(
         '"' +
         folderID +
         '" in parents and mimeType != "application/vnd.google-apps.folder" and trashed = false',
+      includeItemsFromAllDrives: true,
+      supportsAllDrives: true,
       pageToken: pageToken,
       maxResults: 1000,
       fields:
@@ -48,6 +50,8 @@ function listFoldersInFolder(
         '"' +
         folderID +
         '" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
+      includeItemsFromAllDrives: true,
+      supportsAllDrives: true,
       pageToken: pageToken,
       maxResults: 1000,
       fields: "nextPageToken, items(id, title)",
@@ -60,8 +64,10 @@ function listFoldersInFolder(
 
 function deleteFolderIfEmpty(folderID: string): void {
   const response = Drive.Files!.list({
-    maxResults: 1,
     q: '"' + folderID + '" in parents and trashed = false',
+    includeItemsFromAllDrives: true,
+    supportsAllDrives: true,
+    maxResults: 1,
     fields: "items(id)",
   });
   if (response.items!.length === 0) {

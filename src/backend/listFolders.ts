@@ -5,11 +5,11 @@ function listFolders(parentID: string): Array<NamedRecord> {
   let pageToken = null;
   do {
     const response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
-      includeItemsFromAllDrives: true,
       q:
         '"' +
         parentID +
         '" in parents and (mimeType = "application/vnd.google-apps.folder" or (mimeType = "application/vnd.google-apps.shortcut" and shortcutDetails.targetMimeType = "application/vnd.google-apps.folder")) and trashed = false',
+      includeItemsFromAllDrives: true,
       supportsAllDrives: true,
       pageToken: pageToken,
       maxResults: 1000,
