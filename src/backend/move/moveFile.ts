@@ -13,12 +13,14 @@ function moveFileDirectly(
   });
 }
 
-function copyFileComments(sourceID: string, destinationID: string): void {
-  const comments = [];
+function listFileComments(
+  fileID: string
+): Array<GoogleAppsScript.Drive.Schema.Comment> {
+  const comments: Array<GoogleAppsScript.Drive.Schema.Comment> = [];
   let pageToken = null;
   do {
     const response: GoogleAppsScript.Drive.Schema.CommentList = Drive.Comments!.list(
-      sourceID,
+      fileID,
       {
         maxResults: 100,
         pageToken: pageToken,
@@ -31,6 +33,11 @@ function copyFileComments(sourceID: string, destinationID: string): void {
     }
     pageToken = response.nextPageToken;
   } while (pageToken !== undefined);
+  return comments;
+}
+
+function copyFileComments(sourceID: string, destinationID: string): void {
+  const comments = listFileComments(sourceID);
   for (const comment of comments) {
     if (!comment.author!.isAuthenticatedUser) {
       comment.content =
@@ -78,20 +85,20 @@ function moveFileByCopy(
 }
 
 function moveFile(
-  file: FileInfo,
+  file: GoogleAppsScript.Drive.Schema.File,
   sourceID: string,
   destinationID: string,
   path: Array<string>,
   copyComments: boolean
 ): MoveError | null {
   let error = null;
-  if (file.canMove) {
+  if (file.capabilities!.canMoveItemOutOfDrive!) {
     try {
-      moveFileDirectly(file.id, sourceID, destinationID);
+      moveFileDirectly(file.id!, sourceID, destinationID);
     } catch (_) {
       error = moveFileByCopy(
-        file.id,
-        file.name,
+        file.id!,
+        file.title!,
         destinationID,
         path,
         copyComments
@@ -99,8 +106,8 @@ function moveFile(
     }
   } else {
     error = moveFileByCopy(
-      file.id,
-      file.name,
+      file.id!,
+      file.title!,
       destinationID,
       path,
       copyComments
