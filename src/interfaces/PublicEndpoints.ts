@@ -8,6 +8,7 @@ interface PublicEndpoints {
     folder: string,
     sharedDrive: string,
     copyComments: boolean,
+    mergeFolders: boolean,
     notEmptyOverride: boolean
   ): void;
 }
