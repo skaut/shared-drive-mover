@@ -204,7 +204,7 @@ export default Vue.extend({
           this.handleResponse(response)
         )
         .withFailureHandler((response: Error) => this.handleError(response))
-        .move(this.folder, this.sharedDrive, this.copyComments, false);
+        .move(this.folder, this.sharedDrive, this.copyComments, false, false);
     },
     moveNonEmpty(): void {
       google.script.run
@@ -212,7 +212,7 @@ export default Vue.extend({
           this.handleResponse(response)
         )
         .withFailureHandler((response: Error) => this.handleError(response))
-        .move(this.folder, this.sharedDrive, this.copyComments, true);
+        .move(this.folder, this.sharedDrive, this.copyComments, false, true);
     },
     handleResponse(response: MoveResponse): void {
       if (response.status === "error") {
