@@ -84,23 +84,23 @@ function deleteFolderIfEmpty(folderID: string): void {
 }
 
 function getNewFolder(
-  oldFolder: GoogleAppsScript.Drive.Schema.File,
+  sourceFolder: GoogleAppsScript.Drive.Schema.File,
   destinationID: string,
   mergeFolders: boolean,
-  newFolders?: Array<GoogleAppsScript.Drive.Schema.File>
+  destinationFolders?: Array<GoogleAppsScript.Drive.Schema.File>
 ): GoogleAppsScript.Drive.Schema.File {
   if (mergeFolders) {
-    const matchingNewFolders = newFolders!.filter(
-      (folder) => folder.title! === oldFolder.title!
+    const matchingDestinationFolders = destinationFolders!.filter(
+      (folder) => folder.title! === sourceFolder.title!
     );
-    if (matchingNewFolders.length === 1) {
-      return matchingNewFolders[0];
+    if (matchingDestinationFolders.length === 1) {
+      return matchingDestinationFolders[0];
     }
   }
   return Drive.Files!.insert(
     {
       parents: [{ id: destinationID }],
-      title: oldFolder.title!,
+      title: sourceFolder.title!,
       mimeType: "application/vnd.google-apps.folder",
     },
     undefined,
@@ -115,24 +115,24 @@ function moveFolderContentsFolders(
   copyComments: boolean,
   mergeFolders: boolean
 ): Array<MoveError> {
-  const oldFolders = listFoldersInFolder(sourceID);
-  let newFolders = undefined;
+  const sourceFolders = listFoldersInFolder(sourceID);
+  let destinationFolders = undefined;
   if (mergeFolders) {
-    newFolders = listFoldersInFolder(destinationID);
+    destinationFolders = listFoldersInFolder(destinationID);
   }
   let errors: Array<MoveError> = [];
-  for (const folder of oldFolders) {
+  for (const folder of sourceFolders) {
     try {
-      const newFolder = getNewFolder(
+      const destinationFolder = getNewFolder(
         folder,
         destinationID,
         mergeFolders,
-        newFolders
+        destinationFolders
       );
       errors = errors.concat(
         moveFolderContents(
           folder.id!,
-          newFolder.id!,
+          destinationFolder.id!,
           path.concat([folder.title!]),
           copyComments,
           mergeFolders
