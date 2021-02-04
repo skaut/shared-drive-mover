@@ -83,6 +83,31 @@ function deleteFolderIfEmpty(folderID: string): void {
   }
 }
 
+function getNewFolder(
+  oldFolder: GoogleAppsScript.Drive.Schema.File,
+  destinationID: string,
+  mergeFolders: boolean,
+  newFolders?: Array<GoogleAppsScript.Drive.Schema.File>
+): GoogleAppsScript.Drive.Schema.File {
+  if (mergeFolders) {
+    const matchingNewFolders = newFolders!.filter(
+      (folder) => folder.title! === oldFolder.title!
+    );
+    if (matchingNewFolders.length === 1) {
+      return matchingNewFolders[0];
+    }
+  }
+  return Drive.Files!.insert(
+    {
+      parents: [{ id: destinationID }],
+      title: oldFolder.title!,
+      mimeType: "application/vnd.google-apps.folder",
+    },
+    undefined,
+    { supportsAllDrives: true, fields: "id" }
+  );
+}
+
 function moveFolderContentsFolders(
   sourceID: string,
   destinationID: string,
@@ -90,18 +115,19 @@ function moveFolderContentsFolders(
   copyComments: boolean,
   mergeFolders: boolean
 ): Array<MoveError> {
-  const folders = listFoldersInFolder(sourceID);
+  const oldFolders = listFoldersInFolder(sourceID);
+  let newFolders = undefined;
+  if (mergeFolders) {
+    newFolders = listFoldersInFolder(destinationID);
+  }
   let errors: Array<MoveError> = [];
-  for (const folder of folders) {
+  for (const folder of oldFolders) {
     try {
-      const newFolder = Drive.Files!.insert(
-        {
-          parents: [{ id: destinationID }],
-          title: folder.title!,
-          mimeType: "application/vnd.google-apps.folder",
-        },
-        undefined,
-        { supportsAllDrives: true, fields: "id" }
+      const newFolder = getNewFolder(
+        folder,
+        destinationID,
+        mergeFolders,
+        newFolders
       );
       errors = errors.concat(
         moveFolderContents(
