@@ -24,7 +24,11 @@ gulp.task("build:frontend", function () {
 gulp.task("build:backend", function () {
   const tsProject = ts.createProject("backend.tsconfig.json");
   return gulp
-    .src(["src/backend/*.ts", "src/backend/d.ts/*.d.ts", "src/interfaces/*.ts"])
+    .src([
+      "src/backend/**/*.ts",
+      "src/backend/d.ts/**/*.d.ts",
+      "src/interfaces/*.ts",
+    ])
     .pipe(tsProject())
     .js.pipe(concat("backend.gs"))
     .pipe(gulp.dest("dist/"));
