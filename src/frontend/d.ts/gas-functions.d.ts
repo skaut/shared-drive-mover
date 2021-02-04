@@ -1,8 +1,14 @@
 declare namespace google.script {
-  const run: Runner;
-  type Runner = PublicEndpoints & {
-    withFailureHandler(handler: (error: Error, object?: any) => void): Runner;
-    withSuccessHandler(handler: (value?: any, object?: any) => void): Runner;
-    withUserObject(object: any): Runner;
-  };
+  interface PublicEndpoints {
+    doGet(): GoogleAppsScript.HTML.HtmlOutput;
+    listFolders(parentID: string): Array<NamedRecord>;
+    listSharedDrives(): Array<NamedRecord>;
+    move(
+      folder: string,
+      sharedDrive: string,
+      copyComments: boolean,
+      mergeFolders: boolean,
+      notEmptyOverride: boolean
+    ): void;
+  }
 }
