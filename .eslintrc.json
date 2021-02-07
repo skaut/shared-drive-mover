@@ -42,9 +42,9 @@
     }
   ],
   "globals": {
-	  "google": "readonly",
-	  "MoveError": "readonly",
-	  "MoveResponse": "readonly",
-	  "NamedRecord": "readonly"
+    "google": "readonly",
+    "MoveError": "readonly",
+    "MoveResponse": "readonly",
+    "NamedRecord": "readonly"
   }
 }
