@@ -1,7 +1,8 @@
 {
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.json",
+    "sourceType": "script"
   },
   "env": {
     "browser": true,
@@ -38,10 +39,9 @@
     }
   ],
   "globals": {
-	  "google": "readonly",
-	  "ListResponse": "readonly",
-	  "MoveError": "readonly",
-	  "MoveResponse": "readonly",
-	  "NamedRecord": "readonly"
+    "google": "readonly",
+    "MoveError": "readonly",
+    "MoveResponse": "readonly",
+    "NamedRecord": "readonly"
   }
 }
