@@ -8,20 +8,13 @@
     </span>
   </AppBar>
 </MaterialApp>
-<!--
-<TopAppBar variant="static" color="primary">
-  <Row>
-    <Section>
-      <TopAppBarTitle>Shared drive mover</TopAppBarTitle>
-    </Section>
-  </Row>
-</TopAppBar>
 {#if progress > 0}
-  <LinearProgress {progress} />
+  <ProgressLinear value={progress} />
 {/if}
 {#if moving}
-  <LinearProgress indeterminate />
+  <ProgressLinear indeterminate />
 {/if}
+<!--
 <div id="tab">
   {#if currentTab === "introduction"}
     <Introduction bind:copyComments={copyComments}/>
@@ -61,7 +54,7 @@
 
 <script lang="ts">
   import {addMessages, init, _} from "svelte-i18n";
-  import {AppBar, MaterialApp} from 'svelte-materialify/src';
+  import {AppBar, MaterialApp, ProgressLinear} from 'svelte-materialify/src';
 
   //import BackButton from "./BackButton.svelte";
   //import Confirmation from "./Confirmation.svelte";
@@ -87,10 +80,10 @@
   let errorDialog;
   let errorMessage: string = "";
 
-  $: progress = currentTab === "introduction" ? 1/5 :
-    currentTab === "source-selection" ? 2/5 :
-    currentTab === "destination-selection" ? 3/5 :
-    currentTab === "confirmation" ? 4/5 : 0;
+  $: progress = currentTab === "introduction" ? 100 * 1/5 :
+    currentTab === "source-selection" ? 100 * 2/5 :
+    currentTab === "destination-selection" ? 100 * 3/5 :
+    currentTab === "confirmation" ? 100 * 4/5 : 0;
 
   let copyComments = true;
   let sourcePath: Array<NamedRecord> = [];
