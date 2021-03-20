@@ -1,12 +1,13 @@
-<Button variant="raised" {disabled} on:click={() => dispatch("next")}>
-  <Label>{$_("continue.buttonLabel")}</Label>
-  <Icon class="material-icons">navigate_next</Icon>
+<Button class="primary-color" {disabled} on:click={() => dispatch("next")}>
+  {$_("continue.buttonLabel")}
+  <Icon path={mdiChevronRight} />
 </Button>
 
 <script lang="ts">
   import {createEventDispatcher} from "svelte";
   import {_} from "svelte-i18n";
-  import Button, {Icon, Label} from "@smui/button";
+  import {Button, Icon} from 'svelte-materialify/src';
+  import {mdiChevronRight} from '@mdi/js';
 
   export let disabled: boolean;
 
