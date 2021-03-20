@@ -29,13 +29,13 @@
       <Confirmation on:previous={() => currentTab = "destination-selection"} on:next={() => move()} {sourcePath} {destinationPath} {source} {destination}/>
     {:else if currentTab === "moving"}
       <Moving bind:this={movingComponent} on:nonEmptyDialogCancel={() => currentTab = "destination-selection"} on:nonEmptyDialogConfirm={() => move(true)}/>
+    {:else if currentTab === "done"}
+      <Done {errors}/>
     {/if}
   </div>
 </MaterialApp>
 <!--
 <div id="tab">
-  {:else if currentTab === "done"}
-    <Done {errors}/>
   {/if}
   <Dialog bind:this={errorDialog} aria-labelledby="errorDialogTitle" aria-describedby="errorDialogContent">
     <DialogTitle id="errorDialogTitle">
@@ -62,7 +62,7 @@
   import BackButton from "./BackButton.svelte";
   import Confirmation from "./Confirmation.svelte";
   import ContinueButton from "./ContinueButton.svelte";
-  //import Done from "./Done.svelte";
+  import Done from "./Done.svelte";
   import FolderSelection from "./FolderSelection.svelte";
   import Introduction from "./Introduction.svelte";
   import Moving from "./Moving.svelte";
