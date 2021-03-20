@@ -19,7 +19,7 @@
   {#if items === null}
     <ProgressLinear indeterminate/>
   {:else}
-    <ListItemGroup value={selected !== null ? items.map((item) => item.id).indexOf(selected.id) : ""}>
+    <ListItemGroup value={selected !== null ? items.map((item) => item.id).indexOf(selected.id) : undefined}>
       {#each items as item (item.id)}
         <ListItem on:click={() => selected = item} on:dblclick={() => itemNavigation(item)}>
           {item.name}
