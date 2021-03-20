@@ -2,39 +2,38 @@
 <p>
   {$_("steps." + step + ".introduction")}
 </p>
-<List singleSelection>
-  <Separator/>
+<List>
+  <Divider/>
   <Subheader>
-    <span class="breadcrumb" on:click={rootNavigation}>
+    <span class="primary-text breadcrumb" on:click={rootNavigation}>
       {$_("drive.driveList")}
     </span>
     {#each path as segment (segment.id)}
       &nbsp; &gt; &nbsp;
-      <span class="breadcrumb" on:click={() => breadcrumbNavigation(segment)}>
+      <span class="primary-text breadcrumb" on:click={() => breadcrumbNavigation(segment)}>
         {segment.name}
       </span>
     {/each}
   </Subheader>
-  <Separator/>
+  <Divider/>
   {#if items === null}
-    <LinearProgress indeterminate/>
+    <ProgressLinear indeterminate/>
   {:else}
-    {#each items as item (item.id)}
-      <Item on:dblclick={() => itemNavigation(item)} on:SMUI:action={() => selected = item} selected={selected !== null && selected.id === item.id}>
-        <Text>
+    <ListItemGroup> <!-- TODO: Fix selected -->
+      {#each items as item (item.id)}
+        <ListItem on:click={() => selected = item} on:dblclick={() => itemNavigation(item)} selected={selected !== null && selected.id === item.id}>
           {item.name}
-        </Text>
-      </Item>
-    {/each}
+        </ListItem>
+      {/each}
+    </ListItemGroup>
   {/if}
-  <Separator/>
+  <Divider/>
 </List>
 
 <script lang="ts">
   import {createEventDispatcher} from "svelte";
   import {_} from "svelte-i18n";
-  import LinearProgress from "@smui/linear-progress";
-  import List, {Item, Separator, Subheader, Text} from "@smui/list";
+  import {Divider, List, ListItem, ListItemGroup, ProgressLinear, Subheader} from 'svelte-materialify/src';
 
   import StepHeader from "./StepHeader.svelte";
 
@@ -97,10 +96,7 @@
 </script>
 
 <style lang="scss">
-  @import "./_smui-theme.scss";
-
   .breadcrumb {
     cursor: pointer;
-    color: $mdc-theme-primary;
   }
 </style>

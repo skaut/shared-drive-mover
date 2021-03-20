@@ -17,15 +17,15 @@
     {#if currentTab === "introduction"}
       <Introduction bind:copyComments={copyComments}/>
       <ContinueButton disabled={false} on:next={() => currentTab = "source-selection"}/>
+    {:else if currentTab === "source-selection"}
+      <FolderSelection step="source-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
+      <BackButton on:previous={() => currentTab = "introduction"}/>
+      <ContinueButton disabled={source === null} on:next={() => currentTab = "destination-selection"}/>
     {/if}
   </div>
 </MaterialApp>
 <!--
 <div id="tab">
-  {:else if currentTab === "source-selection"}
-    <FolderSelection step="source-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
-    <BackButton on:previous={() => currentTab = "introduction"}/>
-    <ContinueButton disabled={source === null} on:next={() => currentTab = "destination-selection"}/>
   {:else if currentTab === "destination-selection"}
     <FolderSelection step="destination-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={destinationPath} bind:selected={destination}/>
     <BackButton on:previous={() => currentTab = "source-selection"}/>
@@ -59,11 +59,11 @@
   import {addMessages, init, _} from "svelte-i18n";
   import {AppBar, MaterialApp, ProgressLinear} from 'svelte-materialify/src';
 
-  //import BackButton from "./BackButton.svelte";
+  import BackButton from "./BackButton.svelte";
   //import Confirmation from "./Confirmation.svelte";
   import ContinueButton from "./ContinueButton.svelte";
   //import Done from "./Done.svelte";
-  //import FolderSelection from "./FolderSelection.svelte";
+  import FolderSelection from "./FolderSelection.svelte";
   import Introduction from "./Introduction.svelte";
   //import Moving from "./Moving.svelte";
 
