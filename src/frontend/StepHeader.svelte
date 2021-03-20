@@ -1,4 +1,4 @@
-<h2>
+<h2 class="mb-6">
   {$_("steps." + step + ".header")}
 </h2>
 

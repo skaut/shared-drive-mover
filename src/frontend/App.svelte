@@ -2,8 +2,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
 </svelte:head>
 <MaterialApp>
-  <AppBar class="primary-color">
-    <span slot="title">
+  <AppBar class="primary-color white-text pa-1">
+    <span slot="title" class="font-weight-medium">
       Shared drive mover
     </span>
   </AppBar>
