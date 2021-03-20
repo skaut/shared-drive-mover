@@ -3,15 +3,16 @@
   {$_("steps.confirmation.introduction", {values: { source: sourceDisplay, destination: destinationDisplay }})}
 </p>
 <BackButton on:previous={() => dispatch("previous")}/>
-<Button variant="raised" on:click={() => dispatch("next")}>
-  <Label>{$_("steps.confirmation.buttonLabel")}</Label>
-  <Icon class="material-icons">cloud_done</Icon>
+<Button class="primary-color" on:click={() => dispatch("next")}>
+  {$_("steps.confirmation.buttonLabel")}
+  <Icon path={mdiCloudCheck} />
 </Button>
 
 <script lang="ts">
   import {createEventDispatcher} from "svelte";
   import {_} from "svelte-i18n";
-  import Button, {Icon, Label} from "@smui/button";
+  import {Button, Icon} from 'svelte-materialify/src';
+  import {mdiCloudCheck} from "@mdi/js";
 
   import BackButton from "./BackButton.svelte";
   import StepHeader from "./StepHeader.svelte";
