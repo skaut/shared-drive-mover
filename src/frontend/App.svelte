@@ -1,6 +1,14 @@
 <svelte:head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
 </svelte:head>
+<MaterialApp>
+  <AppBar class="primary-color">
+    <span slot="title">
+      Shared drive mover
+    </span>
+  </AppBar>
+</MaterialApp>
+<!--
 <TopAppBar variant="static" color="primary">
   <Row>
     <Section>
@@ -49,22 +57,19 @@
     </Actions>
   </Dialog>
 </div>
+-->
 
 <script lang="ts">
   import {addMessages, init, _} from "svelte-i18n";
-  import Button, {Label} from "@smui/button";
-  import Dialog, {Actions, Content, Title as DialogTitle} from "@smui/dialog";
-  import LinearProgress from '@smui/linear-progress';
-  import TopAppBar, {Row, Section, Title as TopAppBarTitle} from '@smui/top-app-bar';
+  import {AppBar, MaterialApp} from 'svelte-materialify/src';
 
-  import "./_smui-theme.scss"
-  import BackButton from "./BackButton.svelte";
-  import Confirmation from "./Confirmation.svelte";
-  import ContinueButton from "./ContinueButton.svelte";
-  import Done from "./Done.svelte";
-  import FolderSelection from "./FolderSelection.svelte";
-  import Introduction from "./Introduction.svelte";
-  import Moving from "./Moving.svelte";
+  //import BackButton from "./BackButton.svelte";
+  //import Confirmation from "./Confirmation.svelte";
+  //import ContinueButton from "./ContinueButton.svelte";
+  //import Done from "./Done.svelte";
+  //import FolderSelection from "./FolderSelection.svelte";
+  //import Introduction from "./Introduction.svelte";
+  //import Moving from "./Moving.svelte";
 
   import cs from "./locales/cs.json"
   import en from "./locales/en.json"
@@ -130,7 +135,7 @@
   }
 </script>
 
-<style lang="scss">
+<!--style lang="scss">
   :global(body) {
     margin: 0;
   }
@@ -138,4 +143,4 @@
   #tab {
     margin: 50px;
   }
-</style>
+</style-->

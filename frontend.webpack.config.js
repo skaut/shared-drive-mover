@@ -1,6 +1,7 @@
 /* eslint-env node */
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const sveltePreprocess = require("svelte-preprocess");
 
 const path = require("path");
 
@@ -20,26 +21,14 @@ module.exports = {
         use: {
           loader: "svelte-loader",
           options: {
-            preprocess: require("svelte-preprocess")({
+            preprocess: sveltePreprocess({
               tsconfigFile: "./frontend.tsconfig.json",
+              scss: {
+                includePaths: ["src/frontend"],
+              },
             }),
           },
         },
-      },
-      {
-        test: /\.(sa|sc|c)ss$/,
-        use: [
-          "style-loader",
-          "css-loader",
-          {
-            loader: "sass-loader",
-            options: {
-              sassOptions: {
-                includePaths: ["./src/frontend", "./node_modules"],
-              },
-            },
-          },
-        ],
       },
     ],
   },
