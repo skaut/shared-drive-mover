@@ -15,7 +15,7 @@
   <ProgressLinear indeterminate />
 {/if}
   {#if currentTab === "introduction"}
-    <!--Introduction bind:copyComments={copyComments}/-->
+    <Introduction bind:copyComments={copyComments}/>
     <ContinueButton disabled={false} on:next={() => currentTab = "source-selection"}/>
   {/if}
 <!--
@@ -65,7 +65,7 @@
   import ContinueButton from "./ContinueButton.svelte";
   //import Done from "./Done.svelte";
   //import FolderSelection from "./FolderSelection.svelte";
-  //import Introduction from "./Introduction.svelte";
+  import Introduction from "./Introduction.svelte";
   //import Moving from "./Moving.svelte";
 
   import cs from "./locales/cs.json"

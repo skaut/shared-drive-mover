@@ -7,11 +7,3 @@
 
   export let step: string;
 </script>
-
-<style lang="scss">
-  @import "@material/typography/mdc-typography";
-
-  h2 {
-    @include mdc-typography('headline2');
-  }
-</style>
