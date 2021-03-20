@@ -1,4 +1,4 @@
-<Button class="primary-color" {disabled} on:click={() => dispatch("next")}>
+<Button class={!disabled ? "primary-color" : ""} {disabled} on:click={() => dispatch("next")}>
   {$_("continue.buttonLabel")}
   <Icon path={mdiChevronRight} />
 </Button>
