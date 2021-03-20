@@ -1,3 +1,3 @@
-declare module 'svelte-materialify/src' {
-  export * from 'svelte-materialify/@types';
-} 
+declare module "svelte-materialify/src" {
+  export * from "svelte-materialify/@types";
+}
