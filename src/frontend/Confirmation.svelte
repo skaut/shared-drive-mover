@@ -5,7 +5,7 @@
 <BackButton on:previous={() => dispatch("previous")}/>
 <Button class="primary-color" on:click={() => dispatch("next")}>
   {$_("steps.confirmation.buttonLabel")}
-  <Icon path={mdiCloudCheck} />
+  <Icon class="ml-2" path={mdiCloudCheck} />
 </Button>
 
 <script lang="ts">
