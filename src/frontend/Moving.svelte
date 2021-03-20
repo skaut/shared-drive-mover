@@ -1,38 +1,34 @@
 <p>
   {$_("steps.moving.introduction")}
 </p>
-<Dialog bind:this={nonEmptyDialog} aria-labelledby="title" aria-describedby="content">
-  <Title id="title">
-    {$_("steps.moving.nonEmptyDialog.title")}
-  </Title>
-  <Content id="content">
-    {$_("steps.moving.nonEmptyDialog.content")}
-  </Content>
-  <Actions>
-    <Button on:click={() => dispatch("nonEmptyDialogCancel")}>
-      <Label>
+<Dialog persistent bind:active={nonEmptyDialog}>
+  <Card>
+    <CardTitle>
+      {$_("steps.moving.nonEmptyDialog.title")}
+    </CardTitle>
+    <CardText>
+      {$_("steps.moving.nonEmptyDialog.content")}
+    </CardText>
+    <CardActions class="justify-end">
+      <Button text class="primary-text" on:click={() => dispatch("nonEmptyDialogCancel")}>
         {$_("steps.moving.nonEmptyDialog.cancel")}
-      </Label>
-    </Button>
-    <Button on:click={() => dispatch("nonEmptyDialogConfirm")}>
-      <Label>
+      </Button>
+      <Button text class="primary-text" on:click={() => dispatch("nonEmptyDialogConfirm")}>
         {$_("steps.moving.nonEmptyDialog.confirm")}
-      </Label>
-    </Button>
-  </Actions>
+      </Button>
+    </CardActions>
+  </Card>
 </Dialog>
 
 <script lang="ts">
   import {createEventDispatcher} from "svelte";
   import {_} from "svelte-i18n";
-  import Button, {Label} from "@smui/button";
-  import Dialog, {Actions, Content, Title} from "@smui/dialog";
+  import {Button, Card, CardActions, CardText, CardTitle, Dialog} from 'svelte-materialify/src';
 
+  let nonEmptyDialog = false;
   export function showNonEmptyDialog() {
-    nonEmptyDialog.open();
+    nonEmptyDialog = true;
   }
 
   const dispatch = createEventDispatcher();
-
-  let nonEmptyDialog;
 </script>
