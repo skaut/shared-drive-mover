@@ -7,22 +7,21 @@
       Shared drive mover
     </span>
   </AppBar>
-</MaterialApp>
-{#if progress > 0}
-  <ProgressLinear value={progress} />
-{/if}
-{#if moving}
-  <ProgressLinear indeterminate />
-{/if}
-  {#if currentTab === "introduction"}
-    <Introduction bind:copyComments={copyComments}/>
-    <ContinueButton disabled={false} on:next={() => currentTab = "source-selection"}/>
+  {#if progress > 0}
+    <ProgressLinear value={progress} />
   {/if}
+  {#if moving}
+    <ProgressLinear indeterminate />
+  {/if}
+  <div id="tab">
+    {#if currentTab === "introduction"}
+      <Introduction bind:copyComments={copyComments}/>
+      <ContinueButton disabled={false} on:next={() => currentTab = "source-selection"}/>
+    {/if}
+  </div>
+</MaterialApp>
 <!--
 <div id="tab">
-  {#if currentTab === "introduction"}
-    <Introduction bind:copyComments={copyComments}/>
-    <ContinueButton disabled={false} on:next={() => currentTab = "source-selection"}/>
   {:else if currentTab === "source-selection"}
     <FolderSelection step="source-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
     <BackButton on:previous={() => currentTab = "introduction"}/>
@@ -132,12 +131,8 @@
   }
 </script>
 
-<!--style lang="scss">
-  :global(body) {
-    margin: 0;
-  }
-
+<style lang="scss">
   #tab {
     margin: 50px;
   }
-</style-->
+</style>
