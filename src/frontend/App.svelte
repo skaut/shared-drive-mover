@@ -32,32 +32,27 @@
     {:else if currentTab === "done"}
       <Done {errors}/>
     {/if}
+    <Dialog persistent bind:active={errorDialog}>
+      <Card>
+        <CardTitle>
+          {$_("errorDialog.title")}
+        </CardTitle>
+        <CardText>
+          {$_("errorDialog.content") + errorMessage}
+        </CardText>
+        <CardActions class="justify-end">
+          <Button text class="primary-text" on:click={() => errorDialog = false}>
+            {$_("errorDialog.ok")}
+          </Button>
+        </CardActions>
+      </Card>
+    </Dialog>
   </div>
 </MaterialApp>
-<!--
-<div id="tab">
-  {/if}
-  <Dialog bind:this={errorDialog} aria-labelledby="errorDialogTitle" aria-describedby="errorDialogContent">
-    <DialogTitle id="errorDialogTitle">
-      {$_("errorDialog.title")}
-    </DialogTitle>
-    <Content id="errorDialogContent">
-      {$_("errorDialog.content") + errorMessage}
-    </Content>
-    <Actions>
-      <Button>
-        <Label>
-          {$_("errorDialog.ok")}
-        </Label>
-      </Button>
-    </Actions>
-  </Dialog>
-</div>
--->
 
 <script lang="ts">
   import {addMessages, init, _} from "svelte-i18n";
-  import {AppBar, MaterialApp, ProgressLinear} from 'svelte-materialify/src';
+  import {AppBar, Button, Card, CardActions, CardText, CardTitle, Dialog, MaterialApp, ProgressLinear} from 'svelte-materialify/src';
 
   import BackButton from "./BackButton.svelte";
   import Confirmation from "./Confirmation.svelte";
@@ -80,7 +75,7 @@
   let currentTab: "introduction"|"source-selection"|"destination-selection"|"confirmation"|"moving"|"done" = "introduction";
   let moving = false;
   let movingComponent: Moving;
-  let errorDialog;
+  let errorDialog = false;
   let errorMessage: string = "";
 
   $: progress = currentTab === "introduction" ? 100 * 1/5 :
@@ -127,7 +122,7 @@
 
   function showErrorDialog(message: string): void {
     errorMessage = message;
-    errorDialog.open();
+    errorDialog = true;
   }
 </script>
 
