@@ -10,10 +10,10 @@
       {$_("steps.moving.nonEmptyDialog.content")}
     </CardText>
     <CardActions class="justify-end">
-      <Button text class="primary-text" on:click={() => dispatch("nonEmptyDialogCancel")}>
+      <Button text class="primary-text" on:click={dialogCancel}>
         {$_("steps.moving.nonEmptyDialog.cancel")}
       </Button>
-      <Button text class="primary-text" on:click={() => dispatch("nonEmptyDialogConfirm")}>
+      <Button text class="primary-text" on:click={dialogConfirm}>
         {$_("steps.moving.nonEmptyDialog.confirm")}
       </Button>
     </CardActions>
@@ -31,4 +31,14 @@
   }
 
   const dispatch = createEventDispatcher();
+
+  function dialogCancel() {
+    nonEmptyDialog = false;
+    dispatch("nonEmptyDialogCancel");
+  }
+
+  function dialogConfirm() {
+    nonEmptyDialog = false;
+    dispatch("nonEmptyDialogConfirm");
+  }
 </script>
