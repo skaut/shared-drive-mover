@@ -52,8 +52,7 @@ export default new VueI18n({
         description:
           "Successfully moved. You can delete the original files from your Google Drive - some of them may have been left behind as they cannot be removed automatically.",
         errorHeader: {
-          text:
-            "While moving the files, some errors were encountered and the following files couldn't be moved. Please move these files manually and report these failures in {link} if you think they are caused by bugs in this tool.",
+          text: "While moving the files, some errors were encountered and the following files couldn't be moved. Please move these files manually and report these failures in {link} if you think they are caused by bugs in this tool.",
           github: "GitHub",
         },
         file: "File",
@@ -111,8 +110,7 @@ export default new VueI18n({
         description:
           "Úspěšně přesunuto. Můžete smazat původní soubory ze svého Google Disku - některé soubory mohly být zanechány protože nemohly být smazány automaticky.",
         errorHeader: {
-          text:
-            "Při přesunu některých souborů se stala chyba a soubory nemohly být přesunuty. Přesuňte prosím následující soubory ručně a problémy nahlašte na {link} pokud si myslíte, že jsou chybou tohoto nástroje.",
+          text: "Při přesunu některých souborů se stala chyba a soubory nemohly být přesunuty. Přesuňte prosím následující soubory ručně a problémy nahlašte na {link} pokud si myslíte, že jsou chybou tohoto nástroje.",
           github: "GitHubu",
         },
         file: "Soubor",
