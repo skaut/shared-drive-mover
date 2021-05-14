@@ -13,11 +13,11 @@
   "license": "MIT",
   "author": "Marek Dědič",
   "devDependencies": {
+    "@google/clasp": "^2.3.1",
     "@types/google-apps-script": "^1.0.32",
     "@types/google.script.client-side": "^0.1.0",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
     "@typescript-eslint/parser": "^4.23.0",
-    "clasp": "^1.0.0",
     "css-loader": "^5.2.4",
     "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
