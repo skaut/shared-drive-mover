@@ -2,7 +2,8 @@
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
     "project": "./tsconfig.json",
-    "extraFileExtensions": ["vue"]
+    "extraFileExtensions": ["vue"],
+    "sourceType": "script"
   },
   "env": {
     "browser": true,
@@ -16,9 +17,7 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:vue/recommended",
-    "plugin:prettier/recommended",
-    "prettier/@typescript-eslint",
-    "prettier/vue"
+    "plugin:prettier/recommended"
   ],
   "rules": {
     "no-warning-comments": "warn",
@@ -41,10 +40,9 @@
     }
   ],
   "globals": {
-	  "google": "readonly",
-	  "ListResponse": "readonly",
-	  "MoveError": "readonly",
-	  "MoveResponse": "readonly",
-	  "NamedRecord": "readonly"
+    "google": "readonly",
+    "MoveError": "readonly",
+    "MoveResponse": "readonly",
+    "NamedRecord": "readonly"
   }
 }
