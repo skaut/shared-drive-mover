@@ -93,22 +93,20 @@ export default Vue.extend({
     InProgress,
     SharedDriveSelector,
   },
-  data() {
-    return {
-      activeStep: "configuration",
-      folders: [] as Array<NamedRecord>,
-      folderPath: [] as Array<NamedRecord>,
-      folder: "",
-      sharedDrives: [] as Array<NamedRecord>,
-      sharedDrivePath: [] as Array<NamedRecord>,
-      sharedDrive: "",
-      copyComments: true,
-      displayNonEmptyDialog: false,
-      displayErrorDialog: false,
-      optionalErrorMessage: "",
-      errors: [] as Array<MoveError>,
-    };
-  },
+  data: () => ({
+    activeStep: "configuration",
+    folders: [] as Array<NamedRecord>,
+    folderPath: [] as Array<NamedRecord>,
+    folder: "",
+    sharedDrives: [] as Array<NamedRecord>,
+    sharedDrivePath: [] as Array<NamedRecord>,
+    sharedDrive: "",
+    copyComments: true,
+    displayNonEmptyDialog: false,
+    displayErrorDialog: false,
+    optionalErrorMessage: "",
+    errors: [] as Array<MoveError>,
+  }),
   created() {
     this.getFolders();
     this.getSharedDrives();
