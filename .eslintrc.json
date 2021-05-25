@@ -10,6 +10,7 @@
     "node": false
   },
   "plugins": [
+    "prefer-arrow",
     "@typescript-eslint"
   ],
   "extends": [
@@ -20,7 +21,9 @@
     "plugin:prettier/recommended"
   ],
   "rules": {
+    "arrow-body-style": ["error", "as-needed"],
     "no-warning-comments": "warn",
+    "prefer-arrow/prefer-arrow-functions": ["error", {"allowStandaloneDeclarations": true}],
     "@typescript-eslint/array-type": ["error", {"default": "generic"}],
     "@typescript-eslint/member-ordering": "error",
     "@typescript-eslint/no-extraneous-class": "error",
