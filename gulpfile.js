@@ -6,18 +6,18 @@ const concat = require("gulp-concat");
 const ts = require("gulp-typescript");
 const webpack = require("webpack-stream");
 
-gulp.task("build:appsscript", function () {
-  return gulp.src("src/appsscript.json").pipe(gulp.dest("dist/"));
-});
+gulp.task("build:appsscript", () =>
+  gulp.src("src/appsscript.json").pipe(gulp.dest("dist/"))
+);
 
-gulp.task("build:frontend", function () {
-  return gulp
+gulp.task("build:frontend", () =>
+  gulp
     .src("src/frontend/index.ts")
     .pipe(webpack(require("./frontend.webpack.config.js")))
-    .pipe(gulp.dest("dist/"));
-});
+    .pipe(gulp.dest("dist/"))
+);
 
-gulp.task("build:backend", function () {
+gulp.task("build:backend", () => {
   const tsProject = ts.createProject("tsconfig.json", {
     lib: ["es6"],
     target: "es6",
