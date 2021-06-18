@@ -1,63 +1,59 @@
 <svelte:head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
 </svelte:head>
-<TopAppBar variant="static" color="primary">
-  <Row>
-    <Section>
-      <TopAppBarTitle>Shared drive mover</TopAppBarTitle>
-    </Section>
-  </Row>
-</TopAppBar>
-{#if progress > 0}
-  <LinearProgress {progress} />
-{/if}
-{#if moving}
-  <LinearProgress indeterminate />
-{/if}
-<div id="tab">
-  {#if currentTab === "introduction"}
-    <Introduction bind:copyComments={copyComments}/>
-    <ContinueButton disabled={false} on:next={() => currentTab = "source-selection"}/>
-  {:else if currentTab === "source-selection"}
-    <FolderSelection step="source-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
-    <BackButton on:previous={() => currentTab = "introduction"}/>
-    <ContinueButton disabled={source === null} on:next={() => currentTab = "destination-selection"}/>
-  {:else if currentTab === "destination-selection"}
-    <FolderSelection step="destination-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={destinationPath} bind:selected={destination}/>
-    <BackButton on:previous={() => currentTab = "source-selection"}/>
-    <ContinueButton disabled={destination === null} on:next={() => currentTab = "confirmation"}/>
-  {:else if currentTab === "confirmation"}
-    <Confirmation on:previous={() => currentTab = "destination-selection"} on:next={() => move()} {sourcePath} {destinationPath} {source} {destination}/>
-  {:else if currentTab === "moving"}
-    <Moving bind:this={movingComponent} on:nonEmptyDialogCancel={() => currentTab = "destination-selection"} on:nonEmptyDialogConfirm={() => move(true)}/>
-  {:else if currentTab === "done"}
-    <Done {errors}/>
+<MaterialApp>
+  <AppBar class="primary-color white-text pa-1">
+    <span slot="title" class="font-weight-medium">
+      Shared drive mover
+    </span>
+  </AppBar>
+  {#if progress > 0}
+    <ProgressLinear value={progress} />
   {/if}
-  <Dialog bind:this={errorDialog} aria-labelledby="errorDialogTitle" aria-describedby="errorDialogContent">
-    <DialogTitle id="errorDialogTitle">
-      {$_("errorDialog.title")}
-    </DialogTitle>
-    <Content id="errorDialogContent">
-      {$_("errorDialog.content") + errorMessage}
-    </Content>
-    <Actions>
-      <Button>
-        <Label>
-          {$_("errorDialog.ok")}
-        </Label>
-      </Button>
-    </Actions>
-  </Dialog>
-</div>
+  {#if moving}
+    <ProgressLinear indeterminate />
+  {/if}
+  <div id="tab">
+    {#if currentTab === "introduction"}
+      <Introduction bind:copyComments={copyComments}/>
+      <ContinueButton disabled={false} on:next={() => currentTab = "source-selection"}/>
+    {:else if currentTab === "source-selection"}
+      <FolderSelection step="source-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
+      <BackButton on:previous={() => currentTab = "introduction"}/>
+      <ContinueButton disabled={source === null} on:next={() => currentTab = "destination-selection"}/>
+    {:else if currentTab === "destination-selection"}
+      <FolderSelection step="destination-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={destinationPath} bind:selected={destination}/>
+      <BackButton on:previous={() => currentTab = "source-selection"}/>
+      <ContinueButton disabled={destination === null} on:next={() => currentTab = "confirmation"}/>
+    {:else if currentTab === "confirmation"}
+      <Confirmation on:previous={() => currentTab = "destination-selection"} on:next={() => move()} {sourcePath} {destinationPath} {source} {destination}/>
+    {:else if currentTab === "moving"}
+      <Moving bind:this={movingComponent} on:nonEmptyDialogCancel={() => currentTab = "destination-selection"} on:nonEmptyDialogConfirm={() => move(true)}/>
+    {:else if currentTab === "done"}
+      <Done {errors}/>
+    {/if}
+    <Dialog persistent bind:active={errorDialog}>
+      <Card>
+        <CardTitle>
+          {$_("errorDialog.title")}
+        </CardTitle>
+        <CardText>
+          {$_("errorDialog.content") + errorMessage}
+        </CardText>
+        <CardActions class="justify-end">
+          <Button text class="primary-text" on:click={() => errorDialog = false}>
+            {$_("errorDialog.ok")}
+          </Button>
+        </CardActions>
+      </Card>
+    </Dialog>
+  </div>
+</MaterialApp>
 
 <script lang="ts">
   import {addMessages, init, _} from "svelte-i18n";
-  import Button, {Label} from "@smui/button";
-  import Dialog, {Actions, Content, Title as DialogTitle} from "@smui/dialog";
-  import LinearProgress from '@smui/linear-progress';
-  import TopAppBar, {Row, Section, Title as TopAppBarTitle} from '@smui/top-app-bar';
+  import {AppBar, Button, Card, CardActions, CardText, CardTitle, Dialog, MaterialApp, ProgressLinear} from 'svelte-materialify/src';
 
-  import "./_smui-theme.scss"
   import BackButton from "./BackButton.svelte";
   import Confirmation from "./Confirmation.svelte";
   import ContinueButton from "./ContinueButton.svelte";
@@ -79,13 +75,13 @@
   let currentTab: "introduction"|"source-selection"|"destination-selection"|"confirmation"|"moving"|"done" = "introduction";
   let moving = false;
   let movingComponent: Moving;
-  let errorDialog;
+  let errorDialog = false;
   let errorMessage: string = "";
 
-  $: progress = currentTab === "introduction" ? 1/5 :
-    currentTab === "source-selection" ? 2/5 :
-    currentTab === "destination-selection" ? 3/5 :
-    currentTab === "confirmation" ? 4/5 : 0;
+  $: progress = currentTab === "introduction" ? 100 * 1/5 :
+    currentTab === "source-selection" ? 100 * 2/5 :
+    currentTab === "destination-selection" ? 100 * 3/5 :
+    currentTab === "confirmation" ? 100 * 4/5 : 0;
 
   let copyComments = true;
   let sourcePath: Array<NamedRecord> = [];
@@ -126,15 +122,11 @@
 
   function showErrorDialog(message: string): void {
     errorMessage = message;
-    errorDialog.open();
+    errorDialog = true;
   }
 </script>
 
 <style lang="scss">
-  :global(body) {
-    margin: 0;
-  }
-
   #tab {
     margin: 50px;
   }

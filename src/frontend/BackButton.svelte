@@ -1,13 +1,14 @@
 <br/>
-<Button variant="raised" on:click={() => dispatch("previous")}>
-  <Icon class="material-icons">navigate_before</Icon>
-  <Label>{$_("back.buttonLabel")}</Label>
+<Button on:click={() => dispatch("previous")}>
+  <Icon path={mdiChevronLeft} />
+  {$_("back.buttonLabel")}
 </Button>
 
 <script lang="ts">
   import {createEventDispatcher} from "svelte";
   import {_} from "svelte-i18n";
-  import Button, {Icon, Label} from "@smui/button";
+  import {Button, Icon} from 'svelte-materialify/src';
+  import {mdiChevronLeft} from '@mdi/js';
 
   const dispatch = createEventDispatcher();
 </script>
