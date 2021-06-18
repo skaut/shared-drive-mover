@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "target": "es5",
     "module": "es6",
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
@@ -8,6 +7,6 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strict": true
+    "strict": true,
   }
 }

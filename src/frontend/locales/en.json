@@ -1,0 +1,63 @@
+{
+	"steps": {
+		"introduction": {
+			"header": "Introduction",
+			"welcome": "Welcome to the Shared drive mover, a tool for moving batches of files and folders across Google Drive. The tool is particularly useful for moving from \"My Drive\" to a Shared drive (formerly known as a Team drive). In the following steps, you will select a source folder and a destination folder. The contents of the selected source folder will then be moved to the destination folder. This process can take some time, so please be patient.",
+			"configuration": {
+				"header": "Configuration",
+				"introduction": "When moving files of which you are not the owner, instead of moving the file a copy is created in the destination folder.",
+				"copyComments": {
+					"title": "Copy comments when copying files",
+					"description": "The comments will be created as if you made them, with the original commenter tagged. Note that this may slow down the moving of such files."
+				}
+			}
+		},
+		"source-selection": {
+			"header": "Source folder selection",
+			"introduction": "Please select the folder to move files from."
+		},
+		"destination-selection": {
+			"header": "Destination folder selection",
+			"introduction": "Please select the folder to move files to."
+		},
+		"confirmation": {
+			"header": "Confirmation",
+			"introduction": "Are you sure you want to move the contents of the folder \"{source}\" into the folder \"{destination}\"?",
+			"buttonLabel": "Move"
+		},
+		"moving": {
+			"introduction": "Shared drive mover is moving your files. Please do not close this browser tab.",
+			"nonEmptyDialog": {
+				"title": "Destination not empty",
+				"content": "The selected destination is not empty. Do you want to proceed anyway?",
+				"cancel": "No",
+				"confirm": "Yes"
+			}
+		},
+		"done": {
+			"header": "Done!",
+			"introduction": "Successfully moved. You can delete the original files from your Google Drive - some of them may have been left behind as they cannot be removed automatically.",
+			"errors": {
+				"introduction": "While moving the files, some errors were encountered and the following files couldn't be moved. Please move these files manually and report these failures in {link} if you think they are caused by bugs in this tool.",
+				"github": "GitHub",
+				"file": "File",
+				"message": "Error message"
+			}
+		}
+	},
+	"back": {
+		"buttonLabel": "Back"
+	},
+	"continue": {
+		"buttonLabel": "Continue"
+	},
+	"drive": {
+		"driveList": "Drive Selection",
+		"myDrive": "My Drive"
+	},
+	"errorDialog": {
+		"title": "An error occurred",
+		"content": "An unknown error occurred. Please check the source and destination folders and try again. Error message: ",
+		"ok": "Ok"
+	}
+}
