@@ -22,7 +22,11 @@ gulp.task("build:frontend", function () {
 });
 
 gulp.task("build:backend", function () {
-  const tsProject = ts.createProject("backend.tsconfig.json");
+  const tsProject = ts.createProject("tsconfig.json", {
+    lib: ["es6"],
+    target: "es6",
+    types: ["google-apps-script"],
+  });
   return gulp
     .src([
       "src/backend/**/*.ts",

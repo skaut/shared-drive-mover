@@ -90,11 +90,11 @@ function getNewFolder(
   destinationFolders?: Array<GoogleAppsScript.Drive.Schema.File>
 ): GoogleAppsScript.Drive.Schema.File {
   if (mergeFolders) {
-    const matchingDestinationFolders = destinationFolders!.filter(
+    const destinationFolder = destinationFolders!.find(
       (folder) => folder.title! === sourceFolder.title!
     );
-    if (matchingDestinationFolders.length === 1) {
-      return matchingDestinationFolders[0];
+    if (destinationFolder !== undefined) {
+      return destinationFolder;
     }
   }
   return Drive.Files!.insert(
