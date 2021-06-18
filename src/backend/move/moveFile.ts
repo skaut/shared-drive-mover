@@ -19,15 +19,13 @@ function listFileComments(
   const comments: Array<GoogleAppsScript.Drive.Schema.Comment> = [];
   let pageToken = null;
   do {
-    const response: GoogleAppsScript.Drive.Schema.CommentList = Drive.Comments!.list(
-      fileID,
-      {
+    const response: GoogleAppsScript.Drive.Schema.CommentList =
+      Drive.Comments!.list(fileID, {
         maxResults: 100,
         pageToken: pageToken,
         fields:
           "nextPageToken, items(author(isAuthenticatedUser, displayName), content, status, context, anchor, replies(author(isAuthenticatedUser, displayName), content, verb))",
-      }
-    );
+      });
     for (const comment of response.items!) {
       comments.push(comment);
     }
