@@ -14,7 +14,7 @@
   "author": "Marek Dědič",
   "devDependencies": {
     "@google/clasp": "^2.4.0",
-    "@types/google-apps-script": "^1.0.35",
+    "@types/google-apps-script": "^1.0.36",
     "@types/google.script.client-side": "^0.1.0",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
