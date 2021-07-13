@@ -17,7 +17,7 @@
     "@types/google-apps-script": "^1.0.36",
     "@types/google.script.client-side": "^0.1.0",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
-    "@typescript-eslint/parser": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.3",
     "css-loader": "^5.2.6",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
