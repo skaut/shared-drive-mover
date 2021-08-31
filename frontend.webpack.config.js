@@ -2,13 +2,23 @@
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ScriptExtHtmlWebPackPlugin = require("script-ext-html-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 module.exports = {
   mode: "production",
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        extractComments: false,
+      }),
+    ],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/frontend/index.html",
+      scriptLoading: "blocking",
     }),
     new ScriptExtHtmlWebPackPlugin({
       inline: /\.js$/,
