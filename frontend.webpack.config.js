@@ -18,6 +18,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/frontend/index.html",
+      scriptLoading: 'blocking',
     }),
     new ScriptExtHtmlWebPackPlugin({
       inline: /\.js$/,
