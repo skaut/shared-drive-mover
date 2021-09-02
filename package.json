@@ -14,7 +14,7 @@
   "author": "Marek Dědič",
   "devDependencies": {
     "@google/clasp": "^2.4.1",
-    "@material/theme": "^10.0.0",
+    "@material/theme": "^3.0.0",
     "@smui/button": "^1.0.0",
     "@smui/checkbox": "^1.0.0",
     "@smui/data-table": "^1.1.0",
