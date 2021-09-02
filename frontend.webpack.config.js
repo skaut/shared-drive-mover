@@ -1,26 +1,16 @@
 /* eslint-env node */
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
 
 const path = require("path");
 
 module.exports = {
   mode: "production",
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        //extractComments: false,
-      }),
-    ],
-  },
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/frontend/index.html",
       minify: false,
       inject: false,
-      //scriptLoading: "blocking",
     }),
   ],
   module: {
