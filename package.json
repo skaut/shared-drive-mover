@@ -13,30 +13,30 @@
   "license": "MIT",
   "author": "Marek Dědič",
   "devDependencies": {
-    "@google/clasp": "^2.3.1",
-    "@types/google-apps-script": "^1.0.33",
+    "@google/clasp": "^2.4.1",
+    "@types/google-apps-script": "^1.0.37",
     "@types/google.script.client-side": "^0.1.0",
-    "@typescript-eslint/eslint-plugin": "^4.25.0",
-    "@typescript-eslint/parser": "^4.25.0",
-    "css-loader": "^5.2.6",
-    "eslint": "^7.27.0",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
+    "css-loader": "^6.2.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-vue": "^7.9.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^7.17.0",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-typescript": "^6.0.0-alpha.1",
-    "html-webpack-plugin": "^4.5.2",
-    "prettier": "^2.3.0",
+    "html-webpack-plugin": "^5.3.0",
+    "prettier": "^2.3.2",
     "script-ext-html-webpack-plugin": "^2.1.5",
-    "ts-loader": "^8.1.0",
-    "typescript": "^4.2.4",
-    "vue-loader": "^15.9.7",
+    "ts-loader": "^9.2.0",
+    "typescript": "^4.4.2",
+    "vue-loader": "^15.9.8",
     "vue-style-loader": "^4.1.3",
-    "vue-template-compiler": "^2.6.12",
-    "webpack": "^4.46.0",
-    "webpack-stream": "^6.1.2"
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^5.51.0",
+    "webpack-stream": "^7.0.0"
   },
   "scripts": {
     "build": "gulp build",
@@ -45,8 +45,8 @@
     "lint": "npm run lint:ts"
   },
   "dependencies": {
-    "vue": "^2.6.12",
-    "vue-i18n": "^8.24.4",
+    "vue": "^2.6.14",
+    "vue-i18n": "^8.25.0",
     "vue-material": "^1.0.0-beta-15"
   }
 }
