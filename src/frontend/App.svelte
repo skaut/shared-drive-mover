@@ -33,7 +33,7 @@
   {:else if currentTab === "done"}
     <Done {errors}/>
   {/if}
-  <Dialog bind:this={errorDialog} aria-labelledby="errorDialogTitle" aria-describedby="errorDialogContent">
+  <Dialog bind:open={errorDialogOpen} aria-labelledby="errorDialogTitle" aria-describedby="errorDialogContent">
     <DialogTitle id="errorDialogTitle">
       {$_("errorDialog.title")}
     </DialogTitle>
@@ -79,7 +79,7 @@
   let currentTab: "introduction"|"source-selection"|"destination-selection"|"confirmation"|"moving"|"done" = "introduction";
   let moving = false;
   let movingComponent: Moving;
-  let errorDialog;
+  let errorDialogOpen;
   let errorMessage: string = "";
 
   $: progress = currentTab === "introduction" ? 1/5 :
@@ -126,7 +126,7 @@
 
   function showErrorDialog(message: string): void {
     errorMessage = message;
-    errorDialog.open();
+    errorDialogOpen = true;
   }
 </script>
 

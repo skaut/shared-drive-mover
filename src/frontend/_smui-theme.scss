@@ -1,7 +1,11 @@
-// Svelte colors
-$mdc-theme-primary: #ff3e00;
-$mdc-theme-secondary: #676778;
+@use '@material/theme/color-palette';
 
-// Material colors
-//$mdc-theme-primary: #448aff; // material blue A200
-//$mdc-theme-secondary: #ff5252; // material red A200
+@use '@material/theme/index' as theme with (
+	// Svelte colors
+	$primary: #ff3e00,
+	$secondary: #676778,
+
+	// Material colors
+	//$primary: color-palette.$blue-a200,
+	//$secondary: color-palette.$red-a200,
+);

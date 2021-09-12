@@ -97,10 +97,11 @@
 </script>
 
 <style lang="scss">
-  @import "./_smui-theme.scss";
+@use "./_smui-theme.scss";
+@use '@material/theme' as theme;
 
   .breadcrumb {
     cursor: pointer;
-    color: $mdc-theme-primary;
+    color: theme.$primary;
   }
 </style>
