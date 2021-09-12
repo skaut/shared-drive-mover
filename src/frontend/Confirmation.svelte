@@ -11,7 +11,7 @@
 <script lang="ts">
   import {createEventDispatcher} from "svelte";
   import {_} from "svelte-i18n";
-  import Button, {Icon, Label} from "@smui/button";
+  import Button, {Icon, Label} from "@smui/button/styled";
 
   import BackButton from "./BackButton.svelte";
   import StepHeader from "./StepHeader.svelte";

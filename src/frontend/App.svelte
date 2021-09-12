@@ -52,10 +52,10 @@
 
 <script lang="ts">
   import {addMessages, init, _} from "svelte-i18n";
-  import Button, {Label} from "@smui/button";
-  import Dialog, {Actions, Content, Title as DialogTitle} from "@smui/dialog";
-  import LinearProgress from '@smui/linear-progress';
-  import TopAppBar, {Row, Section, Title as TopAppBarTitle} from '@smui/top-app-bar';
+  import Button, {Label} from "@smui/button/styled";
+  import Dialog, {Actions, Content, Title as DialogTitle} from "@smui/dialog/styled";
+  import LinearProgress from '@smui/linear-progress/styled';
+  import TopAppBar, {Row, Section, Title as TopAppBarTitle} from '@smui/top-app-bar/styled';
 
   import "./_smui-theme.scss"
   import BackButton from "./BackButton.svelte";

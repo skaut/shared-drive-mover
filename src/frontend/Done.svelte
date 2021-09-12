@@ -34,7 +34,7 @@
 
 <script lang="ts">
   import {_} from "svelte-i18n";
-  import DataTable, {Body, Cell, Head, Row} from "@smui/data-table"
+  import DataTable, {Body, Cell, Head, Row} from "@smui/data-table/styled"
 
   import StepHeader from "./StepHeader.svelte";
 
