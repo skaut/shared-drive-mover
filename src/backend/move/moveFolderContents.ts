@@ -1,34 +1,34 @@
-function listFilesInFolder(
+async function listFilesInFolder(
   folderID: string
-): Array<GoogleAppsScript.Drive.Schema.File> {
-  let files: Array<GoogleAppsScript.Drive.Schema.File> = [];
-  let pageToken = null;
-  do {
-    const response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
-      q:
-        '"' +
-        folderID +
-        '" in parents and mimeType != "application/vnd.google-apps.folder" and trashed = false',
-      includeItemsFromAllDrives: true,
-      supportsAllDrives: true,
-      pageToken: pageToken,
-      maxResults: 1000,
-      fields:
-        "nextPageToken, items(id, title, capabilities(canMoveItemOutOfDrive))",
-    });
-    files = files.concat(response.items!);
-    pageToken = response.nextPageToken;
-  } while (pageToken !== undefined);
-  return files;
+): Promise<Array<GoogleAppsScript.Drive.Schema.File>> {
+  return await paginationHelper<
+    GoogleAppsScript.Drive.Schema.FileList,
+    GoogleAppsScript.Drive.Schema.File
+  >(
+    (pageToken) =>
+      Drive.Files!.list({
+        q:
+          '"' +
+          folderID +
+          '" in parents and mimeType != "application/vnd.google-apps.folder" and trashed = false',
+        includeItemsFromAllDrives: true,
+        supportsAllDrives: true,
+        pageToken: pageToken,
+        maxResults: 1000,
+        fields:
+          "nextPageToken, items(id, title, capabilities(canMoveItemOutOfDrive))",
+      }),
+    (response) => response.items!
+  );
 }
 
-function moveFolderContentsFiles(
+async function moveFolderContentsFiles(
   sourceID: string,
   destinationID: string,
   path: Array<string>,
   copyComments: boolean
-): Array<MoveError> {
-  const files = listFilesInFolder(sourceID);
+): Promise<Array<MoveError>> {
+  const files = await listFilesInFolder(sourceID);
   const errors: Array<MoveError> = [];
   for (const file of files) {
     const error = moveFile(file, sourceID, destinationID, path, copyComments);
@@ -108,13 +108,13 @@ function getNewFolder(
   );
 }
 
-function moveFolderContentsFolders(
+async function moveFolderContentsFolders(
   sourceID: string,
   destinationID: string,
   path: Array<string>,
   copyComments: boolean,
   mergeFolders: boolean
-): Array<MoveError> {
+): Promise<Array<MoveError>> {
   const sourceFolders = listFoldersInFolder(sourceID);
   let destinationFolders = undefined;
   if (mergeFolders) {
@@ -130,7 +130,7 @@ function moveFolderContentsFolders(
         destinationFolders
       );
       errors = errors.concat(
-        moveFolderContents(
+        await moveFolderContents(
           folder.id!,
           destinationFolder.id!,
           path.concat([folder.title!]),
@@ -146,20 +146,17 @@ function moveFolderContentsFolders(
   return errors;
 }
 
-function moveFolderContents(
+async function moveFolderContents(
   sourceID: string,
   destinationID: string,
   path: Array<string>,
   copyComments: boolean,
   mergeFolders: boolean
-): Array<MoveError> {
-  return moveFolderContentsFiles(
-    sourceID,
-    destinationID,
-    path,
-    copyComments
+): Promise<Array<MoveError>> {
+  return (
+    await moveFolderContentsFiles(sourceID, destinationID, path, copyComments)
   ).concat(
-    moveFolderContentsFolders(
+    await moveFolderContentsFolders(
       sourceID,
       destinationID,
       path,

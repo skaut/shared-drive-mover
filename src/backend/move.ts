@@ -24,7 +24,7 @@ async function move(
   if (!notEmptyOverride && !isEmpty) {
     return { status: "error", reason: "notEmpty" };
   }
-  const errors = moveFolderContents(
+  const errors = await moveFolderContents(
     sourceID,
     destinationID,
     [],
