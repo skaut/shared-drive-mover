@@ -39,27 +39,27 @@ async function moveFolderContentsFiles(
   return errors;
 }
 
-function listFoldersInFolder(
+async function listFoldersInFolder(
   folderID: string
-): Array<GoogleAppsScript.Drive.Schema.File> {
-  let folders: Array<GoogleAppsScript.Drive.Schema.File> = [];
-  let pageToken = null;
-  do {
-    const response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
-      q:
-        '"' +
-        folderID +
-        '" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
-      includeItemsFromAllDrives: true,
-      supportsAllDrives: true,
-      pageToken: pageToken,
-      maxResults: 1000,
-      fields: "nextPageToken, items(id, title)",
-    });
-    folders = folders.concat(response.items!);
-    pageToken = response.nextPageToken;
-  } while (pageToken !== undefined);
-  return folders;
+): Promise<Array<GoogleAppsScript.Drive.Schema.File>> {
+  return await paginationHelper<
+    GoogleAppsScript.Drive.Schema.FileList,
+    GoogleAppsScript.Drive.Schema.File
+  >(
+    (pageToken) =>
+      Drive.Files!.list({
+        q:
+          '"' +
+          folderID +
+          '" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
+        includeItemsFromAllDrives: true,
+        supportsAllDrives: true,
+        pageToken: pageToken,
+        maxResults: 1000,
+        fields: "nextPageToken, items(id, title)",
+      }),
+    (response) => response.items!
+  );
 }
 
 function deleteFolderIfEmpty(folderID: string): void {
@@ -115,10 +115,10 @@ async function moveFolderContentsFolders(
   copyComments: boolean,
   mergeFolders: boolean
 ): Promise<Array<MoveError>> {
-  const sourceFolders = listFoldersInFolder(sourceID);
+  const sourceFolders = await listFoldersInFolder(sourceID);
   let destinationFolders = undefined;
   if (mergeFolders) {
-    destinationFolders = listFoldersInFolder(destinationID);
+    destinationFolders = await listFoldersInFolder(destinationID);
   }
   let errors: Array<MoveError> = [];
   for (const folder of sourceFolders) {
