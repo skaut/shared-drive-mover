@@ -1,19 +1,17 @@
 /* exported backoffHelper */
 
-function backoffHelper(
-  request: () => GoogleAppsScript.Drive.Schema.FileList,
+function backoffHelper<T extends { nextPageToken?: string | undefined }>(
+  request: () => T,
   maxTotalDelayInSeconds: number
-): Promise<GoogleAppsScript.Drive.Schema.FileList> {
+): Promise<T> {
   const maxTries = Math.floor(Math.log2(maxTotalDelayInSeconds));
-  return new Promise<GoogleAppsScript.Drive.Schema.FileList>(
-    (resolve, reject) => {
-      try {
-        backoff(() => resolve(request()), maxTries, 1, 1);
-      } catch (e) {
-        reject(e);
-      }
+  return new Promise<T>((resolve, reject) => {
+    try {
+      backoff(() => resolve(request()), maxTries, 1, 1);
+    } catch (e) {
+      reject(e);
     }
-  );
+  });
 }
 
 declare function setTimeout(fn: () => void, timeout: number): void;

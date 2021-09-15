@@ -1,7 +1,7 @@
 /* exported listFolders */
 
 async function listFolders(parentID: string): Promise<Array<NamedRecord>> {
-  return await paginationHelper(
+  return await paginationHelper<GoogleAppsScript.Drive.Schema.FileList>(
     (pageToken) =>
       Drive.Files!.list({
         q:

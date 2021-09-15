@@ -1,18 +1,16 @@
 /* exported paginationHelper */
 
-async function paginationHelper(
-  request: (
-    pageToken: string | null | undefined
-  ) => GoogleAppsScript.Drive.Schema.FileList,
-  transform: (
-    response: GoogleAppsScript.Drive.Schema.FileList
-  ) => Array<NamedRecord>,
+async function paginationHelper<
+  T extends { nextPageToken?: string | undefined }
+>(
+  request: (pageToken: string | undefined) => T,
+  transform: (response: T) => Array<NamedRecord>,
   maxTotalDelayInSeconds: number
 ): Promise<Array<NamedRecord>> {
   let ret: Array<NamedRecord> = [];
-  let pageToken: string | null | undefined = null;
+  let pageToken: string | undefined = undefined;
   do {
-    const response = await backoffHelper(
+    const response = await backoffHelper<T>(
       () => request(pageToken),
       maxTotalDelayInSeconds
     );
