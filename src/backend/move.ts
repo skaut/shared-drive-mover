@@ -1,24 +1,27 @@
 /* exported move */
 
-function isDirectoryEmpty(directoryID: string): boolean {
-  const response = Drive.Files!.list({
-    q: '"' + directoryID + '" in parents and trashed = false',
-    includeItemsFromAllDrives: true,
-    supportsAllDrives: true,
-    maxResults: 1,
-    fields: "items(id)",
-  });
+async function isDirectoryEmpty(directoryID: string): Promise<boolean> {
+  const response = await backoffHelper(() =>
+    Drive.Files!.list({
+      q: '"' + directoryID + '" in parents and trashed = false',
+      includeItemsFromAllDrives: true,
+      supportsAllDrives: true,
+      maxResults: 1,
+      fields: "items(id)",
+    })
+  );
   return response.items!.length === 0;
 }
 
-function move(
+async function move(
   sourceID: string,
   destinationID: string,
   copyComments: boolean,
   mergeFolders: boolean,
   notEmptyOverride: boolean
-): MoveResponse {
-  if (!notEmptyOverride && !isDirectoryEmpty(destinationID)) {
+): Promise<MoveResponse> {
+  const isEmpty = await isDirectoryEmpty(destinationID);
+  if (!notEmptyOverride && !isEmpty) {
     return { status: "error", reason: "notEmpty" };
   }
   const errors = moveFolderContents(
