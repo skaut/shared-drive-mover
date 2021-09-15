@@ -9,7 +9,6 @@ async function listSharedDrives(): Promise<Array<NamedRecord>> {
         fields: "nextPageToken, items(id, name)",
       }),
     (response) =>
-      response.items!.map((item) => ({ id: item.id!, name: item.name! })),
-    60
+      response.items!.map((item) => ({ id: item.id!, name: item.name! }))
   );
 }

@@ -22,7 +22,6 @@ async function listFolders(parentID: string): Promise<Array<NamedRecord>> {
             ? item.shortcutDetails!.targetId!
             : item.id!;
         return { id, name: item.title! };
-      }),
-    60
+      })
   );
 }
