@@ -68,13 +68,15 @@ async function moveFileByCopy(
   copyComments: boolean
 ): Promise<MoveError | null> {
   try {
-    const copy = Drive.Files!.copy(
-      {
-        parents: [{ id: destinationID }],
-        title: name,
-      },
-      fileID,
-      { supportsAllDrives: true, fields: "id" }
+    const copy = await backoffHelper<GoogleAppsScript.Drive.Schema.File>(() =>
+      Drive.Files!.copy(
+        {
+          parents: [{ id: destinationID }],
+          title: name,
+        },
+        fileID,
+        { supportsAllDrives: true, fields: "id" }
+      )
     );
     if (copyComments) {
       await copyFileComments(fileID, copy.id!);
