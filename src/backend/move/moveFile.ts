@@ -15,29 +15,29 @@ async function moveFileDirectly(
   );
 }
 
-function listFileComments(
+async function listFileComments(
   fileID: string
-): Array<GoogleAppsScript.Drive.Schema.Comment> {
-  const comments: Array<GoogleAppsScript.Drive.Schema.Comment> = [];
-  let pageToken = null;
-  do {
-    const response: GoogleAppsScript.Drive.Schema.CommentList =
+): Promise<Array<GoogleAppsScript.Drive.Schema.Comment>> {
+  return await paginationHelper<
+    GoogleAppsScript.Drive.Schema.CommentList,
+    GoogleAppsScript.Drive.Schema.Comment
+  >(
+    (pageToken) =>
       Drive.Comments!.list(fileID, {
         maxResults: 100,
         pageToken: pageToken,
         fields:
           "nextPageToken, items(author(isAuthenticatedUser, displayName), content, status, context, anchor, replies(author(isAuthenticatedUser, displayName), content, verb))",
-      });
-    for (const comment of response.items!) {
-      comments.push(comment);
-    }
-    pageToken = response.nextPageToken;
-  } while (pageToken !== undefined);
-  return comments;
+      }),
+    (response) => response.items!
+  );
 }
 
-function copyFileComments(sourceID: string, destinationID: string): void {
-  const comments = listFileComments(sourceID);
+async function copyFileComments(
+  sourceID: string,
+  destinationID: string
+): Promise<void> {
+  const comments = await listFileComments(sourceID);
   for (const comment of comments) {
     if (!comment.author!.isAuthenticatedUser) {
       comment.content =
@@ -56,13 +56,13 @@ function copyFileComments(sourceID: string, destinationID: string): void {
   }
 }
 
-function moveFileByCopy(
+async function moveFileByCopy(
   fileID: string,
   name: string,
   destinationID: string,
   path: Array<string>,
   copyComments: boolean
-): MoveError | null {
+): Promise<MoveError | null> {
   try {
     const copy = Drive.Files!.copy(
       {
@@ -73,7 +73,7 @@ function moveFileByCopy(
       { supportsAllDrives: true, fields: "id" }
     );
     if (copyComments) {
-      copyFileComments(fileID, copy.id!);
+      await copyFileComments(fileID, copy.id!);
     }
     return null;
   } catch (e) {
@@ -96,7 +96,7 @@ async function moveFile(
     try {
       await moveFileDirectly(file.id!, sourceID, destinationID);
     } catch (_) {
-      error = moveFileByCopy(
+      error = await moveFileByCopy(
         file.id!,
         file.title!,
         destinationID,
@@ -105,7 +105,7 @@ async function moveFile(
       );
     }
   } else {
-    error = moveFileByCopy(
+    error = await moveFileByCopy(
       file.id!,
       file.title!,
       destinationID,
