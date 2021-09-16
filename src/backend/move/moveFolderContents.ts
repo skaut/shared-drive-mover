@@ -29,20 +29,13 @@ async function moveFolderContentsFiles(
   copyComments: boolean
 ): Promise<Array<MoveError>> {
   const files = await listFilesInFolder(sourceID);
-  const errors: Array<MoveError> = [];
-  for (const file of files) {
-    // TODO: Run these in parallel?
-    const error = await moveFile(
-      file,
-      sourceID,
-      destinationID,
-      path,
-      copyComments
-    );
-    if (error !== null) {
-      errors.push(error);
-    }
-  }
+  const errors = (
+    await Promise.all(
+      files.map((file) =>
+        moveFile(file, sourceID, destinationID, path, copyComments)
+      )
+    )
+  ).filter((error): error is MoveError => error !== null);
   return errors;
 }
 
