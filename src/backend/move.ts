@@ -1,14 +1,15 @@
 /* exported move */
 
 async function isDirectoryEmpty(directoryID: string): Promise<boolean> {
-  const response = await backoffHelper(() =>
-    Drive.Files!.list({
-      q: '"' + directoryID + '" in parents and trashed = false',
-      includeItemsFromAllDrives: true,
-      supportsAllDrives: true,
-      maxResults: 1,
-      fields: "items(id)",
-    })
+  const response = await backoffHelper<GoogleAppsScript.Drive.Schema.FileList>(
+    () =>
+      Drive.Files!.list({
+        q: '"' + directoryID + '" in parents and trashed = false',
+        includeItemsFromAllDrives: true,
+        supportsAllDrives: true,
+        maxResults: 1,
+        fields: "items(id)",
+      })
   );
   return response.items!.length === 0;
 }

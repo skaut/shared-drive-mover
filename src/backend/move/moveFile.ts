@@ -5,7 +5,7 @@ async function moveFileDirectly(
   sourceID: string,
   destinationID: string
 ): Promise<void> {
-  await backoffHelper(() =>
+  await backoffHelper<void>(() =>
     Drive.Files!.update({}, fileID, null, {
       addParents: destinationID,
       removeParents: sourceID,
@@ -45,9 +45,11 @@ async function copyFileComments(
     }
     const replies = comment.replies!;
     delete comment.replies;
-    const commentId = await backoffHelper<string>(
-      () => Drive.Comments!.insert(comment, destinationID).commentId!
-    );
+    const commentId = (
+      await backoffHelper<GoogleAppsScript.Drive.Schema.Comment>(() =>
+        Drive.Comments!.insert(comment, destinationID)
+      )
+    ).commentId!;
     for (const reply of replies) {
       if (!reply.author!.isAuthenticatedUser) {
         reply.content =
