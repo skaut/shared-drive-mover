@@ -31,6 +31,7 @@ async function moveFolderContentsFiles(
   const files = await listFilesInFolder(sourceID);
   const errors: Array<MoveError> = [];
   for (const file of files) {
+    // TODO: Run these in parallel?
     const error = await moveFile(
       file,
       sourceID,
@@ -136,6 +137,7 @@ async function moveFolderContentsFolders(
   }
   let errors: Array<MoveError> = [];
   for (const folder of sourceFolders) {
+    // TODO: Run these in parallel?
     try {
       const destinationFolder = await getNewFolder(
         folder,
@@ -167,7 +169,7 @@ async function moveFolderContents(
   copyComments: boolean,
   mergeFolders: boolean
 ): Promise<Array<MoveError>> {
-  // TODO: go over all await calls and check that they can't be parallelized (as they probably can be here)
+  // TODO: Run these in parallel?
   return (
     await moveFolderContentsFiles(sourceID, destinationID, path, copyComments)
   ).concat(
