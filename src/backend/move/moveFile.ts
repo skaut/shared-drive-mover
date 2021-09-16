@@ -69,27 +69,26 @@ async function moveFileByCopy(
   path: Array<string>,
   copyComments: boolean
 ): Promise<MoveError | null> {
-  try {
-    const copy = await backoffHelper<GoogleAppsScript.Drive.Schema.File>(() =>
-      Drive.Files!.copy(
-        {
-          parents: [{ id: destinationID }],
-          title: name,
-        },
-        fileID,
-        { supportsAllDrives: true, fields: "id" }
-      )
-    );
-    if (copyComments) {
-      await copyFileComments(fileID, copy.id!);
-    }
-    return null;
-  } catch (e) {
-    return {
+  return backoffHelper<GoogleAppsScript.Drive.Schema.File>(() =>
+    Drive.Files!.copy(
+      {
+        parents: [{ id: destinationID }],
+        title: name,
+      },
+      fileID,
+      { supportsAllDrives: true, fields: "id" }
+    )
+  )
+    .then(async (copy) => {
+      if (copyComments) {
+        await copyFileComments(fileID, copy.id!);
+      }
+      return null;
+    })
+    .catch((e) => ({
       file: path.concat([name]),
       error: (e as GoogleJsonResponseException).message,
-    };
-  }
+    }));
 }
 
 async function moveFile(
