@@ -99,21 +99,14 @@ async function moveFile(
   path: Array<string>,
   copyComments: boolean
 ): Promise<MoveError | null> {
-  let error = null;
   if (file.capabilities!.canMoveItemOutOfDrive!) {
-    try {
-      await moveFileDirectly(file.id!, sourceID, destinationID);
-    } catch (_) {
-      error = await moveFileByCopy(
-        file.id!,
-        file.title!,
-        destinationID,
-        path,
-        copyComments
+    return moveFileDirectly(file.id!, sourceID, destinationID)
+      .then(() => null)
+      .catch(() =>
+        moveFileByCopy(file.id!, file.title!, destinationID, path, copyComments)
       );
-    }
   } else {
-    error = await moveFileByCopy(
+    return await moveFileByCopy(
       file.id!,
       file.title!,
       destinationID,
@@ -121,5 +114,4 @@ async function moveFile(
       copyComments
     );
   }
-  return error;
 }
