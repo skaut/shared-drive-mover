@@ -1,16 +1,18 @@
 /* exported moveFile */
 
-function moveFileDirectly(
+async function moveFileDirectly(
   fileID: string,
   sourceID: string,
   destinationID: string
-): void {
-  Drive.Files!.update({}, fileID, null, {
-    addParents: destinationID,
-    removeParents: sourceID,
-    supportsAllDrives: true,
-    fields: "",
-  });
+): Promise<void> {
+  await backoffHelper(() =>
+    Drive.Files!.update({}, fileID, null, {
+      addParents: destinationID,
+      removeParents: sourceID,
+      supportsAllDrives: true,
+      fields: "",
+    })
+  );
 }
 
 function listFileComments(
@@ -82,17 +84,17 @@ function moveFileByCopy(
   }
 }
 
-function moveFile(
+async function moveFile(
   file: GoogleAppsScript.Drive.Schema.File,
   sourceID: string,
   destinationID: string,
   path: Array<string>,
   copyComments: boolean
-): MoveError | null {
+): Promise<MoveError | null> {
   let error = null;
   if (file.capabilities!.canMoveItemOutOfDrive!) {
     try {
-      moveFileDirectly(file.id!, sourceID, destinationID);
+      await moveFileDirectly(file.id!, sourceID, destinationID);
     } catch (_) {
       error = moveFileByCopy(
         file.id!,

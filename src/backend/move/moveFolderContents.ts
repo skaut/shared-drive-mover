@@ -31,7 +31,13 @@ async function moveFolderContentsFiles(
   const files = await listFilesInFolder(sourceID);
   const errors: Array<MoveError> = [];
   for (const file of files) {
-    const error = moveFile(file, sourceID, destinationID, path, copyComments);
+    const error = await moveFile(
+      file,
+      sourceID,
+      destinationID,
+      path,
+      copyComments
+    );
     if (error !== null) {
       errors.push(error);
     }
