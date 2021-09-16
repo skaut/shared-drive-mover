@@ -62,23 +62,29 @@ async function listFoldersInFolder(
   );
 }
 
-function deleteFolderIfEmpty(folderID: string): void {
-  const response = Drive.Files!.list({
-    q: '"' + folderID + '" in parents and trashed = false',
-    includeItemsFromAllDrives: true,
-    supportsAllDrives: true,
-    maxResults: 1,
-    fields: "items(id)",
-  });
+async function deleteFolderIfEmpty(folderID: string): Promise<void> {
+  const response = await backoffHelper<GoogleAppsScript.Drive.Schema.FileList>(
+    () =>
+      Drive.Files!.list({
+        q: '"' + folderID + '" in parents and trashed = false',
+        includeItemsFromAllDrives: true,
+        supportsAllDrives: true,
+        maxResults: 1,
+        fields: "items(id)",
+      })
+  );
   if (response.items!.length === 0) {
-    const response2 = Drive.Files!.get(folderID, {
-      fields: "userPermission(role)",
-    });
+    const response2 = await backoffHelper<GoogleAppsScript.Drive.Schema.File>(
+      () =>
+        Drive.Files!.get(folderID, {
+          fields: "userPermission(role)",
+        })
+    );
     if (
       response2.userPermission!.role === "owner" ||
       response2.userPermission!.role === "organizer"
     ) {
-      Drive.Files!.remove(folderID);
+      await backoffHelper<void>(() => Drive.Files!.remove(folderID));
     }
   }
 }
@@ -138,7 +144,7 @@ async function moveFolderContentsFolders(
           mergeFolders
         )
       );
-      deleteFolderIfEmpty(folder.id!);
+      await deleteFolderIfEmpty(folder.id!);
     } catch (e) {
       errors.push({ file: path.concat([folder.title!]), error: e as string });
     }
@@ -153,6 +159,7 @@ async function moveFolderContents(
   copyComments: boolean,
   mergeFolders: boolean
 ): Promise<Array<MoveError>> {
+  // TODO: go over all await calls and check that they can't be parallelized (as they probably can be here)
   return (
     await moveFolderContentsFiles(sourceID, destinationID, path, copyComments)
   ).concat(

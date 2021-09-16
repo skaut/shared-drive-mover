@@ -1,8 +1,6 @@
 /* exported backoffHelper */
 
-function backoffHelper<T extends { nextPageToken?: string | undefined }>(
-  request: () => T
-): Promise<T> {
+function backoffHelper<T>(request: () => T): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     try {
       backoff(() => resolve(request()), 1, 1);
