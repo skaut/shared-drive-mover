@@ -89,12 +89,12 @@ async function deleteFolderIfEmpty(folderID: string): Promise<void> {
   }
 }
 
-function getNewFolder(
+async function getNewFolder(
   sourceFolder: GoogleAppsScript.Drive.Schema.File,
   destinationID: string,
   mergeFolders: boolean,
   destinationFolders?: Array<GoogleAppsScript.Drive.Schema.File>
-): GoogleAppsScript.Drive.Schema.File {
+): Promise<GoogleAppsScript.Drive.Schema.File> {
   if (mergeFolders) {
     const destinationFolder = destinationFolders!.find(
       (folder) => folder.title! === sourceFolder.title!
@@ -103,14 +103,16 @@ function getNewFolder(
       return destinationFolder;
     }
   }
-  return Drive.Files!.insert(
-    {
-      parents: [{ id: destinationID }],
-      title: sourceFolder.title!,
-      mimeType: "application/vnd.google-apps.folder",
-    },
-    undefined,
-    { supportsAllDrives: true, fields: "id" }
+  return await backoffHelper<GoogleAppsScript.Drive.Schema.File>(() =>
+    Drive.Files!.insert(
+      {
+        parents: [{ id: destinationID }],
+        title: sourceFolder.title!,
+        mimeType: "application/vnd.google-apps.folder",
+      },
+      undefined,
+      { supportsAllDrives: true, fields: "id" }
+    )
   );
 }
 
@@ -129,7 +131,7 @@ async function moveFolderContentsFolders(
   let errors: Array<MoveError> = [];
   for (const folder of sourceFolders) {
     try {
-      const destinationFolder = getNewFolder(
+      const destinationFolder = await getNewFolder(
         folder,
         destinationID,
         mergeFolders,
