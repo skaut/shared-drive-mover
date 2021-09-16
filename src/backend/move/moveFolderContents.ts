@@ -169,16 +169,17 @@ async function moveFolderContents(
   copyComments: boolean,
   mergeFolders: boolean
 ): Promise<Array<MoveError>> {
-  // TODO: Run these in parallel?
-  return (
-    await moveFolderContentsFiles(sourceID, destinationID, path, copyComments)
-  ).concat(
-    await moveFolderContentsFolders(
-      sourceID,
-      destinationID,
-      path,
-      copyComments,
-      mergeFolders
-    )
+  return ([] as Array<MoveError>).concat.apply(
+    [],
+    await Promise.all([
+      moveFolderContentsFiles(sourceID, destinationID, path, copyComments),
+      moveFolderContentsFolders(
+        sourceID,
+        destinationID,
+        path,
+        copyComments,
+        mergeFolders
+      ),
+    ])
   );
 }
