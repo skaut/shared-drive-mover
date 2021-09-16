@@ -45,13 +45,17 @@ async function copyFileComments(
     }
     const replies = comment.replies!;
     delete comment.replies;
-    const commentId = Drive.Comments!.insert(comment, destinationID).commentId!;
+    const commentId = await backoffHelper<string>(
+      () => Drive.Comments!.insert(comment, destinationID).commentId!
+    );
     for (const reply of replies) {
       if (!reply.author!.isAuthenticatedUser) {
         reply.content =
           "*" + reply.author!.displayName! + ":*\n" + reply.content!;
       }
-      Drive.Replies!.insert(reply, destinationID, commentId);
+      await backoffHelper<void>(() =>
+        Drive.Replies!.insert(reply, destinationID, commentId)
+      );
     }
   }
 }
