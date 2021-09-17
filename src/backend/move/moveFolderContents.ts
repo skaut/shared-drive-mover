@@ -124,39 +124,36 @@ async function moveFolderContentsFolders(
   mergeFolders: boolean
 ): Promise<Array<MoveError>> {
   const sourceFolders = await listFoldersInFolder(sourceID);
-  let destinationFolders = undefined;
+  let destinationFolders:
+    | Array<GoogleAppsScript.Drive.Schema.File>
+    | undefined = undefined;
   if (mergeFolders) {
     destinationFolders = await listFoldersInFolder(destinationID);
   }
-  let errors: Array<MoveError> = [];
-  for (const folder of sourceFolders) {
-    // TODO: Run these in parallel?
-    errors = errors.concat(
-      await getNewFolder(
-        folder,
-        destinationID,
-        mergeFolders,
-        destinationFolders
-      )
-        .then((destinationFolder) =>
-          moveFolderContents(
-            folder.id!,
-            destinationFolder.id!,
-            path.concat([folder.title!]),
-            copyComments,
-            mergeFolders
+  return ([] as Array<MoveError>).concat.apply(
+    [],
+    await Promise.all(
+      sourceFolders.map((folder) =>
+        getNewFolder(folder, destinationID, mergeFolders, destinationFolders)
+          .then((destinationFolder) =>
+            moveFolderContents(
+              folder.id!,
+              destinationFolder.id!,
+              path.concat([folder.title!]),
+              copyComments,
+              mergeFolders
+            )
           )
-        )
-        .then(async (newErrors) => {
-          await deleteFolderIfEmpty(folder.id!);
-          return newErrors;
-        })
-        .catch((e) => [
-          { file: path.concat([folder.title!]), error: e as string },
-        ])
-    );
-  }
-  return errors;
+          .then(async (errors) => {
+            await deleteFolderIfEmpty(folder.id!);
+            return errors;
+          })
+          .catch((e) => [
+            { file: path.concat([folder.title!]), error: e as string },
+          ])
+      )
+    )
+  );
 }
 
 async function moveFolderContents(
