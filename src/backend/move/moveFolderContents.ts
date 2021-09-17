@@ -131,26 +131,30 @@ async function moveFolderContentsFolders(
   let errors: Array<MoveError> = [];
   for (const folder of sourceFolders) {
     // TODO: Run these in parallel?
-    try {
-      const destinationFolder = await getNewFolder(
+    errors = errors.concat(
+      await getNewFolder(
         folder,
         destinationID,
         mergeFolders,
         destinationFolders
-      );
-      errors = errors.concat(
-        await moveFolderContents(
-          folder.id!,
-          destinationFolder.id!,
-          path.concat([folder.title!]),
-          copyComments,
-          mergeFolders
+      )
+        .then((destinationFolder) =>
+          moveFolderContents(
+            folder.id!,
+            destinationFolder.id!,
+            path.concat([folder.title!]),
+            copyComments,
+            mergeFolders
+          )
         )
-      );
-      await deleteFolderIfEmpty(folder.id!);
-    } catch (e) {
-      errors.push({ file: path.concat([folder.title!]), error: e as string });
-    }
+        .then(async (newErrors) => {
+          await deleteFolderIfEmpty(folder.id!);
+          return newErrors;
+        })
+        .catch((e) => [
+          { file: path.concat([folder.title!]), error: e as string },
+        ])
+    );
   }
   return errors;
 }
