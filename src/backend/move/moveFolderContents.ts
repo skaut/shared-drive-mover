@@ -1,7 +1,7 @@
-async function listFilesInFolder(
+function listFilesInFolder(
   folderID: string
 ): Promise<Array<GoogleAppsScript.Drive.Schema.File>> {
-  return await paginationHelper<
+  return paginationHelper<
     GoogleAppsScript.Drive.Schema.FileList,
     GoogleAppsScript.Drive.Schema.File
   >(
@@ -39,10 +39,10 @@ async function moveFolderContentsFiles(
   return errors;
 }
 
-async function listFoldersInFolder(
+function listFoldersInFolder(
   folderID: string
 ): Promise<Array<GoogleAppsScript.Drive.Schema.File>> {
-  return await paginationHelper<
+  return paginationHelper<
     GoogleAppsScript.Drive.Schema.FileList,
     GoogleAppsScript.Drive.Schema.File
   >(
@@ -103,7 +103,7 @@ async function getNewFolder(
       return destinationFolder;
     }
   }
-  return await backoffHelper<GoogleAppsScript.Drive.Schema.File>(() =>
+  return backoffHelper<GoogleAppsScript.Drive.Schema.File>(() =>
     Drive.Files!.insert(
       {
         parents: [{ id: destinationID }],

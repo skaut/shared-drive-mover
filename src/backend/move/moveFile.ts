@@ -1,11 +1,11 @@
 /* exported moveFile */
 
-async function moveFileDirectly(
+function moveFileDirectly(
   fileID: string,
   sourceID: string,
   destinationID: string
 ): Promise<void> {
-  await backoffHelper<void>(() =>
+  return backoffHelper<void>(() =>
     Drive.Files!.update({}, fileID, null, {
       addParents: destinationID,
       removeParents: sourceID,
@@ -15,10 +15,10 @@ async function moveFileDirectly(
   );
 }
 
-async function listFileComments(
+function listFileComments(
   fileID: string
 ): Promise<Array<GoogleAppsScript.Drive.Schema.Comment>> {
-  return await paginationHelper<
+  return paginationHelper<
     GoogleAppsScript.Drive.Schema.CommentList,
     GoogleAppsScript.Drive.Schema.Comment
   >(
@@ -91,7 +91,7 @@ async function moveFileByCopy(
     }));
 }
 
-async function moveFile(
+function moveFile(
   file: GoogleAppsScript.Drive.Schema.File,
   sourceID: string,
   destinationID: string,
@@ -105,7 +105,7 @@ async function moveFile(
         moveFileByCopy(file.id!, file.title!, destinationID, path, copyComments)
       );
   } else {
-    return await moveFileByCopy(
+    return moveFileByCopy(
       file.id!,
       file.title!,
       destinationID,
