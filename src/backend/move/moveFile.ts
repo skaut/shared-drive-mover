@@ -37,7 +37,7 @@ function listFileComments(
 function copyFileComments(sourceID: string, destinationID: string): void {
   const comments = listFileComments(sourceID);
   for (const comment of comments) {
-    if (!comment.author!.isAuthenticatedUser) {
+    if (!comment.author!.isAuthenticatedUser!) {
       comment.content =
         "*" + comment.author!.displayName! + ":*\n" + comment.content!;
     }
@@ -45,7 +45,7 @@ function copyFileComments(sourceID: string, destinationID: string): void {
     delete comment.replies;
     const commentId = Drive.Comments!.insert(comment, destinationID).commentId!;
     for (const reply of replies) {
-      if (!reply.author!.isAuthenticatedUser) {
+      if (!reply.author!.isAuthenticatedUser!) {
         reply.content =
           "*" + reply.author!.displayName! + ":*\n" + reply.content!;
       }
