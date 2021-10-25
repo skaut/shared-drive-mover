@@ -64,6 +64,7 @@ module.exports = {
   },
   settings: {
     "svelte3/typescript": require("typescript"),
+    "svelte3/ignore-styles": () => true,
   },
   overrides: [
     {
@@ -77,6 +78,7 @@ module.exports = {
       files: ["gulpfile.js", "frontend.webpack.config.js", ".eslintrc.js"],
       rules: {
         "@typescript-eslint/await-thenable": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-base-to-string": "off",
         "@typescript-eslint/no-confusing-void-expression": "off",
         "@typescript-eslint/no-floating-promises": "off",
