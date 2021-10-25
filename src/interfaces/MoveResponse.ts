@@ -1,7 +1,7 @@
 /* exported MoveResponse */
 
 interface MoveResponse {
-  status: "success" | "error";
+  status: "error" | "success";
   reason?: string;
   errors?: Array<MoveError>;
 }

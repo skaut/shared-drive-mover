@@ -117,7 +117,7 @@ export default Vue.extend({
     setFolders(folders: Array<NamedRecord>): void {
       this.folders = folders;
     },
-    navigateFolderBreadcrumb(folderId: string): void {
+    navigateFolderBreadcrumb(folderId?: string): void {
       if (folderId === undefined) {
         this.folderPath = [];
       } else {
@@ -145,16 +145,18 @@ export default Vue.extend({
         parentID = this.folderPath[this.folderPath.length - 1].id;
       }
       google.script.run
-        .withSuccessHandler((folders: Array<NamedRecord>) =>
-          this.setFolders(folders)
-        )
-        .withFailureHandler((response: Error) => this.handleError(response))
+        .withSuccessHandler((folders: Array<NamedRecord>) => {
+          this.setFolders(folders);
+        })
+        .withFailureHandler((response: Error) => {
+          this.handleError(response);
+        })
         .listFolders(parentID);
     },
     setSharedDrives(sharedDrives: Array<NamedRecord>): void {
       this.sharedDrives = sharedDrives;
     },
-    navigateSharedDriveBreadcrumb(sharedDriveId: string): void {
+    navigateSharedDriveBreadcrumb(sharedDriveId?: string): void {
       if (sharedDriveId === undefined) {
         this.sharedDrivePath = [];
       } else {
@@ -181,17 +183,21 @@ export default Vue.extend({
     getSharedDrives(): void {
       if (this.sharedDrivePath.length === 0) {
         google.script.run
-          .withSuccessHandler((sharedDrives: Array<NamedRecord>) =>
-            this.setSharedDrives(sharedDrives)
-          )
-          .withFailureHandler((response: Error) => this.handleError(response))
+          .withSuccessHandler((sharedDrives: Array<NamedRecord>) => {
+            this.setSharedDrives(sharedDrives);
+          })
+          .withFailureHandler((response: Error) => {
+            this.handleError(response);
+          })
           .listSharedDrives();
       } else {
         google.script.run
-          .withSuccessHandler((sharedDrives: Array<NamedRecord>) =>
-            this.setSharedDrives(sharedDrives)
-          )
-          .withFailureHandler((response: Error) => this.handleError(response))
+          .withSuccessHandler((sharedDrives: Array<NamedRecord>) => {
+            this.setSharedDrives(sharedDrives);
+          })
+          .withFailureHandler((response: Error) => {
+            this.handleError(response);
+          })
           .listFolders(
             this.sharedDrivePath[this.sharedDrivePath.length - 1].id
           );
@@ -200,18 +206,22 @@ export default Vue.extend({
     move(): void {
       this.activeStep = "progress";
       google.script.run
-        .withSuccessHandler((response: MoveResponse) =>
-          this.handleResponse(response)
-        )
-        .withFailureHandler((response: Error) => this.handleError(response))
+        .withSuccessHandler((response: MoveResponse) => {
+          this.handleResponse(response);
+        })
+        .withFailureHandler((response: Error) => {
+          this.handleError(response);
+        })
         .move(this.folder, this.sharedDrive, this.copyComments, false, false);
     },
     moveNonEmpty(): void {
       google.script.run
-        .withSuccessHandler((response: MoveResponse) =>
-          this.handleResponse(response)
-        )
-        .withFailureHandler((response: Error) => this.handleError(response))
+        .withSuccessHandler((response: MoveResponse) => {
+          this.handleResponse(response);
+        })
+        .withFailureHandler((response: Error) => {
+          this.handleError(response);
+        })
         .move(this.folder, this.sharedDrive, this.copyComments, false, true);
     },
     handleResponse(response: MoveResponse): void {
