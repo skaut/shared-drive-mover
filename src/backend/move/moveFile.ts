@@ -5,6 +5,7 @@ async function moveFileDirectly(
   sourceID: string,
   destinationID: string
 ): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   return backoffHelper<void>(() =>
     Drive.Files!.update({}, fileID, null, {
       addParents: destinationID,
@@ -55,6 +56,7 @@ async function copyFileComments(
         reply.content =
           "*" + reply.author!.displayName! + ":*\n" + reply.content!;
       }
+      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
       await backoffHelper<void>(() =>
         Drive.Replies!.insert(reply, destinationID, commentId)
       );

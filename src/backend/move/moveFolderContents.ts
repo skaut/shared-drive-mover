@@ -84,6 +84,7 @@ async function deleteFolderIfEmpty(folderID: string): Promise<void> {
       response2.userPermission!.role === "owner" ||
       response2.userPermission!.role === "organizer"
     ) {
+      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
       await backoffHelper<void>(() => {
         Drive.Files!.remove(folderID);
       });
