@@ -39,7 +39,7 @@ async function copyFileComments(
 ): Promise<void> {
   const comments = await listFileComments(sourceID);
   for (const comment of comments) {
-    if (!comment.author!.isAuthenticatedUser) {
+    if (!comment.author!.isAuthenticatedUser!) {
       comment.content =
         "*" + comment.author!.displayName! + ":*\n" + comment.content!;
     }
@@ -51,7 +51,7 @@ async function copyFileComments(
       )
     ).commentId!;
     for (const reply of replies) {
-      if (!reply.author!.isAuthenticatedUser) {
+      if (!reply.author!.isAuthenticatedUser!) {
         reply.content =
           "*" + reply.author!.displayName! + ":*\n" + reply.content!;
       }
