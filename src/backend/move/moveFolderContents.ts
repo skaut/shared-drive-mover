@@ -1,4 +1,4 @@
-function listFilesInFolder(
+async function listFilesInFolder(
   folderID: string
 ): Promise<Array<GoogleAppsScript.Drive.Schema.File>> {
   return paginationHelper<
@@ -31,7 +31,7 @@ async function moveFolderContentsFiles(
   const files = await listFilesInFolder(sourceID);
   const errors = (
     await Promise.all(
-      files.map((file) =>
+      files.map(async (file) =>
         moveFile(file, sourceID, destinationID, path, copyComments)
       )
     )
@@ -39,7 +39,7 @@ async function moveFolderContentsFiles(
   return errors;
 }
 
-function listFoldersInFolder(
+async function listFoldersInFolder(
   folderID: string
 ): Promise<Array<GoogleAppsScript.Drive.Schema.File>> {
   return paginationHelper<
@@ -84,7 +84,9 @@ async function deleteFolderIfEmpty(folderID: string): Promise<void> {
       response2.userPermission!.role === "owner" ||
       response2.userPermission!.role === "organizer"
     ) {
-      await backoffHelper<void>(() => Drive.Files!.remove(folderID));
+      await backoffHelper<void>(() => {
+        Drive.Files!.remove(folderID);
+      });
     }
   }
 }
@@ -133,9 +135,9 @@ async function moveFolderContentsFolders(
   return ([] as Array<MoveError>).concat.apply(
     [],
     await Promise.all(
-      sourceFolders.map((folder) =>
+      sourceFolders.map(async (folder) =>
         getNewFolder(folder, destinationID, mergeFolders, destinationFolders)
-          .then((destinationFolder) =>
+          .then(async (destinationFolder) =>
             moveFolderContents(
               folder.id!,
               destinationFolder.id!,

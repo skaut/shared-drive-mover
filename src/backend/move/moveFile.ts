@@ -1,6 +1,6 @@
 /* exported moveFile */
 
-function moveFileDirectly(
+async function moveFileDirectly(
   fileID: string,
   sourceID: string,
   destinationID: string
@@ -15,7 +15,7 @@ function moveFileDirectly(
   );
 }
 
-function listFileComments(
+async function listFileComments(
   fileID: string
 ): Promise<Array<GoogleAppsScript.Drive.Schema.Comment>> {
   return paginationHelper<
@@ -91,7 +91,7 @@ async function moveFileByCopy(
     }));
 }
 
-function moveFile(
+async function moveFile(
   file: GoogleAppsScript.Drive.Schema.File,
   sourceID: string,
   destinationID: string,
@@ -101,7 +101,7 @@ function moveFile(
   if (file.capabilities!.canMoveItemOutOfDrive!) {
     return moveFileDirectly(file.id!, sourceID, destinationID)
       .then(() => null)
-      .catch(() =>
+      .catch(async () =>
         moveFileByCopy(file.id!, file.title!, destinationID, path, copyComments)
       );
   } else {

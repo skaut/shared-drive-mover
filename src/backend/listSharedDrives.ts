@@ -1,6 +1,6 @@
 /* exported listSharedDrives */
 
-function listSharedDrives(): Promise<Array<NamedRecord>> {
+async function listSharedDrives(): Promise<Array<NamedRecord>> {
   return paginationHelper<GoogleAppsScript.Drive.Schema.DriveList, NamedRecord>(
     (pageToken) =>
       Drive.Drives!.list({
