@@ -6,7 +6,7 @@ async function moveFileDirectly(
   destinationID: string
 ): Promise<void> {
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-  return backoffHelper<void>(() =>
+  await backoffHelper<void>(() =>
     Drive.Files!.update({}, fileID, null, {
       addParents: destinationID,
       removeParents: sourceID,
