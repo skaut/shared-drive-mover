@@ -1,6 +1,6 @@
-async function listFilesInFolder(
+function listFilesInFolder(
   folderID: string
-): Promise<Array<GoogleAppsScript.Drive.Schema.File>> {
+): Array<GoogleAppsScript.Drive.Schema.File> {
   return paginationHelper<
     GoogleAppsScript.Drive.Schema.FileList,
     GoogleAppsScript.Drive.Schema.File
@@ -28,7 +28,7 @@ async function moveFolderContentsFiles(
   path: Array<string>,
   copyComments: boolean
 ): Promise<Array<MoveError>> {
-  const files = await listFilesInFolder(sourceID);
+  const files = listFilesInFolder(sourceID);
   const errors = (
     await Promise.all(
       files.map(async (file) =>
@@ -39,9 +39,9 @@ async function moveFolderContentsFiles(
   return errors;
 }
 
-async function listFoldersInFolder(
+function listFoldersInFolder(
   folderID: string
-): Promise<Array<GoogleAppsScript.Drive.Schema.File>> {
+): Array<GoogleAppsScript.Drive.Schema.File> {
   return paginationHelper<
     GoogleAppsScript.Drive.Schema.FileList,
     GoogleAppsScript.Drive.Schema.File
@@ -126,12 +126,12 @@ async function moveFolderContentsFolders(
   copyComments: boolean,
   mergeFolders: boolean
 ): Promise<Array<MoveError>> {
-  const sourceFolders = await listFoldersInFolder(sourceID);
+  const sourceFolders = listFoldersInFolder(sourceID);
   let destinationFolders:
     | Array<GoogleAppsScript.Drive.Schema.File>
     | undefined = undefined;
   if (mergeFolders) {
-    destinationFolders = await listFoldersInFolder(destinationID);
+    destinationFolders = listFoldersInFolder(destinationID);
   }
   return ([] as Array<MoveError>).concat.apply(
     [],

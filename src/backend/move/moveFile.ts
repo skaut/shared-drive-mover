@@ -16,9 +16,9 @@ async function moveFileDirectly(
   );
 }
 
-async function listFileComments(
+function listFileComments(
   fileID: string
-): Promise<Array<GoogleAppsScript.Drive.Schema.Comment>> {
+): Array<GoogleAppsScript.Drive.Schema.Comment> {
   return paginationHelper<
     GoogleAppsScript.Drive.Schema.CommentList,
     GoogleAppsScript.Drive.Schema.Comment
@@ -38,7 +38,7 @@ async function copyFileComments(
   sourceID: string,
   destinationID: string
 ): Promise<void> {
-  const comments = await listFileComments(sourceID);
+  const comments = listFileComments(sourceID);
   for (const comment of comments) {
     if (!comment.author!.isAuthenticatedUser!) {
       comment.content =
