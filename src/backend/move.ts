@@ -11,18 +11,18 @@ function isDirectoryEmpty(directoryID: string): boolean {
   return response.items!.length === 0;
 }
 
-async function move(
+function move(
   sourceID: string,
   destinationID: string,
   copyComments: boolean,
   mergeFolders: boolean,
   notEmptyOverride: boolean
-): Promise<MoveResponse> {
+): MoveResponse {
   const isEmpty = isDirectoryEmpty(destinationID);
   if (!notEmptyOverride && !isEmpty) {
     return { status: "error", reason: "notEmpty" };
   }
-  const errors = await moveFolderContents(
+  const errors = moveFolderContents(
     sourceID,
     destinationID,
     [],
