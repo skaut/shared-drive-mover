@@ -149,17 +149,18 @@ function moveFolderContents(
   copyComments: boolean,
   mergeFolders: boolean
 ): Array<MoveError> {
-  return ([] as Array<MoveError>).concat.apply(
-    [],
-    [
-      moveFolderContentsFiles(sourceID, destinationID, path, copyComments),
-      moveFolderContentsFolders(
-        sourceID,
-        destinationID,
-        path,
-        copyComments,
-        mergeFolders
-      ),
-    ]
+  return moveFolderContentsFiles(
+    sourceID,
+    destinationID,
+    path,
+    copyComments
+  ).concat(
+    moveFolderContentsFolders(
+      sourceID,
+      destinationID,
+      path,
+      copyComments,
+      mergeFolders
+    )
   );
 }
