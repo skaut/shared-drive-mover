@@ -1,19 +1,16 @@
 /* exported moveFile */
 
-async function moveFileDirectly(
+function moveFileDirectly(
   fileID: string,
   sourceID: string,
   destinationID: string
-): Promise<void> {
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-  await backoffHelper<void>(() =>
-    Drive.Files!.update({}, fileID, null, {
-      addParents: destinationID,
-      removeParents: sourceID,
-      supportsAllDrives: true,
-      fields: "",
-    })
-  );
+): void {
+  Drive.Files!.update({}, fileID, null, {
+    addParents: destinationID,
+    removeParents: sourceID,
+    supportsAllDrives: true,
+    fields: "",
+  });
 }
 
 function listFileComments(
@@ -34,10 +31,7 @@ function listFileComments(
   );
 }
 
-async function copyFileComments(
-  sourceID: string,
-  destinationID: string
-): Promise<void> {
+function copyFileComments(sourceID: string, destinationID: string): void {
   const comments = listFileComments(sourceID);
   for (const comment of comments) {
     if (!comment.author!.isAuthenticatedUser!) {
@@ -46,66 +40,65 @@ async function copyFileComments(
     }
     const replies = comment.replies!;
     delete comment.replies;
-    const commentId = (
-      await backoffHelper<GoogleAppsScript.Drive.Schema.Comment>(() =>
-        Drive.Comments!.insert(comment, destinationID)
-      )
-    ).commentId!;
+    const commentId = Drive.Comments!.insert(comment, destinationID).commentId!;
     for (const reply of replies) {
       if (!reply.author!.isAuthenticatedUser!) {
         reply.content =
           "*" + reply.author!.displayName! + ":*\n" + reply.content!;
       }
-      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      await backoffHelper<void>(() =>
-        Drive.Replies!.insert(reply, destinationID, commentId)
-      );
+      Drive.Replies!.insert(reply, destinationID, commentId);
     }
   }
 }
 
-async function moveFileByCopy(
+function moveFileByCopy(
   fileID: string,
   name: string,
   destinationID: string,
   path: Array<string>,
   copyComments: boolean
-): Promise<MoveError | null> {
-  return backoffHelper<GoogleAppsScript.Drive.Schema.File>(() =>
-    Drive.Files!.copy(
+): MoveError | null {
+  try {
+    const copy = Drive.Files!.copy(
       {
         parents: [{ id: destinationID }],
         title: name,
       },
       fileID,
       { supportsAllDrives: true, fields: "id" }
-    )
-  )
-    .then(async (copy) => {
-      if (copyComments) {
-        await copyFileComments(fileID, copy.id!);
-      }
-      return null;
-    })
-    .catch((e) => ({
+    );
+    if (copyComments) {
+      copyFileComments(fileID, copy.id!);
+    }
+    return null;
+  } catch (e) {
+    return {
       file: path.concat([name]),
       error: (e as GoogleJsonResponseException).message,
-    }));
+    };
+  }
 }
 
-async function moveFile(
+function moveFile(
   file: GoogleAppsScript.Drive.Schema.File,
   sourceID: string,
   destinationID: string,
   path: Array<string>,
   copyComments: boolean
-): Promise<MoveError | null> {
+): MoveError | null {
   if (file.capabilities!.canMoveItemOutOfDrive!) {
-    return moveFileDirectly(file.id!, sourceID, destinationID)
-      .then(() => null)
-      .catch(async () =>
-        moveFileByCopy(file.id!, file.title!, destinationID, path, copyComments)
+    try {
+      moveFileDirectly(file.id!, sourceID, destinationID);
+      return null;
+    } catch (e) {
+      return moveFileByCopy(
+        file.id!,
+        file.title!,
+        destinationID,
+        path,
+        copyComments
       );
+    }
   } else {
     return moveFileByCopy(
       file.id!,
