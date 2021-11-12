@@ -1,19 +1,14 @@
 /* exported listSharedDrives */
 
 function listSharedDrives(): Array<NamedRecord> {
-  const ret = [];
-  let pageToken = null;
-  do {
-    const response: GoogleAppsScript.Drive.Schema.DriveList =
+  return paginationHelper<GoogleAppsScript.Drive.Schema.DriveList, NamedRecord>(
+    (pageToken) =>
       Drive.Drives!.list({
         pageToken: pageToken,
         maxResults: 100,
         fields: "nextPageToken, items(id, name)",
-      });
-    for (const item of response.items!) {
-      ret.push({ id: item.id!, name: item.name! });
-    }
-    pageToken = response.nextPageToken;
-  } while (pageToken !== undefined);
-  return ret;
+      }),
+    (response) =>
+      response.items!.map((item) => ({ id: item.id!, name: item.name! }))
+  );
 }

@@ -18,7 +18,8 @@ function move(
   mergeFolders: boolean,
   notEmptyOverride: boolean
 ): MoveResponse {
-  if (!notEmptyOverride && !isDirectoryEmpty(destinationID)) {
+  const isEmpty = isDirectoryEmpty(destinationID);
+  if (!notEmptyOverride && !isEmpty) {
     return { status: "error", reason: "notEmpty" };
   }
   const errors = moveFolderContents(
