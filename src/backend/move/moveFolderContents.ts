@@ -31,7 +31,7 @@ async function moveFolderContentsFiles(
   const files = listFilesInFolder(sourceID);
   const errors = (
     await Promise.all(
-      files.map((file) =>
+      files.map(async (file) =>
         moveFile(file, sourceID, destinationID, path, copyComments)
       )
     )
@@ -62,33 +62,42 @@ function listFoldersInFolder(
   );
 }
 
-function deleteFolderIfEmpty(folderID: string): void {
-  const response = Drive.Files!.list({
-    q: '"' + folderID + '" in parents and trashed = false',
-    includeItemsFromAllDrives: true,
-    supportsAllDrives: true,
-    maxResults: 1,
-    fields: "items(id)",
-  });
+async function deleteFolderIfEmpty(folderID: string): Promise<void> {
+  const response = await backoffHelper<GoogleAppsScript.Drive.Schema.FileList>(
+    () =>
+      Drive.Files!.list({
+        q: '"' + folderID + '" in parents and trashed = false',
+        includeItemsFromAllDrives: true,
+        supportsAllDrives: true,
+        maxResults: 1,
+        fields: "items(id)",
+      })
+  );
   if (response.items!.length === 0) {
-    const response2 = Drive.Files!.get(folderID, {
-      fields: "userPermission(role)",
-    });
+    const response2 = await backoffHelper<GoogleAppsScript.Drive.Schema.File>(
+      () =>
+        Drive.Files!.get(folderID, {
+          fields: "userPermission(role)",
+        })
+    );
     if (
       response2.userPermission!.role === "owner" ||
       response2.userPermission!.role === "organizer"
     ) {
-      Drive.Files!.remove(folderID);
+      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+      await backoffHelper<void>(() => {
+        Drive.Files!.remove(folderID);
+      });
     }
   }
 }
 
-function getNewFolder(
+async function getNewFolder(
   sourceFolder: GoogleAppsScript.Drive.Schema.File,
   destinationID: string,
   mergeFolders: boolean,
   destinationFolders?: Array<GoogleAppsScript.Drive.Schema.File>
-): GoogleAppsScript.Drive.Schema.File {
+): Promise<GoogleAppsScript.Drive.Schema.File> {
   if (mergeFolders) {
     const destinationFolder = destinationFolders!.find(
       (folder) => folder.title === sourceFolder.title
@@ -97,14 +106,16 @@ function getNewFolder(
       return destinationFolder;
     }
   }
-  return Drive.Files!.insert(
-    {
-      parents: [{ id: destinationID }],
-      title: sourceFolder.title!,
-      mimeType: "application/vnd.google-apps.folder",
-    },
-    undefined,
-    { supportsAllDrives: true, fields: "id" }
+  return backoffHelper<GoogleAppsScript.Drive.Schema.File>(() =>
+    Drive.Files!.insert(
+      {
+        parents: [{ id: destinationID }],
+        title: sourceFolder.title!,
+        mimeType: "application/vnd.google-apps.folder",
+      },
+      undefined,
+      { supportsAllDrives: true, fields: "id" }
+    )
   );
 }
 
@@ -125,27 +136,25 @@ async function moveFolderContentsFolders(
   return ([] as Array<MoveError>).concat.apply(
     [],
     await Promise.all(
-      sourceFolders.map(async (folder) => {
-        try {
-          const destinationFolder = getNewFolder(
-            folder,
-            destinationID,
-            mergeFolders,
-            destinationFolders
-          );
-          const errors = moveFolderContents(
-            folder.id!,
-            destinationFolder.id!,
-            path.concat([folder.title!]),
-            copyComments,
-            mergeFolders
-          );
-          deleteFolderIfEmpty(folder.id!);
-          return errors;
-        } catch (e) {
-          return [{ file: path.concat([folder.title!]), error: e as string }];
-        }
-      })
+      sourceFolders.map(async (folder) =>
+        getNewFolder(folder, destinationID, mergeFolders, destinationFolders)
+          .then(async (destinationFolder) =>
+            moveFolderContents(
+              folder.id!,
+              destinationFolder.id!,
+              path.concat([folder.title!]),
+              copyComments,
+              mergeFolders
+            )
+          )
+          .then(async (errors) => {
+            await deleteFolderIfEmpty(folder.id!);
+            return errors;
+          })
+          .catch((e) => [
+            { file: path.concat([folder.title!]), error: e as string },
+          ])
+      )
     )
   );
 }
