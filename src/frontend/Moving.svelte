@@ -34,5 +34,5 @@
 
   const dispatch = createEventDispatcher();
 
-  let dialogOpen;
+  let dialogOpen: boolean;
 </script>

@@ -79,7 +79,7 @@
   let currentTab: "introduction"|"source-selection"|"destination-selection"|"confirmation"|"moving"|"done" = "introduction";
   let moving = false;
   let movingComponent: Moving;
-  let errorDialogOpen;
+  let errorDialogOpen: boolean;
   let errorMessage: string = "";
 
   $: progress = currentTab === "introduction" ? 1/5 :
