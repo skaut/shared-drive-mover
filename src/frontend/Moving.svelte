@@ -1,7 +1,7 @@
 <p>
   {$_("steps.moving.introduction")}
 </p>
-<Dialog bind:open={dialogOpen} aria-labelledby="title" aria-describedby="content">
+<Dialog bind:open={nonEmptyDialogOpen} aria-labelledby="title" aria-describedby="content">
   <Title id="title">
     {$_("steps.moving.nonEmptyDialog.title")}
   </Title>
@@ -29,10 +29,10 @@
   import Dialog, {Actions, Content, Title} from "@smui/dialog/styled";
 
   export function showNonEmptyDialog() {
-    dialogOpen = true;
+    nonEmptyDialogOpen = true;
   }
 
   const dispatch = createEventDispatcher();
 
-  let dialogOpen: boolean;
+  let nonEmptyDialogOpen: boolean;
 </script>
