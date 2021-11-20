@@ -1,11 +1,7 @@
 @use '@material/theme/color-palette';
 
 @use '@material/theme/index' as theme with (
-	// Svelte colors
-	$primary: #ff3e00,
-	$secondary: #676778,
-
 	// Material colors
-	//$primary: color-palette.$blue-a200,
-	//$secondary: color-palette.$red-a200,
+	$primary: color-palette.$blue-a200,
+	$secondary: color-palette.$red-a200,
 );
