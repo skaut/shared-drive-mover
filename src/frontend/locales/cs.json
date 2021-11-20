@@ -1,0 +1,63 @@
+{
+	"steps": {
+		"introduction": {
+			"header": "Úvod",
+			"welcome": "Vítejte v nástroji \"Shared drive mover\", sloužícím k hromadnému přesouvání souborů a složek v Google Disku. Nástroj je zvlášť užitečný pro přesun z \"Mého Disku\" do Sdílených disků (dříve označovaných jako Týmové disky). V následujících krocích vyberete zdrojovou a cílovou složku. Obsah vybrané zdrojové složky pak bude přesunut do cílové složky. Přesun může trvat déle, buďte prosím trpěliví.",
+			"configuration": {
+				"header": "Nastavení",
+				"introduction": "U souborů, jichž nejste vlastníkem, se místo jejich přesunutí vytvoří kopie v cílové složce.",
+				"copyComments": {
+					"title": "Kopírovat komentáře při kopírování souborů",
+					"description": "Komentáře budou vytvořeny pod vaším účtem a původní autor bude označen. Kopírování komentářů může přesun takových souborů zpomalit."
+				}
+			}
+		},
+		"source-selection": {
+			"header": "Výběr zdrojové složky",
+			"introduction": "Vyberte prosím složku, ze které chcete přesouvat soubory."
+		},
+		"destination-selection": {
+			"header": "Výběr cílové složky",
+			"introduction": "Vyberte prosím složku, do které chcete přesouvat soubory."
+		},
+		"confirmation": {
+			"header": "Potvrzení",
+			"introduction": "Opravdu chcete přesunout obsah složky \"{source}\" do složky \"{destination}\"?",
+			"buttonLabel": "Přesunout"
+		},
+		"moving": {
+			"introduction": "Probíhá přesun souborů. Nezavírejte prosím tuto záložku vašeho prohlížeče.",
+			"nonEmptyDialog": {
+				"title": "Cílová složka není prázdná",
+				"content": "Vybraná cílová složka není prázdná. Chcete přesto pokračovat?",
+				"cancel": "Ne",
+				"confirm": "Ano"
+			}
+		},
+		"done": {
+			"header": "Hotovo!",
+			"introduction": "Úspěšně přesunuto. Můžete smazat původní soubory ze svého Google Disku - některé soubory mohly být zanechány protože nemohly být smazány automaticky.",
+			"errors": {
+				"introduction": "Při přesunu některých souborů se stala chyba a následující soubory nemohly být přesunuty. Přesuňte prosím následující soubory ručně a problémy nahlašte na {link} pokud si myslíte, že jsou chybou tohoto nástroje.",
+				"github": "GitHubu",
+				"file": "Soubor",
+				"message": "Chybová hláška"
+			}
+		}
+	},
+	"back": {
+		"buttonLabel": "Zpět"
+	},
+	"continue": {
+		"buttonLabel": "Pokračovat"
+	},
+	"drive": {
+		"driveList": "Výběr disku",
+		"myDrive": "Můj Disk"
+	},
+	"errorDialog": {
+		"title": "Chyba",
+		"content": "Nastala neznámá chyba. Prosím zkontrolujte zdrojovou a cílovou složku a zkuste to znovu. Chybová hláška: ",
+		"ok": "Ok"
+	}
+}
