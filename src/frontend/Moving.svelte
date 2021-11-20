@@ -1,7 +1,7 @@
 <p>
   {$_("steps.moving.introduction")}
 </p>
-<Dialog persistent bind:active={nonEmptyDialog}>
+<Dialog persistent bind:active={nonEmptyDialogOpen}>
   <Card>
     <CardTitle>
       {$_("steps.moving.nonEmptyDialog.title")}
@@ -25,20 +25,20 @@
   import {_} from "svelte-i18n";
   import {Button, Card, CardActions, CardText, CardTitle, Dialog} from 'svelte-materialify/src';
 
-  let nonEmptyDialog = false;
+  let nonEmptyDialogOpen = false;
   export function showNonEmptyDialog() {
-    nonEmptyDialog = true;
+    nonEmptyDialogOpen = true;
   }
 
   const dispatch = createEventDispatcher();
 
   function dialogCancel() {
-    nonEmptyDialog = false;
+    nonEmptyDialogOpen = false;
     dispatch("nonEmptyDialogCancel");
   }
 
   function dialogConfirm() {
-    nonEmptyDialog = false;
+    nonEmptyDialogOpen = false;
     dispatch("nonEmptyDialogConfirm");
   }
 </script>
