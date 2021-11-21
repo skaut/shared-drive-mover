@@ -6,6 +6,7 @@ function listSharedDrives(): Array<NamedRecord> {
       Drive.Drives!.list({
         pageToken: pageToken,
         maxResults: 100,
+        orderBy: "name",
         fields: "nextPageToken, items(id, name)",
       }),
     (response) =>

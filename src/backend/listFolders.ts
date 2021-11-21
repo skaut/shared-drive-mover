@@ -16,12 +16,19 @@ function listFolders(parentID: string): Array<NamedRecord> {
           "nextPageToken, items(id, title, mimeType, shortcutDetails(targetId))",
       }),
     (response) =>
-      response.items!.map((item) => {
-        const id =
-          item.mimeType === "application/vnd.google-apps.shortcut"
-            ? item.shortcutDetails!.targetId!
-            : item.id!;
-        return { id, name: item.title! };
-      })
+      response
+        .items!.sort((first, second) =>
+          first.title!.localeCompare(
+            second.title!,
+            Session.getActiveUserLocale()
+          )
+        )
+        .map((item) => {
+          const id =
+            item.mimeType === "application/vnd.google-apps.shortcut"
+              ? item.shortcutDetails!.targetId!
+              : item.id!;
+          return { id, name: item.title! };
+        })
   );
 }
