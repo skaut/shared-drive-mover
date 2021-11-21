@@ -1,25 +1,25 @@
 function listFilesInFolder(
   folderID: string
 ): Array<GoogleAppsScript.Drive.Schema.File> {
-  let files: Array<GoogleAppsScript.Drive.Schema.File> = [];
-  let pageToken = null;
-  do {
-    const response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
-      q:
-        '"' +
-        folderID +
-        '" in parents and mimeType != "application/vnd.google-apps.folder" and trashed = false',
-      includeItemsFromAllDrives: true,
-      supportsAllDrives: true,
-      pageToken: pageToken,
-      maxResults: 1000,
-      fields:
-        "nextPageToken, items(id, title, capabilities(canMoveItemOutOfDrive))",
-    });
-    files = files.concat(response.items!);
-    pageToken = response.nextPageToken;
-  } while (pageToken !== undefined);
-  return files;
+  return paginationHelper<
+    GoogleAppsScript.Drive.Schema.FileList,
+    GoogleAppsScript.Drive.Schema.File
+  >(
+    (pageToken) =>
+      Drive.Files!.list({
+        q:
+          '"' +
+          folderID +
+          '" in parents and mimeType != "application/vnd.google-apps.folder" and trashed = false',
+        includeItemsFromAllDrives: true,
+        supportsAllDrives: true,
+        pageToken: pageToken,
+        maxResults: 1000,
+        fields:
+          "nextPageToken, items(id, title, capabilities(canMoveItemOutOfDrive))",
+      }),
+    (response) => response.items!
+  );
 }
 
 function moveFolderContentsFiles(
@@ -28,38 +28,32 @@ function moveFolderContentsFiles(
   path: Array<string>,
   copyComments: boolean
 ): Array<MoveError> {
-  const files = listFilesInFolder(sourceID);
-  const errors: Array<MoveError> = [];
-  for (const file of files) {
-    const error = moveFile(file, sourceID, destinationID, path, copyComments);
-    if (error !== null) {
-      errors.push(error);
-    }
-  }
-  return errors;
+  return listFilesInFolder(sourceID)
+    .map((file) => moveFile(file, sourceID, destinationID, path, copyComments))
+    .filter((error): error is MoveError => error !== null);
 }
 
 function listFoldersInFolder(
   folderID: string
 ): Array<GoogleAppsScript.Drive.Schema.File> {
-  let folders: Array<GoogleAppsScript.Drive.Schema.File> = [];
-  let pageToken = null;
-  do {
-    const response: GoogleAppsScript.Drive.Schema.FileList = Drive.Files!.list({
-      q:
-        '"' +
-        folderID +
-        '" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
-      includeItemsFromAllDrives: true,
-      supportsAllDrives: true,
-      pageToken: pageToken,
-      maxResults: 1000,
-      fields: "nextPageToken, items(id, title)",
-    });
-    folders = folders.concat(response.items!);
-    pageToken = response.nextPageToken;
-  } while (pageToken !== undefined);
-  return folders;
+  return paginationHelper<
+    GoogleAppsScript.Drive.Schema.FileList,
+    GoogleAppsScript.Drive.Schema.File
+  >(
+    (pageToken) =>
+      Drive.Files!.list({
+        q:
+          '"' +
+          folderID +
+          '" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
+        includeItemsFromAllDrives: true,
+        supportsAllDrives: true,
+        pageToken: pageToken,
+        maxResults: 1000,
+        fields: "nextPageToken, items(id, title)",
+      }),
+    (response) => response.items!
+  );
 }
 
 function deleteFolderIfEmpty(folderID: string): void {
@@ -91,7 +85,7 @@ function getNewFolder(
 ): GoogleAppsScript.Drive.Schema.File {
   if (mergeFolders) {
     const destinationFolder = destinationFolders!.find(
-      (folder) => folder.title! === sourceFolder.title!
+      (folder) => folder.title === sourceFolder.title
     );
     if (destinationFolder !== undefined) {
       return destinationFolder;
@@ -116,34 +110,36 @@ function moveFolderContentsFolders(
   mergeFolders: boolean
 ): Array<MoveError> {
   const sourceFolders = listFoldersInFolder(sourceID);
-  let destinationFolders = undefined;
+  let destinationFolders:
+    | Array<GoogleAppsScript.Drive.Schema.File>
+    | undefined = undefined;
   if (mergeFolders) {
     destinationFolders = listFoldersInFolder(destinationID);
   }
-  let errors: Array<MoveError> = [];
-  for (const folder of sourceFolders) {
-    try {
-      const destinationFolder = getNewFolder(
-        folder,
-        destinationID,
-        mergeFolders,
-        destinationFolders
-      );
-      errors = errors.concat(
-        moveFolderContents(
+  return ([] as Array<MoveError>).concat.apply(
+    [],
+    sourceFolders.map((folder) => {
+      try {
+        const destinationFolder = getNewFolder(
+          folder,
+          destinationID,
+          mergeFolders,
+          destinationFolders
+        );
+        const errors = moveFolderContents(
           folder.id!,
           destinationFolder.id!,
           path.concat([folder.title!]),
           copyComments,
           mergeFolders
-        )
-      );
-      deleteFolderIfEmpty(folder.id!);
-    } catch (e) {
-      errors.push({ file: path.concat([folder.title!]), error: e as string });
-    }
-  }
-  return errors;
+        );
+        deleteFolderIfEmpty(folder.id!);
+        return errors;
+      } catch (e) {
+        return [{ file: path.concat([folder.title!]), error: e as string }];
+      }
+    })
+  );
 }
 
 function moveFolderContents(

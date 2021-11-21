@@ -1,52 +1,43 @@
 /* eslint-env node */
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ScriptExtHtmlWebPackPlugin = require("script-ext-html-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const VueLoaderPlugin = require("vue-loader/lib/plugin");
+const sveltePreprocess = require("svelte-preprocess");
+
+const path = require("path");
 
 module.exports = {
   mode: "production",
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        extractComments: false,
-      }),
-    ],
-  },
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/frontend/index.html",
-      scriptLoading: "blocking",
+      minify: false,
+      inject: false,
     }),
-    new ScriptExtHtmlWebPackPlugin({
-      inline: /\.js$/,
-    }),
-    new VueLoaderPlugin(),
   ],
   module: {
     rules: [
       {
-        test: /\.vue$/,
-        loader: "vue-loader",
-      },
-      {
-        test: /\.ts$/,
-        loader: "ts-loader",
-        options: {
-          appendTsSuffixTo: [/\.vue$/],
+        test: /\.svelte/,
+        use: {
+          loader: "svelte-loader",
+          options: {
+            preprocess: sveltePreprocess({
+              tsconfigFile: "./frontend.tsconfig.json",
+            }),
+          },
         },
-        exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
+        test: /\.(sa|sc|c)ss$/,
         use: [
-          "vue-style-loader",
+          "style-loader",
+          "css-loader",
           {
-            loader: "css-loader",
+            loader: "sass-loader",
             options: {
-              esModule: false,
+              sassOptions: {
+                includePaths: ["./src/frontend", "./node_modules"],
+              },
             },
           },
         ],
@@ -54,12 +45,19 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: [".ts", ".js"],
+    alias: {
+      svelte: path.resolve("node_modules", "svelte"),
+    },
+    extensions: [".ts", ".js", ".svelte"],
+    mainFields: ["svelte", "browser", "module", "main"],
   },
   entry: {
     index: "./src/frontend/index.ts",
   },
   output: {
     filename: "[name].js",
+  },
+  performance: {
+    hints: false,
   },
 };
