@@ -8,12 +8,14 @@
     </Section>
   </Row>
 </TopAppBar>
-{#if progress > 0}
-  <LinearProgress {progress} />
-{/if}
-{#if moving}
-  <LinearProgress indeterminate />
-{/if}
+<div class="global-progress">
+  {#if progress > 0}
+    <LinearProgress {progress} />
+  {/if}
+  {#if moving}
+    <LinearProgress indeterminate />
+  {/if}
+</div>
 <div id="tab">
   {#if currentTab === "introduction"}
     <Introduction bind:copyComments={copyComments}/>
@@ -131,11 +133,18 @@
 </script>
 
 <style lang="scss">
+  @use 'smui-theme' as theme;
+  @use '@material/linear-progress/index' as linear-progress;
+
   :global(body) {
     margin: 0;
   }
 
   #tab {
     margin: 50px;
+  }
+
+  .global-progress:global {
+    @include linear-progress.bar-color(theme.$secondary);
   }
 </style>
