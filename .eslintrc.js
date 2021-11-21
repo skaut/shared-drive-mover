@@ -10,7 +10,7 @@ module.exports = {
     browser: true,
     node: false,
   },
-  plugins: ["svelte3", "@typescript-eslint"],
+  plugins: ["prefer-arrow", "svelte3", "@typescript-eslint"],
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -18,7 +18,12 @@ module.exports = {
     "plugin:prettier/recommended",
   ],
   rules: {
+    "arrow-body-style": ["error", "as-needed"],
     "no-warning-comments": "warn",
+    "prefer-arrow/prefer-arrow-functions": [
+      "error",
+      { allowStandaloneDeclarations: true },
+    ],
     "@typescript-eslint/array-type": ["error", { default: "generic" }],
     "@typescript-eslint/consistent-indexed-object-style": "error",
     "@typescript-eslint/consistent-type-assertions": "error",
