@@ -133,6 +133,7 @@
 </script>
 
 <style lang="scss">
+  @use 'smui-theme' as theme;
   @use '@material/linear-progress/index' as linear-progress;
 
   :global(body) {
@@ -144,6 +145,6 @@
   }
 
   .global-progress:global {
-    @include linear-progress.bar-color(#ff0000);
+    @include linear-progress.bar-color(theme.$secondary);
   }
 </style>
