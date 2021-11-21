@@ -1,5 +1,5 @@
 <br/>
-<Button variant="raised" on:click={() => dispatch("previous")}>
+<Button variant="outlined" on:click={() => dispatch("previous")}>
   <Icon class="material-icons">navigate_before</Icon>
   <Label>{$_("back.buttonLabel")}</Label>
 </Button>
