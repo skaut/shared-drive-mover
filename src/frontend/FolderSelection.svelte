@@ -97,8 +97,7 @@
 </script>
 
 <style lang="scss">
-@use "./_smui-theme.scss";
-@use '@material/theme' as theme;
+  @use "smui-theme" as theme;
 
   .breadcrumb {
     cursor: pointer;
