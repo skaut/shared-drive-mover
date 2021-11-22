@@ -132,7 +132,6 @@ function moveFolderContentsFolders(
     [],
     sourceFolders.map((folder) => {
       try {
-        const errors: Array<MoveError> = [];
         const [destinationFolder, folderMergeError] = getNewFolder(
           folder,
           destinationID,
@@ -140,9 +139,8 @@ function moveFolderContentsFolders(
           mergeFolders,
           destinationFolders
         );
-        if (folderMergeError !== undefined) {
-          errors.concat([folderMergeError]);
-        }
+        const errors: Array<MoveError> =
+          folderMergeError !== undefined ? [folderMergeError] : [];
         errors.concat(
           moveFolderContents(
             folder.id!,
