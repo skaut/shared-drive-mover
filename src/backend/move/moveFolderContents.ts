@@ -82,24 +82,38 @@ function getNewFolder(
   destinationID: string,
   mergeFolders: boolean,
   destinationFolders?: Array<GoogleAppsScript.Drive.Schema.File>
-): GoogleAppsScript.Drive.Schema.File {
+): {
+  folder: GoogleAppsScript.Drive.Schema.File;
+  error?: MoveError;
+} {
+  let error = undefined;
   if (mergeFolders) {
-    const destinationFolder = destinationFolders!.find(
+    const existingFoldersWithSameName = destinationFolders!.filter(
       (folder) => folder.title === sourceFolder.title
     );
-    if (destinationFolder !== undefined) {
-      return destinationFolder;
+    if (existingFoldersWithSameName.length === 1) {
+      return { folder: existingFoldersWithSameName[0] };
+    }
+    if (existingFoldersWithSameName.length > 1) {
+      error = {
+        file: [],
+        error:
+          "Coudn't merge with existing folder as there are multiple existing directories with the same name",
+      };
     }
   }
-  return Drive.Files!.insert(
-    {
-      parents: [{ id: destinationID }],
-      title: sourceFolder.title!,
-      mimeType: "application/vnd.google-apps.folder",
-    },
-    undefined,
-    { supportsAllDrives: true, fields: "id" }
-  );
+  return {
+    folder: Drive.Files!.insert(
+      {
+        parents: [{ id: destinationID }],
+        title: sourceFolder.title!,
+        mimeType: "application/vnd.google-apps.folder",
+      },
+      undefined,
+      { supportsAllDrives: true, fields: "id" }
+    ),
+    error,
+  };
 }
 
 function moveFolderContentsFolders(
@@ -120,18 +134,20 @@ function moveFolderContentsFolders(
     [],
     sourceFolders.map((folder) => {
       try {
-        const destinationFolder = getNewFolder(
-          folder,
-          destinationID,
-          mergeFolders,
-          destinationFolders
-        );
-        const errors = moveFolderContents(
-          folder.id!,
-          destinationFolder.id!,
-          path.concat([folder.title!]),
-          copyComments,
-          mergeFolders
+        const errors: Array<MoveError> = [];
+        const { folder: destinationFolder, error: folderMergeError } =
+          getNewFolder(folder, destinationID, mergeFolders, destinationFolders);
+        if (folderMergeError !== undefined) {
+          errors.concat([folderMergeError]);
+        }
+        errors.concat(
+          moveFolderContents(
+            folder.id!,
+            destinationFolder.id!,
+            path.concat([folder.title!]),
+            copyComments,
+            mergeFolders
+          )
         );
         deleteFolderIfEmpty(folder.id!);
         return errors;
