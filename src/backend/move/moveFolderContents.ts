@@ -83,17 +83,14 @@ function getNewFolder(
   path: Array<string>,
   mergeFolders: boolean,
   destinationFolders?: Array<GoogleAppsScript.Drive.Schema.File>
-): {
-  folder: GoogleAppsScript.Drive.Schema.File;
-  error?: MoveError;
-} {
+): [GoogleAppsScript.Drive.Schema.File, MoveError | undefined] {
   let error = undefined;
   if (mergeFolders) {
     const existingFoldersWithSameName = destinationFolders!.filter(
       (folder) => folder.title === sourceFolder.title
     );
     if (existingFoldersWithSameName.length === 1) {
-      return { folder: existingFoldersWithSameName[0] };
+      return [existingFoldersWithSameName[0], undefined];
     }
     if (existingFoldersWithSameName.length > 1) {
       error = {
@@ -103,8 +100,8 @@ function getNewFolder(
       };
     }
   }
-  return {
-    folder: Drive.Files!.insert(
+  return [
+    Drive.Files!.insert(
       {
         parents: [{ id: destinationID }],
         title: sourceFolder.title!,
@@ -114,7 +111,7 @@ function getNewFolder(
       { supportsAllDrives: true, fields: "id" }
     ),
     error,
-  };
+  ];
 }
 
 function moveFolderContentsFolders(
@@ -136,14 +133,13 @@ function moveFolderContentsFolders(
     sourceFolders.map((folder) => {
       try {
         const errors: Array<MoveError> = [];
-        const { folder: destinationFolder, error: folderMergeError } =
-          getNewFolder(
-            folder,
-            destinationID,
-            path,
-            mergeFolders,
-            destinationFolders
-          );
+        const [destinationFolder, folderMergeError] = getNewFolder(
+          folder,
+          destinationID,
+          path,
+          mergeFolders,
+          destinationFolders
+        );
         if (folderMergeError !== undefined) {
           errors.concat([folderMergeError]);
         }
