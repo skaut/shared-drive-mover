@@ -1,8 +1,8 @@
 /* exported move */
 
-function isDirectoryEmpty(directoryID: string): boolean {
+function isFolderEmpty(folderID: string): boolean {
   const response = Drive.Files!.list({
-    q: '"' + directoryID + '" in parents and trashed = false',
+    q: '"' + folderID + '" in parents and trashed = false',
     includeItemsFromAllDrives: true,
     supportsAllDrives: true,
     maxResults: 1,
@@ -18,7 +18,7 @@ function move(
   mergeFolders: boolean,
   notEmptyOverride: boolean
 ): MoveResponse {
-  const isEmpty = isDirectoryEmpty(destinationID);
+  const isEmpty = isFolderEmpty(destinationID);
   if (!notEmptyOverride && !isEmpty) {
     return { status: "error", reason: "notEmpty" };
   }
