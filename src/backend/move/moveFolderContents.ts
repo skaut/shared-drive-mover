@@ -80,6 +80,7 @@ function deleteFolderIfEmpty(folderID: string): void {
 function getNewFolder(
   sourceFolder: GoogleAppsScript.Drive.Schema.File,
   destinationID: string,
+  path: Array<string>,
   mergeFolders: boolean,
   destinationFolders?: Array<GoogleAppsScript.Drive.Schema.File>
 ): {
@@ -96,7 +97,7 @@ function getNewFolder(
     }
     if (existingFoldersWithSameName.length > 1) {
       error = {
-        file: [],
+        file: path.concat([sourceFolder.title!]),
         error:
           "Coudn't merge with existing folder as there are multiple existing directories with the same name",
       };
@@ -136,7 +137,13 @@ function moveFolderContentsFolders(
       try {
         const errors: Array<MoveError> = [];
         const { folder: destinationFolder, error: folderMergeError } =
-          getNewFolder(folder, destinationID, mergeFolders, destinationFolders);
+          getNewFolder(
+            folder,
+            destinationID,
+            path,
+            mergeFolders,
+            destinationFolders
+          );
         if (folderMergeError !== undefined) {
           errors.concat([folderMergeError]);
         }
