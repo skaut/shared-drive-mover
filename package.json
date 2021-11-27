@@ -25,6 +25,7 @@
     "@smui/top-app-bar": "^5.0.1",
     "@types/google-apps-script": "^1.0.41",
     "@types/google.script.client-side": "^0.1.0",
+    "@types/jest": "^27.0.3",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "css-loader": "^6.5.1",
@@ -58,7 +59,7 @@
     "build": "gulp build",
     "lint:svelte:svelte-check": "svelte-check",
     "lint:svelte": "run-s -c lint:svelte:*",
-    "lint:ts:eslint": "eslint \"src/**/*.svelte\" \"src/**/*.ts\" gulpfile.js frontend.webpack.config.js .eslintrc.js",
+    "lint:ts:eslint": "eslint \"src/**/*.svelte\" \"src/**/*.ts\" \"__tests__/**/*.ts\" gulpfile.js frontend.webpack.config.js .eslintrc.js",
     "lint:ts": "run-s -c lint:ts:*",
     "lint": "run-s -c lint:*",
     "test": "jest"
