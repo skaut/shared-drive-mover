@@ -16,6 +16,8 @@
   import BackButton from "./BackButton.svelte";
   import StepHeader from "./StepHeader.svelte";
 
+  import type { NamedRecord } from "../interfaces/NamedRecord";
+
   export let sourcePath: Array<NamedRecord> = [];
   export let destinationPath: Array<NamedRecord> = [];
   export let source: NamedRecord|null;

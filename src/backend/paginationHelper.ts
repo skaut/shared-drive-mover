@@ -1,6 +1,7 @@
-/* exported paginationHelper */
-
-function paginationHelper<T extends { nextPageToken?: string | undefined }, U>(
+export function paginationHelper<
+  T extends { nextPageToken?: string | undefined },
+  U
+>(
   request: (pageToken: string | undefined) => T,
   transform: (response: T) => Array<U>
 ): Array<U> {

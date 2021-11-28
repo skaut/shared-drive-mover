@@ -1,6 +1,8 @@
-/* exported listSharedDrives */
+import { paginationHelper } from "./paginationHelper";
 
-function listSharedDrives(): Array<NamedRecord> {
+import type { NamedRecord } from "../interfaces/NamedRecord";
+
+export function listSharedDrives(): Array<NamedRecord> {
   return paginationHelper<GoogleAppsScript.Drive.Schema.DriveList, NamedRecord>(
     (pageToken) =>
       Drive.Drives!.list({
