@@ -1,7 +1,10 @@
 /* eslint-env node */
 
+const GasPlugin = require("gas-webpack-plugin");
+
 module.exports = {
   mode: "production",
+  plugins: [new GasPlugin()],
   module: {
     rules: [
       {
