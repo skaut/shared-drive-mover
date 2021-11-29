@@ -8,8 +8,8 @@ declare namespace google.script {
     listFolders(parentID: string): Promise<Array<NamedRecord>>;
     listSharedDrives(): Promise<Array<NamedRecord>>;
     move(
-      folder: string,
-      sharedDrive: string,
+      sourceID: string,
+      destinationID: string,
       copyComments: boolean,
       mergeFolders: boolean,
       notEmptyOverride: boolean
