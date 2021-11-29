@@ -38,6 +38,8 @@
 
   import StepHeader from "./StepHeader.svelte";
 
+  import type { NamedRecord } from "../interfaces/NamedRecord";
+
   export let step: string;
   export let path: Array<NamedRecord> = [];
   export let selected: NamedRecord|null = null;
