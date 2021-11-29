@@ -1,6 +1,4 @@
-/* exported MoveError */
-
-interface MoveError {
+export interface MoveError {
   file: Array<string>;
   error: string;
 }

@@ -1,4 +1,6 @@
-/* exported move */
+import { moveFolderContents } from "./move/moveFolderContents";
+
+import type { MoveResponse } from "../interfaces/MoveResponse";
 
 function isFolderEmpty(folderID: string): boolean {
   const response = Drive.Files!.list({
@@ -11,7 +13,7 @@ function isFolderEmpty(folderID: string): boolean {
   return response.items!.length === 0;
 }
 
-function move(
+export function move(
   sourceID: string,
   destinationID: string,
   copyComments: boolean,

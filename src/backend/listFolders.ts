@@ -1,6 +1,8 @@
-/* exported listFolders */
+import { paginationHelper } from "./paginationHelper";
 
-function listFolders(parentID: string): Array<NamedRecord> {
+import type { NamedRecord } from "../interfaces/NamedRecord";
+
+export function listFolders(parentID: string): Array<NamedRecord> {
   return paginationHelper<GoogleAppsScript.Drive.Schema.FileList, NamedRecord>(
     (pageToken) =>
       Drive.Files!.list({
