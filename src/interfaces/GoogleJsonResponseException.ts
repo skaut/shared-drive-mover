@@ -1,5 +1,3 @@
-/* exported GoogleJsonResponseException */
-
-interface GoogleJsonResponseException {
+export interface GoogleJsonResponseException {
   message: string;
 }

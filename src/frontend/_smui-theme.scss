@@ -1,7 +1,10 @@
 @use '@material/theme/color-palette';
 
+// Material colors
+$primary: color-palette.$blue-a200;
+$secondary: color-palette.$red-a200;
+
 @use '@material/theme/index' as theme with (
-	// Material colors
-	$primary: color-palette.$blue-a200,
-	$secondary: color-palette.$red-a200,
+	$primary: $primary,
+	$secondary: $secondary,
 );

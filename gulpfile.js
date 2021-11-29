@@ -2,10 +2,8 @@
 
 const gulp = require("gulp");
 
-const concat = require("gulp-concat");
 const filter = require("gulp-filter");
 const replace = require("gulp-replace");
-const ts = require("gulp-typescript");
 const webpack = require("webpack-stream");
 
 gulp.task("build:appsscript", () =>
@@ -21,22 +19,12 @@ gulp.task("build:frontend", () =>
     .pipe(gulp.dest("dist/"))
 );
 
-gulp.task("build:backend", () => {
-  const tsProject = ts.createProject("tsconfig.json", {
-    lib: ["es6"],
-    target: "es6",
-    types: ["google-apps-script"],
-  });
-  return gulp
-    .src([
-      "src/backend/**/*.ts",
-      "src/backend/d.ts/**/*.d.ts",
-      "src/interfaces/*.ts",
-    ])
-    .pipe(tsProject())
-    .js.pipe(concat("backend.gs"))
-    .pipe(gulp.dest("dist/"));
-});
+gulp.task("build:backend", () =>
+  gulp
+    .src("src/backend/index.ts")
+    .pipe(webpack(require("./backend.webpack.config.js")))
+    .pipe(gulp.dest("dist/"))
+);
 
 gulp.task(
   "build",

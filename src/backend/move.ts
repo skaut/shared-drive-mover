@@ -1,8 +1,10 @@
-/* exported move */
+import { moveFolderContents } from "./move/moveFolderContents";
 
-function isDirectoryEmpty(directoryID: string): boolean {
+import type { MoveResponse } from "../interfaces/MoveResponse";
+
+function isFolderEmpty(folderID: string): boolean {
   const response = Drive.Files!.list({
-    q: '"' + directoryID + '" in parents and trashed = false',
+    q: '"' + folderID + '" in parents and trashed = false',
     includeItemsFromAllDrives: true,
     supportsAllDrives: true,
     maxResults: 1,
@@ -11,14 +13,14 @@ function isDirectoryEmpty(directoryID: string): boolean {
   return response.items!.length === 0;
 }
 
-function move(
+export function move(
   sourceID: string,
   destinationID: string,
   copyComments: boolean,
   mergeFolders: boolean,
   notEmptyOverride: boolean
 ): MoveResponse {
-  const isEmpty = isDirectoryEmpty(destinationID);
+  const isEmpty = isFolderEmpty(destinationID);
   if (!notEmptyOverride && !isEmpty) {
     return { status: "error", reason: "notEmpty" };
   }

@@ -38,6 +38,8 @@
 
   import StepHeader from "./StepHeader.svelte";
 
+  import type { MoveError } from "../interfaces/MoveError";
+
   export let errors: Array<MoveError>|null = [];
 </script>
 

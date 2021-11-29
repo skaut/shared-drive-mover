@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare namespace google.script {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface PublicEndpoints {
