@@ -1,3 +1,5 @@
+import { paginationHelper } from "../../src/backend/paginationHelper";
+
 test("paginationHelper works correctly", () => {
   const request = (): { nextPageToken: string | undefined } => ({
     nextPageToken: undefined,
