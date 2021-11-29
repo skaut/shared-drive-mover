@@ -1,6 +1,6 @@
-/* exported paginationHelper */
+import { backoffHelper } from "./backoffHelper";
 
-async function paginationHelper<
+export async function paginationHelper<
   T extends { nextPageToken?: string | undefined },
   U
 >(

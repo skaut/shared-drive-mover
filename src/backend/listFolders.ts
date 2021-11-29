@@ -1,6 +1,10 @@
-/* exported listFolders */
+import { paginationHelper } from "./paginationHelper";
 
-async function listFolders(parentID: string): Promise<Array<NamedRecord>> {
+import type { NamedRecord } from "../interfaces/NamedRecord";
+
+export async function listFolders(
+  parentID: string
+): Promise<Array<NamedRecord>> {
   return paginationHelper<GoogleAppsScript.Drive.Schema.FileList, NamedRecord>(
     (pageToken) =>
       Drive.Files!.list({
@@ -16,12 +20,19 @@ async function listFolders(parentID: string): Promise<Array<NamedRecord>> {
           "nextPageToken, items(id, title, mimeType, shortcutDetails(targetId))",
       }),
     (response) =>
-      response.items!.map((item) => {
-        const id =
-          item.mimeType === "application/vnd.google-apps.shortcut"
-            ? item.shortcutDetails!.targetId!
-            : item.id!;
-        return { id, name: item.title! };
-      })
+      response
+        .items!.sort((first, second) =>
+          first.title!.localeCompare(
+            second.title!,
+            Session.getActiveUserLocale()
+          )
+        )
+        .map((item) => {
+          const id =
+            item.mimeType === "application/vnd.google-apps.shortcut"
+              ? item.shortcutDetails!.targetId!
+              : item.id!;
+          return { id, name: item.title! };
+        })
   );
 }

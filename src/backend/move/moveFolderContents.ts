@@ -1,3 +1,9 @@
+import { backoffHelper } from "../backoffHelper";
+import { moveFile } from "./moveFile";
+import { paginationHelper } from "../paginationHelper";
+
+import type { MoveError } from "../../interfaces/MoveError";
+
 async function listFilesInFolder(
   folderID: string
 ): Promise<Array<GoogleAppsScript.Drive.Schema.File>> {
@@ -95,28 +101,40 @@ async function deleteFolderIfEmpty(folderID: string): Promise<void> {
 async function getNewFolder(
   sourceFolder: GoogleAppsScript.Drive.Schema.File,
   destinationID: string,
+  path: Array<string>,
   mergeFolders: boolean,
   destinationFolders?: Array<GoogleAppsScript.Drive.Schema.File>
-): Promise<GoogleAppsScript.Drive.Schema.File> {
+): Promise<[GoogleAppsScript.Drive.Schema.File, MoveError | undefined]> {
+  let error = undefined;
   if (mergeFolders) {
-    const destinationFolder = destinationFolders!.find(
+    const existingFoldersWithSameName = destinationFolders!.filter(
       (folder) => folder.title === sourceFolder.title
     );
-    if (destinationFolder !== undefined) {
-      return destinationFolder;
+    if (existingFoldersWithSameName.length === 1) {
+      return [existingFoldersWithSameName[0], undefined];
+    }
+    if (existingFoldersWithSameName.length > 1) {
+      error = {
+        file: path.concat([sourceFolder.title!]),
+        error:
+          "Coudn't merge with existing folder as there are multiple existing directories with the same name",
+      };
     }
   }
-  return backoffHelper<GoogleAppsScript.Drive.Schema.File>(() =>
-    Drive.Files!.insert(
-      {
-        parents: [{ id: destinationID }],
-        title: sourceFolder.title!,
-        mimeType: "application/vnd.google-apps.folder",
-      },
-      undefined,
-      { supportsAllDrives: true, fields: "id" }
-    )
-  );
+  return [
+    await backoffHelper<GoogleAppsScript.Drive.Schema.File>(() =>
+      Drive.Files!.insert(
+        {
+          parents: [{ id: destinationID }],
+          title: sourceFolder.title!,
+          mimeType: "application/vnd.google-apps.folder",
+        },
+        undefined,
+        { supportsAllDrives: true, fields: "id" }
+      )
+    ),
+    error,
+  ];
 }
 
 async function moveFolderContentsFolders(
@@ -136,30 +154,37 @@ async function moveFolderContentsFolders(
   return ([] as Array<MoveError>).concat.apply(
     [],
     await Promise.all(
-      sourceFolders.map(async (folder) =>
-        getNewFolder(folder, destinationID, mergeFolders, destinationFolders)
-          .then(async (destinationFolder) =>
-            moveFolderContents(
+      sourceFolders.map(async (folder): Promise<Array<MoveError>> => {
+        try {
+          const [destinationFolder, folderMergeError] = await getNewFolder(
+            folder,
+            destinationID,
+            path,
+            mergeFolders,
+            destinationFolders
+          );
+          const errors: Array<MoveError> =
+            folderMergeError !== undefined ? [folderMergeError] : [];
+          errors.concat(
+            await moveFolderContents(
               folder.id!,
               destinationFolder.id!,
               path.concat([folder.title!]),
               copyComments,
               mergeFolders
             )
-          )
-          .then(async (errors) => {
-            await deleteFolderIfEmpty(folder.id!);
-            return errors;
-          })
-          .catch((e) => [
-            { file: path.concat([folder.title!]), error: e as string },
-          ])
-      )
+          );
+          await deleteFolderIfEmpty(folder.id!);
+          return errors;
+        } catch (e) {
+          return [{ file: path.concat([folder.title!]), error: e as string }];
+        }
+      })
     )
   );
 }
 
-async function moveFolderContents(
+export async function moveFolderContents(
   sourceID: string,
   destinationID: string,
   path: Array<string>,

@@ -1,10 +1,13 @@
-/* exported move */
+import { backoffHelper } from "./backoffHelper";
+import { moveFolderContents } from "./move/moveFolderContents";
 
-async function isDirectoryEmpty(directoryID: string): Promise<boolean> {
+import type { MoveResponse } from "../interfaces/MoveResponse";
+
+async function isFolderEmpty(folderID: string): Promise<boolean> {
   const response = await backoffHelper<GoogleAppsScript.Drive.Schema.FileList>(
     () =>
       Drive.Files!.list({
-        q: '"' + directoryID + '" in parents and trashed = false',
+        q: '"' + folderID + '" in parents and trashed = false',
         includeItemsFromAllDrives: true,
         supportsAllDrives: true,
         maxResults: 1,
@@ -14,14 +17,14 @@ async function isDirectoryEmpty(directoryID: string): Promise<boolean> {
   return response.items!.length === 0;
 }
 
-async function move(
+export async function move(
   sourceID: string,
   destinationID: string,
   copyComments: boolean,
   mergeFolders: boolean,
   notEmptyOverride: boolean
 ): Promise<MoveResponse> {
-  const isEmpty = await isDirectoryEmpty(destinationID);
+  const isEmpty = await isFolderEmpty(destinationID);
   if (!notEmptyOverride && !isEmpty) {
     return { status: "error", reason: "notEmpty" };
   }

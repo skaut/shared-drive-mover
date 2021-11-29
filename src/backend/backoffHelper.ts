@@ -1,6 +1,4 @@
-/* exported backoffHelper */
-
-async function backoffHelper<T>(request: () => T): Promise<T> {
+export async function backoffHelper<T>(request: () => T): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     try {
       backoff(

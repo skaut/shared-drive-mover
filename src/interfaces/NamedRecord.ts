@@ -1,6 +1,4 @@
-/* exported NamedRecord */
-
-interface NamedRecord {
+export interface NamedRecord {
   id: string;
   name: string;
 }
