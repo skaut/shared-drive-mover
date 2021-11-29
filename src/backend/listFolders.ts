@@ -1,6 +1,8 @@
-/* exported listFolders */
+import { paginationHelper } from "./paginationHelper";
 
-function listFolders(parentID: string): Array<NamedRecord> {
+import type { NamedRecord } from "../interfaces/NamedRecord";
+
+export function listFolders(parentID: string): Array<NamedRecord> {
   return paginationHelper<GoogleAppsScript.Drive.Schema.FileList, NamedRecord>(
     (pageToken) =>
       Drive.Files!.list({
@@ -16,12 +18,19 @@ function listFolders(parentID: string): Array<NamedRecord> {
           "nextPageToken, items(id, title, mimeType, shortcutDetails(targetId))",
       }),
     (response) =>
-      response.items!.map((item) => {
-        const id =
-          item.mimeType === "application/vnd.google-apps.shortcut"
-            ? item.shortcutDetails!.targetId!
-            : item.id!;
-        return { id, name: item.title! };
-      })
+      response
+        .items!.sort((first, second) =>
+          first.title!.localeCompare(
+            second.title!,
+            Session.getActiveUserLocale()
+          )
+        )
+        .map((item) => {
+          const id =
+            item.mimeType === "application/vnd.google-apps.shortcut"
+              ? item.shortcutDetails!.targetId!
+              : item.id!;
+          return { id, name: item.title! };
+        })
   );
 }

@@ -1,4 +1,7 @@
-/* exported moveFile */
+import { paginationHelper } from "../paginationHelper";
+
+import type { GoogleJsonResponseException } from "../../interfaces/GoogleJsonResponseException";
+import type { MoveError } from "../../interfaces/MoveError";
 
 function moveFileDirectly(
   fileID: string,
@@ -79,7 +82,7 @@ function moveFileByCopy(
   }
 }
 
-function moveFile(
+export function moveFile(
   file: GoogleAppsScript.Drive.Schema.File,
   sourceID: string,
   destinationID: string,
