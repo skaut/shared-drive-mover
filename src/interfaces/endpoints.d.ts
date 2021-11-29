@@ -1,3 +1,6 @@
+import type { MoveResponse } from "../interfaces/MoveResponse";
+import type { NamedRecord } from "../interfaces/NamedRecord";
+
 declare namespace google.script {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface PublicEndpoints {
@@ -5,11 +8,11 @@ declare namespace google.script {
     listFolders(parentID: string): Array<NamedRecord>;
     listSharedDrives(): Array<NamedRecord>;
     move(
-      folder: string,
-      sharedDrive: string,
+      sourceID: string,
+      destinationID: string,
       copyComments: boolean,
       mergeFolders: boolean,
       notEmptyOverride: boolean
-    ): void;
+    ): MoveResponse;
   }
 }
