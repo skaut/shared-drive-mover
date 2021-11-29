@@ -1,3 +1,8 @@
+import { moveFile } from "./moveFile";
+import { paginationHelper } from "../paginationHelper";
+
+import type { MoveError } from "../../interfaces/MoveError";
+
 function listFilesInFolder(
   folderID: string
 ): Array<GoogleAppsScript.Drive.Schema.File> {
@@ -159,7 +164,7 @@ function moveFolderContentsFolders(
   );
 }
 
-function moveFolderContents(
+export function moveFolderContents(
   sourceID: string,
   destinationID: string,
   path: Array<string>,

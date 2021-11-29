@@ -1,6 +1,6 @@
-/* exported MoveResponse */
+import type { MoveError } from "./MoveError";
 
-interface MoveResponse {
+export interface MoveResponse {
   status: "error" | "success";
   reason?: string;
   errors?: Array<MoveError>;
