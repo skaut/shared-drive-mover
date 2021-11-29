@@ -68,6 +68,8 @@
   import Introduction from "./Introduction.svelte";
   import Moving from "./Moving.svelte";
 
+  import type { MoveError } from "../interfaces/MoveError";
+  import type { MoveResponse } from "../interfaces/MoveResponse";
   import type { NamedRecord } from "../interfaces/NamedRecord";
 
   import cs from "./locales/cs.json"
