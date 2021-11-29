@@ -2,7 +2,9 @@
   "collectCoverage": true,
   "collectCoverageFrom": [
     "src/**/*.svelte",
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "!src/backend/index.ts",
+    "!src/frontend/index.ts"
   ],
   "coverageDirectory": "coverage",
   "coverageProvider": "babel",
