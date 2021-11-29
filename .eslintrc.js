@@ -79,7 +79,7 @@ module.exports = {
         "gulpfile.js",
         "backend.webpack.config.js",
         "frontend.webpack.config.js",
-        ".eslintrc.js"
+        ".eslintrc.js",
       ],
       rules: {
         "@typescript-eslint/await-thenable": "off",
