@@ -1,7 +1,8 @@
 {
   "collectCoverage": true,
   "collectCoverageFrom": [
-    "src/**/*"
+    "src/**/*.svelte",
+    "src/**/*.ts"
   ],
   "coverageDirectory": "coverage",
   "coverageProvider": "babel",
