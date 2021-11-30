@@ -1,5 +1,5 @@
 import { moveFile } from "./moveFile";
-import { paginationHelper } from "../paginationHelper";
+import { paginationHelper } from "../utils/paginationHelper";
 
 import type { MoveError } from "../../interfaces/MoveError";
 

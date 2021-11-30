@@ -1,4 +1,4 @@
-import { paginationHelper } from "../../src/backend/paginationHelper";
+import { paginationHelper } from "../../src/backend/utils/paginationHelper";
 
 test("paginationHelper works correctly", () => {
   interface T {

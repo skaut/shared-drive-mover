@@ -1,4 +1,4 @@
-import { paginationHelper } from "./paginationHelper";
+import { paginationHelper } from "./utils/paginationHelper";
 
 import type { NamedRecord } from "../interfaces/NamedRecord";
 
