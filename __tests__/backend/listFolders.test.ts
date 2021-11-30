@@ -1,6 +1,6 @@
 import { listFolders } from "../../src/backend/listFolders";
 
-test("listSharedDrives works correctly", () => {
+test("listFolders works correctly", () => {
   interface File {
     id?: string;
     title?: string;
@@ -52,7 +52,7 @@ test("listSharedDrives works correctly", () => {
   ).toContain("nextPageToken");
 });
 
-test("listSharedDrives works correctly with shortcuts", () => {
+test("listFolders works correctly with shortcuts", () => {
   interface ShortcutDetails {
     targetId?: string;
   }
