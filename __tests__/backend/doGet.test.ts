@@ -9,16 +9,16 @@ test("doGet works correctly", () => {
   }
 
   const outputWithTitle: HtmlOutput = {
-    setTitle: jest.fn<HtmlOutput, [string]>(),
+    setTitle: jest.fn<HtmlOutput, [title: string]>(),
   };
   const setTitle = jest
-    .fn<HtmlOutput, [string]>()
+    .fn<HtmlOutput, [title: string]>()
     .mockReturnValueOnce(outputWithTitle);
   const outputWithoutTitle: HtmlOutput = {
     setTitle,
   };
   const createTemplateFromFile = jest
-    .fn<HtmlTemplate, [string]>()
+    .fn<HtmlTemplate, [filename: string]>()
     .mockReturnValueOnce({
       evaluate: jest
         .fn<HtmlOutput, []>()
