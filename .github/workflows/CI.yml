@@ -5,16 +5,17 @@ on:
   pull_request:
 env:
   cache-version: 1
+
 jobs:
   build:
     name: "Build"
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
 
       - name: "Cache NPM dependencies"
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.6
         with:
           path: "~/.npm"
           key: npm-dependencies-${{ runner.os }}-${{ env.cache-version }}-${{ hashFiles('package.json') }}
@@ -40,10 +41,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
 
       - name: "Cache NPM dependencies"
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.6
         with:
           path: "~/.npm"
           key: npm-dependencies-${{ runner.os }}-${{ env.cache-version }}-${{ hashFiles('package.json') }}
