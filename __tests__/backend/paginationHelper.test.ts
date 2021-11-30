@@ -10,12 +10,12 @@ test("paginationHelper works correctly", () => {
     a: "b",
   };
 
-  const request = (
-    jest.fn() as jest.Mock<T, [pageToken: string | undefined]>
-  ).mockReturnValueOnce(rawResponse);
-  const transform = (
-    jest.fn() as jest.Mock<Array<string>, [response: T]>
-  ).mockReturnValueOnce(["first", "second"]);
+  const request = jest
+    .fn<T, [pageToken: string | undefined]>()
+    .mockReturnValueOnce(rawResponse);
+  const transform = jest
+    .fn<Array<string>, [response: T]>()
+    .mockReturnValueOnce(["first", "second"]);
 
   expect(paginationHelper(request, transform)).toStrictEqual([
     "first",
@@ -45,11 +45,13 @@ test("paginationHelper works correctly with multiple pages", () => {
     a: "c",
   };
 
-  const request = (jest.fn() as jest.Mock<T, [pageToken: string | undefined]>)
+  const request = jest
+    .fn<T, [pageToken: string | undefined]>()
     .mockReturnValueOnce(rawResponse1)
     .mockReturnValueOnce(rawResponse2)
     .mockReturnValueOnce(rawResponse3);
-  const transform = (jest.fn() as jest.Mock<Array<string>, [response: T]>)
+  const transform = jest
+    .fn<Array<string>, [response: T]>()
     .mockReturnValueOnce(["first", "second"])
     .mockReturnValueOnce(["third", "fourth"])
     .mockReturnValueOnce(["fifth", "sixth"]);
