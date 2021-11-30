@@ -254,7 +254,7 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
 
   const copy = jest
     .fn<File, [resource: File, fileId: string, optionalArgs: CopyFileOptions]>()
-    .mockReturnValueOnce({id: "DEST_FILE_ID"});
+    .mockReturnValueOnce({ id: "DEST_FILE_ID" });
   global.Drive = {
     Files: {
       copy,
@@ -289,4 +289,68 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
   expect(mocked(copyFileComments).copyFileComments.mock.calls[0][1]).toBe(
     "DEST_FILE_ID"
   );
+});
+
+test("moveFile fails gracefully on error", () => {
+  interface FileCapabilities {
+    canMoveItemOutOfDrive?: boolean;
+  }
+  interface ParentReference {
+    id?: string;
+  }
+  interface File {
+    capabilities?: FileCapabilities;
+    id?: string;
+    parents?: Array<ParentReference>;
+    title?: string;
+  }
+  interface CopyFileOptions {
+    supportsAllDrives?: boolean;
+    fields?: string;
+  }
+  interface UpdateFileOptions {
+    addParents?: string;
+    removeParents?: string;
+    supportsAllDrives?: boolean;
+  }
+
+  const copy = jest
+    .fn<File, [resource: File, fileId: string, optionalArgs: CopyFileOptions]>()
+    .mockImplementation(() => {
+      throw new Error("ERROR_MESAGE");
+    });
+  const update = jest
+    .fn<
+      File,
+      [
+        resource: File,
+        fileId: string,
+        mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        optionalArgs: UpdateFileOptions
+      ]
+    >()
+    .mockImplementation(() => {
+      throw new Error("ERROR_MESAGE");
+    });
+  global.Drive = {
+    Files: {
+      copy,
+      update,
+    },
+  };
+
+  const error = moveFile(
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "SRC_FILE_ID",
+      title: "FILE_NAME",
+    },
+    "SRC_PARENT_ID",
+    "DEST_PARENT_ID",
+    ["PATH", "TO", "FILE"],
+    false
+  );
+  expect(error).not.toBeNull();
+  expect(error!.file).toStrictEqual(["PATH", "TO", "FILE", "FILE_NAME"]);
+  expect(error!.error).not.toBe("");
 });
