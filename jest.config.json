@@ -3,6 +3,7 @@
   "collectCoverageFrom": [
     "src/**/*.svelte",
     "src/**/*.ts",
+    "!src/**/*.d.ts",
     "!src/backend/index.ts",
     "!src/frontend/index.ts"
   ],
