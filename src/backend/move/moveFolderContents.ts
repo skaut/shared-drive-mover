@@ -1,9 +1,10 @@
-import { moveFile } from "./moveFile";
 import {
   deleteFolderIfEmpty,
   listFilesInFolder,
-  listFoldersInFolder
+  listFoldersInFolder,
 } from "./folderManagement";
+import { moveFile } from "./moveFile";
+import { resolveDestinationFolder } from "./resolveDestinationFolder";
 
 import type { MoveError } from "../../interfaces/MoveError";
 
@@ -16,43 +17,6 @@ function moveFolderContentsFiles(
   return listFilesInFolder(sourceID)
     .map((file) => moveFile(file, sourceID, destinationID, path, copyComments))
     .filter((error): error is MoveError => error !== null);
-}
-
-function getNewFolder(
-  sourceFolder: GoogleAppsScript.Drive.Schema.File,
-  destinationID: string,
-  path: Array<string>,
-  mergeFolders: boolean,
-  destinationFolders?: Array<GoogleAppsScript.Drive.Schema.File>
-): [GoogleAppsScript.Drive.Schema.File, MoveError | undefined] {
-  let error = undefined;
-  if (mergeFolders) {
-    const existingFoldersWithSameName = destinationFolders!.filter(
-      (folder) => folder.title === sourceFolder.title
-    );
-    if (existingFoldersWithSameName.length === 1) {
-      return [existingFoldersWithSameName[0], undefined];
-    }
-    if (existingFoldersWithSameName.length > 1) {
-      error = {
-        file: path.concat([sourceFolder.title!]),
-        error:
-          "Coudn't merge with existing folder as there are multiple existing directories with the same name",
-      };
-    }
-  }
-  return [
-    Drive.Files!.insert(
-      {
-        parents: [{ id: destinationID }],
-        title: sourceFolder.title!,
-        mimeType: "application/vnd.google-apps.folder",
-      },
-      undefined,
-      { supportsAllDrives: true, fields: "id" }
-    ),
-    error,
-  ];
 }
 
 function moveFolderContentsFolders(
@@ -73,7 +37,7 @@ function moveFolderContentsFolders(
     [],
     sourceFolders.map((folder) => {
       try {
-        const [destinationFolder, folderMergeError] = getNewFolder(
+        const [destinationFolder, folderMergeError] = resolveDestinationFolder(
           folder,
           destinationID,
           path,
