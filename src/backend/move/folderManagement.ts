@@ -1,7 +1,8 @@
 import { paginationHelper } from "../utils/paginationHelper";
 
-export function listFilesInFolder(
-  folderID: string
+function listFolderContents(
+  folderID: string,
+  mimeTypeCondition: string
 ): Array<GoogleAppsScript.Drive.Schema.File> {
   return paginationHelper<
     GoogleAppsScript.Drive.Schema.FileList,
@@ -12,7 +13,9 @@ export function listFilesInFolder(
         q:
           '"' +
           folderID +
-          '" in parents and mimeType != "application/vnd.google-apps.folder" and trashed = false',
+          '" in parents and mimeType ' +
+          mimeTypeCondition +
+          " and trashed = false",
         includeItemsFromAllDrives: true,
         supportsAllDrives: true,
         pageToken: pageToken,
@@ -24,27 +27,19 @@ export function listFilesInFolder(
   );
 }
 
+export function listFilesInFolder(
+  folderID: string
+): Array<GoogleAppsScript.Drive.Schema.File> {
+  return listFolderContents(
+    folderID,
+    '!= "application/vnd.google-apps.folder"'
+  );
+}
+
 export function listFoldersInFolder(
   folderID: string
 ): Array<GoogleAppsScript.Drive.Schema.File> {
-  return paginationHelper<
-    GoogleAppsScript.Drive.Schema.FileList,
-    GoogleAppsScript.Drive.Schema.File
-  >(
-    (pageToken) =>
-      Drive.Files!.list({
-        q:
-          '"' +
-          folderID +
-          '" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
-        includeItemsFromAllDrives: true,
-        supportsAllDrives: true,
-        pageToken: pageToken,
-        maxResults: 1000,
-        fields: "nextPageToken, items(id, title)",
-      }),
-    (response) => response.items!
-  );
+  return listFolderContents(folderID, '= "application/vnd.google-apps.folder"');
 }
 
 export function deleteFolderIfEmpty(folderID: string): void {
