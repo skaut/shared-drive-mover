@@ -51,7 +51,9 @@ function moveFolderContentsFolders(
         deleteFolderIfEmpty(folder.id!);
         return errors;
       } catch (e) {
-        return [{ file: path.concat([folder.title!]), error: e as string }];
+        return [
+          { file: path.concat([folder.title!]), error: (e as Error).message },
+        ];
       }
     })
   );
