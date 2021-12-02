@@ -8,17 +8,11 @@ export function resolveDestinationFolder(
   path: Array<string>,
   mergeFolders: boolean
 ): [GoogleAppsScript.Drive.Schema.File, MoveError | undefined] {
-  let destinationFolders:
-    | Array<GoogleAppsScript.Drive.Schema.File>
-    | undefined = undefined;
-  if (mergeFolders) {
-    destinationFolders = listFoldersInFolder(destinationParentID);
-  }
   let error = undefined;
   if (mergeFolders) {
-    const existingFoldersWithSameName = destinationFolders!.filter(
-      (folder) => folder.title === sourceFolder.title
-    );
+    const existingFoldersWithSameName = listFoldersInFolder(
+      destinationParentID
+    ).filter((folder) => folder.title === sourceFolder.title);
     if (existingFoldersWithSameName.length === 1) {
       return [existingFoldersWithSameName[0], undefined];
     }
