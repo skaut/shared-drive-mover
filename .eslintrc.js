@@ -80,6 +80,8 @@ module.exports = {
         "backend.webpack.config.js",
         "frontend.webpack.config.js",
         ".eslintrc.js",
+        "__tests__/frontend/babel.config.js",
+        "__tests__/frontend/svelte.config.js",
       ],
       rules: {
         "@typescript-eslint/await-thenable": "off",
