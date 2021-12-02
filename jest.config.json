@@ -31,10 +31,10 @@
         "^.+\\.svelte$": [
           "svelte-jester",
           {
-            "preprocess": true
+            "preprocess": "__tests__/frontend/svelte.config.js"
           }
         ],
-        "^.+\\.js$": "babel-jest"
+        "^.+\\.js$": ["babel-jest", { "configFile": "./__tests__/frontend/babel.config.js" }]
       }
     }
   ]
