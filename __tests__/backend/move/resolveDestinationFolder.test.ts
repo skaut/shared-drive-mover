@@ -1,35 +1,11 @@
 import { resolveDestinationFolder } from "../../../src/backend/move/resolveDestinationFolder";
 
-test("resolveDestinationFolder works correctly", () => {
-  /*
-  interface User {
-    displayName?: string;
-    isAuthenticatedUser?: boolean;
-  }
-  interface CommentReply {
-    author?: User;
-    content?: string;
-  }
-  interface Comment {
-    author?: User;
-    commentId?: string;
-    content?: string;
-    replies?: Array<CommentReply>;
-  }
-  interface CommentList {
-    items?: Array<Comment>;
-    nextPageToken?: string;
-  }
-  interface ListCommentsOptions {
-    maxResults?: number;
-    pageToken?: string;
-    fields?: string;
-  }
-  */
+test("resolveDestinationFolder corretly creates new folder", () => {
   interface ParentReference {
     id?: string;
   }
   interface File {
+    id?: string;
     mimeType?: string;
     parents?: Array<ParentReference>;
     title?: string;
@@ -45,7 +21,8 @@ test("resolveDestinationFolder works correctly", () => {
       [resource: File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
     >()
     .mockReturnValueOnce({
-      title: "NEWLY_CREATED_FOLDER",
+      id: "NEWLY_CREATED_FOLDER_ID",
+      title: "FOLDER_NAME",
     });
   global.Drive = {
     Files: {
@@ -54,22 +31,24 @@ test("resolveDestinationFolder works correctly", () => {
   };
 
   expect(
-    resolveDestinationFolder({}, "DEST_ID", ["PATH", "TO", "FOLDER"], false, [])
-  ).toStrictEqual([{ title: "NEWLY_CREATED_FOLDER" }, undefined]);
+    resolveDestinationFolder(
+      { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
+      "DEST_PARENT_ID",
+      ["PATH", "TO", "FOLDER"],
+      false
+    )
+  ).toStrictEqual([
+    { id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" },
+    undefined,
+  ]);
 
-  /*
-  expect(list.mock.calls.length).toBe(1);
-  expect(list.mock.calls[0][0]).toBe("SRC_FILE_ID");
-  expect(list.mock.calls[0][1].pageToken).toBe(undefined);
-  expect(
-    list.mock.calls[0][1].fields!.split(",").map((s) => s.trim())
-  ).toContain("nextPageToken");
-  expect(insert.mock.calls.length).toBe(2);
-  expect(insert.mock.calls[0][0].content).toBe("*COM1_AUTH:*\nCOM1_CONTENT");
-  expect(insert.mock.calls[0][0].replies).toBe(undefined);
-  expect(insert.mock.calls[0][1]).toBe("DEST_FILE_ID");
-  expect(insert.mock.calls[1][0].content).toBe("COM2_CONTENT");
-  expect(insert.mock.calls[1][0].replies).toBe(undefined);
-  expect(insert.mock.calls[1][1]).toBe("DEST_FILE_ID");
-  */
+  expect(insert.mock.calls.length).toBe(1);
+  expect(insert.mock.calls[0][0].mimeType).toBe(
+    "application/vnd.google-apps.folder"
+  );
+  expect(insert.mock.calls[0][0].parents).toStrictEqual([
+    { id: "DEST_PARENT_ID" },
+  ]);
+  expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
+  expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
 });
