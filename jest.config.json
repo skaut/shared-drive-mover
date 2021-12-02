@@ -21,6 +21,7 @@
       "preset": "ts-jest/presets/default",
       "resetMocks": true,
       "testMatch": ["<rootDir>/__tests__/frontend/**/*.test.ts"],
+      "setupFiles": ["<rootDir>/__tests__/frontend/setup.ts"],
       "transformIgnorePatterns": ["node_modules/(?!(@smui)/)"],
       "testEnvironment": "jsdom",
       "moduleNameMapper": {
