@@ -27,12 +27,6 @@ function moveFolderContentsFolders(
   mergeFolders: boolean
 ): Array<MoveError> {
   const sourceFolders = listFoldersInFolder(sourceID);
-  let destinationFolders:
-    | Array<GoogleAppsScript.Drive.Schema.File>
-    | undefined = undefined;
-  if (mergeFolders) {
-    destinationFolders = listFoldersInFolder(destinationID);
-  }
   return ([] as Array<MoveError>).concat.apply(
     [],
     sourceFolders.map((folder) => {
@@ -41,8 +35,7 @@ function moveFolderContentsFolders(
           folder,
           destinationID,
           path,
-          mergeFolders,
-          destinationFolders
+          mergeFolders
         );
         const errors: Array<MoveError> =
           folderMergeError !== undefined ? [folderMergeError] : [];

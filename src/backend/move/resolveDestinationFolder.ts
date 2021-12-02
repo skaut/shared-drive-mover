@@ -1,12 +1,19 @@
+import { listFoldersInFolder } from "./folderManagement";
+
 import type { MoveError } from "../../interfaces/MoveError";
 
 export function resolveDestinationFolder(
   sourceFolder: GoogleAppsScript.Drive.Schema.File,
-  destinationID: string,
+  destinationParentID: string,
   path: Array<string>,
-  mergeFolders: boolean,
-  destinationFolders?: Array<GoogleAppsScript.Drive.Schema.File>
+  mergeFolders: boolean
 ): [GoogleAppsScript.Drive.Schema.File, MoveError | undefined] {
+  let destinationFolders:
+    | Array<GoogleAppsScript.Drive.Schema.File>
+    | undefined = undefined;
+  if (mergeFolders) {
+    destinationFolders = listFoldersInFolder(destinationParentID);
+  }
   let error = undefined;
   if (mergeFolders) {
     const existingFoldersWithSameName = destinationFolders!.filter(
@@ -26,7 +33,7 @@ export function resolveDestinationFolder(
   return [
     Drive.Files!.insert(
       {
-        parents: [{ id: destinationID }],
+        parents: [{ id: destinationParentID }],
         title: sourceFolder.title!,
         mimeType: "application/vnd.google-apps.folder",
       },
