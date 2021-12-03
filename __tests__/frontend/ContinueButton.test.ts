@@ -15,7 +15,13 @@ test("TEST", () => {
   type InterpolationValues =
     | Record<
         string,
-        boolean | Date | FormatXMLElementFn<unknown> | null | number | string | undefined
+        | Date
+        | FormatXMLElementFn<unknown>
+        | boolean
+        | number
+        | string
+        | null
+        | undefined
       >
     | undefined;
   interface MessageObject {
@@ -34,6 +40,8 @@ test("TEST", () => {
       return (): void => {}; // eslint-disable-line @typescript-eslint/no-empty-function
     }
   );
-  const { getByText } = render(ContinueButton, { disabled: false });
+  const { getByText } = render(ContinueButton, {
+    disabled: false,
+  });
   expect(getByText("continue.buttonLabel")).toBeInTheDocument();
 });
