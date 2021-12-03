@@ -80,7 +80,7 @@
   init({
     fallbackLocale: "en",
     initialLocale: "<?= Session.getActiveUserLocale() ?>",
-  })
+  });
 
   let currentTab: "introduction"|"source-selection"|"destination-selection"|"confirmation"|"moving"|"done" = "introduction";
   let moving = false;
