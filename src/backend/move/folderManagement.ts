@@ -42,7 +42,7 @@ export function listFoldersInFolder(
   return listFolderContents(folderID, '= "application/vnd.google-apps.folder"');
 }
 
-export function deleteFolderIfEmpty(folderID: string): void {
+export function isFolderEmpty(folderID: string): boolean {
   const response = Drive.Files!.list({
     q: '"' + folderID + '" in parents and trashed = false',
     includeItemsFromAllDrives: true,
@@ -50,15 +50,20 @@ export function deleteFolderIfEmpty(folderID: string): void {
     maxResults: 1,
     fields: "items(id)",
   });
-  if (response.items!.length === 0) {
-    const response2 = Drive.Files!.get(folderID, {
-      fields: "userPermission(role)",
-    });
-    if (
-      response2.userPermission!.role === "owner" ||
-      response2.userPermission!.role === "organizer"
-    ) {
-      Drive.Files!.remove(folderID);
-    }
+  return response.items!.length === 0;
+}
+
+export function deleteFolderIfEmpty(folderID: string): void {
+  if (!isFolderEmpty(folderID)) {
+    return;
+  }
+  const response = Drive.Files!.get(folderID, {
+    fields: "userPermission(role)",
+  });
+  if (
+    response.userPermission!.role === "owner" ||
+    response.userPermission!.role === "organizer"
+  ) {
+    Drive.Files!.remove(folderID);
   }
 }
