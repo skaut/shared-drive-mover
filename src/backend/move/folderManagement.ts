@@ -42,6 +42,17 @@ export function listFoldersInFolder(
   return listFolderContents(folderID, '= "application/vnd.google-apps.folder"');
 }
 
+export function isFolderEmpty(folderID: string): boolean {
+  const response = Drive.Files!.list({
+    q: '"' + folderID + '" in parents and trashed = false',
+    includeItemsFromAllDrives: true,
+    supportsAllDrives: true,
+    maxResults: 1,
+    fields: "items(id)",
+  });
+  return response.items!.length === 0;
+}
+
 export function deleteFolderIfEmpty(folderID: string): void {
   const response = Drive.Files!.list({
     q: '"' + folderID + '" in parents and trashed = false',

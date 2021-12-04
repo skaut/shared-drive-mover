@@ -1,4 +1,4 @@
-import { isFolderEmpty } from "./move/isFolderEmpty";
+import { isFolderEmpty } from "./move/folderManagement";
 import { moveFolderContents } from "./move/moveFolderContents";
 
 import type { MoveResponse } from "../interfaces/MoveResponse";
