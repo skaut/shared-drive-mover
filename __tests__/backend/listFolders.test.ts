@@ -1,14 +1,6 @@
 import { listFolders } from "../../src/backend/listFolders";
 
 test("listFolders works correctly", () => {
-  interface File {
-    id?: string;
-    title?: string;
-  }
-  interface FileList {
-    items?: Array<File>;
-    nextPageToken?: string;
-  }
   interface ListFilesOptions {
     q?: string;
     includeItemsFromAllDrives?: boolean;
@@ -26,7 +18,7 @@ test("listFolders works correctly", () => {
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<FileList, [optionalArgs: ListFilesOptions]>()
+    .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
     Files: {
@@ -53,19 +45,6 @@ test("listFolders works correctly", () => {
 });
 
 test("listFolders works correctly with shortcuts", () => {
-  interface ShortcutDetails {
-    targetId?: string;
-  }
-  interface File {
-    id?: string;
-    title?: string;
-    mimeType?: string;
-    shortcutDetails?: ShortcutDetails;
-  }
-  interface FileList {
-    items?: Array<File>;
-    nextPageToken?: string;
-  }
   interface ListFilesOptions {
     q?: string;
     includeItemsFromAllDrives?: boolean;
@@ -90,7 +69,7 @@ test("listFolders works correctly with shortcuts", () => {
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<FileList, [optionalArgs: ListFilesOptions]>()
+    .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
     Files: {

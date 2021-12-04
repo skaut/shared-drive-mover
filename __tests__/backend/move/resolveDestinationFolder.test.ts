@@ -7,15 +7,6 @@ import * as folderManagement from "../../../src/backend/move/folderManagement";
 jest.mock("../../../src/backend/move/folderManagement");
 
 test("resolveDestinationFolder corretly creates new folder", () => {
-  interface ParentReference {
-    id?: string;
-  }
-  interface File {
-    id?: string;
-    mimeType?: string;
-    parents?: Array<ParentReference>;
-    title?: string;
-  }
   interface InsertFileOptions {
     supportsAllDrives?: boolean;
     fields: string;
@@ -23,8 +14,8 @@ test("resolveDestinationFolder corretly creates new folder", () => {
 
   const insert = jest
     .fn<
-      File,
-      [resource: File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
+      GoogleAppsScript.Drive.Schema.File,
+      [resource: GoogleAppsScript.Drive.Schema.File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
     >()
     .mockReturnValueOnce({
       id: "NEWLY_CREATED_FOLDER_ID",
@@ -60,15 +51,6 @@ test("resolveDestinationFolder corretly creates new folder", () => {
 });
 
 test("resolveDestinationFolder corretly creates new folder when set not to merge folders, even when a folder with the same name exists", () => {
-  interface ParentReference {
-    id?: string;
-  }
-  interface File {
-    id?: string;
-    mimeType?: string;
-    parents?: Array<ParentReference>;
-    title?: string;
-  }
   interface InsertFileOptions {
     supportsAllDrives?: boolean;
     fields: string;
@@ -76,8 +58,8 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
 
   const insert = jest
     .fn<
-      File,
-      [resource: File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
+      GoogleAppsScript.Drive.Schema.File,
+      [resource: GoogleAppsScript.Drive.Schema.File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
     >()
     .mockReturnValueOnce({
       id: "NEWLY_CREATED_FOLDER_ID",
@@ -117,15 +99,6 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
 });
 
 test("resolveDestinationFolder corretly creates new folder when set to merge folders, but there is no existing folder the same name", () => {
-  interface ParentReference {
-    id?: string;
-  }
-  interface File {
-    id?: string;
-    mimeType?: string;
-    parents?: Array<ParentReference>;
-    title?: string;
-  }
   interface InsertFileOptions {
     supportsAllDrives?: boolean;
     fields: string;
@@ -133,8 +106,8 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
 
   const insert = jest
     .fn<
-      File,
-      [resource: File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
+      GoogleAppsScript.Drive.Schema.File,
+      [resource: GoogleAppsScript.Drive.Schema.File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
     >()
     .mockReturnValueOnce({
       id: "NEWLY_CREATED_FOLDER_ID",
@@ -172,23 +145,14 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
 });
 
 test("resolveDestinationFolder corretly uses an existing folder when set to merge folders", () => {
-  interface ParentReference {
-    id?: string;
-  }
-  interface File {
-    id?: string;
-    mimeType?: string;
-    parents?: Array<ParentReference>;
-    title?: string;
-  }
   interface InsertFileOptions {
     supportsAllDrives?: boolean;
     fields: string;
   }
 
   const insert = jest.fn<
-    File,
-    [resource: File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
+    GoogleAppsScript.Drive.Schema.File,
+    [resource: GoogleAppsScript.Drive.Schema.File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
   >();
   global.Drive = {
     Files: {
@@ -218,15 +182,6 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
 });
 
 test("resolveDestinationFolder fails gracefully on multiple existing folders with the same name", () => {
-  interface ParentReference {
-    id?: string;
-  }
-  interface File {
-    id?: string;
-    mimeType?: string;
-    parents?: Array<ParentReference>;
-    title?: string;
-  }
   interface InsertFileOptions {
     supportsAllDrives?: boolean;
     fields: string;
@@ -234,8 +189,8 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
 
   const insert = jest
     .fn<
-      File,
-      [resource: File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
+      GoogleAppsScript.Drive.Schema.File,
+      [resource: GoogleAppsScript.Drive.Schema.File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
     >()
     .mockReturnValueOnce({
       id: "NEWLY_CREATED_FOLDER_ID",

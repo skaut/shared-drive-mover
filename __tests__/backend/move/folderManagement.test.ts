@@ -6,18 +6,6 @@ import {
 } from "../../../src/backend/move/folderManagement";
 
 test("listFilesInFolder works correctly", () => {
-  interface FileCapabilities {
-    canMoveItemOutOfDrive: boolean;
-  }
-  interface File {
-    id?: string;
-    title?: string;
-    capabilities: FileCapabilities;
-  }
-  interface FileList {
-    items?: Array<File>;
-    nextPageToken?: string;
-  }
   interface ListFilesOptions {
     q?: string;
     includeItemsFromAllDrives?: boolean;
@@ -44,7 +32,7 @@ test("listFilesInFolder works correctly", () => {
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<FileList, [optionalArgs: ListFilesOptions]>()
+    .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
     Files: {
@@ -68,18 +56,6 @@ test("listFilesInFolder works correctly", () => {
 });
 
 test("listFoldersInFolder works correctly", () => {
-  interface FileCapabilities {
-    canMoveItemOutOfDrive: boolean;
-  }
-  interface File {
-    id?: string;
-    title?: string;
-    capabilities: FileCapabilities;
-  }
-  interface FileList {
-    items?: Array<File>;
-    nextPageToken?: string;
-  }
   interface ListFilesOptions {
     q?: string;
     includeItemsFromAllDrives?: boolean;
@@ -106,7 +82,7 @@ test("listFoldersInFolder works correctly", () => {
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<FileList, [optionalArgs: ListFilesOptions]>()
+    .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
     Files: {
@@ -130,12 +106,6 @@ test("listFoldersInFolder works correctly", () => {
 });
 
 test("isFolderEmpty works correctly with an empty folder", () => {
-  interface File {
-    id?: string;
-  }
-  interface FileList {
-    items?: Array<File>;
-  }
   interface ListFilesOptions {
     q?: string;
     includeItemsFromAllDrives?: boolean;
@@ -148,7 +118,7 @@ test("isFolderEmpty works correctly with an empty folder", () => {
     items: [],
   };
   const list = jest
-    .fn<FileList, [optionalArgs: ListFilesOptions]>()
+    .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
     Files: {
@@ -164,12 +134,6 @@ test("isFolderEmpty works correctly with an empty folder", () => {
 });
 
 test("isFolderEmpty works correctly with a non-empty folder", () => {
-  interface File {
-    id?: string;
-  }
-  interface FileList {
-    items?: Array<File>;
-  }
   interface ListFilesOptions {
     q?: string;
     includeItemsFromAllDrives?: boolean;
@@ -182,7 +146,7 @@ test("isFolderEmpty works correctly with a non-empty folder", () => {
     items: [{ id: "ID_FILE" }],
   };
   const list = jest
-    .fn<FileList, [optionalArgs: ListFilesOptions]>()
+    .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
     Files: {
@@ -202,16 +166,6 @@ test.each(["owner", "organizer"] as Array<
 >)(
   "deleteFolderIfEmpty works correctly",
   (role: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer") => {
-    interface Permission {
-      role?: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer";
-    }
-    interface File {
-      userPermission?: Permission;
-    }
-    interface FileList {
-      items?: Array<File>;
-      nextPageToken?: string;
-    }
     interface GetFileOptions {
       fields: string;
     }
@@ -224,18 +178,18 @@ test.each(["owner", "organizer"] as Array<
       fields?: string;
     }
 
-    const getResponse: File = {
+    const getResponse = {
       userPermission: { role },
     };
     const get = jest
-      .fn<File, [fileId: string, optionalArgs: GetFileOptions]>()
+      .fn<GoogleAppsScript.Drive.Schema.File, [fileId: string, optionalArgs: GetFileOptions]>()
       .mockReturnValueOnce(getResponse);
     const listResponse = {
       items: [],
       nextPageToken: undefined,
     };
     const list = jest
-      .fn<FileList, [optionalArgs: ListFilesOptions]>()
+      .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
       .mockReturnValueOnce(listResponse);
     const remove = jest.fn<void, [fileId: string]>().mockReturnValueOnce(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
     global.Drive = {
@@ -261,16 +215,6 @@ test.each(["owner", "organizer"] as Array<
 );
 
 test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
-  interface Permission {
-    role?: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer";
-  }
-  interface File {
-    userPermission?: Permission;
-  }
-  interface FileList {
-    items?: Array<File>;
-    nextPageToken?: string;
-  }
   interface GetFileOptions {
     fields: string;
   }
@@ -283,13 +227,13 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
     fields?: string;
   }
 
-  const get = jest.fn<File, [fileId: string, optionalArgs: GetFileOptions]>();
-  const listResponse: FileList = {
+  const get = jest.fn<GoogleAppsScript.Drive.Schema.File, [fileId: string, optionalArgs: GetFileOptions]>();
+  const listResponse: GoogleAppsScript.Drive.Schema.FileList = {
     items: [{ userPermission: { role: "reader" } }],
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<FileList, [optionalArgs: ListFilesOptions]>()
+    .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
     .mockReturnValueOnce(listResponse);
   const remove = jest.fn<void, [fileId: string]>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
   global.Drive = {
@@ -315,16 +259,6 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
 >)(
   "deleteFolderIfEmpty doesn't try to delete a folder without permissions",
   (role: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer") => {
-    interface Permission {
-      role?: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer";
-    }
-    interface File {
-      userPermission?: Permission;
-    }
-    interface FileList {
-      items?: Array<File>;
-      nextPageToken?: string;
-    }
     interface GetFileOptions {
       fields: string;
     }
@@ -337,18 +271,18 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
       fields?: string;
     }
 
-    const getResponse: File = {
+    const getResponse = {
       userPermission: { role },
     };
     const get = jest
-      .fn<File, [fileId: string, optionalArgs: GetFileOptions]>()
+      .fn<GoogleAppsScript.Drive.Schema.File, [fileId: string, optionalArgs: GetFileOptions]>()
       .mockReturnValueOnce(getResponse);
     const listResponse = {
       items: [],
       nextPageToken: undefined,
     };
     const list = jest
-      .fn<FileList, [optionalArgs: ListFilesOptions]>()
+      .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
       .mockReturnValueOnce(listResponse);
     const remove = jest.fn<void, [fileId: string]>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
     global.Drive = {
