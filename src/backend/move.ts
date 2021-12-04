@@ -1,5 +1,5 @@
-import { isFolderEmpty } from "./move/folderManagement";
-import { moveFolderContents } from "./move/moveFolderContents";
+import { isFolderEmpty_ } from "./move/folderManagement";
+import { moveFolderContents_ } from "./move/moveFolderContents";
 
 import type { MoveResponse } from "../interfaces/MoveResponse";
 
@@ -10,11 +10,11 @@ export function move(
   mergeFolders: boolean,
   notEmptyOverride: boolean
 ): MoveResponse {
-  const isEmpty = isFolderEmpty(destinationID);
+  const isEmpty = isFolderEmpty_(destinationID);
   if (!notEmptyOverride && !isEmpty) {
     return { status: "error", reason: "notEmpty" };
   }
-  const errors = moveFolderContents(
+  const errors = moveFolderContents_(
     sourceID,
     destinationID,
     [],

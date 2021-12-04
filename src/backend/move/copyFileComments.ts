@@ -1,9 +1,9 @@
-import { paginationHelper } from "../utils/paginationHelper";
+import { paginationHelper_ } from "../utils/paginationHelper";
 
-function listFileComments(
+function listFileComments_(
   fileID: string
 ): Array<GoogleAppsScript.Drive.Schema.Comment> {
-  return paginationHelper<
+  return paginationHelper_<
     GoogleAppsScript.Drive.Schema.CommentList,
     GoogleAppsScript.Drive.Schema.Comment
   >(
@@ -18,11 +18,11 @@ function listFileComments(
   );
 }
 
-export function copyFileComments(
+export function copyFileComments_(
   sourceID: string,
   destinationID: string
 ): void {
-  const comments = listFileComments(sourceID);
+  const comments = listFileComments_(sourceID);
   for (const comment of comments) {
     if (!comment.author!.isAuthenticatedUser!) {
       comment.content =

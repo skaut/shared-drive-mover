@@ -1,8 +1,8 @@
-import { listFoldersInFolder } from "./folderManagement";
+import { listFoldersInFolder_ } from "./folderManagement";
 
 import type { MoveError } from "../../interfaces/MoveError";
 
-export function resolveDestinationFolder(
+export function resolveDestinationFolder_(
   sourceFolder: GoogleAppsScript.Drive.Schema.File,
   destinationParentID: string,
   path: Array<string>,
@@ -10,7 +10,7 @@ export function resolveDestinationFolder(
 ): [GoogleAppsScript.Drive.Schema.File, MoveError | undefined] {
   let error = undefined;
   if (mergeFolders) {
-    const existingFoldersWithSameName = listFoldersInFolder(
+    const existingFoldersWithSameName = listFoldersInFolder_(
       destinationParentID
     ).filter((folder) => folder.title === sourceFolder.title);
     if (existingFoldersWithSameName.length === 1) {

@@ -1,9 +1,9 @@
-import { copyFileComments } from "./copyFileComments";
+import { copyFileComments_ } from "./copyFileComments";
 
 import type { GoogleJsonResponseException } from "../../interfaces/GoogleJsonResponseException";
 import type { MoveError } from "../../interfaces/MoveError";
 
-function moveFileDirectly(
+function moveFileDirectly_(
   fileID: string,
   sourceID: string,
   destinationID: string
@@ -16,7 +16,7 @@ function moveFileDirectly(
   });
 }
 
-function moveFileByCopy(
+function moveFileByCopy_(
   fileID: string,
   name: string,
   destinationID: string,
@@ -33,7 +33,7 @@ function moveFileByCopy(
       { supportsAllDrives: true, fields: "id" }
     );
     if (copyComments) {
-      copyFileComments(fileID, copy.id!);
+      copyFileComments_(fileID, copy.id!);
     }
     return null;
   } catch (e) {
@@ -44,7 +44,7 @@ function moveFileByCopy(
   }
 }
 
-export function moveFile(
+export function moveFile_(
   file: GoogleAppsScript.Drive.Schema.File,
   sourceID: string,
   destinationID: string,
@@ -53,10 +53,10 @@ export function moveFile(
 ): MoveError | null {
   if (file.capabilities!.canMoveItemOutOfDrive!) {
     try {
-      moveFileDirectly(file.id!, sourceID, destinationID);
+      moveFileDirectly_(file.id!, sourceID, destinationID);
       return null;
     } catch (e) {
-      return moveFileByCopy(
+      return moveFileByCopy_(
         file.id!,
         file.title!,
         destinationID,
@@ -65,7 +65,7 @@ export function moveFile(
       );
     }
   } else {
-    return moveFileByCopy(
+    return moveFileByCopy_(
       file.id!,
       file.title!,
       destinationID,
