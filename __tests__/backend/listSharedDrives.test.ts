@@ -17,7 +17,10 @@ test("listSharedDrives works correctly", () => {
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<GoogleAppsScript.Drive.Schema.DriveList, [optionalArgs: ListDrivesOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.DriveList,
+      [optionalArgs: ListDrivesOptions]
+    >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
     Drives: {

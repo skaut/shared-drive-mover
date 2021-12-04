@@ -32,7 +32,10 @@ test("listFilesInFolder works correctly", () => {
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.FileList,
+      [optionalArgs: ListFilesOptions]
+    >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
     Files: {
@@ -82,7 +85,10 @@ test("listFoldersInFolder works correctly", () => {
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.FileList,
+      [optionalArgs: ListFilesOptions]
+    >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
     Files: {
@@ -118,7 +124,10 @@ test("isFolderEmpty works correctly with an empty folder", () => {
     items: [],
   };
   const list = jest
-    .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.FileList,
+      [optionalArgs: ListFilesOptions]
+    >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
     Files: {
@@ -146,7 +155,10 @@ test("isFolderEmpty works correctly with a non-empty folder", () => {
     items: [{ id: "ID_FILE" }],
   };
   const list = jest
-    .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.FileList,
+      [optionalArgs: ListFilesOptions]
+    >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
     Files: {
@@ -182,14 +194,20 @@ test.each(["owner", "organizer"] as Array<
       userPermission: { role },
     };
     const get = jest
-      .fn<GoogleAppsScript.Drive.Schema.File, [fileId: string, optionalArgs: GetFileOptions]>()
+      .fn<
+        GoogleAppsScript.Drive.Schema.File,
+        [fileId: string, optionalArgs: GetFileOptions]
+      >()
       .mockReturnValueOnce(getResponse);
     const listResponse = {
       items: [],
       nextPageToken: undefined,
     };
     const list = jest
-      .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
+      .fn<
+        GoogleAppsScript.Drive.Schema.FileList,
+        [optionalArgs: ListFilesOptions]
+      >()
       .mockReturnValueOnce(listResponse);
     const remove = jest.fn<void, [fileId: string]>().mockReturnValueOnce(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
     global.Drive = {
@@ -227,13 +245,19 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
     fields?: string;
   }
 
-  const get = jest.fn<GoogleAppsScript.Drive.Schema.File, [fileId: string, optionalArgs: GetFileOptions]>();
+  const get = jest.fn<
+    GoogleAppsScript.Drive.Schema.File,
+    [fileId: string, optionalArgs: GetFileOptions]
+  >();
   const listResponse: GoogleAppsScript.Drive.Schema.FileList = {
     items: [{ userPermission: { role: "reader" } }],
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.FileList,
+      [optionalArgs: ListFilesOptions]
+    >()
     .mockReturnValueOnce(listResponse);
   const remove = jest.fn<void, [fileId: string]>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
   global.Drive = {
@@ -275,14 +299,20 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
       userPermission: { role },
     };
     const get = jest
-      .fn<GoogleAppsScript.Drive.Schema.File, [fileId: string, optionalArgs: GetFileOptions]>()
+      .fn<
+        GoogleAppsScript.Drive.Schema.File,
+        [fileId: string, optionalArgs: GetFileOptions]
+      >()
       .mockReturnValueOnce(getResponse);
     const listResponse = {
       items: [],
       nextPageToken: undefined,
     };
     const list = jest
-      .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
+      .fn<
+        GoogleAppsScript.Drive.Schema.FileList,
+        [optionalArgs: ListFilesOptions]
+      >()
       .mockReturnValueOnce(listResponse);
     const remove = jest.fn<void, [fileId: string]>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
     global.Drive = {

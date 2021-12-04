@@ -25,10 +25,16 @@ test("copyFileComments works correctly", () => {
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<GoogleAppsScript.Drive.Schema.CommentList, [fileId: string, optionalArgs: ListCommentsOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.CommentList,
+      [fileId: string, optionalArgs: ListCommentsOptions]
+    >()
     .mockReturnValueOnce(rawResponse);
   const insert = jest
-    .fn<GoogleAppsScript.Drive.Schema.Comment, [resource: GoogleAppsScript.Drive.Schema.Comment, fileId: string]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.Comment,
+      [resource: GoogleAppsScript.Drive.Schema.Comment, fileId: string]
+    >()
     .mockReturnValueOnce({
       commentId: "DEST_COM1_ID",
     })
@@ -87,17 +93,27 @@ test("copyFileComments works correctly with replies", () => {
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<GoogleAppsScript.Drive.Schema.CommentList, [fileId: string, optionalArgs: ListCommentsOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.CommentList,
+      [fileId: string, optionalArgs: ListCommentsOptions]
+    >()
     .mockReturnValueOnce(rawResponse);
   const insertComment = jest
-    .fn<GoogleAppsScript.Drive.Schema.Comment, [resource: GoogleAppsScript.Drive.Schema.Comment, fileId: string]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.Comment,
+      [resource: GoogleAppsScript.Drive.Schema.Comment, fileId: string]
+    >()
     .mockReturnValueOnce({
       commentId: "DEST_COM_ID",
     });
   const insertReply = jest
     .fn<
       GoogleAppsScript.Drive.Schema.CommentReply,
-      [resource: GoogleAppsScript.Drive.Schema.CommentReply, fileId: string, commentId: string]
+      [
+        resource: GoogleAppsScript.Drive.Schema.CommentReply,
+        fileId: string,
+        commentId: string
+      ]
     >()
     .mockReturnValueOnce({});
   global.Drive = {

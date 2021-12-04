@@ -15,7 +15,11 @@ test("resolveDestinationFolder corretly creates new folder", () => {
   const insert = jest
     .fn<
       GoogleAppsScript.Drive.Schema.File,
-      [resource: GoogleAppsScript.Drive.Schema.File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
+      [
+        resource: GoogleAppsScript.Drive.Schema.File,
+        mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        optionalArgs: InsertFileOptions
+      ]
     >()
     .mockReturnValueOnce({
       id: "NEWLY_CREATED_FOLDER_ID",
@@ -59,7 +63,11 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
   const insert = jest
     .fn<
       GoogleAppsScript.Drive.Schema.File,
-      [resource: GoogleAppsScript.Drive.Schema.File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
+      [
+        resource: GoogleAppsScript.Drive.Schema.File,
+        mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        optionalArgs: InsertFileOptions
+      ]
     >()
     .mockReturnValueOnce({
       id: "NEWLY_CREATED_FOLDER_ID",
@@ -107,7 +115,11 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
   const insert = jest
     .fn<
       GoogleAppsScript.Drive.Schema.File,
-      [resource: GoogleAppsScript.Drive.Schema.File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
+      [
+        resource: GoogleAppsScript.Drive.Schema.File,
+        mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        optionalArgs: InsertFileOptions
+      ]
     >()
     .mockReturnValueOnce({
       id: "NEWLY_CREATED_FOLDER_ID",
@@ -152,7 +164,11 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
 
   const insert = jest.fn<
     GoogleAppsScript.Drive.Schema.File,
-    [resource: GoogleAppsScript.Drive.Schema.File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
+    [
+      resource: GoogleAppsScript.Drive.Schema.File,
+      mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+      optionalArgs: InsertFileOptions
+    ]
   >();
   global.Drive = {
     Files: {
@@ -190,7 +206,11 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
   const insert = jest
     .fn<
       GoogleAppsScript.Drive.Schema.File,
-      [resource: GoogleAppsScript.Drive.Schema.File, mediaData: any, optionalArgs: InsertFileOptions] // eslint-disable-line @typescript-eslint/no-explicit-any
+      [
+        resource: GoogleAppsScript.Drive.Schema.File,
+        mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        optionalArgs: InsertFileOptions
+      ]
     >()
     .mockReturnValueOnce({
       id: "NEWLY_CREATED_FOLDER_ID",

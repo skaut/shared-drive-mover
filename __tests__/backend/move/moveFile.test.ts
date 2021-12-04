@@ -63,7 +63,14 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
   }
 
   const copy = jest
-    .fn<GoogleAppsScript.Drive.Schema.File, [resource: GoogleAppsScript.Drive.Schema.File, fileId: string, optionalArgs: CopyFileOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.File,
+      [
+        resource: GoogleAppsScript.Drive.Schema.File,
+        fileId: string,
+        optionalArgs: CopyFileOptions
+      ]
+    >()
     .mockReturnValueOnce({});
   const update = jest
     .fn<
@@ -119,7 +126,14 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
   }
 
   const copy = jest
-    .fn<GoogleAppsScript.Drive.Schema.File, [resource: GoogleAppsScript.Drive.Schema.File, fileId: string, optionalArgs: CopyFileOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.File,
+      [
+        resource: GoogleAppsScript.Drive.Schema.File,
+        fileId: string,
+        optionalArgs: CopyFileOptions
+      ]
+    >()
     .mockReturnValueOnce({});
   global.Drive = {
     Files: {
@@ -201,7 +215,14 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
   }
 
   const copy = jest
-    .fn<GoogleAppsScript.Drive.Schema.File, [resource: GoogleAppsScript.Drive.Schema.File, fileId: string, optionalArgs: CopyFileOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.File,
+      [
+        resource: GoogleAppsScript.Drive.Schema.File,
+        fileId: string,
+        optionalArgs: CopyFileOptions
+      ]
+    >()
     .mockReturnValueOnce({ id: "DEST_FILE_ID" });
   global.Drive = {
     Files: {
@@ -251,7 +272,14 @@ test("moveFile fails gracefully on error", () => {
   }
 
   const copy = jest
-    .fn<GoogleAppsScript.Drive.Schema.File, [resource: GoogleAppsScript.Drive.Schema.File, fileId: string, optionalArgs: CopyFileOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.File,
+      [
+        resource: GoogleAppsScript.Drive.Schema.File,
+        fileId: string,
+        optionalArgs: CopyFileOptions
+      ]
+    >()
     .mockImplementation(() => {
       throw new Error("ERROR_MESAGE");
     });

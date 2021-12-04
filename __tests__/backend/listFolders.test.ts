@@ -18,7 +18,10 @@ test("listFolders works correctly", () => {
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.FileList,
+      [optionalArgs: ListFilesOptions]
+    >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
     Files: {
@@ -69,7 +72,10 @@ test("listFolders works correctly with shortcuts", () => {
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<GoogleAppsScript.Drive.Schema.FileList, [optionalArgs: ListFilesOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.FileList,
+      [optionalArgs: ListFilesOptions]
+    >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
     Files: {
