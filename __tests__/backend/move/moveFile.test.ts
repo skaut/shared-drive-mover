@@ -7,14 +7,6 @@ import * as copyFileComments from "../../../src/backend/move/copyFileComments";
 jest.mock("../../../src/backend/move/copyFileComments");
 
 test("moveFile works correctly with a file that can be moved directly", () => {
-  interface FileCapabilities {
-    canMoveItemOutOfDrive?: boolean;
-  }
-  interface File {
-    capabilities?: FileCapabilities;
-    id?: string;
-    title?: string;
-  }
   interface UpdateFileOptions {
     addParents?: string;
     removeParents?: string;
@@ -23,9 +15,9 @@ test("moveFile works correctly with a file that can be moved directly", () => {
 
   const update = jest
     .fn<
-      File,
+      GoogleAppsScript.Drive.Schema.File,
       [
-        resource: File,
+        resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
         optionalArgs: UpdateFileOptions
@@ -60,18 +52,6 @@ test("moveFile works correctly with a file that can be moved directly", () => {
 });
 
 test("moveFile works correctly with a file that can be moved out of drive, yet cannot be moved directly", () => {
-  interface FileCapabilities {
-    canMoveItemOutOfDrive?: boolean;
-  }
-  interface ParentReference {
-    id?: string;
-  }
-  interface File {
-    capabilities?: FileCapabilities;
-    id?: string;
-    parents?: Array<ParentReference>;
-    title?: string;
-  }
   interface CopyFileOptions {
     supportsAllDrives?: boolean;
     fields?: string;
@@ -83,13 +63,20 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
   }
 
   const copy = jest
-    .fn<File, [resource: File, fileId: string, optionalArgs: CopyFileOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.File,
+      [
+        resource: GoogleAppsScript.Drive.Schema.File,
+        fileId: string,
+        optionalArgs: CopyFileOptions
+      ]
+    >()
     .mockReturnValueOnce({});
   const update = jest
     .fn<
-      File,
+      GoogleAppsScript.Drive.Schema.File,
       [
-        resource: File,
+        resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
         optionalArgs: UpdateFileOptions
@@ -133,25 +120,20 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
 });
 
 test("moveFile works correctly with a file that cannot be moved out of drive", () => {
-  interface FileCapabilities {
-    canMoveItemOutOfDrive?: boolean;
-  }
-  interface ParentReference {
-    id?: string;
-  }
-  interface File {
-    capabilities?: FileCapabilities;
-    id?: string;
-    parents?: Array<ParentReference>;
-    title?: string;
-  }
   interface CopyFileOptions {
     supportsAllDrives?: boolean;
     fields?: string;
   }
 
   const copy = jest
-    .fn<File, [resource: File, fileId: string, optionalArgs: CopyFileOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.File,
+      [
+        resource: GoogleAppsScript.Drive.Schema.File,
+        fileId: string,
+        optionalArgs: CopyFileOptions
+      ]
+    >()
     .mockReturnValueOnce({});
   global.Drive = {
     Files: {
@@ -182,14 +164,6 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
 });
 
 test("moveFile works correctly with a file that can be moved directly with comments", () => {
-  interface FileCapabilities {
-    canMoveItemOutOfDrive?: boolean;
-  }
-  interface File {
-    capabilities?: FileCapabilities;
-    id?: string;
-    title?: string;
-  }
   interface UpdateFileOptions {
     addParents?: string;
     removeParents?: string;
@@ -198,9 +172,9 @@ test("moveFile works correctly with a file that can be moved directly with comme
 
   const update = jest
     .fn<
-      File,
+      GoogleAppsScript.Drive.Schema.File,
       [
-        resource: File,
+        resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
         optionalArgs: UpdateFileOptions
@@ -235,25 +209,20 @@ test("moveFile works correctly with a file that can be moved directly with comme
 });
 
 test("moveFile works correctly with a file that cannot be moved out of drive with comments", () => {
-  interface FileCapabilities {
-    canMoveItemOutOfDrive?: boolean;
-  }
-  interface ParentReference {
-    id?: string;
-  }
-  interface File {
-    capabilities?: FileCapabilities;
-    id?: string;
-    parents?: Array<ParentReference>;
-    title?: string;
-  }
   interface CopyFileOptions {
     supportsAllDrives?: boolean;
     fields?: string;
   }
 
   const copy = jest
-    .fn<File, [resource: File, fileId: string, optionalArgs: CopyFileOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.File,
+      [
+        resource: GoogleAppsScript.Drive.Schema.File,
+        fileId: string,
+        optionalArgs: CopyFileOptions
+      ]
+    >()
     .mockReturnValueOnce({ id: "DEST_FILE_ID" });
   global.Drive = {
     Files: {
@@ -292,18 +261,6 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
 });
 
 test("moveFile fails gracefully on error", () => {
-  interface FileCapabilities {
-    canMoveItemOutOfDrive?: boolean;
-  }
-  interface ParentReference {
-    id?: string;
-  }
-  interface File {
-    capabilities?: FileCapabilities;
-    id?: string;
-    parents?: Array<ParentReference>;
-    title?: string;
-  }
   interface CopyFileOptions {
     supportsAllDrives?: boolean;
     fields?: string;
@@ -315,15 +272,22 @@ test("moveFile fails gracefully on error", () => {
   }
 
   const copy = jest
-    .fn<File, [resource: File, fileId: string, optionalArgs: CopyFileOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.File,
+      [
+        resource: GoogleAppsScript.Drive.Schema.File,
+        fileId: string,
+        optionalArgs: CopyFileOptions
+      ]
+    >()
     .mockImplementation(() => {
       throw new Error("ERROR_MESAGE");
     });
   const update = jest
     .fn<
-      File,
+      GoogleAppsScript.Drive.Schema.File,
       [
-        resource: File,
+        resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
         optionalArgs: UpdateFileOptions

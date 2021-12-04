@@ -1,24 +1,6 @@
 import { copyFileComments } from "../../../src/backend/move/copyFileComments";
 
 test("copyFileComments works correctly", () => {
-  interface User {
-    displayName?: string;
-    isAuthenticatedUser?: boolean;
-  }
-  interface CommentReply {
-    author?: User;
-    content?: string;
-  }
-  interface Comment {
-    author?: User;
-    commentId?: string;
-    content?: string;
-    replies?: Array<CommentReply>;
-  }
-  interface CommentList {
-    items?: Array<Comment>;
-    nextPageToken?: string;
-  }
   interface ListCommentsOptions {
     maxResults?: number;
     pageToken?: string;
@@ -43,10 +25,16 @@ test("copyFileComments works correctly", () => {
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<CommentList, [fileId: string, optionalArgs: ListCommentsOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.CommentList,
+      [fileId: string, optionalArgs: ListCommentsOptions]
+    >()
     .mockReturnValueOnce(rawResponse);
   const insert = jest
-    .fn<Comment, [resource: Comment, fileId: string]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.Comment,
+      [resource: GoogleAppsScript.Drive.Schema.Comment, fileId: string]
+    >()
     .mockReturnValueOnce({
       commentId: "DEST_COM1_ID",
     })
@@ -78,24 +66,6 @@ test("copyFileComments works correctly", () => {
 });
 
 test("copyFileComments works correctly with replies", () => {
-  interface User {
-    displayName?: string;
-    isAuthenticatedUser?: boolean;
-  }
-  interface CommentReply {
-    author?: User;
-    content?: string;
-  }
-  interface Comment {
-    author?: User;
-    commentId?: string;
-    content?: string;
-    replies?: Array<CommentReply>;
-  }
-  interface CommentList {
-    items?: Array<Comment>;
-    nextPageToken?: string;
-  }
   interface ListCommentsOptions {
     maxResults?: number;
     pageToken?: string;
@@ -123,17 +93,27 @@ test("copyFileComments works correctly with replies", () => {
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<CommentList, [fileId: string, optionalArgs: ListCommentsOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.CommentList,
+      [fileId: string, optionalArgs: ListCommentsOptions]
+    >()
     .mockReturnValueOnce(rawResponse);
   const insertComment = jest
-    .fn<Comment, [resource: Comment, fileId: string]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.Comment,
+      [resource: GoogleAppsScript.Drive.Schema.Comment, fileId: string]
+    >()
     .mockReturnValueOnce({
       commentId: "DEST_COM_ID",
     });
   const insertReply = jest
     .fn<
-      CommentReply,
-      [resource: CommentReply, fileId: string, commentId: string]
+      GoogleAppsScript.Drive.Schema.CommentReply,
+      [
+        resource: GoogleAppsScript.Drive.Schema.CommentReply,
+        fileId: string,
+        commentId: string
+      ]
     >()
     .mockReturnValueOnce({});
   global.Drive = {

@@ -1,14 +1,6 @@
 import { listSharedDrives } from "../../src/backend/listSharedDrives";
 
 test("listSharedDrives works correctly", () => {
-  interface Drive {
-    id?: string;
-    name?: string;
-  }
-  interface DriveList {
-    items?: Array<Drive>;
-    nextPageToken?: string;
-  }
   interface ListDrivesOptions {
     pageToken?: string;
     maxResults?: number;
@@ -25,7 +17,10 @@ test("listSharedDrives works correctly", () => {
     nextPageToken: undefined,
   };
   const list = jest
-    .fn<DriveList, [optionalArgs: ListDrivesOptions]>()
+    .fn<
+      GoogleAppsScript.Drive.Schema.DriveList,
+      [optionalArgs: ListDrivesOptions]
+    >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
     Drives: {
