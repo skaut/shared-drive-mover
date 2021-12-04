@@ -256,7 +256,7 @@ test.each(["owner", "organizer"] as Array<
     expect(get.mock.calls[0][0]).toBe("FOLDER_ID");
     expect(get.mock.calls[0][1].fields).toContain("role");
     expect(remove.mock.calls.length).toBe(1);
-    expect(get.mock.calls[0][0]).toBe("FOLDER_ID");
+    expect(remove.mock.calls[0][0]).toBe("FOLDER_ID");
   }
 );
 
