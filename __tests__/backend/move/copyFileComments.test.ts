@@ -1,4 +1,4 @@
-import { copyFileComments } from "../../../src/backend/move/copyFileComments";
+import { copyFileComments_ } from "../../../src/backend/move/copyFileComments";
 
 test("copyFileComments works correctly", () => {
   interface ListCommentsOptions {
@@ -48,7 +48,7 @@ test("copyFileComments works correctly", () => {
     },
   };
 
-  copyFileComments("SRC_FILE_ID", "DEST_FILE_ID");
+  copyFileComments_("SRC_FILE_ID", "DEST_FILE_ID");
 
   expect(list.mock.calls.length).toBe(1);
   expect(list.mock.calls[0][0]).toBe("SRC_FILE_ID");
@@ -126,7 +126,7 @@ test("copyFileComments works correctly with replies", () => {
     },
   };
 
-  copyFileComments("SRC_FILE_ID", "DEST_FILE_ID");
+  copyFileComments_("SRC_FILE_ID", "DEST_FILE_ID");
 
   expect(list.mock.calls.length).toBe(1);
   expect(list.mock.calls[0][0]).toBe("SRC_FILE_ID");

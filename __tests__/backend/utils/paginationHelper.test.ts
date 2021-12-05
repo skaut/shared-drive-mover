@@ -1,4 +1,4 @@
-import { paginationHelper } from "../../../src/backend/utils/paginationHelper";
+import { paginationHelper_ } from "../../../src/backend/utils/paginationHelper";
 
 test("paginationHelper works correctly", () => {
   interface T {
@@ -17,7 +17,7 @@ test("paginationHelper works correctly", () => {
     .fn<Array<string>, [response: T]>()
     .mockReturnValueOnce(["first", "second"]);
 
-  expect(paginationHelper(request, transform)).toStrictEqual([
+  expect(paginationHelper_(request, transform)).toStrictEqual([
     "first",
     "second",
   ]);
@@ -56,7 +56,7 @@ test("paginationHelper works correctly with multiple pages", () => {
     .mockReturnValueOnce(["third", "fourth"])
     .mockReturnValueOnce(["fifth", "sixth"]);
 
-  expect(paginationHelper(request, transform)).toStrictEqual([
+  expect(paginationHelper_(request, transform)).toStrictEqual([
     "first",
     "second",
     "third",

@@ -1,6 +1,6 @@
 import { mocked } from "ts-jest/utils";
 
-import { moveFile } from "../../../src/backend/move/moveFile";
+import { moveFile_ } from "../../../src/backend/move/moveFile";
 
 import * as copyFileComments from "../../../src/backend/move/copyFileComments";
 
@@ -31,7 +31,7 @@ test("moveFile works correctly with a file that can be moved directly", () => {
   };
 
   expect(
-    moveFile(
+    moveFile_(
       {
         capabilities: { canMoveItemOutOfDrive: true },
         id: "SRC_FILE_ID",
@@ -93,7 +93,7 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
   };
 
   expect(
-    moveFile(
+    moveFile_(
       {
         capabilities: { canMoveItemOutOfDrive: true },
         id: "SRC_FILE_ID",
@@ -142,7 +142,7 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
   };
 
   expect(
-    moveFile(
+    moveFile_(
       {
         capabilities: { canMoveItemOutOfDrive: false },
         id: "SRC_FILE_ID",
@@ -188,7 +188,7 @@ test("moveFile works correctly with a file that can be moved directly with comme
   };
 
   expect(
-    moveFile(
+    moveFile_(
       {
         capabilities: { canMoveItemOutOfDrive: true },
         id: "SRC_FILE_ID",
@@ -229,10 +229,10 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
       copy,
     },
   };
-  mocked(copyFileComments).copyFileComments.mockReturnValueOnce();
+  mocked(copyFileComments).copyFileComments_.mockReturnValueOnce();
 
   expect(
-    moveFile(
+    moveFile_(
       {
         capabilities: { canMoveItemOutOfDrive: false },
         id: "SRC_FILE_ID",
@@ -251,11 +251,11 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
   expect(copy.mock.calls[0][0].title).toBe("FILE_NAME");
   expect(copy.mock.calls[0][1]).toBe("SRC_FILE_ID");
   expect(copy.mock.calls[0][2].supportsAllDrives).toBe(true);
-  expect(mocked(copyFileComments).copyFileComments.mock.calls.length).toBe(1);
-  expect(mocked(copyFileComments).copyFileComments.mock.calls[0][0]).toBe(
+  expect(mocked(copyFileComments).copyFileComments_.mock.calls.length).toBe(1);
+  expect(mocked(copyFileComments).copyFileComments_.mock.calls[0][0]).toBe(
     "SRC_FILE_ID"
   );
-  expect(mocked(copyFileComments).copyFileComments.mock.calls[0][1]).toBe(
+  expect(mocked(copyFileComments).copyFileComments_.mock.calls[0][1]).toBe(
     "DEST_FILE_ID"
   );
 });
@@ -303,7 +303,7 @@ test("moveFile fails gracefully on error", () => {
     },
   };
 
-  const error = moveFile(
+  const error = moveFile_(
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "SRC_FILE_ID",

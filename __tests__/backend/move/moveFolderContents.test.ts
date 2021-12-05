@@ -1,6 +1,6 @@
 import { mocked } from "ts-jest/utils";
 
-import { moveFolderContents } from "../../../src/backend/move/moveFolderContents";
+import { moveFolderContents_ } from "../../../src/backend/move/moveFolderContents";
 
 import * as folderManagement from "../../../src/backend/move/folderManagement";
 import * as moveFile from "../../../src/backend/move/moveFile";
@@ -13,13 +13,13 @@ jest.mock("../../../src/backend/move/resolveDestinationFolder");
 test("moveFolderContents works correctly with an empty folder", () => {
   const listFilesInFolder = mocked(
     folderManagement
-  ).listFilesInFolder.mockReturnValueOnce([]);
+  ).listFilesInFolder_.mockReturnValueOnce([]);
   const listFoldersInFolder = mocked(
     folderManagement
-  ).listFoldersInFolder.mockReturnValueOnce([]);
+  ).listFoldersInFolder_.mockReturnValueOnce([]);
 
   expect(
-    moveFolderContents(
+    moveFolderContents_(
       "SRC_ID",
       "DEST_ID",
       ["PATH", "TO", "FOLDER"],
@@ -37,19 +37,19 @@ test("moveFolderContents works correctly with an empty folder", () => {
 test("moveFolderContents moves files correctly", () => {
   const listFilesInFolder = mocked(
     folderManagement
-  ).listFilesInFolder.mockReturnValueOnce([
+  ).listFilesInFolder_.mockReturnValueOnce([
     { id: "FILE1_ID" },
     { id: "FILE2_ID" },
   ]);
   const listFoldersInFolder = mocked(
     folderManagement
-  ).listFoldersInFolder.mockReturnValueOnce([]);
+  ).listFoldersInFolder_.mockReturnValueOnce([]);
   const moveFileFn = mocked(moveFile)
-    .moveFile.mockReturnValueOnce(null)
+    .moveFile_.mockReturnValueOnce(null)
     .mockReturnValueOnce(null);
 
   expect(
-    moveFolderContents(
+    moveFolderContents_(
       "SRC_ID",
       "DEST_ID",
       ["PATH", "TO", "FOLDER"],
@@ -78,7 +78,7 @@ test("moveFolderContents moves files correctly", () => {
 test("moveFolderContents handles errors when moving files gracefully", () => {
   const listFilesInFolder = mocked(
     folderManagement
-  ).listFilesInFolder.mockReturnValueOnce([
+  ).listFilesInFolder_.mockReturnValueOnce([
     { id: "FILE1_ID" },
     { id: "FILE2_ID" },
     { id: "FILE3_ID" },
@@ -86,7 +86,7 @@ test("moveFolderContents handles errors when moving files gracefully", () => {
   ]);
   const listFoldersInFolder = mocked(
     folderManagement
-  ).listFoldersInFolder.mockReturnValueOnce([]);
+  ).listFoldersInFolder_.mockReturnValueOnce([]);
   const error1 = {
     file: ["PATH", "TO", "FOLDER", "FILE_NAME1"],
     error: "ERROR_MESSAGE1",
@@ -96,13 +96,13 @@ test("moveFolderContents handles errors when moving files gracefully", () => {
     error: "ERROR_MESSAGE2",
   };
   const moveFileFn = mocked(moveFile)
-    .moveFile.mockReturnValueOnce(error1)
+    .moveFile_.mockReturnValueOnce(error1)
     .mockReturnValueOnce(null)
     .mockReturnValueOnce(error2)
     .mockReturnValueOnce(null);
 
   expect(
-    moveFolderContents(
+    moveFolderContents_(
       "SRC_ID",
       "DEST_ID",
       ["PATH", "TO", "FOLDER"],
@@ -140,25 +140,25 @@ test("moveFolderContents handles errors when moving files gracefully", () => {
 
 test("moveFolderContents moves folders correctly", () => {
   const deleteFolderIfEmpty = mocked(folderManagement)
-    .deleteFolderIfEmpty.mockReturnValueOnce()
+    .deleteFolderIfEmpty_.mockReturnValueOnce()
     .mockReturnValueOnce();
   const listFilesInFolder = mocked(folderManagement)
-    .listFilesInFolder.mockReturnValueOnce([])
+    .listFilesInFolder_.mockReturnValueOnce([])
     .mockReturnValueOnce([])
     .mockReturnValueOnce([]);
   const listFoldersInFolder = mocked(folderManagement)
-    .listFoldersInFolder.mockReturnValueOnce([
+    .listFoldersInFolder_.mockReturnValueOnce([
       { id: "SUBFOLDER1_ID" },
       { id: "SUBFOLDER2_ID" },
     ])
     .mockReturnValueOnce([])
     .mockReturnValueOnce([]);
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
-    .resolveDestinationFolder.mockReturnValueOnce([{}, undefined])
+    .resolveDestinationFolder_.mockReturnValueOnce([{}, undefined])
     .mockReturnValueOnce([{}, undefined]);
 
   expect(
-    moveFolderContents(
+    moveFolderContents_(
       "SRC_ID",
       "DEST_ID",
       ["PATH", "TO", "FOLDER"],
@@ -199,14 +199,14 @@ test("moveFolderContents moves folders correctly", () => {
 
 test("moveFolderContents handles errors when resolving destination folder gracefully", () => {
   const deleteFolderIfEmpty = mocked(folderManagement)
-    .deleteFolderIfEmpty.mockReturnValueOnce()
+    .deleteFolderIfEmpty_.mockReturnValueOnce()
     .mockReturnValueOnce();
   const listFilesInFolder = mocked(folderManagement)
-    .listFilesInFolder.mockReturnValueOnce([])
+    .listFilesInFolder_.mockReturnValueOnce([])
     .mockReturnValueOnce([])
     .mockReturnValueOnce([]);
   const listFoldersInFolder = mocked(folderManagement)
-    .listFoldersInFolder.mockReturnValueOnce([
+    .listFoldersInFolder_.mockReturnValueOnce([
       { id: "SUBFOLDER1_ID" },
       { id: "SUBFOLDER2_ID" },
     ])
@@ -217,11 +217,11 @@ test("moveFolderContents handles errors when resolving destination folder gracef
     error: "ERROR_MESSAGE",
   };
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
-    .resolveDestinationFolder.mockReturnValueOnce([{}, undefined])
+    .resolveDestinationFolder_.mockReturnValueOnce([{}, undefined])
     .mockReturnValueOnce([{}, resolveError]);
 
   expect(
-    moveFolderContents(
+    moveFolderContents_(
       "SRC_ID",
       "DEST_ID",
       ["PATH", "TO", "FOLDER"],
@@ -262,27 +262,27 @@ test("moveFolderContents handles errors when resolving destination folder gracef
 
 test("moveFolderContents handles error when deleting folder gracefully", () => {
   const deleteFolderIfEmpty = mocked(folderManagement)
-    .deleteFolderIfEmpty.mockReturnValueOnce()
+    .deleteFolderIfEmpty_.mockReturnValueOnce()
     .mockImplementationOnce(() => {
       throw new Error("ERROR_MESSAGE");
     });
   const listFilesInFolder = mocked(folderManagement)
-    .listFilesInFolder.mockReturnValueOnce([])
+    .listFilesInFolder_.mockReturnValueOnce([])
     .mockReturnValueOnce([])
     .mockReturnValueOnce([]);
   const listFoldersInFolder = mocked(folderManagement)
-    .listFoldersInFolder.mockReturnValueOnce([
+    .listFoldersInFolder_.mockReturnValueOnce([
       { id: "SUBFOLDER1_ID", title: "SUBFOLDER1_NAME" },
       { id: "SUBFOLDER2_ID", title: "SUBFOLDER2_NAME" },
     ])
     .mockReturnValueOnce([])
     .mockReturnValueOnce([]);
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
-    .resolveDestinationFolder.mockReturnValueOnce([{}, undefined])
+    .resolveDestinationFolder_.mockReturnValueOnce([{}, undefined])
     .mockReturnValueOnce([{}, undefined]);
 
   expect(
-    moveFolderContents(
+    moveFolderContents_(
       "SRC_ID",
       "DEST_ID",
       ["PATH", "TO", "FOLDER"],
@@ -329,19 +329,19 @@ test("moveFolderContents handles error when deleting folder gracefully", () => {
 test("moveFolderContents passes copyComments correctly", () => {
   const listFilesInFolder = mocked(
     folderManagement
-  ).listFilesInFolder.mockReturnValueOnce([
+  ).listFilesInFolder_.mockReturnValueOnce([
     { id: "FILE1_ID" },
     { id: "FILE2_ID" },
   ]);
   const listFoldersInFolder = mocked(
     folderManagement
-  ).listFoldersInFolder.mockReturnValueOnce([]);
+  ).listFoldersInFolder_.mockReturnValueOnce([]);
   const moveFileFn = mocked(moveFile)
-    .moveFile.mockReturnValueOnce(null)
+    .moveFile_.mockReturnValueOnce(null)
     .mockReturnValueOnce(null);
 
   expect(
-    moveFolderContents(
+    moveFolderContents_(
       "SRC_ID",
       "DEST_ID",
       ["PATH", "TO", "FOLDER"],
@@ -369,25 +369,25 @@ test("moveFolderContents passes copyComments correctly", () => {
 
 test("moveFolderContents passes mergeFolders correctly", () => {
   const deleteFolderIfEmpty = mocked(folderManagement)
-    .deleteFolderIfEmpty.mockReturnValueOnce()
+    .deleteFolderIfEmpty_.mockReturnValueOnce()
     .mockReturnValueOnce();
   const listFilesInFolder = mocked(folderManagement)
-    .listFilesInFolder.mockReturnValueOnce([])
+    .listFilesInFolder_.mockReturnValueOnce([])
     .mockReturnValueOnce([])
     .mockReturnValueOnce([]);
   const listFoldersInFolder = mocked(folderManagement)
-    .listFoldersInFolder.mockReturnValueOnce([
+    .listFoldersInFolder_.mockReturnValueOnce([
       { id: "SUBFOLDER1_ID" },
       { id: "SUBFOLDER2_ID" },
     ])
     .mockReturnValueOnce([])
     .mockReturnValueOnce([]);
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
-    .resolveDestinationFolder.mockReturnValueOnce([{}, undefined])
+    .resolveDestinationFolder_.mockReturnValueOnce([{}, undefined])
     .mockReturnValueOnce([{}, undefined]);
 
   expect(
-    moveFolderContents(
+    moveFolderContents_(
       "SRC_ID",
       "DEST_ID",
       ["PATH", "TO", "FOLDER"],
