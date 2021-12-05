@@ -1,8 +1,8 @@
 import {
-  deleteFolderIfEmpty,
-  isFolderEmpty,
-  listFilesInFolder,
-  listFoldersInFolder,
+  deleteFolderIfEmpty_,
+  isFolderEmpty_,
+  listFilesInFolder_,
+  listFoldersInFolder_,
 } from "../../../src/backend/move/folderManagement";
 
 test("listFilesInFolder works correctly", () => {
@@ -43,7 +43,7 @@ test("listFilesInFolder works correctly", () => {
     },
   };
 
-  expect(listFilesInFolder("FOLDER_ID")).toStrictEqual(items);
+  expect(listFilesInFolder_("FOLDER_ID")).toStrictEqual(items);
 
   expect(list.mock.calls.length).toBe(1);
   expect(list.mock.calls[0][0].q).toContain('"FOLDER_ID" in parents');
@@ -96,7 +96,7 @@ test("listFoldersInFolder works correctly", () => {
     },
   };
 
-  expect(listFoldersInFolder("FOLDER_ID")).toStrictEqual(items);
+  expect(listFoldersInFolder_("FOLDER_ID")).toStrictEqual(items);
 
   expect(list.mock.calls.length).toBe(1);
   expect(list.mock.calls[0][0].q).toContain('"FOLDER_ID" in parents');
@@ -135,7 +135,7 @@ test("isFolderEmpty works correctly with an empty folder", () => {
     },
   };
 
-  expect(isFolderEmpty("ID_FOLDER")).toBe(true);
+  expect(isFolderEmpty_("ID_FOLDER")).toBe(true);
   expect(list.mock.calls.length).toBe(1);
   expect(list.mock.calls[0][0].q).toContain("ID_FOLDER");
   expect(list.mock.calls[0][0].includeItemsFromAllDrives).toBe(true);
@@ -166,7 +166,7 @@ test("isFolderEmpty works correctly with a non-empty folder", () => {
     },
   };
 
-  expect(isFolderEmpty("ID_FOLDER")).toBe(false);
+  expect(isFolderEmpty_("ID_FOLDER")).toBe(false);
   expect(list.mock.calls.length).toBe(1);
   expect(list.mock.calls[0][0].q).toContain("ID_FOLDER");
   expect(list.mock.calls[0][0].includeItemsFromAllDrives).toBe(true);
@@ -218,7 +218,7 @@ test.each(["owner", "organizer"] as Array<
       },
     };
 
-    deleteFolderIfEmpty("FOLDER_ID");
+    deleteFolderIfEmpty_("FOLDER_ID");
 
     expect(list.mock.calls.length).toBe(1);
     expect(list.mock.calls[0][0].q).toContain('"FOLDER_ID" in parents');
@@ -268,7 +268,7 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
     },
   };
 
-  deleteFolderIfEmpty("FOLDER_ID");
+  deleteFolderIfEmpty_("FOLDER_ID");
 
   expect(list.mock.calls.length).toBe(1);
   expect(list.mock.calls[0][0].q).toContain('"FOLDER_ID" in parents');
@@ -323,7 +323,7 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
       },
     };
 
-    deleteFolderIfEmpty("FOLDER_ID");
+    deleteFolderIfEmpty_("FOLDER_ID");
 
     expect(list.mock.calls.length).toBe(1);
     expect(list.mock.calls[0][0].q).toContain('"FOLDER_ID" in parents');

@@ -1,10 +1,10 @@
-import { paginationHelper } from "../utils/paginationHelper";
+import { paginationHelper_ } from "../utils/paginationHelper";
 
-function listFolderContents(
+function listFolderContents_(
   folderID: string,
   mimeTypeCondition: string
 ): Array<GoogleAppsScript.Drive.Schema.File> {
-  return paginationHelper<
+  return paginationHelper_<
     GoogleAppsScript.Drive.Schema.FileList,
     GoogleAppsScript.Drive.Schema.File
   >(
@@ -27,22 +27,25 @@ function listFolderContents(
   );
 }
 
-export function listFilesInFolder(
+export function listFilesInFolder_(
   folderID: string
 ): Array<GoogleAppsScript.Drive.Schema.File> {
-  return listFolderContents(
+  return listFolderContents_(
     folderID,
     '!= "application/vnd.google-apps.folder"'
   );
 }
 
-export function listFoldersInFolder(
+export function listFoldersInFolder_(
   folderID: string
 ): Array<GoogleAppsScript.Drive.Schema.File> {
-  return listFolderContents(folderID, '= "application/vnd.google-apps.folder"');
+  return listFolderContents_(
+    folderID,
+    '= "application/vnd.google-apps.folder"'
+  );
 }
 
-export function isFolderEmpty(folderID: string): boolean {
+export function isFolderEmpty_(folderID: string): boolean {
   const response = Drive.Files!.list({
     q: '"' + folderID + '" in parents and trashed = false',
     includeItemsFromAllDrives: true,
@@ -53,8 +56,8 @@ export function isFolderEmpty(folderID: string): boolean {
   return response.items!.length === 0;
 }
 
-export function deleteFolderIfEmpty(folderID: string): void {
-  if (!isFolderEmpty(folderID)) {
+export function deleteFolderIfEmpty_(folderID: string): void {
+  if (!isFolderEmpty_(folderID)) {
     return;
   }
   const response = Drive.Files!.get(folderID, {

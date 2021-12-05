@@ -1,6 +1,6 @@
 import { mocked } from "ts-jest/utils";
 
-import { resolveDestinationFolder } from "../../../src/backend/move/resolveDestinationFolder";
+import { resolveDestinationFolder_ } from "../../../src/backend/move/resolveDestinationFolder";
 
 import * as folderManagement from "../../../src/backend/move/folderManagement";
 
@@ -32,7 +32,7 @@ test("resolveDestinationFolder corretly creates new folder", () => {
   };
 
   expect(
-    resolveDestinationFolder(
+    resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
       "DEST_PARENT_ID",
       ["PATH", "TO", "FOLDER"],
@@ -79,12 +79,12 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
     },
   };
 
-  mocked(folderManagement).listFoldersInFolder.mockReturnValueOnce([
+  mocked(folderManagement).listFoldersInFolder_.mockReturnValueOnce([
     { id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" },
   ]);
 
   expect(
-    resolveDestinationFolder(
+    resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
       "DEST_PARENT_ID",
       ["PATH", "TO", "FOLDER"],
@@ -131,10 +131,10 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
     },
   };
 
-  mocked(folderManagement).listFoldersInFolder.mockReturnValueOnce([]);
+  mocked(folderManagement).listFoldersInFolder_.mockReturnValueOnce([]);
 
   expect(
-    resolveDestinationFolder(
+    resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
       "DEST_PARENT_ID",
       ["PATH", "TO", "FOLDER"],
@@ -176,14 +176,14 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
     },
   };
 
-  mocked(folderManagement).listFoldersInFolder.mockReturnValueOnce([
+  mocked(folderManagement).listFoldersInFolder_.mockReturnValueOnce([
     { id: "EXISTING_WRONG_FOLDER1_ID", title: "DIFFERENT_FOLDER_NAME1" },
     { id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" },
     { id: "EXISTING_WRONG_FOLDER2_ID", title: "DIFFERENT_FOLDER_NAME2" },
   ]);
 
   expect(
-    resolveDestinationFolder(
+    resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
       "DEST_PARENT_ID",
       ["PATH", "TO", "FOLDER"],
@@ -222,14 +222,14 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
     },
   };
 
-  mocked(folderManagement).listFoldersInFolder.mockReturnValueOnce([
+  mocked(folderManagement).listFoldersInFolder_.mockReturnValueOnce([
     { id: "EXISTING_WRONG_FOLDER1_ID", title: "DIFFERENT_FOLDER_NAME1" },
     { id: "EXISTING_FOLDER_ID1", title: "FOLDER_NAME" },
     { id: "EXISTING_FOLDER_ID2", title: "FOLDER_NAME" },
     { id: "EXISTING_WRONG_FOLDER2_ID", title: "DIFFERENT_FOLDER_NAME2" },
   ]);
 
-  const [resolvedFolder, error] = resolveDestinationFolder(
+  const [resolvedFolder, error] = resolveDestinationFolder_(
     { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
     "DEST_PARENT_ID",
     ["PATH", "TO", "FOLDER"],
