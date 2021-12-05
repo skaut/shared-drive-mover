@@ -1,3 +1,4 @@
+import { ErrorLogger_ } from "./utils/ErrorLogger";
 import { isFolderEmpty_ } from "./move/folderManagement";
 import { moveFolderContents_ } from "./move/moveFolderContents";
 
@@ -14,15 +15,17 @@ export function move(
   if (!notEmptyOverride && !isEmpty) {
     return { status: "error", reason: "notEmpty" };
   }
-  const errors = moveFolderContents_(
+  const logger = new ErrorLogger_();
+  moveFolderContents_(
     sourceID,
     destinationID,
     [],
     copyComments,
-    mergeFolders
+    mergeFolders,
+    logger
   );
-  if (errors.length > 0) {
-    console.error(errors);
+  if (!logger.isEmpty()) {
+    console.error(logger.get());
   }
-  return { status: "success", errors };
+  return { status: "success", errors: logger.get() };
 }

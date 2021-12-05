@@ -1,7 +1,7 @@
 import { copyFileComments_ } from "./copyFileComments";
 
+import type { ErrorLogger_ } from "../utils/ErrorLogger";
 import type { GoogleJsonResponseException } from "../../interfaces/GoogleJsonResponseException";
-import type { MoveError } from "../../interfaces/MoveError";
 
 function moveFileDirectly_(
   fileID: string,
@@ -21,8 +21,9 @@ function moveFileByCopy_(
   name: string,
   destinationID: string,
   path: Array<string>,
-  copyComments: boolean
-): MoveError | null {
+  copyComments: boolean,
+  logger: ErrorLogger_
+): void {
   try {
     const copy = Drive.Files!.copy(
       {
@@ -35,12 +36,8 @@ function moveFileByCopy_(
     if (copyComments) {
       copyFileComments_(fileID, copy.id!);
     }
-    return null;
   } catch (e) {
-    return {
-      file: path.concat([name]),
-      error: (e as GoogleJsonResponseException).message,
-    };
+    logger.log(path.concat([name]), (e as GoogleJsonResponseException).message);
   }
 }
 
@@ -49,28 +46,21 @@ export function moveFile_(
   sourceID: string,
   destinationID: string,
   path: Array<string>,
-  copyComments: boolean
-): MoveError | null {
+  copyComments: boolean,
+  logger: ErrorLogger_
+): void {
   if (file.capabilities!.canMoveItemOutOfDrive!) {
     try {
       moveFileDirectly_(file.id!, sourceID, destinationID);
-      return null;
-    } catch (e) {
-      return moveFileByCopy_(
-        file.id!,
-        file.title!,
-        destinationID,
-        path,
-        copyComments
-      );
-    }
-  } else {
-    return moveFileByCopy_(
-      file.id!,
-      file.title!,
-      destinationID,
-      path,
-      copyComments
-    );
+      return;
+    } catch (e) {} // eslint-disable-line no-empty
   }
+  moveFileByCopy_(
+    file.id!,
+    file.title!,
+    destinationID,
+    path,
+    copyComments,
+    logger
+  );
 }
