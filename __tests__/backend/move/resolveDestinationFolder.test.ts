@@ -2,8 +2,10 @@ import { mocked } from "ts-jest/utils";
 
 import { resolveDestinationFolder_ } from "../../../src/backend/move/resolveDestinationFolder";
 
+import { ErrorLogger_ } from "../../../src/backend/utils/ErrorLogger";
 import * as folderManagement from "../../../src/backend/move/folderManagement";
 
+jest.mock("../../../src/backend/utils/ErrorLogger");
 jest.mock("../../../src/backend/move/folderManagement");
 
 test("resolveDestinationFolder corretly creates new folder", () => {
@@ -30,18 +32,17 @@ test("resolveDestinationFolder corretly creates new folder", () => {
       insert,
     },
   };
+  const logger = new ErrorLogger_();
 
   expect(
     resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
       "DEST_PARENT_ID",
       ["PATH", "TO", "FOLDER"],
-      false
+      false,
+      logger
     )
-  ).toStrictEqual([
-    { id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" },
-    undefined,
-  ]);
+  ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
 
   expect(insert.mock.calls.length).toBe(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
@@ -52,6 +53,7 @@ test("resolveDestinationFolder corretly creates new folder", () => {
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
   expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
+  expect(mocked(logger).log.mock.calls.length).toBe(0);
 });
 
 test("resolveDestinationFolder corretly creates new folder when set not to merge folders, even when a folder with the same name exists", () => {
@@ -82,18 +84,17 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
   mocked(folderManagement).listFoldersInFolder_.mockReturnValueOnce([
     { id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" },
   ]);
+  const logger = new ErrorLogger_();
 
   expect(
     resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
       "DEST_PARENT_ID",
       ["PATH", "TO", "FOLDER"],
-      false
+      false,
+      logger
     )
-  ).toStrictEqual([
-    { id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" },
-    undefined,
-  ]);
+  ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
 
   expect(insert.mock.calls.length).toBe(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
@@ -104,6 +105,7 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
   expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
+  expect(mocked(logger).log.mock.calls.length).toBe(0);
 });
 
 test("resolveDestinationFolder corretly creates new folder when set to merge folders, but there is no existing folder the same name", () => {
@@ -132,18 +134,17 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
   };
 
   mocked(folderManagement).listFoldersInFolder_.mockReturnValueOnce([]);
+  const logger = new ErrorLogger_();
 
   expect(
     resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
       "DEST_PARENT_ID",
       ["PATH", "TO", "FOLDER"],
-      true
+      true,
+      logger
     )
-  ).toStrictEqual([
-    { id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" },
-    undefined,
-  ]);
+  ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
 
   expect(insert.mock.calls.length).toBe(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
@@ -154,6 +155,7 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
   expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
+  expect(mocked(logger).log.mock.calls.length).toBe(0);
 });
 
 test("resolveDestinationFolder corretly uses an existing folder when set to merge folders", () => {
@@ -181,20 +183,20 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
     { id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" },
     { id: "EXISTING_WRONG_FOLDER2_ID", title: "DIFFERENT_FOLDER_NAME2" },
   ]);
+  const logger = new ErrorLogger_();
 
   expect(
     resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
       "DEST_PARENT_ID",
       ["PATH", "TO", "FOLDER"],
-      true
+      true,
+      logger
     )
-  ).toStrictEqual([
-    { id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" },
-    undefined,
-  ]);
+  ).toStrictEqual({ id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" });
 
   expect(insert.mock.calls.length).toBe(0);
+  expect(mocked(logger).log.mock.calls.length).toBe(0);
 });
 
 test("resolveDestinationFolder fails gracefully on multiple existing folders with the same name", () => {
@@ -228,20 +230,20 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
     { id: "EXISTING_FOLDER_ID2", title: "FOLDER_NAME" },
     { id: "EXISTING_WRONG_FOLDER2_ID", title: "DIFFERENT_FOLDER_NAME2" },
   ]);
+  const logger = new ErrorLogger_();
 
-  const [resolvedFolder, error] = resolveDestinationFolder_(
-    { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
-    "DEST_PARENT_ID",
-    ["PATH", "TO", "FOLDER"],
-    true
-  );
-  expect(resolvedFolder).toStrictEqual({
+  expect(
+    resolveDestinationFolder_(
+      { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
+      "DEST_PARENT_ID",
+      ["PATH", "TO", "FOLDER"],
+      true,
+      logger
+    )
+  ).toStrictEqual({
     id: "NEWLY_CREATED_FOLDER_ID",
     title: "FOLDER_NAME",
   });
-  expect(error).not.toBeUndefined();
-  expect(error!.file).toStrictEqual(["PATH", "TO", "FOLDER", "FOLDER_NAME"]);
-  expect(error!.error).not.toBe("");
 
   expect(insert.mock.calls.length).toBe(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
@@ -252,4 +254,12 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
   expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
+  expect(mocked(logger).log.mock.calls.length).toBe(1);
+  expect(mocked(logger).log.mock.calls[0][0]).toStrictEqual([
+    "PATH",
+    "TO",
+    "FOLDER",
+    "FOLDER_NAME",
+  ]);
+  expect(mocked(logger).log.mock.calls[0][1]).not.toBe("");
 });

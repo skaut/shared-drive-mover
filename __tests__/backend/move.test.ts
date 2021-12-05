@@ -2,6 +2,8 @@ import { mocked } from "ts-jest/utils";
 
 import { move } from "../../src/backend/move";
 
+import type { ErrorLogger_ } from "../../src/backend/utils/ErrorLogger";
+
 import * as folderManagement from "../../src/backend/move/folderManagement";
 import * as moveFolderContents from "../../src/backend/move/moveFolderContents";
 
@@ -10,7 +12,7 @@ jest.mock("../../src/backend/move/moveFolderContents");
 
 test("move works correctly", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(true);
-  mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce([]);
+  mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
     status: "success",
@@ -43,7 +45,7 @@ test("move works correctly", () => {
 
 test("move passes copyComments correctly", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(true);
-  mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce([]);
+  mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
 
   expect(move("SRC_ID", "DEST_ID", true, false, false)).toStrictEqual({
     status: "success",
@@ -76,7 +78,7 @@ test("move passes copyComments correctly", () => {
 
 test("move passes mergeFolders correctly", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(true);
-  mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce([]);
+  mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
 
   expect(move("SRC_ID", "DEST_ID", false, true, false)).toStrictEqual({
     status: "success",
@@ -109,7 +111,7 @@ test("move passes mergeFolders correctly", () => {
 
 test("move fails gracefully on non-empty destination directory", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(false);
-  mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce([]);
+  mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
     status: "error",
@@ -127,7 +129,7 @@ test("move fails gracefully on non-empty destination directory", () => {
 
 test("move works correctly with non-empty override", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(false);
-  mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce([]);
+  mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
 
   expect(move("SRC_ID", "DEST_ID", false, false, true)).toStrictEqual({
     status: "success",
@@ -164,7 +166,11 @@ test("move fails gracefully on error while moving", () => {
     file: ["PATH", "TO", "FILE"],
     error: "ERROR_MESSAGE",
   };
-  mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce([error]);
+  mocked(moveFolderContents).moveFolderContents_.mockImplementationOnce(
+    (_1, _2, _3, _4, _5, logger: ErrorLogger_) => {
+      logger.log(error.file, error.error);
+    }
+  );
   const consoleError = jest
     .spyOn(console, "error")
     .mockImplementationOnce(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
