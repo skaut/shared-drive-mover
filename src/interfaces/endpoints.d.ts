@@ -1,5 +1,5 @@
-import type { MoveResponse } from "../interfaces/MoveResponse";
-import type { NamedRecord } from "../interfaces/NamedRecord";
+import type { MoveResponse } from "./MoveResponse";
+import type { NamedRecord } from "./NamedRecord";
 
 declare namespace google.script {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

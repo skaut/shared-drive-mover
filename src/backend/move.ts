@@ -1,17 +1,8 @@
-import { moveFolderContents } from "./move/moveFolderContents";
+import { ErrorLogger_ } from "./utils/ErrorLogger";
+import { isFolderEmpty_ } from "./move/folderManagement";
+import { moveFolderContents_ } from "./move/moveFolderContents";
 
 import type { MoveResponse } from "../interfaces/MoveResponse";
-
-function isFolderEmpty(folderID: string): boolean {
-  const response = Drive.Files!.list({
-    q: '"' + folderID + '" in parents and trashed = false',
-    includeItemsFromAllDrives: true,
-    supportsAllDrives: true,
-    maxResults: 1,
-    fields: "items(id)",
-  });
-  return response.items!.length === 0;
-}
 
 export function move(
   sourceID: string,
@@ -20,19 +11,21 @@ export function move(
   mergeFolders: boolean,
   notEmptyOverride: boolean
 ): MoveResponse {
-  const isEmpty = isFolderEmpty(destinationID);
+  const isEmpty = isFolderEmpty_(destinationID);
   if (!notEmptyOverride && !isEmpty) {
     return { status: "error", reason: "notEmpty" };
   }
-  const errors = moveFolderContents(
+  const logger = new ErrorLogger_();
+  moveFolderContents_(
     sourceID,
     destinationID,
     [],
     copyComments,
-    mergeFolders
+    mergeFolders,
+    logger
   );
-  if (errors.length > 0) {
-    console.error(errors);
+  if (!logger.isEmpty()) {
+    console.error(logger.get());
   }
-  return { status: "success", errors };
+  return { status: "success", errors: logger.get() };
 }

@@ -1,1 +1,1 @@
-declare const global: google.script.PublicEndpoints;
+declare const global: google.script.PublicEndpoints & typeof global;
