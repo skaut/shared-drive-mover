@@ -7,14 +7,13 @@ import { moveFile_ } from "./moveFile";
 import { resolveDestinationFolder_ } from "./resolveDestinationFolder";
 
 import type { ErrorLogger_ } from "../utils/ErrorLogger";
-import type { MoveError } from "../../interfaces/MoveError";
 
 function moveFolderContentsFiles_(
   sourceID: string,
   destinationID: string,
   path: Array<string>,
   copyComments: boolean,
-  logger: ErrorLogger_<MoveError>
+  logger: ErrorLogger_
 ): void {
   for (const file of listFilesInFolder_(sourceID)) {
     moveFile_(file, sourceID, destinationID, path, copyComments, logger);
@@ -27,7 +26,7 @@ function moveFolderContentsFolders_(
   path: Array<string>,
   copyComments: boolean,
   mergeFolders: boolean,
-  logger: ErrorLogger_<MoveError>
+  logger: ErrorLogger_
 ): void {
   for (const folder of listFoldersInFolder_(sourceID)) {
     try {
@@ -48,10 +47,7 @@ function moveFolderContentsFolders_(
       );
       deleteFolderIfEmpty_(folder.id!);
     } catch (e) {
-      logger.log({
-        file: path.concat([folder.title!]),
-        error: (e as Error).message,
-      });
+      logger.log(path.concat([folder.title!]), (e as Error).message);
     }
   }
 }
@@ -62,7 +58,7 @@ export function moveFolderContents_(
   path: Array<string>,
   copyComments: boolean,
   mergeFolders: boolean,
-  logger: ErrorLogger_<MoveError>
+  logger: ErrorLogger_
 ): void {
   moveFolderContentsFiles_(sourceID, destinationID, path, copyComments, logger);
   moveFolderContentsFolders_(

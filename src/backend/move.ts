@@ -2,7 +2,6 @@ import { ErrorLogger_ } from "./utils/ErrorLogger";
 import { isFolderEmpty_ } from "./move/folderManagement";
 import { moveFolderContents_ } from "./move/moveFolderContents";
 
-import type { MoveError } from "../interfaces/MoveError";
 import type { MoveResponse } from "../interfaces/MoveResponse";
 
 export function move(
@@ -16,7 +15,7 @@ export function move(
   if (!notEmptyOverride && !isEmpty) {
     return { status: "error", reason: "notEmpty" };
   }
-  const logger = new ErrorLogger_<MoveError>();
+  const logger = new ErrorLogger_();
   moveFolderContents_(
     sourceID,
     destinationID,

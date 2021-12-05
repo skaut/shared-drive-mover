@@ -2,7 +2,6 @@ import { copyFileComments_ } from "./copyFileComments";
 
 import type { ErrorLogger_ } from "../utils/ErrorLogger";
 import type { GoogleJsonResponseException } from "../../interfaces/GoogleJsonResponseException";
-import type { MoveError } from "../../interfaces/MoveError";
 
 function moveFileDirectly_(
   fileID: string,
@@ -23,7 +22,7 @@ function moveFileByCopy_(
   destinationID: string,
   path: Array<string>,
   copyComments: boolean,
-  logger: ErrorLogger_<MoveError>
+  logger: ErrorLogger_
 ): void {
   try {
     const copy = Drive.Files!.copy(
@@ -38,10 +37,7 @@ function moveFileByCopy_(
       copyFileComments_(fileID, copy.id!);
     }
   } catch (e) {
-    logger.log({
-      file: path.concat([name]),
-      error: (e as GoogleJsonResponseException).message,
-    });
+    logger.log(path.concat([name]), (e as GoogleJsonResponseException).message);
   }
 }
 
@@ -51,7 +47,7 @@ export function moveFile_(
   destinationID: string,
   path: Array<string>,
   copyComments: boolean,
-  logger: ErrorLogger_<MoveError>
+  logger: ErrorLogger_
 ): void {
   if (file.capabilities!.canMoveItemOutOfDrive!) {
     try {
