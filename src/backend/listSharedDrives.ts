@@ -1,9 +1,12 @@
-import { paginationHelper } from "./paginationHelper";
+import { paginationHelper_ } from "./utils/paginationHelper";
 
 import type { NamedRecord } from "../interfaces/NamedRecord";
 
 export async function listSharedDrives(): Promise<Array<NamedRecord>> {
-  return paginationHelper<GoogleAppsScript.Drive.Schema.DriveList, NamedRecord>(
+  return paginationHelper_<
+    GoogleAppsScript.Drive.Schema.DriveList,
+    NamedRecord
+  >(
     (pageToken) =>
       Drive.Drives!.list({
         pageToken: pageToken,

@@ -1,16 +1,16 @@
-import { backoffHelper } from "../backoffHelper";
-import { paginationHelper } from "../paginationHelper";
+import { backoffHelper_ } from "../utils/backoffHelper";
+import { copyFileComments_ } from "./copyFileComments";
 
+import type { ErrorLogger_ } from "../utils/ErrorLogger";
 import type { GoogleJsonResponseException } from "../../interfaces/GoogleJsonResponseException";
-import type { MoveError } from "../../interfaces/MoveError";
 
-async function moveFileDirectly(
+async function moveFileDirectly_(
   fileID: string,
   sourceID: string,
   destinationID: string
 ): Promise<void> {
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-  await backoffHelper<void>(() =>
+  await backoffHelper_<void>(() =>
     Drive.Files!.update({}, fileID, null, {
       addParents: destinationID,
       removeParents: sourceID,
@@ -20,62 +20,15 @@ async function moveFileDirectly(
   );
 }
 
-async function listFileComments(
-  fileID: string
-): Promise<Array<GoogleAppsScript.Drive.Schema.Comment>> {
-  return paginationHelper<
-    GoogleAppsScript.Drive.Schema.CommentList,
-    GoogleAppsScript.Drive.Schema.Comment
-  >(
-    (pageToken) =>
-      Drive.Comments!.list(fileID, {
-        maxResults: 100,
-        pageToken: pageToken,
-        fields:
-          "nextPageToken, items(author(isAuthenticatedUser, displayName), content, status, context, anchor, replies(author(isAuthenticatedUser, displayName), content, verb))",
-      }),
-    (response) => response.items!
-  );
-}
-
-async function copyFileComments(
-  sourceID: string,
-  destinationID: string
-): Promise<void> {
-  const comments = await listFileComments(sourceID);
-  for (const comment of comments) {
-    if (!comment.author!.isAuthenticatedUser!) {
-      comment.content =
-        "*" + comment.author!.displayName! + ":*\n" + comment.content!;
-    }
-    const replies = comment.replies!;
-    delete comment.replies;
-    const commentId = (
-      await backoffHelper<GoogleAppsScript.Drive.Schema.Comment>(() =>
-        Drive.Comments!.insert(comment, destinationID)
-      )
-    ).commentId!;
-    for (const reply of replies) {
-      if (!reply.author!.isAuthenticatedUser!) {
-        reply.content =
-          "*" + reply.author!.displayName! + ":*\n" + reply.content!;
-      }
-      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      await backoffHelper<void>(() =>
-        Drive.Replies!.insert(reply, destinationID, commentId)
-      );
-    }
-  }
-}
-
-async function moveFileByCopy(
+async function moveFileByCopy_(
   fileID: string,
   name: string,
   destinationID: string,
   path: Array<string>,
-  copyComments: boolean
-): Promise<MoveError | null> {
-  return backoffHelper<GoogleAppsScript.Drive.Schema.File>(() =>
+  copyComments: boolean,
+  logger: ErrorLogger_
+): Promise<void> {
+  await backoffHelper_<GoogleAppsScript.Drive.Schema.File>(() =>
     Drive.Files!.copy(
       {
         parents: [{ id: destinationID }],
@@ -87,36 +40,46 @@ async function moveFileByCopy(
   )
     .then(async (copy) => {
       if (copyComments) {
-        await copyFileComments(fileID, copy.id!);
+        await copyFileComments_(fileID, copy.id!);
       }
-      return null;
     })
-    .catch((e) => ({
-      file: path.concat([name]),
-      error: (e as GoogleJsonResponseException).message,
-    }));
+    .catch((e) => {
+      logger.log(
+        path.concat([name]),
+        (e as GoogleJsonResponseException).message
+      );
+    });
 }
 
-export async function moveFile(
+export async function moveFile_(
   file: GoogleAppsScript.Drive.Schema.File,
   sourceID: string,
   destinationID: string,
   path: Array<string>,
-  copyComments: boolean
-): Promise<MoveError | null> {
+  copyComments: boolean,
+  logger: ErrorLogger_
+): Promise<void> {
   if (file.capabilities!.canMoveItemOutOfDrive!) {
-    return moveFileDirectly(file.id!, sourceID, destinationID)
-      .then(() => null)
-      .catch(async () =>
-        moveFileByCopy(file.id!, file.title!, destinationID, path, copyComments)
-      );
+    await moveFileDirectly_(file.id!, sourceID, destinationID).catch(
+      async () => {
+        await moveFileByCopy_(
+          file.id!,
+          file.title!,
+          destinationID,
+          path,
+          copyComments,
+          logger
+        );
+      }
+    );
   } else {
-    return moveFileByCopy(
+    await moveFileByCopy_(
       file.id!,
       file.title!,
       destinationID,
       path,
-      copyComments
+      copyComments,
+      logger
     );
   }
 }

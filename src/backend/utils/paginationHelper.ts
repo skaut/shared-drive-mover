@@ -1,7 +1,7 @@
-import { backoffHelper } from "./backoffHelper";
+import { backoffHelper_ } from "./backoffHelper";
 
-export async function paginationHelper<
-  T extends { nextPageToken?: string | undefined },
+export async function paginationHelper_<
+  T extends { nextPageToken?: string },
   U
 >(
   request: (pageToken: string | undefined) => T,
@@ -10,7 +10,7 @@ export async function paginationHelper<
   let ret: Array<U> = [];
   let pageToken: string | undefined = undefined;
   do {
-    const response = await backoffHelper<T>(() => request(pageToken));
+    const response = await backoffHelper_<T>(() => request(pageToken));
     pageToken = response.nextPageToken;
     ret = ret.concat(transform(response));
   } while (pageToken !== undefined);
