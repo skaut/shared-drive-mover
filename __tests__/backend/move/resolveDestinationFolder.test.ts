@@ -37,8 +37,11 @@ test("resolveDestinationFolder corretly creates new folder", () => {
   expect(
     resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
-      "DEST_PARENT_ID",
-      ["PATH", "TO", "FOLDER"],
+      {
+        sourceID: "SRC_PARENT_ID",
+        destinationID: "DEST_PARENT_ID",
+        path: ["PATH", "TO", "FOLDER"],
+      },
       false,
       logger
     )
@@ -89,8 +92,11 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
   expect(
     resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
-      "DEST_PARENT_ID",
-      ["PATH", "TO", "FOLDER"],
+      {
+        sourceID: "SRC_PARENT_ID",
+        destinationID: "DEST_PARENT_ID",
+        path: ["PATH", "TO", "FOLDER"],
+      },
       false,
       logger
     )
@@ -139,8 +145,11 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
   expect(
     resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
-      "DEST_PARENT_ID",
-      ["PATH", "TO", "FOLDER"],
+      {
+        sourceID: "SRC_PARENT_ID",
+        destinationID: "DEST_PARENT_ID",
+        path: ["PATH", "TO", "FOLDER"],
+      },
       true,
       logger
     )
@@ -188,8 +197,11 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
   expect(
     resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
-      "DEST_PARENT_ID",
-      ["PATH", "TO", "FOLDER"],
+      {
+        sourceID: "SRC_PARENT_ID",
+        destinationID: "DEST_PARENT_ID",
+        path: ["PATH", "TO", "FOLDER"],
+      },
       true,
       logger
     )
@@ -235,8 +247,11 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
   expect(
     resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
-      "DEST_PARENT_ID",
-      ["PATH", "TO", "FOLDER"],
+      {
+        sourceID: "SRC_PARENT_ID",
+        destinationID: "DEST_PARENT_ID",
+        path: ["PATH", "TO", "FOLDER"],
+      },
       true,
       logger
     )

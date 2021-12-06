@@ -39,9 +39,11 @@ test("moveFile works correctly with a file that can be moved directly", () => {
       id: "SRC_FILE_ID",
       title: "FILE_NAME",
     },
-    "SRC_PARENT_ID",
-    "DEST_PARENT_ID",
-    ["PATH", "TO", "FILE"],
+    {
+      sourceID: "SRC_PARENT_ID",
+      destinationID: "DEST_PARENT_ID",
+      path: ["PATH", "TO", "FILE"],
+    },
     false,
     logger
   );
@@ -102,9 +104,11 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
       id: "SRC_FILE_ID",
       title: "FILE_NAME",
     },
-    "SRC_PARENT_ID",
-    "DEST_PARENT_ID",
-    ["PATH", "TO", "FILE"],
+    {
+      sourceID: "SRC_PARENT_ID",
+      destinationID: "DEST_PARENT_ID",
+      path: ["PATH", "TO", "FILE"],
+    },
     false,
     logger
   );
@@ -152,9 +156,11 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
       id: "SRC_FILE_ID",
       title: "FILE_NAME",
     },
-    "SRC_PARENT_ID",
-    "DEST_PARENT_ID",
-    ["PATH", "TO", "FILE"],
+    {
+      sourceID: "SRC_PARENT_ID",
+      destinationID: "DEST_PARENT_ID",
+      path: ["PATH", "TO", "FILE"],
+    },
     false,
     logger
   );
@@ -199,9 +205,11 @@ test("moveFile works correctly with a file that can be moved directly with comme
       id: "SRC_FILE_ID",
       title: "FILE_NAME",
     },
-    "SRC_PARENT_ID",
-    "DEST_PARENT_ID",
-    ["PATH", "TO", "FILE"],
+    {
+      sourceID: "SRC_PARENT_ID",
+      destinationID: "DEST_PARENT_ID",
+      path: ["PATH", "TO", "FILE"],
+    },
     true,
     logger
   );
@@ -244,9 +252,11 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
       id: "SRC_FILE_ID",
       title: "FILE_NAME",
     },
-    "SRC_PARENT_ID",
-    "DEST_PARENT_ID",
-    ["PATH", "TO", "FILE"],
+    {
+      sourceID: "SRC_PARENT_ID",
+      destinationID: "DEST_PARENT_ID",
+      path: ["PATH", "TO", "FILE"],
+    },
     true,
     logger
   );
@@ -317,9 +327,11 @@ test("moveFile fails gracefully on error", () => {
       id: "SRC_FILE_ID",
       title: "FILE_NAME",
     },
-    "SRC_PARENT_ID",
-    "DEST_PARENT_ID",
-    ["PATH", "TO", "FILE"],
+    {
+      sourceID: "SRC_PARENT_ID",
+      destinationID: "DEST_PARENT_ID",
+      path: ["PATH", "TO", "FILE"],
+    },
     false,
     logger
   );

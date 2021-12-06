@@ -22,9 +22,11 @@ test("moveFolderContents works correctly with an empty folder", () => {
   const logger = new ErrorLogger_();
 
   moveFolderContents_(
-    "SRC_ID",
-    "DEST_ID",
-    ["PATH", "TO", "FOLDER"],
+    {
+      sourceID: "SRC_ID",
+      destinationID: "DEST_ID",
+      path: ["PATH", "TO", "FOLDER"],
+    },
     false,
     false,
     logger
@@ -53,9 +55,11 @@ test("moveFolderContents moves files correctly", () => {
   const logger = new ErrorLogger_();
 
   moveFolderContents_(
-    "SRC_ID",
-    "DEST_ID",
-    ["PATH", "TO", "FOLDER"],
+    {
+      sourceID: "SRC_ID",
+      destinationID: "DEST_ID",
+      path: ["PATH", "TO", "FOLDER"],
+    },
     false,
     false,
     logger
@@ -67,17 +71,25 @@ test("moveFolderContents moves files correctly", () => {
   expect(listFoldersInFolder.mock.calls[0][0]).toBe("SRC_ID");
   expect(moveFileFn.mock.calls.length).toBe(2);
   expect(moveFileFn.mock.calls[0][0].id).toBe("FILE1_ID");
-  expect(moveFileFn.mock.calls[0][1]).toBe("SRC_ID");
-  expect(moveFileFn.mock.calls[0][2]).toBe("DEST_ID");
-  expect(moveFileFn.mock.calls[0][3]).toStrictEqual(["PATH", "TO", "FOLDER"]);
-  expect(moveFileFn.mock.calls[0][4]).toBe(false);
-  expect(moveFileFn.mock.calls[0][5]).toBe(logger);
+  expect(moveFileFn.mock.calls[0][1].sourceID).toBe("SRC_ID");
+  expect(moveFileFn.mock.calls[0][1].destinationID).toBe("DEST_ID");
+  expect(moveFileFn.mock.calls[0][1].path).toStrictEqual([
+    "PATH",
+    "TO",
+    "FOLDER",
+  ]);
+  expect(moveFileFn.mock.calls[0][2]).toBe(false);
+  expect(moveFileFn.mock.calls[0][3]).toBe(logger);
   expect(moveFileFn.mock.calls[1][0].id).toBe("FILE2_ID");
-  expect(moveFileFn.mock.calls[1][1]).toBe("SRC_ID");
-  expect(moveFileFn.mock.calls[1][2]).toBe("DEST_ID");
-  expect(moveFileFn.mock.calls[1][3]).toStrictEqual(["PATH", "TO", "FOLDER"]);
-  expect(moveFileFn.mock.calls[1][4]).toBe(false);
-  expect(moveFileFn.mock.calls[1][5]).toBe(logger);
+  expect(moveFileFn.mock.calls[1][1].sourceID).toBe("SRC_ID");
+  expect(moveFileFn.mock.calls[1][1].destinationID).toBe("DEST_ID");
+  expect(moveFileFn.mock.calls[1][1].path).toStrictEqual([
+    "PATH",
+    "TO",
+    "FOLDER",
+  ]);
+  expect(moveFileFn.mock.calls[1][2]).toBe(false);
+  expect(moveFileFn.mock.calls[1][3]).toBe(logger);
   expect(mocked(logger).log.mock.calls.length).toBe(0);
 });
 
@@ -102,9 +114,11 @@ test("moveFolderContents moves folders correctly", () => {
   const logger = new ErrorLogger_();
 
   moveFolderContents_(
-    "SRC_ID",
-    "DEST_ID",
-    ["PATH", "TO", "FOLDER"],
+    {
+      sourceID: "SRC_ID",
+      destinationID: "DEST_ID",
+      path: ["PATH", "TO", "FOLDER"],
+    },
     false,
     false,
     logger
@@ -120,23 +134,29 @@ test("moveFolderContents moves folders correctly", () => {
   expect(listFoldersInFolder.mock.calls[2][0]).toStrictEqual("SUBFOLDER2_ID");
   expect(resolveDestinationFolderFn.mock.calls.length).toBe(2);
   expect(resolveDestinationFolderFn.mock.calls[0][0].id).toBe("SUBFOLDER1_ID");
-  expect(resolveDestinationFolderFn.mock.calls[0][1]).toBe("DEST_ID");
-  expect(resolveDestinationFolderFn.mock.calls[0][2]).toStrictEqual([
+  expect(resolveDestinationFolderFn.mock.calls[0][1].sourceID).toBe("SRC_ID");
+  expect(resolveDestinationFolderFn.mock.calls[0][1].destinationID).toBe(
+    "DEST_ID"
+  );
+  expect(resolveDestinationFolderFn.mock.calls[0][1].path).toStrictEqual([
     "PATH",
     "TO",
     "FOLDER",
   ]);
-  expect(resolveDestinationFolderFn.mock.calls[0][3]).toBe(false);
-  expect(resolveDestinationFolderFn.mock.calls[0][4]).toBe(logger);
+  expect(resolveDestinationFolderFn.mock.calls[0][2]).toBe(false);
+  expect(resolveDestinationFolderFn.mock.calls[0][3]).toBe(logger);
   expect(resolveDestinationFolderFn.mock.calls[1][0].id).toBe("SUBFOLDER2_ID");
-  expect(resolveDestinationFolderFn.mock.calls[1][1]).toBe("DEST_ID");
-  expect(resolveDestinationFolderFn.mock.calls[1][2]).toStrictEqual([
+  expect(resolveDestinationFolderFn.mock.calls[1][1].sourceID).toBe("SRC_ID");
+  expect(resolveDestinationFolderFn.mock.calls[1][1].destinationID).toBe(
+    "DEST_ID"
+  );
+  expect(resolveDestinationFolderFn.mock.calls[1][1].path).toStrictEqual([
     "PATH",
     "TO",
     "FOLDER",
   ]);
-  expect(resolveDestinationFolderFn.mock.calls[1][3]).toBe(false);
-  expect(resolveDestinationFolderFn.mock.calls[1][4]).toBe(logger);
+  expect(resolveDestinationFolderFn.mock.calls[1][2]).toBe(false);
+  expect(resolveDestinationFolderFn.mock.calls[1][3]).toBe(logger);
   expect(deleteFolderIfEmpty.mock.calls.length).toBe(2);
   expect(deleteFolderIfEmpty.mock.calls[0][0]).toBe("SUBFOLDER1_ID");
   expect(deleteFolderIfEmpty.mock.calls[1][0]).toBe("SUBFOLDER2_ID");
@@ -166,9 +186,11 @@ test("moveFolderContents handles error when deleting folder gracefully", () => {
   const logger = new ErrorLogger_();
 
   moveFolderContents_(
-    "SRC_ID",
-    "DEST_ID",
-    ["PATH", "TO", "FOLDER"],
+    {
+      sourceID: "SRC_ID",
+      destinationID: "DEST_ID",
+      path: ["PATH", "TO", "FOLDER"],
+    },
     false,
     false,
     logger
@@ -184,23 +206,29 @@ test("moveFolderContents handles error when deleting folder gracefully", () => {
   expect(listFoldersInFolder.mock.calls[2][0]).toStrictEqual("SUBFOLDER2_ID");
   expect(resolveDestinationFolderFn.mock.calls.length).toBe(2);
   expect(resolveDestinationFolderFn.mock.calls[0][0].id).toBe("SUBFOLDER1_ID");
-  expect(resolveDestinationFolderFn.mock.calls[0][1]).toBe("DEST_ID");
-  expect(resolveDestinationFolderFn.mock.calls[0][2]).toStrictEqual([
+  expect(resolveDestinationFolderFn.mock.calls[0][1].sourceID).toBe("SRC_ID");
+  expect(resolveDestinationFolderFn.mock.calls[0][1].destinationID).toBe(
+    "DEST_ID"
+  );
+  expect(resolveDestinationFolderFn.mock.calls[0][1].path).toStrictEqual([
     "PATH",
     "TO",
     "FOLDER",
   ]);
-  expect(resolveDestinationFolderFn.mock.calls[0][3]).toBe(false);
-  expect(resolveDestinationFolderFn.mock.calls[0][4]).toBe(logger);
+  expect(resolveDestinationFolderFn.mock.calls[0][2]).toBe(false);
+  expect(resolveDestinationFolderFn.mock.calls[0][3]).toBe(logger);
   expect(resolveDestinationFolderFn.mock.calls[1][0].id).toBe("SUBFOLDER2_ID");
-  expect(resolveDestinationFolderFn.mock.calls[1][1]).toBe("DEST_ID");
-  expect(resolveDestinationFolderFn.mock.calls[1][2]).toStrictEqual([
+  expect(resolveDestinationFolderFn.mock.calls[1][1].sourceID).toBe("SRC_ID");
+  expect(resolveDestinationFolderFn.mock.calls[1][1].destinationID).toBe(
+    "DEST_ID"
+  );
+  expect(resolveDestinationFolderFn.mock.calls[1][1].path).toStrictEqual([
     "PATH",
     "TO",
     "FOLDER",
   ]);
-  expect(resolveDestinationFolderFn.mock.calls[1][3]).toBe(false);
-  expect(resolveDestinationFolderFn.mock.calls[1][4]).toBe(logger);
+  expect(resolveDestinationFolderFn.mock.calls[1][2]).toBe(false);
+  expect(resolveDestinationFolderFn.mock.calls[1][3]).toBe(logger);
   expect(deleteFolderIfEmpty.mock.calls.length).toBe(2);
   expect(deleteFolderIfEmpty.mock.calls[0][0]).toBe("SUBFOLDER1_ID");
   expect(deleteFolderIfEmpty.mock.calls[1][0]).toBe("SUBFOLDER2_ID");
@@ -230,9 +258,11 @@ test("moveFolderContents passes copyComments correctly", () => {
   const logger = new ErrorLogger_();
 
   moveFolderContents_(
-    "SRC_ID",
-    "DEST_ID",
-    ["PATH", "TO", "FOLDER"],
+    {
+      sourceID: "SRC_ID",
+      destinationID: "DEST_ID",
+      path: ["PATH", "TO", "FOLDER"],
+    },
     true,
     false,
     logger
@@ -244,17 +274,25 @@ test("moveFolderContents passes copyComments correctly", () => {
   expect(listFoldersInFolder.mock.calls[0][0]).toBe("SRC_ID");
   expect(moveFileFn.mock.calls.length).toBe(2);
   expect(moveFileFn.mock.calls[0][0].id).toBe("FILE1_ID");
-  expect(moveFileFn.mock.calls[0][1]).toBe("SRC_ID");
-  expect(moveFileFn.mock.calls[0][2]).toBe("DEST_ID");
-  expect(moveFileFn.mock.calls[0][3]).toStrictEqual(["PATH", "TO", "FOLDER"]);
-  expect(moveFileFn.mock.calls[0][4]).toBe(true);
-  expect(moveFileFn.mock.calls[0][5]).toBe(logger);
+  expect(moveFileFn.mock.calls[0][1].sourceID).toBe("SRC_ID");
+  expect(moveFileFn.mock.calls[0][1].destinationID).toBe("DEST_ID");
+  expect(moveFileFn.mock.calls[0][1].path).toStrictEqual([
+    "PATH",
+    "TO",
+    "FOLDER",
+  ]);
+  expect(moveFileFn.mock.calls[0][2]).toBe(true);
+  expect(moveFileFn.mock.calls[0][3]).toBe(logger);
   expect(moveFileFn.mock.calls[1][0].id).toBe("FILE2_ID");
-  expect(moveFileFn.mock.calls[1][1]).toBe("SRC_ID");
-  expect(moveFileFn.mock.calls[1][2]).toBe("DEST_ID");
-  expect(moveFileFn.mock.calls[1][3]).toStrictEqual(["PATH", "TO", "FOLDER"]);
-  expect(moveFileFn.mock.calls[1][4]).toBe(true);
-  expect(moveFileFn.mock.calls[1][5]).toBe(logger);
+  expect(moveFileFn.mock.calls[1][1].sourceID).toBe("SRC_ID");
+  expect(moveFileFn.mock.calls[1][1].destinationID).toBe("DEST_ID");
+  expect(moveFileFn.mock.calls[1][1].path).toStrictEqual([
+    "PATH",
+    "TO",
+    "FOLDER",
+  ]);
+  expect(moveFileFn.mock.calls[1][2]).toBe(true);
+  expect(moveFileFn.mock.calls[1][3]).toBe(logger);
   expect(mocked(logger).log.mock.calls.length).toBe(0);
 });
 
@@ -279,9 +317,11 @@ test("moveFolderContents passes mergeFolders correctly", () => {
   const logger = new ErrorLogger_();
 
   moveFolderContents_(
-    "SRC_ID",
-    "DEST_ID",
-    ["PATH", "TO", "FOLDER"],
+    {
+      sourceID: "SRC_ID",
+      destinationID: "DEST_ID",
+      path: ["PATH", "TO", "FOLDER"],
+    },
     false,
     true,
     logger
@@ -297,23 +337,29 @@ test("moveFolderContents passes mergeFolders correctly", () => {
   expect(listFoldersInFolder.mock.calls[2][0]).toStrictEqual("SUBFOLDER2_ID");
   expect(resolveDestinationFolderFn.mock.calls.length).toBe(2);
   expect(resolveDestinationFolderFn.mock.calls[0][0].id).toBe("SUBFOLDER1_ID");
-  expect(resolveDestinationFolderFn.mock.calls[0][1]).toBe("DEST_ID");
-  expect(resolveDestinationFolderFn.mock.calls[0][2]).toStrictEqual([
+  expect(resolveDestinationFolderFn.mock.calls[0][1].sourceID).toBe("SRC_ID");
+  expect(resolveDestinationFolderFn.mock.calls[0][1].destinationID).toBe(
+    "DEST_ID"
+  );
+  expect(resolveDestinationFolderFn.mock.calls[0][1].path).toStrictEqual([
     "PATH",
     "TO",
     "FOLDER",
   ]);
-  expect(resolveDestinationFolderFn.mock.calls[0][3]).toBe(true);
-  expect(resolveDestinationFolderFn.mock.calls[0][4]).toBe(logger);
+  expect(resolveDestinationFolderFn.mock.calls[0][2]).toBe(true);
+  expect(resolveDestinationFolderFn.mock.calls[0][3]).toBe(logger);
   expect(resolveDestinationFolderFn.mock.calls[1][0].id).toBe("SUBFOLDER2_ID");
-  expect(resolveDestinationFolderFn.mock.calls[1][1]).toBe("DEST_ID");
-  expect(resolveDestinationFolderFn.mock.calls[1][2]).toStrictEqual([
+  expect(resolveDestinationFolderFn.mock.calls[1][1].sourceID).toBe("SRC_ID");
+  expect(resolveDestinationFolderFn.mock.calls[1][1].destinationID).toBe(
+    "DEST_ID"
+  );
+  expect(resolveDestinationFolderFn.mock.calls[1][1].path).toStrictEqual([
     "PATH",
     "TO",
     "FOLDER",
   ]);
-  expect(resolveDestinationFolderFn.mock.calls[1][3]).toBe(true);
-  expect(resolveDestinationFolderFn.mock.calls[1][4]).toBe(logger);
+  expect(resolveDestinationFolderFn.mock.calls[1][2]).toBe(true);
+  expect(resolveDestinationFolderFn.mock.calls[1][3]).toBe(logger);
   expect(deleteFolderIfEmpty.mock.calls.length).toBe(2);
   expect(deleteFolderIfEmpty.mock.calls[0][0]).toBe("SUBFOLDER1_ID");
   expect(deleteFolderIfEmpty.mock.calls[1][0]).toBe("SUBFOLDER2_ID");

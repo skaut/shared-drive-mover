@@ -26,19 +26,20 @@ test("move works correctly", () => {
   expect(mocked(moveFolderContents).moveFolderContents_.mock.calls.length).toBe(
     1
   );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]).toBe(
-    "SRC_ID"
-  );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
-    "DEST_ID"
-  );
   expect(
-    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].sourceID
+  ).toBe("SRC_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]
+      .destinationID
+  ).toBe("DEST_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].path
   ).toStrictEqual([]);
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][3]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
     false
   );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][4]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]).toBe(
     false
   );
 });
@@ -59,19 +60,20 @@ test("move passes copyComments correctly", () => {
   expect(mocked(moveFolderContents).moveFolderContents_.mock.calls.length).toBe(
     1
   );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]).toBe(
-    "SRC_ID"
-  );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
-    "DEST_ID"
-  );
   expect(
-    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].sourceID
+  ).toBe("SRC_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]
+      .destinationID
+  ).toBe("DEST_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].path
   ).toStrictEqual([]);
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][3]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
     true
   );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][4]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]).toBe(
     false
   );
 });
@@ -92,19 +94,20 @@ test("move passes mergeFolders correctly", () => {
   expect(mocked(moveFolderContents).moveFolderContents_.mock.calls.length).toBe(
     1
   );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]).toBe(
-    "SRC_ID"
-  );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
-    "DEST_ID"
-  );
   expect(
-    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].sourceID
+  ).toBe("SRC_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]
+      .destinationID
+  ).toBe("DEST_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].path
   ).toStrictEqual([]);
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][3]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
     false
   );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][4]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]).toBe(
     true
   );
 });
@@ -143,19 +146,20 @@ test("move works correctly with non-empty override", () => {
   expect(mocked(moveFolderContents).moveFolderContents_.mock.calls.length).toBe(
     1
   );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]).toBe(
-    "SRC_ID"
-  );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
-    "DEST_ID"
-  );
   expect(
-    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].sourceID
+  ).toBe("SRC_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]
+      .destinationID
+  ).toBe("DEST_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].path
   ).toStrictEqual([]);
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][3]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
     false
   );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][4]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]).toBe(
     false
   );
 });
@@ -167,7 +171,7 @@ test("move fails gracefully on error while moving", () => {
     error: "ERROR_MESSAGE",
   };
   mocked(moveFolderContents).moveFolderContents_.mockImplementationOnce(
-    (_1, _2, _3, _4, _5, logger: ErrorLogger_) => {
+    (_1, _2, _3, logger: ErrorLogger_) => {
       logger.log(error.file, error.error);
     }
   );
@@ -187,19 +191,20 @@ test("move fails gracefully on error while moving", () => {
   expect(mocked(moveFolderContents).moveFolderContents_.mock.calls.length).toBe(
     1
   );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]).toBe(
-    "SRC_ID"
-  );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
-    "DEST_ID"
-  );
   expect(
-    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].sourceID
+  ).toBe("SRC_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]
+      .destinationID
+  ).toBe("DEST_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].path
   ).toStrictEqual([]);
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][3]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
     false
   );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][4]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]).toBe(
     false
   );
   expect(consoleError.mock.calls.length).toBe(1);
