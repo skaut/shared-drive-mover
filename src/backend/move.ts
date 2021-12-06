@@ -17,9 +17,7 @@ export function move(
   }
   const logger = new ErrorLogger_();
   moveFolderContents_(
-    sourceID,
-    destinationID,
-    [],
+    { sourceID, destinationID, path: [] },
     copyComments,
     mergeFolders,
     logger

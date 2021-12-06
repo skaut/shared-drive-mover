@@ -7,66 +7,55 @@ import { moveFile_ } from "./moveFile";
 import { resolveDestinationFolder_ } from "./resolveDestinationFolder";
 
 import type { ErrorLogger_ } from "../utils/ErrorLogger";
+import type { MoveContext } from "../../interfaces/MoveContext";
 
 function moveFolderContentsFiles_(
-  sourceID: string,
-  destinationID: string,
-  path: Array<string>,
+  context: MoveContext,
   copyComments: boolean,
   logger: ErrorLogger_
 ): void {
-  for (const file of listFilesInFolder_(sourceID)) {
-    moveFile_(file, sourceID, destinationID, path, copyComments, logger);
+  for (const file of listFilesInFolder_(context.sourceID)) {
+    moveFile_(file, context, copyComments, logger);
   }
 }
 
 function moveFolderContentsFolders_(
-  sourceID: string,
-  destinationID: string,
-  path: Array<string>,
+  context: MoveContext,
   copyComments: boolean,
   mergeFolders: boolean,
   logger: ErrorLogger_
 ): void {
-  for (const folder of listFoldersInFolder_(sourceID)) {
+  for (const folder of listFoldersInFolder_(context.sourceID)) {
     try {
       const destinationFolder = resolveDestinationFolder_(
         folder,
-        destinationID,
-        path,
+        context,
         mergeFolders,
         logger
       );
       moveFolderContents_(
-        folder.id!,
-        destinationFolder.id!,
-        path.concat([folder.title!]),
+        {
+          sourceID: folder.id!,
+          destinationID: destinationFolder.id!,
+          path: context.path.concat([folder.title!]),
+        },
         copyComments,
         mergeFolders,
         logger
       );
       deleteFolderIfEmpty_(folder.id!);
     } catch (e) {
-      logger.log(path.concat([folder.title!]), (e as Error).message);
+      logger.log(context.path.concat([folder.title!]), (e as Error).message);
     }
   }
 }
 
 export function moveFolderContents_(
-  sourceID: string,
-  destinationID: string,
-  path: Array<string>,
+  context: MoveContext,
   copyComments: boolean,
   mergeFolders: boolean,
   logger: ErrorLogger_
 ): void {
-  moveFolderContentsFiles_(sourceID, destinationID, path, copyComments, logger);
-  moveFolderContentsFolders_(
-    sourceID,
-    destinationID,
-    path,
-    copyComments,
-    mergeFolders,
-    logger
-  );
+  moveFolderContentsFiles_(context, copyComments, logger);
+  moveFolderContentsFolders_(context, copyComments, mergeFolders, logger);
 }

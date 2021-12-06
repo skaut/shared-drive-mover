@@ -2,15 +2,12 @@ import { copyFileComments_ } from "./copyFileComments";
 
 import type { ErrorLogger_ } from "../utils/ErrorLogger";
 import type { GoogleJsonResponseException } from "../../interfaces/GoogleJsonResponseException";
+import type { MoveContext } from "../../interfaces/MoveContext";
 
-function moveFileDirectly_(
-  fileID: string,
-  sourceID: string,
-  destinationID: string
-): void {
+function moveFileDirectly_(fileID: string, context: MoveContext): void {
   Drive.Files!.update({}, fileID, null, {
-    addParents: destinationID,
-    removeParents: sourceID,
+    addParents: context.destinationID,
+    removeParents: context.sourceID,
     supportsAllDrives: true,
     fields: "",
   });
@@ -19,15 +16,14 @@ function moveFileDirectly_(
 function moveFileByCopy_(
   fileID: string,
   name: string,
-  destinationID: string,
-  path: Array<string>,
+  context: MoveContext,
   copyComments: boolean,
   logger: ErrorLogger_
 ): void {
   try {
     const copy = Drive.Files!.copy(
       {
-        parents: [{ id: destinationID }],
+        parents: [{ id: context.destinationID }],
         title: name,
       },
       fileID,
@@ -37,30 +33,24 @@ function moveFileByCopy_(
       copyFileComments_(fileID, copy.id!);
     }
   } catch (e) {
-    logger.log(path.concat([name]), (e as GoogleJsonResponseException).message);
+    logger.log(
+      context.path.concat([name]),
+      (e as GoogleJsonResponseException).message
+    );
   }
 }
 
 export function moveFile_(
   file: GoogleAppsScript.Drive.Schema.File,
-  sourceID: string,
-  destinationID: string,
-  path: Array<string>,
+  context: MoveContext,
   copyComments: boolean,
   logger: ErrorLogger_
 ): void {
   if (file.capabilities!.canMoveItemOutOfDrive!) {
     try {
-      moveFileDirectly_(file.id!, sourceID, destinationID);
+      moveFileDirectly_(file.id!, context);
       return;
     } catch (e) {} // eslint-disable-line no-empty
   }
-  moveFileByCopy_(
-    file.id!,
-    file.title!,
-    destinationID,
-    path,
-    copyComments,
-    logger
-  );
+  moveFileByCopy_(file.id!, file.title!, context, copyComments, logger);
 }
