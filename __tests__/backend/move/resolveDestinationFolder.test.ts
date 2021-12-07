@@ -1,4 +1,4 @@
-import { mocked } from "ts-jest/utils";
+import { mocked } from "jest-mock";
 
 import { resolveDestinationFolder_ } from "../../../src/backend/move/resolveDestinationFolder";
 
