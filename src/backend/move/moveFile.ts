@@ -1,6 +1,5 @@
 import { copyFileComments_ } from "./copyFileComments";
 
-import type { ErrorLogger_ } from "../utils/ErrorLogger";
 import type { GoogleJsonResponseException } from "../../interfaces/GoogleJsonResponseException";
 import type { MoveContext } from "../../interfaces/MoveContext";
 
@@ -17,8 +16,7 @@ function moveFileByCopy_(
   fileID: string,
   name: string,
   context: MoveContext,
-  copyComments: boolean,
-  logger: ErrorLogger_
+  copyComments: boolean
 ): void {
   try {
     const copy = Drive.Files!.copy(
@@ -43,8 +41,7 @@ function moveFileByCopy_(
 export function moveFile_(
   file: GoogleAppsScript.Drive.Schema.File,
   context: MoveContext,
-  copyComments: boolean,
-  logger: ErrorLogger_
+  copyComments: boolean
 ): void {
   if (file.capabilities!.canMoveItemOutOfDrive!) {
     try {
@@ -52,5 +49,5 @@ export function moveFile_(
       return;
     } catch (e) {} // eslint-disable-line no-empty
   }
-  moveFileByCopy_(file.id!, file.title!, context, copyComments, logger);
+  moveFileByCopy_(file.id!, file.title!, context, copyComments);
 }

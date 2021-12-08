@@ -6,42 +6,38 @@ import {
 import { moveFile_ } from "./moveFile";
 import { resolveDestinationFolder_ } from "./resolveDestinationFolder";
 
-import type { ErrorLogger_ } from "../utils/ErrorLogger";
 import type { MoveContext } from "../../interfaces/MoveContext";
 
 function moveFolderContentsFiles_(
   context: MoveContext,
-  copyComments: boolean,
-  logger: ErrorLogger_
+  copyComments: boolean
 ): void {
   for (const file of listFilesInFolder_(context.sourceID)) {
-    moveFile_(file, context, copyComments, logger);
+    moveFile_(file, context, copyComments);
   }
 }
 
 function moveFolderContentsFolders_(
   context: MoveContext,
   copyComments: boolean,
-  mergeFolders: boolean,
-  logger: ErrorLogger_
+  mergeFolders: boolean
 ): void {
   for (const folder of listFoldersInFolder_(context.sourceID)) {
     try {
       const destinationFolder = resolveDestinationFolder_(
         folder,
         context,
-        mergeFolders,
-        logger
+        mergeFolders
       );
       moveFolderContents_(
         {
           sourceID: folder.id!,
           destinationID: destinationFolder.id!,
           path: context.path.concat([folder.title!]),
+          logger: context.logger,
         },
         copyComments,
-        mergeFolders,
-        logger
+        mergeFolders
       );
       deleteFolderIfEmpty_(folder.id!);
     } catch (e) {
@@ -53,9 +49,8 @@ function moveFolderContentsFolders_(
 export function moveFolderContents_(
   context: MoveContext,
   copyComments: boolean,
-  mergeFolders: boolean,
-  logger: ErrorLogger_
+  mergeFolders: boolean
 ): void {
-  moveFolderContentsFiles_(context, copyComments, logger);
-  moveFolderContentsFolders_(context, copyComments, mergeFolders, logger);
+  moveFolderContentsFiles_(context, copyComments);
+  moveFolderContentsFolders_(context, copyComments, mergeFolders);
 }

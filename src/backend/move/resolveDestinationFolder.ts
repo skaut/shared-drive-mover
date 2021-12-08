@@ -1,13 +1,11 @@
 import { listFoldersInFolder_ } from "./folderManagement";
 
-import type { ErrorLogger_ } from "../utils/ErrorLogger";
 import type { MoveContext } from "../../interfaces/MoveContext";
 
 export function resolveDestinationFolder_(
   sourceFolder: GoogleAppsScript.Drive.Schema.File,
   context: MoveContext,
-  mergeFolders: boolean,
-  logger: ErrorLogger_
+  mergeFolders: boolean
 ): GoogleAppsScript.Drive.Schema.File {
   if (mergeFolders) {
     const existingFoldersWithSameName = listFoldersInFolder_(
