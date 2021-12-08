@@ -30,4 +30,15 @@ export class MoveContext_ {
       this.logger
     );
   }
+
+  public tryAndLog<T>(fn: () => T, filename?: string): T | null {
+    try {
+      return fn();
+    } catch (e) {
+      const path =
+        filename !== undefined ? this.path.concat([filename]) : this.path;
+      this.logger.log(path, (e as Error).message);
+    }
+    return null;
+  }
 }

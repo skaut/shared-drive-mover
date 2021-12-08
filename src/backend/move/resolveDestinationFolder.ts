@@ -15,7 +15,7 @@ export function resolveDestinationFolder_(
       return existingFoldersWithSameName[0];
     }
     if (existingFoldersWithSameName.length > 1) {
-      logger.log(
+      context.logger.log(
         context.path.concat([sourceFolder.title!]),
         "Coudn't merge with existing folder as there are multiple existing directories with the same name"
       );

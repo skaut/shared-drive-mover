@@ -1,6 +1,5 @@
 import { copyFileComments_ } from "./copyFileComments";
 
-import type { GoogleJsonResponseException } from "../../interfaces/GoogleJsonResponseException";
 import type { MoveContext_ } from "../utils/MoveContext";
 
 function moveFileDirectly_(fileID: string, context: MoveContext_): void {
@@ -18,7 +17,7 @@ function moveFileByCopy_(
   context: MoveContext_,
   copyComments: boolean
 ): void {
-  try {
+  context.tryAndLog(() => {
     const copy = Drive.Files!.copy(
       {
         parents: [{ id: context.destinationID }],
@@ -30,12 +29,7 @@ function moveFileByCopy_(
     if (copyComments) {
       copyFileComments_(fileID, copy.id!);
     }
-  } catch (e) {
-    logger.log(
-      context.path.concat([name]),
-      (e as GoogleJsonResponseException).message
-    );
-  }
+  }, name);
 }
 
 export function moveFile_(

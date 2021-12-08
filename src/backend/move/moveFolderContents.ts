@@ -23,7 +23,7 @@ function moveFolderContentsFolders_(
   mergeFolders: boolean
 ): void {
   for (const folder of listFoldersInFolder_(context.sourceID)) {
-    try {
+    context.tryAndLog(() => {
       const destinationFolder = resolveDestinationFolder_(
         folder,
         context,
@@ -35,9 +35,7 @@ function moveFolderContentsFolders_(
         mergeFolders
       );
       deleteFolderIfEmpty_(folder.id!);
-    } catch (e) {
-      logger.log(context.path.concat([folder.title!]), (e as Error).message);
-    }
+    }, folder.title);
   }
 }
 
