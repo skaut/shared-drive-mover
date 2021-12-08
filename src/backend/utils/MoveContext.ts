@@ -17,4 +17,17 @@ export class MoveContext_ {
     this.path = path;
     this.logger = logger;
   }
+
+  public childContext(
+    sourceID: string,
+    destinationID: string,
+    childName: string
+  ): MoveContext_ {
+    return new MoveContext_(
+      sourceID,
+      destinationID,
+      this.path.concat([childName]),
+      this.logger
+    );
+  }
 }

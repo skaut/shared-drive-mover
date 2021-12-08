@@ -30,12 +30,7 @@ function moveFolderContentsFolders_(
         mergeFolders
       );
       moveFolderContents_(
-        {
-          sourceID: folder.id!,
-          destinationID: destinationFolder.id!,
-          path: context.path.concat([folder.title!]),
-          logger: context.logger,
-        },
+        context.childContext(folder.id!, destinationFolder.id!, folder.title!),
         copyComments,
         mergeFolders
       );

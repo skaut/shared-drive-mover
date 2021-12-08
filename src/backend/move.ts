@@ -1,5 +1,6 @@
 import { ErrorLogger_ } from "./utils/ErrorLogger";
 import { isFolderEmpty_ } from "./move/folderManagement";
+import { MoveContext_ } from "./utils/MoveContext";
 import { moveFolderContents_ } from "./move/moveFolderContents";
 
 import type { MoveResponse } from "../interfaces/MoveResponse";
@@ -17,7 +18,7 @@ export function move(
   }
   const logger = new ErrorLogger_();
   moveFolderContents_(
-    { sourceID, destinationID, path: [], logger },
+    new MoveContext_(sourceID, destinationID, [], logger),
     copyComments,
     mergeFolders
   );
