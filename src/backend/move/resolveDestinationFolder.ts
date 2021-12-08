@@ -1,10 +1,10 @@
 import { listFoldersInFolder_ } from "./folderManagement";
 
-import type { MoveContext } from "../../interfaces/MoveContext";
+import type { MoveContext_ } from "../utils/MoveContext";
 
 export function resolveDestinationFolder_(
   sourceFolder: GoogleAppsScript.Drive.Schema.File,
-  context: MoveContext,
+  context: MoveContext_,
   mergeFolders: boolean
 ): GoogleAppsScript.Drive.Schema.File {
   if (mergeFolders) {

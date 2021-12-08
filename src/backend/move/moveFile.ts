@@ -1,9 +1,9 @@
 import { copyFileComments_ } from "./copyFileComments";
 
 import type { GoogleJsonResponseException } from "../../interfaces/GoogleJsonResponseException";
-import type { MoveContext } from "../../interfaces/MoveContext";
+import type { MoveContext_ } from "../utils/MoveContext";
 
-function moveFileDirectly_(fileID: string, context: MoveContext): void {
+function moveFileDirectly_(fileID: string, context: MoveContext_): void {
   Drive.Files!.update({}, fileID, null, {
     addParents: context.destinationID,
     removeParents: context.sourceID,
@@ -15,7 +15,7 @@ function moveFileDirectly_(fileID: string, context: MoveContext): void {
 function moveFileByCopy_(
   fileID: string,
   name: string,
-  context: MoveContext,
+  context: MoveContext_,
   copyComments: boolean
 ): void {
   try {
@@ -40,7 +40,7 @@ function moveFileByCopy_(
 
 export function moveFile_(
   file: GoogleAppsScript.Drive.Schema.File,
-  context: MoveContext,
+  context: MoveContext_,
   copyComments: boolean
 ): void {
   if (file.capabilities!.canMoveItemOutOfDrive!) {

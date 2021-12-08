@@ -6,10 +6,10 @@ import {
 import { moveFile_ } from "./moveFile";
 import { resolveDestinationFolder_ } from "./resolveDestinationFolder";
 
-import type { MoveContext } from "../../interfaces/MoveContext";
+import type { MoveContext_ } from "../utils/MoveContext";
 
 function moveFolderContentsFiles_(
-  context: MoveContext,
+  context: MoveContext_,
   copyComments: boolean
 ): void {
   for (const file of listFilesInFolder_(context.sourceID)) {
@@ -18,7 +18,7 @@ function moveFolderContentsFiles_(
 }
 
 function moveFolderContentsFolders_(
-  context: MoveContext,
+  context: MoveContext_,
   copyComments: boolean,
   mergeFolders: boolean
 ): void {
@@ -47,7 +47,7 @@ function moveFolderContentsFolders_(
 }
 
 export function moveFolderContents_(
-  context: MoveContext,
+  context: MoveContext_,
   copyComments: boolean,
   mergeFolders: boolean
 ): void {
