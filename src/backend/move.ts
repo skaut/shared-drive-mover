@@ -12,7 +12,12 @@ export function move(
   mergeFolders: boolean,
   notEmptyOverride: boolean
 ): MoveResponse {
-  const isEmpty = isFolderEmpty_(destinationID);
+  let isEmpty: boolean;
+  try {
+    isEmpty = isFolderEmpty_(destinationID);
+  } catch (e) {
+    return { status: "error", reason: "DriveAPIError" };
+  }
   if (!notEmptyOverride && !isEmpty) {
     return { status: "error", reason: "notEmpty" };
   }
