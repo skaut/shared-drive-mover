@@ -1,7 +1,11 @@
 import type { MoveError } from "./MoveError";
 
-export interface MoveResponse {
-  status: "error" | "success";
-  reason?: string;
-  errors?: Array<MoveError>;
-}
+export type MoveResponse =
+  | {
+      status: "error";
+      reason: string;
+    }
+  | {
+      status: "success";
+      errors: Array<MoveError>;
+    };
