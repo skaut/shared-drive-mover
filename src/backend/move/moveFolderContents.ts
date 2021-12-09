@@ -12,7 +12,11 @@ function moveFolderContentsFiles_(
   context: MoveContext_,
   copyComments: boolean
 ): void {
-  for (const file of listFilesInFolder_(context.sourceID)) {
+  const files = context.tryAndLog(() => listFilesInFolder_(context.sourceID));
+  if (files === null) {
+    return;
+  }
+  for (const file of files) {
     moveFile_(file, context, copyComments);
   }
 }
@@ -22,7 +26,13 @@ function moveFolderContentsFolders_(
   copyComments: boolean,
   mergeFolders: boolean
 ): void {
-  for (const folder of listFoldersInFolder_(context.sourceID)) {
+  const subFolders = context.tryAndLog(() =>
+    listFoldersInFolder_(context.sourceID)
+  );
+  if (subFolders === null) {
+    return;
+  }
+  for (const folder of subFolders) {
     context.tryAndLog(() => {
       const destinationFolder = resolveDestinationFolder_(
         folder,
