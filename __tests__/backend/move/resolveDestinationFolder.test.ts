@@ -1,5 +1,6 @@
 import { mocked } from "jest-mock";
 
+import { MoveContext_ } from "../../../src/backend/utils/MoveContext";
 import { resolveDestinationFolder_ } from "../../../src/backend/move/resolveDestinationFolder";
 
 import { ErrorLogger_ } from "../../../src/backend/utils/ErrorLogger";
@@ -37,13 +38,13 @@ test("resolveDestinationFolder corretly creates new folder", () => {
   expect(
     resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
-      {
-        sourceID: "SRC_PARENT_ID",
-        destinationID: "DEST_PARENT_ID",
-        path: ["PATH", "TO", "FOLDER"],
-      },
-      false,
-      logger
+      new MoveContext_(
+        "SRC_PARENT_ID",
+        "DEST_PARENT_ID",
+        ["PATH", "TO", "FOLDER"],
+        logger
+      ),
+      false
     )
   ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
 
@@ -92,13 +93,13 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
   expect(
     resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
-      {
-        sourceID: "SRC_PARENT_ID",
-        destinationID: "DEST_PARENT_ID",
-        path: ["PATH", "TO", "FOLDER"],
-      },
-      false,
-      logger
+      new MoveContext_(
+        "SRC_PARENT_ID",
+        "DEST_PARENT_ID",
+        ["PATH", "TO", "FOLDER"],
+        logger
+      ),
+      false
     )
   ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
 
@@ -145,13 +146,13 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
   expect(
     resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
-      {
-        sourceID: "SRC_PARENT_ID",
-        destinationID: "DEST_PARENT_ID",
-        path: ["PATH", "TO", "FOLDER"],
-      },
-      true,
-      logger
+      new MoveContext_(
+        "SRC_PARENT_ID",
+        "DEST_PARENT_ID",
+        ["PATH", "TO", "FOLDER"],
+        logger
+      ),
+      true
     )
   ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
 
@@ -197,13 +198,13 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
   expect(
     resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
-      {
-        sourceID: "SRC_PARENT_ID",
-        destinationID: "DEST_PARENT_ID",
-        path: ["PATH", "TO", "FOLDER"],
-      },
+      new MoveContext_(
+        "SRC_PARENT_ID",
+        "DEST_PARENT_ID",
+        ["PATH", "TO", "FOLDER"],
+        logger
+      ),
       true,
-      logger
     )
   ).toStrictEqual({ id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" });
 
@@ -247,13 +248,13 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
   expect(
     resolveDestinationFolder_(
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
-      {
-        sourceID: "SRC_PARENT_ID",
-        destinationID: "DEST_PARENT_ID",
-        path: ["PATH", "TO", "FOLDER"],
-      },
-      true,
-      logger
+      new MoveContext_(
+        "SRC_PARENT_ID",
+        "DEST_PARENT_ID",
+        ["PATH", "TO", "FOLDER"],
+        logger
+      ),
+      true
     )
   ).toStrictEqual({
     id: "NEWLY_CREATED_FOLDER_ID",

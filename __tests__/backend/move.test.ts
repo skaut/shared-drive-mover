@@ -2,7 +2,7 @@ import { mocked } from "jest-mock";
 
 import { move } from "../../src/backend/move";
 
-import type { ErrorLogger_ } from "../../src/backend/utils/ErrorLogger";
+import type { MoveContext_ } from "../../src/backend/utils/MoveContext";
 
 import * as folderManagement from "../../src/backend/move/folderManagement";
 import * as moveFolderContents from "../../src/backend/move/moveFolderContents";
@@ -171,8 +171,8 @@ test("move fails gracefully on error while moving", () => {
     error: "ERROR_MESSAGE",
   };
   mocked(moveFolderContents).moveFolderContents_.mockImplementationOnce(
-    (_1, _2, _3, logger: ErrorLogger_) => {
-      logger.log(error.file, error.error);
+    (context: MoveContext_, _) => {
+      context.logger.log(error.file, error.error);
     }
   );
   const consoleError = jest
