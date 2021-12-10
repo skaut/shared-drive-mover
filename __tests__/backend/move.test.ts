@@ -112,6 +112,26 @@ test("move passes mergeFolders correctly", () => {
   );
 });
 
+test("move fails gracefully on error when checking folder emptiness", () => {
+  mocked(folderManagement).isFolderEmpty_.mockImplementationOnce(() => {
+    throw new Error();
+  });
+  mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
+
+  expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
+    status: "error",
+    reason: "DriveAPIError",
+  });
+
+  expect(mocked(folderManagement).isFolderEmpty_.mock.calls.length).toBe(1);
+  expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
+    "DEST_ID"
+  );
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls.length).toBe(
+    0
+  );
+});
+
 test("move fails gracefully on non-empty destination directory", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(false);
   mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
