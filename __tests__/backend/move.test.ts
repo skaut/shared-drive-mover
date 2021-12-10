@@ -171,7 +171,7 @@ test("move fails gracefully on error while moving", () => {
     error: "ERROR_MESSAGE",
   };
   mocked(moveFolderContents).moveFolderContents_.mockImplementationOnce(
-    (context: MoveContext_, _) => {
+    (context: MoveContext_) => {
       context.logger.log(error.file, error.error);
     }
   );

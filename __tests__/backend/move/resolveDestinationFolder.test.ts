@@ -204,7 +204,7 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
         ["PATH", "TO", "FOLDER"],
         logger
       ),
-      true,
+      true
     )
   ).toStrictEqual({ id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" });
 

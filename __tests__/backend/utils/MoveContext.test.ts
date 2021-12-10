@@ -50,7 +50,7 @@ test("MoveContext.tryAndLog works correctly", () => {
     logger
   );
 
-  const fn = jest.fn<void, []>().mockReturnValueOnce();
+  const fn = jest.fn<void, []>().mockReturnValueOnce(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
 
   context.tryAndLog(fn);
 
@@ -83,6 +83,7 @@ test("MoveContext.tryAndLog handles errors gracefully", () => {
     logger
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   const fn = jest.fn<void, []>().mockImplementationOnce(() => {
     throw new Error("ERROR_MESSAGE");
   });
