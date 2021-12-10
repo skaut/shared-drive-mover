@@ -122,6 +122,107 @@ test("moveFolderContents moves folders correctly", () => {
   expect(mocked(context.logger).log.mock.calls.length).toBe(0);
 });
 
+test("moveFolderContents moves files correctly, even when listing folders throws", () => {
+  const listFilesInFolder = mocked(
+    folderManagement
+  ).listFilesInFolder_.mockReturnValueOnce([
+    { id: "FILE1_ID" },
+    { id: "FILE2_ID" },
+  ]);
+  const listFoldersInFolder = mocked(
+    folderManagement
+  ).listFoldersInFolder_.mockImplementationOnce(() => {
+    throw new Error("ERROR_MESSAGE");
+  });
+  const moveFileFn = mocked(moveFile)
+    .moveFile_.mockReturnValueOnce()
+    .mockReturnValueOnce();
+
+  const context = new MoveContext_(
+    "SRC_ID",
+    "DEST_ID",
+    ["PATH", "TO", "FOLDER"],
+    new ErrorLogger_()
+  );
+  moveFolderContents_(context, false, false);
+
+  expect(listFilesInFolder.mock.calls.length).toBe(1);
+  expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
+  expect(listFoldersInFolder.mock.calls.length).toBe(1);
+  expect(listFoldersInFolder.mock.calls[0][0]).toBe("SRC_ID");
+  expect(moveFileFn.mock.calls.length).toBe(2);
+  expect(moveFileFn.mock.calls[0][0].id).toBe("FILE1_ID");
+  expect(moveFileFn.mock.calls[0][1]).toStrictEqual(context);
+  expect(moveFileFn.mock.calls[0][2]).toBe(false);
+  expect(moveFileFn.mock.calls[1][0].id).toBe("FILE2_ID");
+  expect(moveFileFn.mock.calls[0][1]).toStrictEqual(context);
+  expect(moveFileFn.mock.calls[1][2]).toBe(false);
+  expect(mocked(context.logger).log.mock.calls.length).toBe(1);
+  expect(mocked(context.logger).log.mock.calls[0][0]).toStrictEqual([
+    "PATH",
+    "TO",
+    "FOLDER",
+  ]);
+  expect(mocked(context.logger).log.mock.calls[0][1]).toBe("ERROR_MESSAGE");
+});
+
+test("moveFolderContents moves folders correctly, even when listing files throws", () => {
+  const deleteFolderIfEmpty = mocked(folderManagement)
+    .deleteFolderIfEmpty_.mockReturnValueOnce()
+    .mockReturnValueOnce();
+  const listFilesInFolder = mocked(folderManagement)
+    .listFilesInFolder_.mockImplementationOnce(() => {
+      throw new Error("ERROR_MESSAGE");
+    })
+    .mockReturnValueOnce([])
+    .mockReturnValueOnce([]);
+  const listFoldersInFolder = mocked(folderManagement)
+    .listFoldersInFolder_.mockReturnValueOnce([
+      { id: "SUBFOLDER1_ID" },
+      { id: "SUBFOLDER2_ID" },
+    ])
+    .mockReturnValueOnce([])
+    .mockReturnValueOnce([]);
+  const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
+    .resolveDestinationFolder_.mockReturnValueOnce({})
+    .mockReturnValueOnce({});
+
+  const context = new MoveContext_(
+    "SRC_ID",
+    "DEST_ID",
+    ["PATH", "TO", "FOLDER"],
+    new ErrorLogger_()
+  );
+
+  moveFolderContents_(context, false, false);
+
+  expect(listFilesInFolder.mock.calls.length).toBe(3);
+  expect(listFilesInFolder.mock.calls[0][0]).toStrictEqual("SRC_ID");
+  expect(listFilesInFolder.mock.calls[1][0]).toStrictEqual("SUBFOLDER1_ID");
+  expect(listFilesInFolder.mock.calls[2][0]).toStrictEqual("SUBFOLDER2_ID");
+  expect(listFoldersInFolder.mock.calls.length).toBe(3);
+  expect(listFoldersInFolder.mock.calls[0][0]).toStrictEqual("SRC_ID");
+  expect(listFoldersInFolder.mock.calls[1][0]).toStrictEqual("SUBFOLDER1_ID");
+  expect(listFoldersInFolder.mock.calls[2][0]).toStrictEqual("SUBFOLDER2_ID");
+  expect(resolveDestinationFolderFn.mock.calls.length).toBe(2);
+  expect(resolveDestinationFolderFn.mock.calls[0][0].id).toBe("SUBFOLDER1_ID");
+  expect(resolveDestinationFolderFn.mock.calls[0][1]).toStrictEqual(context);
+  expect(resolveDestinationFolderFn.mock.calls[0][2]).toBe(false);
+  expect(resolveDestinationFolderFn.mock.calls[1][0].id).toBe("SUBFOLDER2_ID");
+  expect(resolveDestinationFolderFn.mock.calls[1][1]).toStrictEqual(context);
+  expect(resolveDestinationFolderFn.mock.calls[1][2]).toBe(false);
+  expect(deleteFolderIfEmpty.mock.calls.length).toBe(2);
+  expect(deleteFolderIfEmpty.mock.calls[0][0]).toBe("SUBFOLDER1_ID");
+  expect(deleteFolderIfEmpty.mock.calls[1][0]).toBe("SUBFOLDER2_ID");
+  expect(mocked(context.logger).log.mock.calls.length).toBe(1);
+  expect(mocked(context.logger).log.mock.calls[0][0]).toStrictEqual([
+    "PATH",
+    "TO",
+    "FOLDER",
+  ]);
+  expect(mocked(context.logger).log.mock.calls[0][1]).toBe("ERROR_MESSAGE");
+});
+
 test("moveFolderContents handles error when deleting folder gracefully", () => {
   const deleteFolderIfEmpty = mocked(folderManagement)
     .deleteFolderIfEmpty_.mockReturnValueOnce()
