@@ -1,3 +1,122 @@
+export function mockedDrive(): GoogleAppsScript.Drive {
+  return {
+    newChannel: jest.fn<GoogleAppsScript.Drive.Schema.Channel, []>(),
+    newChildReference: jest.fn<
+      GoogleAppsScript.Drive.Schema.ChildReference,
+      []
+    >(),
+    newComment: jest.fn<GoogleAppsScript.Drive.Schema.Comment, []>(),
+    newCommentContext: jest.fn<
+      GoogleAppsScript.Drive.Schema.CommentContext,
+      []
+    >(),
+    newCommentReply: jest.fn<GoogleAppsScript.Drive.Schema.CommentReply, []>(),
+    newDrive: jest.fn<GoogleAppsScript.Drive.Schema.Drive, []>(),
+    newDriveBackgroundImageFile: jest.fn<
+      GoogleAppsScript.Drive.Schema.DriveBackgroundImageFile,
+      []
+    >(),
+    newDriveCapabilities: jest.fn<
+      GoogleAppsScript.Drive.Schema.DriveCapabilities,
+      []
+    >(),
+    newDriveRestrictions: jest.fn<
+      GoogleAppsScript.Drive.Schema.DriveRestrictions,
+      []
+    >(),
+    newFile: jest.fn<GoogleAppsScript.Drive.Schema.File, []>(),
+    newFileCapabilities: jest.fn<
+      GoogleAppsScript.Drive.Schema.FileCapabilities,
+      []
+    >(),
+    newFileImageMediaMetadata: jest.fn<
+      GoogleAppsScript.Drive.Schema.FileImageMediaMetadata,
+      []
+    >(),
+    newFileImageMediaMetadataLocation: jest.fn<
+      GoogleAppsScript.Drive.Schema.FileImageMediaMetadataLocation,
+      []
+    >(),
+    newFileIndexableText: jest.fn<
+      GoogleAppsScript.Drive.Schema.FileIndexableText,
+      []
+    >(),
+    newFileLabels: jest.fn<GoogleAppsScript.Drive.Schema.FileLabels, []>(),
+    newFileThumbnail: jest.fn<
+      GoogleAppsScript.Drive.Schema.FileThumbnail,
+      []
+    >(),
+    newFileVideoMediaMetadata: jest.fn<
+      GoogleAppsScript.Drive.Schema.FileVideoMediaMetadata,
+      []
+    >(),
+    newParentReference: jest.fn<
+      GoogleAppsScript.Drive.Schema.ParentReference,
+      []
+    >(),
+    newPermission: jest.fn<GoogleAppsScript.Drive.Schema.Permission, []>(),
+    newPermissionPermissionDetails: jest.fn<
+      GoogleAppsScript.Drive.Schema.PermissionPermissionDetails,
+      []
+    >(),
+    newPermissionTeamDrivePermissionDetails: jest.fn<
+      GoogleAppsScript.Drive.Schema.PermissionTeamDrivePermissionDetails,
+      []
+    >(),
+    newProperty: jest.fn<GoogleAppsScript.Drive.Schema.Property, []>(),
+    newRevision: jest.fn<GoogleAppsScript.Drive.Schema.Revision, []>(),
+    newTeamDrive: jest.fn<GoogleAppsScript.Drive.Schema.TeamDrive, []>(),
+    newTeamDriveBackgroundImageFile: jest.fn<
+      GoogleAppsScript.Drive.Schema.TeamDriveBackgroundImageFile,
+      []
+    >(),
+    newTeamDriveCapabilities: jest.fn<
+      GoogleAppsScript.Drive.Schema.TeamDriveCapabilities,
+      []
+    >(),
+    newTeamDriveRestrictions: jest.fn<
+      GoogleAppsScript.Drive.Schema.TeamDriveRestrictions,
+      []
+    >(),
+    newUser: jest.fn<GoogleAppsScript.Drive.Schema.User, []>(),
+    newUserPicture: jest.fn<GoogleAppsScript.Drive.Schema.UserPicture, []>(),
+  };
+}
+
+export function mockedFilesCollection(): GoogleAppsScript.Drive.Collection.FilesCollection {
+  return {
+    copy: jest.fn<
+      GoogleAppsScript.Drive.Schema.File,
+      [resource: GoogleAppsScript.Drive.Schema.File, fileId: string]
+    >(),
+    emptyTrash: jest.fn<void, []>(), // eslint-disable-line @typescript-eslint/no-invalid-void-type
+    export: jest.fn<void, [fileId: string, mimeType: string]>(), // eslint-disable-line @typescript-eslint/no-invalid-void-type
+    generateIds: jest.fn<GoogleAppsScript.Drive.Schema.GeneratedIds, []>(),
+    get: jest.fn<GoogleAppsScript.Drive.Schema.File, [fileId: string]>(),
+    insert: jest.fn<
+      GoogleAppsScript.Drive.Schema.File,
+      [resource: GoogleAppsScript.Drive.Schema.File]
+    >(),
+    list: jest.fn<GoogleAppsScript.Drive.Schema.FileList, []>(),
+    patch: jest.fn<
+      GoogleAppsScript.Drive.Schema.File,
+      [resource: GoogleAppsScript.Drive.Schema.File, fileId: string]
+    >(),
+    remove: jest.fn<void, [fileId: string]>(), // eslint-disable-line @typescript-eslint/no-invalid-void-type
+    touch: jest.fn<GoogleAppsScript.Drive.Schema.File, [fileId: string]>(),
+    trash: jest.fn<GoogleAppsScript.Drive.Schema.File, [fileId: string]>(),
+    untrash: jest.fn<GoogleAppsScript.Drive.Schema.File, [fileId: string]>(),
+    update: jest.fn<
+      GoogleAppsScript.Drive.Schema.File,
+      [resource: GoogleAppsScript.Drive.Schema.File, fileId: string]
+    >(),
+    watch: jest.fn<
+      GoogleAppsScript.Drive.Schema.Channel,
+      [resource: GoogleAppsScript.Drive.Schema.Channel, fileId: string]
+    >(),
+  };
+}
+
 export function mockedHtmlOutput(): GoogleAppsScript.HTML.HtmlOutput {
   return {
     addMetaTag: jest.fn<

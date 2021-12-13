@@ -4,6 +4,10 @@ import { moveFile_ } from "../../../src/backend/move/moveFile";
 
 import { ErrorLogger_ } from "../../../src/backend/utils/ErrorLogger";
 import * as copyFileComments from "../../../src/backend/move/copyFileComments";
+import {
+  mockedDrive,
+  mockedFilesCollection,
+} from "../../test-utils/mocked-gas";
 
 jest.mock("../../../src/backend/utils/ErrorLogger");
 jest.mock("../../../src/backend/move/copyFileComments");
@@ -27,7 +31,9 @@ test("moveFile works correctly with a file that can be moved directly", () => {
     >()
     .mockReturnValueOnce({});
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       update,
     },
   };
@@ -89,7 +95,9 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
       throw new Error();
     });
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       copy,
       update,
     },
@@ -140,7 +148,9 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
     >()
     .mockReturnValueOnce({});
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       copy,
     },
   };
@@ -187,7 +197,9 @@ test("moveFile works correctly with a file that can be moved directly with comme
     >()
     .mockReturnValueOnce({});
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       update,
     },
   };
@@ -231,7 +243,9 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
     >()
     .mockReturnValueOnce({ id: "DEST_FILE_ID" });
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       copy,
     },
   };
@@ -304,7 +318,9 @@ test("moveFile fails gracefully on error", () => {
       throw new Error("ERROR_MESAGE");
     });
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       copy,
       update,
     },
