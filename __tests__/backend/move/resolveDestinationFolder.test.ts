@@ -1,6 +1,9 @@
 import { mocked } from "jest-mock";
 
-import { mockedDrive, mockedFilesCollection } from "../../test-utils/mocked-gas";
+import {
+  mockedDrive,
+  mockedFilesCollection,
+} from "../../test-utils/mocked-gas";
 
 import { resolveDestinationFolder_ } from "../../../src/backend/move/resolveDestinationFolder";
 
