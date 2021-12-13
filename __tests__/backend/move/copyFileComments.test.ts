@@ -1,4 +1,9 @@
 import { copyFileComments_ } from "../../../src/backend/move/copyFileComments";
+import {
+  mockedCommentsCollection,
+  mockedDrive,
+  mockedRepliesCollection,
+} from "../../test-utils/mocked-gas";
 
 test("copyFileComments works correctly", () => {
   interface ListCommentsOptions {
@@ -27,7 +32,7 @@ test("copyFileComments works correctly", () => {
   const list = jest
     .fn<
       GoogleAppsScript.Drive.Schema.CommentList,
-      [fileId: string, optionalArgs: ListCommentsOptions]
+      [fileId: string, optionalArgs?: ListCommentsOptions]
     >()
     .mockReturnValueOnce(rawResponse);
   const insert = jest
@@ -42,7 +47,9 @@ test("copyFileComments works correctly", () => {
       commentId: "DEST_COM2_ID",
     });
   global.Drive = {
+    ...mockedDrive(),
     Comments: {
+      ...mockedCommentsCollection(),
       list,
       insert,
     },
@@ -95,7 +102,7 @@ test("copyFileComments works correctly with replies", () => {
   const list = jest
     .fn<
       GoogleAppsScript.Drive.Schema.CommentList,
-      [fileId: string, optionalArgs: ListCommentsOptions]
+      [fileId: string, optionalArgs?: ListCommentsOptions]
     >()
     .mockReturnValueOnce(rawResponse);
   const insertComment = jest
@@ -117,11 +124,14 @@ test("copyFileComments works correctly with replies", () => {
     >()
     .mockReturnValueOnce({});
   global.Drive = {
+    ...mockedDrive(),
     Comments: {
+      ...mockedCommentsCollection(),
       list,
       insert: insertComment,
     },
     Replies: {
+      ...mockedRepliesCollection(),
       insert: insertReply,
     },
   };

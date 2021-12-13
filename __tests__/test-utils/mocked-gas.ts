@@ -1,3 +1,37 @@
+export function mockedCommentsCollection(): GoogleAppsScript.Drive.Collection.CommentsCollection {
+  return {
+    get: jest.fn<
+      GoogleAppsScript.Drive.Schema.Comment,
+      [fileId: string, commentId: string]
+    >(),
+    insert: jest.fn<
+      GoogleAppsScript.Drive.Schema.Comment,
+      [resource: GoogleAppsScript.Drive.Schema.Comment, fileId: string]
+    >(),
+    list: jest.fn<
+      GoogleAppsScript.Drive.Schema.CommentList,
+      [fileId: string]
+    >(),
+    patch: jest.fn<
+      GoogleAppsScript.Drive.Schema.Comment,
+      [
+        resource: GoogleAppsScript.Drive.Schema.Comment,
+        fileId: string,
+        commentId: string
+      ]
+    >(),
+    remove: jest.fn<void, [fileId: string, commentId: string]>(), // eslint-disable-line @typescript-eslint/no-invalid-void-type
+    update: jest.fn<
+      GoogleAppsScript.Drive.Schema.Comment,
+      [
+        resource: GoogleAppsScript.Drive.Schema.Comment,
+        fileId: string,
+        commentId: string
+      ]
+    >(),
+  };
+}
+
 export function mockedDrive(): GoogleAppsScript.Drive {
   return {
     newChannel: jest.fn<GoogleAppsScript.Drive.Schema.Channel, []>(),
@@ -188,5 +222,48 @@ export function mockedHtmlTemplate(): GoogleAppsScript.HTML.HtmlTemplate {
     getCode: jest.fn<string, []>(),
     getCodeWithComments: jest.fn<string, []>(),
     getRawContent: jest.fn<string, []>(),
+  };
+}
+
+export function mockedRepliesCollection(): GoogleAppsScript.Drive.Collection.RepliesCollection {
+  return {
+    get: jest.fn<
+      GoogleAppsScript.Drive.Schema.CommentReply,
+      [fileId: string, commentId: string, replyId: string]
+    >(),
+    insert: jest.fn<
+      GoogleAppsScript.Drive.Schema.CommentReply,
+      [
+        resource: GoogleAppsScript.Drive.Schema.CommentReply,
+        fileId: string,
+        commentId: string
+      ]
+    >(),
+    list: jest.fn<
+      GoogleAppsScript.Drive.Schema.CommentReplyList,
+      [fileId: string, commentId: string]
+    >(),
+    patch: jest.fn<
+      GoogleAppsScript.Drive.Schema.CommentReply,
+      [
+        resource: GoogleAppsScript.Drive.Schema.CommentReply,
+        fileId: string,
+        commentId: string,
+        replyId: string
+      ]
+    >(),
+    remove: jest.fn<
+      void, // eslint-disable-line @typescript-eslint/no-invalid-void-type
+      [fileId: string, commentId: string, replyId: string]
+    >(),
+    update: jest.fn<
+      GoogleAppsScript.Drive.Schema.CommentReply,
+      [
+        resource: GoogleAppsScript.Drive.Schema.CommentReply,
+        fileId: string,
+        commentId: string,
+        replyId: string
+      ]
+    >(),
   };
 }
