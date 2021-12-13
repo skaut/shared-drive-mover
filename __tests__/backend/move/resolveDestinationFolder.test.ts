@@ -265,7 +265,8 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
     { id: "DEST_PARENT_ID" },
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
-  expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
+  expect(insert.mock.calls[0][2]).not.toBeUndefined();
+  expect(insert.mock.calls[0][2]!.supportsAllDrives).toBe(true);
   expect(mocked(logger).log.mock.calls).toHaveLength(1);
   expect(mocked(logger).log.mock.calls[0][0]).toStrictEqual([
     "PATH",

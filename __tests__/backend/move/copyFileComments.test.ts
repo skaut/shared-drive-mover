@@ -59,9 +59,10 @@ test("copyFileComments works correctly", () => {
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("SRC_FILE_ID");
-  expect(list.mock.calls[0][1].pageToken).toBeUndefined();
+  expect(list.mock.calls[0][1]).not.toBeUndefined();
+  expect(list.mock.calls[0][1]!.pageToken).toBe(undefined);
   expect(
-    list.mock.calls[0][1].fields!.split(",").map((s) => s.trim())
+    list.mock.calls[0][1]!.fields!.split(",").map((s) => s.trim())
   ).toContain("nextPageToken");
   expect(insert.mock.calls).toHaveLength(2);
   expect(insert.mock.calls[0][0].content).toBe("*COM1_AUTH:*\nCOM1_CONTENT");
@@ -140,9 +141,10 @@ test("copyFileComments works correctly with replies", () => {
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("SRC_FILE_ID");
-  expect(list.mock.calls[0][1].pageToken).toBeUndefined();
+  expect(list.mock.calls[0][1]).not.toBeUndefined();
+  expect(list.mock.calls[0][1]!.pageToken).toBe(undefined);
   expect(
-    list.mock.calls[0][1].fields!.split(",").map((s) => s.trim())
+    list.mock.calls[0][1]!.fields!.split(",").map((s) => s.trim())
   ).toContain("nextPageToken");
   expect(insertComment.mock.calls).toHaveLength(1);
   expect(insertComment.mock.calls[0][0].content).toBe("COM_CONTENT");
