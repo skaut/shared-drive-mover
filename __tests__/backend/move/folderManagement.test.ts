@@ -1,4 +1,9 @@
 import {
+  mockedDrive,
+  mockedFilesCollection,
+} from "../../test-utils/mocked-gas";
+
+import {
   deleteFolderIfEmpty_,
   isFolderEmpty_,
   listFilesInFolder_,
@@ -38,7 +43,9 @@ test("listFilesInFolder works correctly", () => {
     >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       list,
     },
   };
@@ -91,7 +98,9 @@ test("listFoldersInFolder works correctly", () => {
     >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       list,
     },
   };
@@ -130,7 +139,9 @@ test("isFolderEmpty works correctly with an empty folder", () => {
     >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       list,
     },
   };
@@ -161,7 +172,9 @@ test("isFolderEmpty works correctly with a non-empty folder", () => {
     >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       list,
     },
   };
@@ -179,7 +192,7 @@ test.each(["owner", "organizer"] as Array<
   "deleteFolderIfEmpty works correctly",
   (role: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer") => {
     interface GetFileOptions {
-      fields: string;
+      fields?: string;
     }
     interface ListFilesOptions {
       q?: string;
@@ -211,7 +224,9 @@ test.each(["owner", "organizer"] as Array<
       .mockReturnValueOnce(listResponse);
     const remove = jest.fn<void, [fileId: string]>().mockReturnValueOnce(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
     global.Drive = {
+      ...mockedDrive(),
       Files: {
+        ...mockedFilesCollection(),
         get,
         list,
         remove,
@@ -234,7 +249,7 @@ test.each(["owner", "organizer"] as Array<
 
 test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
   interface GetFileOptions {
-    fields: string;
+    fields?: string;
   }
   interface ListFilesOptions {
     q?: string;
@@ -261,7 +276,9 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
     .mockReturnValueOnce(listResponse);
   const remove = jest.fn<void, [fileId: string]>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       get,
       list,
       remove,
@@ -284,7 +301,7 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
   "deleteFolderIfEmpty doesn't try to delete a folder without permissions",
   (role: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer") => {
     interface GetFileOptions {
-      fields: string;
+      fields?: string;
     }
     interface ListFilesOptions {
       q?: string;
@@ -316,7 +333,9 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
       .mockReturnValueOnce(listResponse);
     const remove = jest.fn<void, [fileId: string]>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
     global.Drive = {
+      ...mockedDrive(),
       Files: {
+        ...mockedFilesCollection(),
         get,
         list,
         remove,
