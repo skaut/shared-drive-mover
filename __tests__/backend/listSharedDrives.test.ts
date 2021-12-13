@@ -1,3 +1,5 @@
+import { mockedDrive, mockedDrivesCollection } from "../test-utils/mocked-gas";
+
 import { listSharedDrives } from "../../src/backend/listSharedDrives";
 
 test("listSharedDrives works correctly", () => {
@@ -19,20 +21,23 @@ test("listSharedDrives works correctly", () => {
   const list = jest
     .fn<
       GoogleAppsScript.Drive.Schema.DriveList,
-      [optionalArgs: ListDrivesOptions]
+      [optionalArgs?: ListDrivesOptions]
     >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
+    ...mockedDrive(),
     Drives: {
+      ...mockedDrivesCollection(),
       list,
     },
   };
 
   expect(listSharedDrives()).toStrictEqual(response);
   expect(list.mock.calls).toHaveLength(1);
-  expect(list.mock.calls[0][0].pageToken).toBeUndefined();
-  expect(list.mock.calls[0][0].orderBy).toBe("name");
+  expect(list.mock.calls[0][0]).not.toBeUndefined();
+  expect(list.mock.calls[0][0]!.pageToken).toBe(undefined);
+  expect(list.mock.calls[0][0]!.orderBy).toBe("name");
   expect(
-    list.mock.calls[0][0].fields!.split(",").map((s) => s.trim())
+    list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim())
   ).toContain("nextPageToken");
 });

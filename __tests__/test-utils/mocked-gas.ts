@@ -117,6 +117,24 @@ export function mockedDrive(): GoogleAppsScript.Drive {
   };
 }
 
+export function mockedDrivesCollection(): GoogleAppsScript.Drive.Collection.DrivesCollection {
+  return {
+    get: jest.fn<GoogleAppsScript.Drive.Schema.Drive, [driveId: string]>(),
+    hide: jest.fn<GoogleAppsScript.Drive.Schema.Drive, [driveId: string]>(),
+    insert: jest.fn<
+      GoogleAppsScript.Drive.Schema.Drive,
+      [resource: GoogleAppsScript.Drive.Schema.Drive, requestId: string]
+    >(),
+    list: jest.fn<GoogleAppsScript.Drive.Schema.DriveList, []>(),
+    remove: jest.fn<void, [driveId: string]>(), // eslint-disable-line @typescript-eslint/no-invalid-void-type
+    unhide: jest.fn<GoogleAppsScript.Drive.Schema.Drive, [driveId: string]>(),
+    update: jest.fn<
+      GoogleAppsScript.Drive.Schema.Drive,
+      [resource: GoogleAppsScript.Drive.Schema.Drive, driveId: string]
+    >(),
+  };
+}
+
 export function mockedFilesCollection(): GoogleAppsScript.Drive.Collection.FilesCollection {
   return {
     copy: jest.fn<
