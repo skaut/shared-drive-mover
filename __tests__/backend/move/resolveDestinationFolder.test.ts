@@ -1,5 +1,7 @@
 import { mocked } from "jest-mock";
 
+import { mockedDrive, mockedFilesCollection } from "../../test-utils/mocked-gas";
+
 import { resolveDestinationFolder_ } from "../../../src/backend/move/resolveDestinationFolder";
 
 import { ErrorLogger_ } from "../../../src/backend/utils/ErrorLogger";
@@ -11,7 +13,7 @@ jest.mock("../../../src/backend/move/folderManagement");
 test("resolveDestinationFolder corretly creates new folder", () => {
   interface InsertFileOptions {
     supportsAllDrives?: boolean;
-    fields: string;
+    fields?: string;
   }
 
   const insert = jest
@@ -28,7 +30,9 @@ test("resolveDestinationFolder corretly creates new folder", () => {
       title: "FOLDER_NAME",
     });
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       insert,
     },
   };
@@ -52,14 +56,14 @@ test("resolveDestinationFolder corretly creates new folder", () => {
     { id: "DEST_PARENT_ID" },
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
-  expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
+  expect(insert.mock.calls[0][2]!.supportsAllDrives).toBe(true);
   expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("resolveDestinationFolder corretly creates new folder when set not to merge folders, even when a folder with the same name exists", () => {
   interface InsertFileOptions {
     supportsAllDrives?: boolean;
-    fields: string;
+    fields?: string;
   }
 
   const insert = jest
@@ -76,7 +80,9 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
       title: "FOLDER_NAME",
     });
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       insert,
     },
   };
@@ -104,14 +110,14 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
     { id: "DEST_PARENT_ID" },
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
-  expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
+  expect(insert.mock.calls[0][2]!.supportsAllDrives).toBe(true);
   expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("resolveDestinationFolder corretly creates new folder when set to merge folders, but there is no existing folder the same name", () => {
   interface InsertFileOptions {
     supportsAllDrives?: boolean;
-    fields: string;
+    fields?: string;
   }
 
   const insert = jest
@@ -128,7 +134,9 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
       title: "FOLDER_NAME",
     });
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       insert,
     },
   };
@@ -154,14 +162,14 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
     { id: "DEST_PARENT_ID" },
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
-  expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
+  expect(insert.mock.calls[0][2]!.supportsAllDrives).toBe(true);
   expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("resolveDestinationFolder corretly uses an existing folder when set to merge folders", () => {
   interface InsertFileOptions {
     supportsAllDrives?: boolean;
-    fields: string;
+    fields?: string;
   }
 
   const insert = jest.fn<
@@ -173,7 +181,9 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
     ]
   >();
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       insert,
     },
   };
@@ -202,7 +212,7 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
 test("resolveDestinationFolder fails gracefully on multiple existing folders with the same name", () => {
   interface InsertFileOptions {
     supportsAllDrives?: boolean;
-    fields: string;
+    fields?: string;
   }
 
   const insert = jest
@@ -219,7 +229,9 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
       title: "FOLDER_NAME",
     });
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       insert,
     },
   };
