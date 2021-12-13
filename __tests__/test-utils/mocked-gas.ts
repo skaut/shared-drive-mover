@@ -267,3 +267,15 @@ export function mockedRepliesCollection(): GoogleAppsScript.Drive.Collection.Rep
     >(),
   };
 }
+
+export function mockedSession(): GoogleAppsScript.Base.Session {
+  return {
+    getActiveUser: jest.fn<GoogleAppsScript.Base.User, []>(),
+    getActiveUserLocale: jest.fn<string, []>(),
+    getEffectiveUser: jest.fn<GoogleAppsScript.Base.User, []>(),
+    getScriptTimeZone: jest.fn<string, []>(),
+    getTemporaryActiveUserKey: jest.fn<string, []>(),
+    getTimeZone: jest.fn<string, []>(),
+    getUser: jest.fn<GoogleAppsScript.Base.User, []>(),
+  };
+}

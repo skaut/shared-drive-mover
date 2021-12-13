@@ -1,4 +1,9 @@
 import { listFolders } from "../../src/backend/listFolders";
+import {
+  mockedDrive,
+  mockedFilesCollection,
+  mockedSession,
+} from "../test-utils/mocked-gas";
 
 test("listFolders works correctly", () => {
   interface ListFilesOptions {
@@ -20,16 +25,19 @@ test("listFolders works correctly", () => {
   const list = jest
     .fn<
       GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs: ListFilesOptions]
+      [optionalArgs?: ListFilesOptions]
     >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       list,
     },
   };
 
   global.Session = {
+    ...mockedSession(),
     getActiveUserLocale: jest.fn<string, []>().mockReturnValueOnce("en"),
   };
 
@@ -74,16 +82,19 @@ test("listFolders works correctly with shortcuts", () => {
   const list = jest
     .fn<
       GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs: ListFilesOptions]
+      [optionalArgs?: ListFilesOptions]
     >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       list,
     },
   };
 
   global.Session = {
+    ...mockedSession(),
     getActiveUserLocale: jest.fn<string, []>().mockReturnValueOnce("en"),
   };
 
