@@ -19,8 +19,8 @@ test("resolveDestinationFolder corretly creates new folder", () => {
       GoogleAppsScript.Drive.Schema.File,
       [
         resource: GoogleAppsScript.Drive.Schema.File,
-        mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs: InsertFileOptions
+        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        optionalArgs?: InsertFileOptions
       ]
     >()
     .mockReturnValueOnce({
@@ -67,8 +67,8 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
       GoogleAppsScript.Drive.Schema.File,
       [
         resource: GoogleAppsScript.Drive.Schema.File,
-        mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs: InsertFileOptions
+        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        optionalArgs?: InsertFileOptions
       ]
     >()
     .mockReturnValueOnce({
@@ -119,8 +119,8 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
       GoogleAppsScript.Drive.Schema.File,
       [
         resource: GoogleAppsScript.Drive.Schema.File,
-        mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs: InsertFileOptions
+        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        optionalArgs?: InsertFileOptions
       ]
     >()
     .mockReturnValueOnce({
@@ -168,8 +168,8 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
     GoogleAppsScript.Drive.Schema.File,
     [
       resource: GoogleAppsScript.Drive.Schema.File,
-      mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-      optionalArgs: InsertFileOptions
+      mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+      optionalArgs?: InsertFileOptions
     ]
   >();
   global.Drive = {
@@ -210,8 +210,8 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
       GoogleAppsScript.Drive.Schema.File,
       [
         resource: GoogleAppsScript.Drive.Schema.File,
-        mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs: InsertFileOptions
+        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        optionalArgs?: InsertFileOptions
       ]
     >()
     .mockReturnValueOnce({
