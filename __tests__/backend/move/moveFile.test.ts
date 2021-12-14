@@ -46,12 +46,12 @@ test("moveFile works correctly with a file that can be moved directly", () => {
     logger
   );
 
-  expect(update.mock.calls.length).toBe(1);
+  expect(update.mock.calls).toHaveLength(1);
   expect(update.mock.calls[0][1]).toContain("SRC_FILE_ID");
   expect(update.mock.calls[0][3].addParents).toContain("DEST_PARENT_ID");
   expect(update.mock.calls[0][3].removeParents).toContain("SRC_PARENT_ID");
   expect(update.mock.calls[0][3].supportsAllDrives).toBe(true);
-  expect(mocked(logger).log.mock.calls.length).toBe(0);
+  expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("moveFile works correctly with a file that can be moved out of drive, yet cannot be moved directly", () => {
@@ -109,18 +109,18 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
     logger
   );
 
-  expect(update.mock.calls.length).toBe(1);
+  expect(update.mock.calls).toHaveLength(1);
   expect(update.mock.calls[0][1]).toContain("SRC_FILE_ID");
   expect(update.mock.calls[0][3].addParents).toContain("DEST_PARENT_ID");
   expect(update.mock.calls[0][3].removeParents).toContain("SRC_PARENT_ID");
   expect(update.mock.calls[0][3].supportsAllDrives).toBe(true);
-  expect(copy.mock.calls.length).toBe(1);
-  expect(copy.mock.calls[0][0].parents!.length).toBe(1);
+  expect(copy.mock.calls).toHaveLength(1);
+  expect(copy.mock.calls[0][0].parents!).toHaveLength(1);
   expect(copy.mock.calls[0][0].parents![0].id).toBe("DEST_PARENT_ID");
   expect(copy.mock.calls[0][0].title).toBe("FILE_NAME");
   expect(copy.mock.calls[0][1]).toBe("SRC_FILE_ID");
   expect(copy.mock.calls[0][2].supportsAllDrives).toBe(true);
-  expect(mocked(logger).log.mock.calls.length).toBe(0);
+  expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("moveFile works correctly with a file that cannot be moved out of drive", () => {
@@ -159,13 +159,13 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
     logger
   );
 
-  expect(copy.mock.calls.length).toBe(1);
-  expect(copy.mock.calls[0][0].parents!.length).toBe(1);
+  expect(copy.mock.calls).toHaveLength(1);
+  expect(copy.mock.calls[0][0].parents!).toHaveLength(1);
   expect(copy.mock.calls[0][0].parents![0].id).toBe("DEST_PARENT_ID");
   expect(copy.mock.calls[0][0].title).toBe("FILE_NAME");
   expect(copy.mock.calls[0][1]).toBe("SRC_FILE_ID");
   expect(copy.mock.calls[0][2].supportsAllDrives).toBe(true);
-  expect(mocked(logger).log.mock.calls.length).toBe(0);
+  expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("moveFile works correctly with a file that can be moved directly with comments", () => {
@@ -206,12 +206,12 @@ test("moveFile works correctly with a file that can be moved directly with comme
     logger
   );
 
-  expect(update.mock.calls.length).toBe(1);
+  expect(update.mock.calls).toHaveLength(1);
   expect(update.mock.calls[0][1]).toContain("SRC_FILE_ID");
   expect(update.mock.calls[0][3].addParents).toContain("DEST_PARENT_ID");
   expect(update.mock.calls[0][3].removeParents).toContain("SRC_PARENT_ID");
   expect(update.mock.calls[0][3].supportsAllDrives).toBe(true);
-  expect(mocked(logger).log.mock.calls.length).toBe(0);
+  expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("moveFile works correctly with a file that cannot be moved out of drive with comments", () => {
@@ -251,20 +251,20 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
     logger
   );
 
-  expect(copy.mock.calls.length).toBe(1);
-  expect(copy.mock.calls[0][0].parents!.length).toBe(1);
+  expect(copy.mock.calls).toHaveLength(1);
+  expect(copy.mock.calls[0][0].parents!).toHaveLength(1);
   expect(copy.mock.calls[0][0].parents![0].id).toBe("DEST_PARENT_ID");
   expect(copy.mock.calls[0][0].title).toBe("FILE_NAME");
   expect(copy.mock.calls[0][1]).toBe("SRC_FILE_ID");
   expect(copy.mock.calls[0][2].supportsAllDrives).toBe(true);
-  expect(mocked(copyFileComments).copyFileComments_.mock.calls.length).toBe(1);
+  expect(mocked(copyFileComments).copyFileComments_.mock.calls).toHaveLength(1);
   expect(mocked(copyFileComments).copyFileComments_.mock.calls[0][0]).toBe(
     "SRC_FILE_ID"
   );
   expect(mocked(copyFileComments).copyFileComments_.mock.calls[0][1]).toBe(
     "DEST_FILE_ID"
   );
-  expect(mocked(logger).log.mock.calls.length).toBe(0);
+  expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("moveFile fails gracefully on error", () => {
@@ -323,7 +323,7 @@ test("moveFile fails gracefully on error", () => {
     false,
     logger
   );
-  expect(mocked(logger).log.mock.calls.length).toBe(1);
+  expect(mocked(logger).log.mock.calls).toHaveLength(1);
   expect(mocked(logger).log.mock.calls[0][0]).toStrictEqual([
     "PATH",
     "TO",

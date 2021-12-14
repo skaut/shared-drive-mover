@@ -45,14 +45,14 @@ test("listFilesInFolder works correctly", () => {
 
   expect(listFilesInFolder_("FOLDER_ID")).toStrictEqual(items);
 
-  expect(list.mock.calls.length).toBe(1);
+  expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0].q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[0][0].q).toContain(
     'mimeType != "application/vnd.google-apps.folder"'
   );
   expect(list.mock.calls[0][0].includeItemsFromAllDrives).toBe(true);
   expect(list.mock.calls[0][0].supportsAllDrives).toBe(true);
-  expect(list.mock.calls[0][0].pageToken).toBe(undefined);
+  expect(list.mock.calls[0][0].pageToken).toBeUndefined();
   expect(list.mock.calls[0][0].fields).toContain("id");
   expect(list.mock.calls[0][0].fields).toContain("title");
   expect(list.mock.calls[0][0].fields).toContain("canMoveItemOutOfDrive");
@@ -98,14 +98,14 @@ test("listFoldersInFolder works correctly", () => {
 
   expect(listFoldersInFolder_("FOLDER_ID")).toStrictEqual(items);
 
-  expect(list.mock.calls.length).toBe(1);
+  expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0].q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[0][0].q).toContain(
     'mimeType = "application/vnd.google-apps.folder"'
   );
   expect(list.mock.calls[0][0].includeItemsFromAllDrives).toBe(true);
   expect(list.mock.calls[0][0].supportsAllDrives).toBe(true);
-  expect(list.mock.calls[0][0].pageToken).toBe(undefined);
+  expect(list.mock.calls[0][0].pageToken).toBeUndefined();
   expect(list.mock.calls[0][0].fields).toContain("id");
   expect(list.mock.calls[0][0].fields).toContain("title");
   expect(list.mock.calls[0][0].fields).toContain("canMoveItemOutOfDrive");
@@ -136,7 +136,7 @@ test("isFolderEmpty works correctly with an empty folder", () => {
   };
 
   expect(isFolderEmpty_("ID_FOLDER")).toBe(true);
-  expect(list.mock.calls.length).toBe(1);
+  expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0].q).toContain("ID_FOLDER");
   expect(list.mock.calls[0][0].includeItemsFromAllDrives).toBe(true);
   expect(list.mock.calls[0][0].supportsAllDrives).toBe(true);
@@ -167,7 +167,7 @@ test("isFolderEmpty works correctly with a non-empty folder", () => {
   };
 
   expect(isFolderEmpty_("ID_FOLDER")).toBe(false);
-  expect(list.mock.calls.length).toBe(1);
+  expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0].q).toContain("ID_FOLDER");
   expect(list.mock.calls[0][0].includeItemsFromAllDrives).toBe(true);
   expect(list.mock.calls[0][0].supportsAllDrives).toBe(true);
@@ -220,14 +220,14 @@ test.each(["owner", "organizer"] as Array<
 
     deleteFolderIfEmpty_("FOLDER_ID");
 
-    expect(list.mock.calls.length).toBe(1);
+    expect(list.mock.calls).toHaveLength(1);
     expect(list.mock.calls[0][0].q).toContain('"FOLDER_ID" in parents');
     expect(list.mock.calls[0][0].includeItemsFromAllDrives).toBe(true);
     expect(list.mock.calls[0][0].supportsAllDrives).toBe(true);
-    expect(get.mock.calls.length).toBe(1);
+    expect(get.mock.calls).toHaveLength(1);
     expect(get.mock.calls[0][0]).toBe("FOLDER_ID");
     expect(get.mock.calls[0][1].fields).toContain("role");
-    expect(remove.mock.calls.length).toBe(1);
+    expect(remove.mock.calls).toHaveLength(1);
     expect(remove.mock.calls[0][0]).toBe("FOLDER_ID");
   }
 );
@@ -270,12 +270,12 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
 
   deleteFolderIfEmpty_("FOLDER_ID");
 
-  expect(list.mock.calls.length).toBe(1);
+  expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0].q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[0][0].includeItemsFromAllDrives).toBe(true);
   expect(list.mock.calls[0][0].supportsAllDrives).toBe(true);
-  expect(get.mock.calls.length).toBe(0);
-  expect(remove.mock.calls.length).toBe(0);
+  expect(get.mock.calls).toHaveLength(0);
+  expect(remove.mock.calls).toHaveLength(0);
 });
 
 test.each(["fileOrganizer", "reader", "writer"] as Array<
@@ -325,13 +325,13 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
 
     deleteFolderIfEmpty_("FOLDER_ID");
 
-    expect(list.mock.calls.length).toBe(1);
+    expect(list.mock.calls).toHaveLength(1);
     expect(list.mock.calls[0][0].q).toContain('"FOLDER_ID" in parents');
     expect(list.mock.calls[0][0].includeItemsFromAllDrives).toBe(true);
     expect(list.mock.calls[0][0].supportsAllDrives).toBe(true);
-    expect(get.mock.calls.length).toBe(1);
+    expect(get.mock.calls).toHaveLength(1);
     expect(get.mock.calls[0][0]).toBe("FOLDER_ID");
     expect(get.mock.calls[0][1].fields).toContain("role");
-    expect(remove.mock.calls.length).toBe(0);
+    expect(remove.mock.calls).toHaveLength(0);
   }
 );

@@ -50,18 +50,18 @@ test("copyFileComments works correctly", () => {
 
   copyFileComments_("SRC_FILE_ID", "DEST_FILE_ID");
 
-  expect(list.mock.calls.length).toBe(1);
+  expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("SRC_FILE_ID");
-  expect(list.mock.calls[0][1].pageToken).toBe(undefined);
+  expect(list.mock.calls[0][1].pageToken).toBeUndefined();
   expect(
     list.mock.calls[0][1].fields!.split(",").map((s) => s.trim())
   ).toContain("nextPageToken");
-  expect(insert.mock.calls.length).toBe(2);
+  expect(insert.mock.calls).toHaveLength(2);
   expect(insert.mock.calls[0][0].content).toBe("*COM1_AUTH:*\nCOM1_CONTENT");
-  expect(insert.mock.calls[0][0].replies).toBe(undefined);
+  expect(insert.mock.calls[0][0].replies).toBeUndefined();
   expect(insert.mock.calls[0][1]).toBe("DEST_FILE_ID");
   expect(insert.mock.calls[1][0].content).toBe("COM2_CONTENT");
-  expect(insert.mock.calls[1][0].replies).toBe(undefined);
+  expect(insert.mock.calls[1][0].replies).toBeUndefined();
   expect(insert.mock.calls[1][1]).toBe("DEST_FILE_ID");
 });
 
@@ -128,17 +128,17 @@ test("copyFileComments works correctly with replies", () => {
 
   copyFileComments_("SRC_FILE_ID", "DEST_FILE_ID");
 
-  expect(list.mock.calls.length).toBe(1);
+  expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("SRC_FILE_ID");
-  expect(list.mock.calls[0][1].pageToken).toBe(undefined);
+  expect(list.mock.calls[0][1].pageToken).toBeUndefined();
   expect(
     list.mock.calls[0][1].fields!.split(",").map((s) => s.trim())
   ).toContain("nextPageToken");
-  expect(insertComment.mock.calls.length).toBe(1);
+  expect(insertComment.mock.calls).toHaveLength(1);
   expect(insertComment.mock.calls[0][0].content).toBe("COM_CONTENT");
-  expect(insertComment.mock.calls[0][0].replies).toBe(undefined);
+  expect(insertComment.mock.calls[0][0].replies).toBeUndefined();
   expect(insertComment.mock.calls[0][1]).toBe("DEST_FILE_ID");
-  expect(insertReply.mock.calls.length).toBe(2);
+  expect(insertReply.mock.calls).toHaveLength(2);
   expect(insertReply.mock.calls[0][0].content).toBe(
     "*REPLY1_AUTH:*\nREPLY1_CONTENT"
   );

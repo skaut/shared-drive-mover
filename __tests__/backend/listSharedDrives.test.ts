@@ -29,8 +29,8 @@ test("listSharedDrives works correctly", () => {
   };
 
   expect(listSharedDrives()).toStrictEqual(response);
-  expect(list.mock.calls.length).toBe(1);
-  expect(list.mock.calls[0][0].pageToken).toBe(undefined);
+  expect(list.mock.calls).toHaveLength(1);
+  expect(list.mock.calls[0][0].pageToken).toBeUndefined();
   expect(list.mock.calls[0][0].orderBy).toBe("name");
   expect(
     list.mock.calls[0][0].fields!.split(",").map((s) => s.trim())

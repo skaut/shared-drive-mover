@@ -44,7 +44,7 @@ test("resolveDestinationFolder corretly creates new folder", () => {
     )
   ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
 
-  expect(insert.mock.calls.length).toBe(1);
+  expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
     "application/vnd.google-apps.folder"
   );
@@ -53,7 +53,7 @@ test("resolveDestinationFolder corretly creates new folder", () => {
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
   expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
-  expect(mocked(logger).log.mock.calls.length).toBe(0);
+  expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("resolveDestinationFolder corretly creates new folder when set not to merge folders, even when a folder with the same name exists", () => {
@@ -96,7 +96,7 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
     )
   ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
 
-  expect(insert.mock.calls.length).toBe(1);
+  expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
     "application/vnd.google-apps.folder"
   );
@@ -105,7 +105,7 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
   expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
-  expect(mocked(logger).log.mock.calls.length).toBe(0);
+  expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("resolveDestinationFolder corretly creates new folder when set to merge folders, but there is no existing folder the same name", () => {
@@ -146,7 +146,7 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
     )
   ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
 
-  expect(insert.mock.calls.length).toBe(1);
+  expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
     "application/vnd.google-apps.folder"
   );
@@ -155,7 +155,7 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
   expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
-  expect(mocked(logger).log.mock.calls.length).toBe(0);
+  expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("resolveDestinationFolder corretly uses an existing folder when set to merge folders", () => {
@@ -195,8 +195,8 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
     )
   ).toStrictEqual({ id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" });
 
-  expect(insert.mock.calls.length).toBe(0);
-  expect(mocked(logger).log.mock.calls.length).toBe(0);
+  expect(insert.mock.calls).toHaveLength(0);
+  expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("resolveDestinationFolder fails gracefully on multiple existing folders with the same name", () => {
@@ -245,7 +245,7 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
     title: "FOLDER_NAME",
   });
 
-  expect(insert.mock.calls.length).toBe(1);
+  expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
     "application/vnd.google-apps.folder"
   );
@@ -254,7 +254,7 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
   expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
-  expect(mocked(logger).log.mock.calls.length).toBe(1);
+  expect(mocked(logger).log.mock.calls).toHaveLength(1);
   expect(mocked(logger).log.mock.calls[0][0]).toStrictEqual([
     "PATH",
     "TO",
