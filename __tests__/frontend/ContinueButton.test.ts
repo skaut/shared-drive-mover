@@ -15,3 +15,10 @@ test("ContinueButton works", () => {
   userEvent.click(getByText("continue.buttonLabel"));
   expect(onNext.mock.calls.length).toBe(1);
 });
+
+test("ContinueButton gets disabled when the prop is passed", () => {
+  const { getByText } = render(ContinueButton, {
+    disabled: true,
+  });
+  expect(getByText("continue.buttonLabel").parentElement).toBeDisabled();
+});
