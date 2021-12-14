@@ -11,9 +11,9 @@ test("ContinueButton works", () => {
   const onNext = jest.fn();
   component.$on("next", onNext);
   expect(getByText("continue.buttonLabel")).toBeInTheDocument();
-  expect(onNext.mock.calls.length).toBe(0);
+  expect(onNext.mock.calls).toHaveLength(0);
   userEvent.click(getByText("continue.buttonLabel"));
-  expect(onNext.mock.calls.length).toBe(1);
+  expect(onNext.mock.calls).toHaveLength(1);
 });
 
 test("ContinueButton gets disabled when the prop is passed", () => {

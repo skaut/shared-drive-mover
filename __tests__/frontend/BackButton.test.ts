@@ -9,7 +9,7 @@ test("BackButton works", () => {
   const onPrevious = jest.fn();
   component.$on("previous", onPrevious);
   expect(getByText("back.buttonLabel")).toBeInTheDocument();
-  expect(onPrevious.mock.calls.length).toBe(0);
+  expect(onPrevious.mock.calls).toHaveLength(0);
   userEvent.click(getByText("back.buttonLabel"));
-  expect(onPrevious.mock.calls.length).toBe(1);
+  expect(onPrevious.mock.calls).toHaveLength(1);
 });
