@@ -77,8 +77,8 @@ test("doGet works correctly", () => {
   };
 
   expect(doGet()).toBe(outputWithTitle);
-  expect(createTemplateFromFile.mock.calls.length).toBe(1);
+  expect(createTemplateFromFile.mock.calls).toHaveLength(1);
   expect(createTemplateFromFile.mock.calls[0][0]).toBe("index");
-  expect(setTitle.mock.calls.length).toBe(1);
+  expect(setTitle.mock.calls).toHaveLength(1);
   expect(setTitle.mock.calls[0][0]).toBe("Shared Drive Mover");
 });
