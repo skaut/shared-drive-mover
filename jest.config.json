@@ -20,7 +20,6 @@
       "displayName": "frontend",
       "preset": "ts-jest/presets/default",
       "resetMocks": true,
-      "setupFilesAfterEnv": ["<rootDir>/__tests__/frontend/setup.ts"],
       "testMatch": ["<rootDir>/__tests__/frontend/**/*.test.ts"],
       "transformIgnorePatterns": ["node_modules/(?!(@smui)/)"],
       "testEnvironment": "jsdom",
