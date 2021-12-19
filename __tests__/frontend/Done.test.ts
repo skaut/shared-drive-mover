@@ -12,7 +12,9 @@ test("Done works", () => {
     errors: [],
   });
   expect(screen.getByText("steps.done.introduction")).toBeInTheDocument();
-  expect(screen.queryByText("steps.done.errors.introduction")).toBeNull();
+  expect(
+    screen.queryByText("steps.done.errors.introduction")
+  ).not.toBeInTheDocument();
 });
 
 test("Done shows errors", () => {

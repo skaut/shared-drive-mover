@@ -10,7 +10,13 @@ module.exports = {
     browser: true,
     node: false,
   },
-  plugins: ["svelte3", "@typescript-eslint", "jest", "testing-library"],
+  plugins: [
+    "svelte3",
+    "@typescript-eslint",
+    "jest",
+    "testing-library",
+    "jest-dom",
+  ],
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -122,7 +128,11 @@ module.exports = {
     },
     {
       files: ["__tests__/**/*.test.ts"],
-      extends: ["plugin:jest/recommended", "plugin:jest/style"],
+      extends: [
+        "plugin:jest/recommended",
+        "plugin:jest/style",
+        "plugin:jest-dom/recommended",
+      ],
       rules: {
         "jest/consistent-test-it": ["error", { withinDescribe: "test" }],
         "jest/no-duplicate-hooks": "error",
