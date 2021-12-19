@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/svelte";
+import { render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 
 import Confirmation from "../../src/frontend/Confirmation.svelte";
@@ -9,7 +9,7 @@ jest.mock("svelte-i18n");
 
 test("Confirmation works", () => {
   const svelteI18nRunFn = mockSvelteI18n();
-  const { component, getByText } = render(Confirmation, {
+  const { component } = render(Confirmation, {
     sourcePath: [
       { id: "SRC_PATH_ID_1", name: "SRC_PATH_NAME_1" },
       { id: "SRC_PATH_ID_2", name: "SRC_PATH_NAME_2" },
@@ -26,9 +26,13 @@ test("Confirmation works", () => {
   const onNext = jest.fn();
   component.$on("previous", onPrevious);
   component.$on("next", onNext);
-  expect(getByText("steps.confirmation.introduction")).toBeInTheDocument();
-  expect(getByText("back.buttonLabel")).toBeInTheDocument();
-  expect(getByText("steps.confirmation.buttonLabel")).toBeInTheDocument();
+  expect(
+    screen.getByText("steps.confirmation.introduction")
+  ).toBeInTheDocument();
+  expect(screen.getByText("back.buttonLabel")).toBeInTheDocument();
+  expect(
+    screen.getByText("steps.confirmation.buttonLabel")
+  ).toBeInTheDocument();
   expect(svelteI18nRunFn.mock.calls).toHaveLength(4);
   expect(svelteI18nRunFn.mock.calls[0]).toHaveLength(2);
   expect(svelteI18nRunFn.mock.calls[0][1]!.values!.source).toBe(
@@ -39,10 +43,10 @@ test("Confirmation works", () => {
   );
   expect(onPrevious.mock.calls).toHaveLength(0);
   expect(onNext.mock.calls).toHaveLength(0);
-  userEvent.click(getByText("back.buttonLabel"));
+  userEvent.click(screen.getByText("back.buttonLabel"));
   expect(onPrevious.mock.calls).toHaveLength(1);
   expect(onNext.mock.calls).toHaveLength(0);
-  userEvent.click(getByText("steps.confirmation.buttonLabel"));
+  userEvent.click(screen.getByText("steps.confirmation.buttonLabel"));
   expect(onPrevious.mock.calls).toHaveLength(1);
   expect(onNext.mock.calls).toHaveLength(1);
 });

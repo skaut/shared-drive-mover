@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/svelte";
+import { render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 
 import BackButton from "../../src/frontend/BackButton.svelte";
@@ -9,11 +9,11 @@ jest.mock("svelte-i18n");
 
 test("BackButton works", () => {
   mockSvelteI18n();
-  const { component, getByText } = render(BackButton);
+  const { component } = render(BackButton);
   const onPrevious = jest.fn();
   component.$on("previous", onPrevious);
-  expect(getByText("back.buttonLabel")).toBeInTheDocument();
+  expect(screen.getByText("back.buttonLabel")).toBeInTheDocument();
   expect(onPrevious.mock.calls).toHaveLength(0);
-  userEvent.click(getByText("back.buttonLabel"));
+  userEvent.click(screen.getByText("back.buttonLabel"));
   expect(onPrevious.mock.calls).toHaveLength(1);
 });

@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/svelte";
+import { render, screen } from "@testing-library/svelte";
 
 import Done from "../../src/frontend/Done.svelte";
 import { mockSvelteI18n } from "../test-utils/mock-svelte-i18n";
@@ -8,16 +8,16 @@ jest.mock("svelte-i18n");
 
 test("Done works", () => {
   mockSvelteI18n();
-  const { getByText, queryByText } = render(Done, {
+  render(Done, {
     errors: [],
   });
-  expect(getByText("steps.done.introduction")).toBeInTheDocument();
-  expect(queryByText("steps.done.errors.introduction")).toBeNull();
+  expect(screen.getByText("steps.done.introduction")).toBeInTheDocument();
+  expect(screen.queryByText("steps.done.errors.introduction")).toBeNull();
 });
 
 test("Done shows errors", () => {
   mockSvelteI18n();
-  const { getByText } = render(Done, {
+  render(Done, {
     errors: [
       {
         file: ["PATH", "TO", "FILE1"],
@@ -29,10 +29,12 @@ test("Done shows errors", () => {
       },
     ],
   });
-  expect(getByText("steps.done.introduction")).toBeInTheDocument();
-  expect(getByText("steps.done.errors.introduction")).toBeInTheDocument();
-  expect(getByText("PATH/TO/FILE1")).toBeInTheDocument();
-  expect(getByText("ERROR_MESSAGE1")).toBeInTheDocument();
-  expect(getByText("PATH/TO/FILE2")).toBeInTheDocument();
-  expect(getByText("ERROR_MESSAGE2")).toBeInTheDocument();
+  expect(screen.getByText("steps.done.introduction")).toBeInTheDocument();
+  expect(
+    screen.getByText("steps.done.errors.introduction")
+  ).toBeInTheDocument();
+  expect(screen.getByText("PATH/TO/FILE1")).toBeInTheDocument();
+  expect(screen.getByText("ERROR_MESSAGE1")).toBeInTheDocument();
+  expect(screen.getByText("PATH/TO/FILE2")).toBeInTheDocument();
+  expect(screen.getByText("ERROR_MESSAGE2")).toBeInTheDocument();
 });
