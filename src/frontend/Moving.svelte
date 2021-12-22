@@ -34,5 +34,5 @@
 
   const dispatch = createEventDispatcher();
 
-  let nonEmptyDialogOpen: boolean;
+  let nonEmptyDialogOpen: boolean = false;
 </script>
