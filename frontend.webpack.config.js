@@ -56,6 +56,7 @@ module.exports = {
   },
   output: {
     filename: "[name].js",
+    publicPath: "",
   },
   performance: {
     hints: false,
