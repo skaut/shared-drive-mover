@@ -1,4 +1,9 @@
 import { copyFileComments_ } from "../../../src/backend/move/copyFileComments";
+import {
+  mockedCommentsCollection,
+  mockedDrive,
+  mockedRepliesCollection,
+} from "../../test-utils/gas-stubs";
 
 test("copyFileComments works correctly", () => {
   interface ListCommentsOptions {
@@ -27,7 +32,7 @@ test("copyFileComments works correctly", () => {
   const list = jest
     .fn<
       GoogleAppsScript.Drive.Schema.CommentList,
-      [fileId: string, optionalArgs: ListCommentsOptions]
+      [fileId: string, optionalArgs?: ListCommentsOptions]
     >()
     .mockReturnValueOnce(rawResponse);
   const insert = jest
@@ -42,7 +47,9 @@ test("copyFileComments works correctly", () => {
       commentId: "DEST_COM2_ID",
     });
   global.Drive = {
+    ...mockedDrive(),
     Comments: {
+      ...mockedCommentsCollection(),
       list,
       insert,
     },
@@ -52,9 +59,10 @@ test("copyFileComments works correctly", () => {
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("SRC_FILE_ID");
-  expect(list.mock.calls[0][1].pageToken).toBeUndefined();
+  expect(list.mock.calls[0][1]).toBeDefined();
+  expect(list.mock.calls[0][1]!.pageToken).toBeUndefined();
   expect(
-    list.mock.calls[0][1].fields!.split(",").map((s) => s.trim())
+    list.mock.calls[0][1]!.fields!.split(",").map((s) => s.trim())
   ).toContain("nextPageToken");
   expect(insert.mock.calls).toHaveLength(2);
   expect(insert.mock.calls[0][0].content).toBe("*COM1_AUTH:*\nCOM1_CONTENT");
@@ -95,7 +103,7 @@ test("copyFileComments works correctly with replies", () => {
   const list = jest
     .fn<
       GoogleAppsScript.Drive.Schema.CommentList,
-      [fileId: string, optionalArgs: ListCommentsOptions]
+      [fileId: string, optionalArgs?: ListCommentsOptions]
     >()
     .mockReturnValueOnce(rawResponse);
   const insertComment = jest
@@ -117,11 +125,14 @@ test("copyFileComments works correctly with replies", () => {
     >()
     .mockReturnValueOnce({});
   global.Drive = {
+    ...mockedDrive(),
     Comments: {
+      ...mockedCommentsCollection(),
       list,
       insert: insertComment,
     },
     Replies: {
+      ...mockedRepliesCollection(),
       insert: insertReply,
     },
   };
@@ -130,9 +141,10 @@ test("copyFileComments works correctly with replies", () => {
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("SRC_FILE_ID");
-  expect(list.mock.calls[0][1].pageToken).toBeUndefined();
+  expect(list.mock.calls[0][1]).toBeDefined();
+  expect(list.mock.calls[0][1]!.pageToken).toBeUndefined();
   expect(
-    list.mock.calls[0][1].fields!.split(",").map((s) => s.trim())
+    list.mock.calls[0][1]!.fields!.split(",").map((s) => s.trim())
   ).toContain("nextPageToken");
   expect(insertComment.mock.calls).toHaveLength(1);
   expect(insertComment.mock.calls[0][0].content).toBe("COM_CONTENT");
