@@ -79,6 +79,7 @@ module.exports = {
         "gulpfile.js",
         "backend.webpack.config.js",
         "frontend.webpack.config.js",
+        "test.frontend.webpack.config.js",
         ".eslintrc.js",
       ],
       rules: {
@@ -119,7 +120,7 @@ module.exports = {
       },
     },
     {
-      files: ["__tests__/**/*.test.ts"],
+      files: ["__tests__/backend/**/*.test.ts"],
       extends: ["plugin:jest/recommended", "plugin:jest/style"],
       rules: {
         "jest/consistent-test-it": ["error", { withinDescribe: "test" }],
