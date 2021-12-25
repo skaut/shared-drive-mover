@@ -56,6 +56,7 @@ test("resolveDestinationFolder corretly creates new folder", () => {
     { id: "DEST_PARENT_ID" },
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
+  expect(insert.mock.calls[0][2]).toBeDefined();
   expect(insert.mock.calls[0][2]!.supportsAllDrives).toBe(true);
   expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
@@ -110,6 +111,7 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
     { id: "DEST_PARENT_ID" },
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
+  expect(insert.mock.calls[0][2]).toBeDefined();
   expect(insert.mock.calls[0][2]!.supportsAllDrives).toBe(true);
   expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
@@ -162,6 +164,7 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
     { id: "DEST_PARENT_ID" },
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
+  expect(insert.mock.calls[0][2]).toBeDefined();
   expect(insert.mock.calls[0][2]!.supportsAllDrives).toBe(true);
   expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
