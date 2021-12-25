@@ -7,7 +7,7 @@ import * as copyFileComments from "../../../src/backend/move/copyFileComments";
 import {
   mockedDrive,
   mockedFilesCollection,
-} from "../../test-utils/mocked-gas";
+} from "../../test-utils/gas-stubs";
 
 jest.mock("../../../src/backend/utils/ErrorLogger");
 jest.mock("../../../src/backend/move/copyFileComments");

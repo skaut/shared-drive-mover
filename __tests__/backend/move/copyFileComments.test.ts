@@ -3,7 +3,7 @@ import {
   mockedCommentsCollection,
   mockedDrive,
   mockedRepliesCollection,
-} from "../../test-utils/mocked-gas";
+} from "../../test-utils/gas-stubs";
 
 test("copyFileComments works correctly", () => {
   interface ListCommentsOptions {

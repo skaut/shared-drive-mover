@@ -2,7 +2,7 @@ import {
   mockedHtmlOutput,
   mockedHtmlService,
   mockedHtmlTemplate,
-} from "../test-utils/mocked-gas";
+} from "../test-utils/gas-stubs";
 
 import { doGet } from "../../src/backend/doGet";
 

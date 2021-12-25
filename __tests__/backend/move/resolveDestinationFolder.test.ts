@@ -3,7 +3,7 @@ import { mocked } from "jest-mock";
 import {
   mockedDrive,
   mockedFilesCollection,
-} from "../../test-utils/mocked-gas";
+} from "../../test-utils/gas-stubs";
 
 import { resolveDestinationFolder_ } from "../../../src/backend/move/resolveDestinationFolder";
 

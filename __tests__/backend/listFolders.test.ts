@@ -3,7 +3,7 @@ import {
   mockedDrive,
   mockedFilesCollection,
   mockedSession,
-} from "../test-utils/mocked-gas";
+} from "../test-utils/gas-stubs";
 
 test("listFolders works correctly", () => {
   interface ListFilesOptions {

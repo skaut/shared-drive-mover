@@ -1,7 +1,7 @@
 import {
   mockedDrive,
   mockedFilesCollection,
-} from "../../test-utils/mocked-gas";
+} from "../../test-utils/gas-stubs";
 
 import {
   deleteFolderIfEmpty_,

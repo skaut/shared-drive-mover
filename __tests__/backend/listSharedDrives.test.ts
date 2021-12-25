@@ -1,4 +1,4 @@
-import { mockedDrive, mockedDrivesCollection } from "../test-utils/mocked-gas";
+import { mockedDrive, mockedDrivesCollection } from "../test-utils/gas-stubs";
 
 import { listSharedDrives } from "../../src/backend/listSharedDrives";
 
