@@ -4,10 +4,7 @@ import { moveFile_ } from "../../../src/backend/move/moveFile";
 
 import { ErrorLogger_ } from "../../../src/backend/utils/ErrorLogger";
 import * as copyFileComments from "../../../src/backend/move/copyFileComments";
-import {
-  mockedDrive,
-  mockedFilesCollection,
-} from "../../test-utils/gas-stubs";
+import { mockedDrive, mockedFilesCollection } from "../../test-utils/gas-stubs";
 
 jest.mock("../../../src/backend/utils/ErrorLogger");
 jest.mock("../../../src/backend/move/copyFileComments");
