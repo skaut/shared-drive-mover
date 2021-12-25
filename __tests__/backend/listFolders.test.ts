@@ -46,7 +46,7 @@ test("listFolders works correctly", () => {
     { id: "ID2", name: "FOLDER2" },
   ]);
   expect(list.mock.calls).toHaveLength(1);
-  expect(list.mock.calls[0][0]).not.toBeUndefined();
+  expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain("ID_PARENT");
   expect(list.mock.calls[0][0]!.includeItemsFromAllDrives).toBe(true);
   expect(list.mock.calls[0][0]!.supportsAllDrives).toBe(true);
@@ -104,11 +104,11 @@ test("listFolders works correctly with shortcuts", () => {
     { id: "ID2", name: "FOLDER2" },
   ]);
   expect(list.mock.calls).toHaveLength(1);
-  expect(list.mock.calls[0][0]).not.toBeUndefined();
+  expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain("ID_PARENT");
   expect(list.mock.calls[0][0]!.includeItemsFromAllDrives).toBe(true);
   expect(list.mock.calls[0][0]!.supportsAllDrives).toBe(true);
-  expect(list.mock.calls[0][0]!.pageToken).toBe(undefined);
+  expect(list.mock.calls[0][0]!.pageToken).toBeUndefined();
   expect(
     list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim())
   ).toContain("nextPageToken");
