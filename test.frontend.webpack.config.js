@@ -10,16 +10,9 @@ module.exports = merge(
         {
           test: /\.(ts|svelte)$/,
           use: {
-            loader: "babel-loader",
+            loader: "coverage-istanbul-loader",
             options: {
-              plugins: [
-                [
-                  "istanbul",
-                  {
-                    extension: [".svelte", ".js", ".ts"],
-                  },
-                ],
-              ],
+              extension: [".svelte", ".js", ".ts"],
             },
           },
         },
