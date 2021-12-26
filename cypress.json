@@ -1,3 +1,4 @@
 {
-  "integrationFolder": "__tests__/frontend"
+  "integrationFolder": "__tests__/frontend",
+  "video": false
 }
