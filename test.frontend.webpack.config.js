@@ -8,7 +8,7 @@ module.exports = merge(
     module: {
       rules: [
         {
-          test: /\.(ts|svelte)$/,
+          test: /src\/frontend\/.*\.(ts|svelte)$/,
           use: {
             loader: "coverage-istanbul-loader",
             options: {
