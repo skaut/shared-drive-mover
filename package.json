@@ -67,14 +67,14 @@
     "build": "gulp build",
     "start": "webpack serve -c test.frontend.webpack.config.js --no-client-overlay",
     "lint:svelte:svelte-check": "svelte-check",
-    "lint:svelte": "run-s -c lint:svelte:*",
+    "lint:svelte": "run-p -c lint:svelte:*",
     "lint:ts:eslint": "eslint \"src/**/*.svelte\" \"src/**/*.ts\" \"__tests__/**/*.ts\" gulpfile.js backend.webpack.config.js frontend.webpack.config.js test.frontend.webpack.config.js .eslintrc.js",
-    "lint:ts": "run-s -c lint:ts:*",
-    "lint": "run-s -c lint:*",
+    "lint:ts": "run-p -c lint:ts:*",
+    "lint": "run-p -c lint:*",
     "test:backend": "jest",
     "test:frontend:e2e:cypress": "cypress run",
     "test:frontend:e2e": "start-server-and-test start http-get://localhost:8080 test:frontend:e2e:cypress",
-    "test:frontend": "run-s -c test:frontend:*",
-    "test": "run-s -c test:*"
+    "test:frontend": "run-p -c test:frontend:*",
+    "test": "run-p -c test:*"
   }
 }
