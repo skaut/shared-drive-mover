@@ -1,0 +1,10 @@
+{
+  "extends": "../frontend.tsconfig.json",
+  "compilerOptions": {
+    "types": ["cypress"]
+  },
+  "exclude": [],
+  "include": [
+    "../__tests__/frontend/**/*"
+  ]
+}

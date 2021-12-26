@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 Cypress.on("window:before:load", (win) => {
   function endpoints(
     successHandler: (
