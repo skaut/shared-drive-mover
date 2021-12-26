@@ -10,7 +10,7 @@ module.exports = {
     browser: true,
     node: false,
   },
-  plugins: ["svelte3", "@typescript-eslint", "jest"],
+  plugins: ["svelte3", "@typescript-eslint", "jest", "cypress"],
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -139,6 +139,15 @@ module.exports = {
         "jest/require-hook": "error",
         "jest/require-to-throw-message": "error",
         "jest/unbound-method": "error",
+      },
+    },
+    {
+      files: ["__tests__/frontend/**/*.test.ts"],
+      extends: ["plugin:cypress/recommended"],
+      rules: {
+        "cypress/no-force": "error",
+        "cypress/assertion-before-screenshot": "error",
+        "cypress/no-pause": "error",
       },
     },
   ],
