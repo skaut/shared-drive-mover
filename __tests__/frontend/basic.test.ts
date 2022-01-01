@@ -1,6 +1,6 @@
 import { stubEndpoints } from "../test-utils/stubEndpoints";
 
-stubEndpoints({
+const stubs = stubEndpoints({
   listFolders: (successHandler) => {
     successHandler([]);
   },
@@ -25,5 +25,13 @@ it("works with basic configuration", () => {
   cy.contains("Move").click();
   cy.contains("is moving");
   cy.contains("Done!");
-  cy.contains("Successfully moved");
+  cy.contains("Successfully moved").then(() => {
+    expect(stubs.move).to.have.been.calledOnceWith(
+      "root",
+      "root",
+      true,
+      false,
+      false
+    );
+  });
 });
