@@ -8,7 +8,8 @@ function stubEndpoints(
     string,
     (
       successHandler: SuccessHandlerType,
-      failureHandler: FailureHandlerType
+      failureHandler: FailureHandlerType,
+      parameters: Array<google.script.Parameter>
     ) => void
   >
 ): Record<string, sinon.SinonStub> {
@@ -18,8 +19,8 @@ function stubEndpoints(
     failureHandler: FailureHandlerType
   ): Record<string, sinon.SinonStub> {
     for (const key in endpoints) {
-      stubbedEndpoints[key] = cy.stub().callsFake(() => {
-        endpoints[key](successHandler, failureHandler);
+      stubbedEndpoints[key] = cy.stub().callsFake((...args) => {
+        endpoints[key](successHandler, failureHandler, args);
       });
     }
     return stubbedEndpoints;
