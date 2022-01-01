@@ -120,7 +120,10 @@ module.exports = {
       },
     },
     {
-      files: ["__tests__/backend/**/*.test.ts"],
+      files: [
+        "__tests__/backend/**/*.test.ts",
+        "__tests__/test-utils/gas-stubs.ts",
+      ],
       extends: ["plugin:jest/recommended", "plugin:jest/style"],
       rules: {
         "jest/consistent-test-it": ["error", { withinDescribe: "test" }],
@@ -142,7 +145,10 @@ module.exports = {
       },
     },
     {
-      files: ["__tests__/frontend/**/*.test.ts"],
+      files: [
+        "__tests__/frontend/**/*.test.ts",
+        "__tests__/test-utils/stubEndpoints.ts",
+      ],
       extends: ["plugin:cypress/recommended"],
       rules: {
         "cypress/no-force": "error",
