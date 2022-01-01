@@ -14,7 +14,7 @@ stubEndpoints({
   },
 });
 
-it("TEST-E2E", () => {
+it("works with basic configuration", () => {
   cy.visit("http://localhost:8080");
   cy.contains("Shared drive mover");
   cy.contains("Continue").click();
