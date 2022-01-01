@@ -65,7 +65,7 @@
   },
   "scripts": {
     "build": "gulp build",
-    "start": "webpack serve -c test.frontend.webpack.config.js --no-client-overlay",
+    "start": "webpack serve -c test.frontend.webpack.config.js --mode development --no-client-overlay",
     "lint:svelte:svelte-check": "svelte-check",
     "lint:svelte": "run-p -c lint:svelte:*",
     "lint:ts:eslint": "eslint \"src/**/*.svelte\" \"src/**/*.ts\" \"__tests__/**/*.ts\" gulpfile.js backend.webpack.config.js frontend.webpack.config.js test.frontend.webpack.config.js .eslintrc.js",
