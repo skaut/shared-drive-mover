@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 import { stubEndpoints } from "../test-utils/stubEndpoints";
 
 const stubs = stubEndpoints({
