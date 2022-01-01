@@ -79,7 +79,9 @@ stubEndpoints({
     successHandler([]);
   },
   move: (successHandler) => {
-    successHandler({ status: "success", errors: [] });
+    setTimeout(() => {
+      successHandler({ status: "success", errors: [] });
+    }, 100);
   },
 });
 
@@ -92,6 +94,7 @@ it("TEST-E2E", () => {
   cy.contains("My Drive").click();
   cy.contains("Continue").click();
   cy.contains("Move").click();
+  cy.contains("is moving");
   cy.contains("Done!");
   cy.contains("Successfully moved");
 });
