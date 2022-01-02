@@ -22,6 +22,7 @@ it("works with basic configuration", () => {
   cy.contains("Continue").click();
   cy.contains("My Drive").click();
   cy.contains("Continue").click();
+  cy.contains('contents of the folder "My Drive" into the folder "My Drive"');
   cy.contains("Move").click();
   cy.contains("is moving");
   cy.contains("Done!");
