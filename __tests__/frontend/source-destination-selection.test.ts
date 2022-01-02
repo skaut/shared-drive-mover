@@ -66,7 +66,7 @@ const stubs = stubEndpoints({
   },
 });
 
-it("works with directory selection", () => {
+it("works with folder selection", () => {
   cy.visit("http://localhost:8080");
   cy.contains("Shared drive mover");
   cy.contains("Continue").click();
