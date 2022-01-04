@@ -77,7 +77,7 @@
   function handleError(response: Error): void {
     dispatch("error", {
       message: response.message,
-    })
+    });
   }
 
   function getItems(): void {
