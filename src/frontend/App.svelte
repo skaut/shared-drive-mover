@@ -120,7 +120,7 @@
       }
       return;
     }
-    errors = response.errors ?? null;
+    errors = response.errors;
     currentTab = "done";
   }
 
