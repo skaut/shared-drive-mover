@@ -1,6 +1,6 @@
 import { stubEndpoints } from "../test-utils/stubEndpoints";
 
-const stubs = stubEndpoints({
+stubEndpoints({
   listFolders: (_, failureHandler) => {
     setTimeout(() => {
       failureHandler(new Error("ERROR MESSAGE"));
