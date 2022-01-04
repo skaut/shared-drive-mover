@@ -61,8 +61,8 @@ jobs:
         run: |
           npm run lint
 
-  test:
-    name: "Test"
+  backend-test:
+    name: "Backend test"
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
@@ -84,7 +84,7 @@ jobs:
 
       - name: "Run tests"
         run: |
-          npm test
+          npm run test:backend
 
       - name: "Upload coverage results"
         env:
