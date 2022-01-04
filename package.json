@@ -66,16 +66,15 @@
   },
   "scripts": {
     "build": "gulp build",
-    "start": "webpack serve -c test.frontend.webpack.config.js --mode development --no-client-overlay",
     "lint:svelte:svelte-check": "svelte-check",
     "lint:svelte": "run-p -c lint:svelte:*",
     "lint:ts:eslint": "eslint \"src/**/*.svelte\" \"src/**/*.ts\" \"__tests__/**/*.ts\" gulpfile.js backend.webpack.config.js frontend.webpack.config.js test.frontend.webpack.config.js .eslintrc.js",
     "lint:ts": "run-p -c lint:ts:*",
     "lint": "run-p -c lint:*",
     "test:backend": "jest",
-    "test:frontend:e2e:cypress": "cypress run",
-    "test:frontend:e2e": "start-server-and-test start http-get://localhost:8080 test:frontend:e2e:cypress",
-    "test:frontend": "run-p -c test:frontend:*",
+    "test:frontend:serve": "webpack serve -c test.frontend.webpack.config.js --mode development --no-client-overlay",
+    "test:frontend:cypress": "cypress run",
+    "test:frontend": "start-server-and-test test:frontend:serve http-get://localhost:8080 test:frontend:cypress",
     "test": "run-p -c test:*"
   }
 }
