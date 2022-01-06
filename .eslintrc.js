@@ -75,13 +75,7 @@ module.exports = {
       parserOptions: {
         project: null,
       },
-      files: [
-        "gulpfile.js",
-        "backend.webpack.config.js",
-        "frontend.webpack.config.js",
-        "test.frontend.webpack.config.js",
-        ".eslintrc.js",
-      ],
+      files: ["**/*.js"],
       rules: {
         "@typescript-eslint/await-thenable": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
