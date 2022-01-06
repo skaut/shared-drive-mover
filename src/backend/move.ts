@@ -16,10 +16,10 @@ export function move(
   try {
     isEmpty = isFolderEmpty_(destinationID);
   } catch (e) {
-    return { status: "error", reason: "DriveAPIError" };
+    return { status: "error", type: "DriveAPIError" };
   }
   if (!notEmptyOverride && !isEmpty) {
-    return { status: "error", reason: "notEmpty" };
+    return { status: "error", type: "notEmpty" };
   }
   const logger = new ErrorLogger_();
   moveFolderContents_(
@@ -30,5 +30,5 @@ export function move(
   if (!logger.isEmpty()) {
     console.error(logger.get());
   }
-  return { status: "success", errors: logger.get() };
+  return { status: "success", response: { errors: logger.get() } };
 }

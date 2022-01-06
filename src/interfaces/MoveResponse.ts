@@ -1,11 +1,7 @@
 import type { MoveError } from "./MoveError";
+import type { Response } from "./Response";
 
-export type MoveResponse =
-  | {
-      status: "error";
-      reason: string;
-    }
-  | {
-      status: "success";
-      errors: Array<MoveError>;
-    };
+export type MoveResponse = Response<
+  { errors: Array<MoveError> },
+  "DriveAPIError" | "notEmpty"
+>;

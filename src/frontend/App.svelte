@@ -112,15 +112,15 @@
   function moveSuccessHandler(response: MoveResponse): void {
     moving = false;
     if (response.status === "error") {
-      if (response.reason === "notEmpty") {
+      if (response.type === "notEmpty") {
         movingComponent.showNonEmptyDialog();
       } else {
         currentTab = "confirmation";
-        showErrorDialog(response.reason!)
+        showErrorDialog(response.type!)
       }
       return;
     }
-    errors = response.errors ?? null;
+    errors = response.response.errors ?? null;
     currentTab = "done";
   }
 
