@@ -1,5 +1,7 @@
 import { mocked } from "jest-mock";
 
+import { mockedDrive, mockedFilesCollection } from "../../test-utils/gas-stubs";
+
 import { MoveContext_ } from "../../../src/backend/utils/MoveContext";
 import { resolveDestinationFolder_ } from "../../../src/backend/move/resolveDestinationFolder";
 
@@ -12,7 +14,7 @@ jest.mock("../../../src/backend/move/folderManagement");
 test("resolveDestinationFolder corretly creates new folder", () => {
   interface InsertFileOptions {
     supportsAllDrives?: boolean;
-    fields: string;
+    fields?: string;
   }
 
   const insert = jest
@@ -20,8 +22,8 @@ test("resolveDestinationFolder corretly creates new folder", () => {
       GoogleAppsScript.Drive.Schema.File,
       [
         resource: GoogleAppsScript.Drive.Schema.File,
-        mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs: InsertFileOptions
+        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        optionalArgs?: InsertFileOptions
       ]
     >()
     .mockReturnValueOnce({
@@ -29,7 +31,9 @@ test("resolveDestinationFolder corretly creates new folder", () => {
       title: "FOLDER_NAME",
     });
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       insert,
     },
   };
@@ -48,7 +52,7 @@ test("resolveDestinationFolder corretly creates new folder", () => {
     )
   ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
 
-  expect(insert.mock.calls.length).toBe(1);
+  expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
     "application/vnd.google-apps.folder"
   );
@@ -56,14 +60,15 @@ test("resolveDestinationFolder corretly creates new folder", () => {
     { id: "DEST_PARENT_ID" },
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
-  expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
-  expect(mocked(logger).log.mock.calls.length).toBe(0);
+  expect(insert.mock.calls[0][2]).toBeDefined();
+  expect(insert.mock.calls[0][2]!.supportsAllDrives).toBe(true);
+  expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("resolveDestinationFolder corretly creates new folder when set not to merge folders, even when a folder with the same name exists", () => {
   interface InsertFileOptions {
     supportsAllDrives?: boolean;
-    fields: string;
+    fields?: string;
   }
 
   const insert = jest
@@ -71,8 +76,8 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
       GoogleAppsScript.Drive.Schema.File,
       [
         resource: GoogleAppsScript.Drive.Schema.File,
-        mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs: InsertFileOptions
+        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        optionalArgs?: InsertFileOptions
       ]
     >()
     .mockReturnValueOnce({
@@ -80,7 +85,9 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
       title: "FOLDER_NAME",
     });
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       insert,
     },
   };
@@ -103,7 +110,7 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
     )
   ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
 
-  expect(insert.mock.calls.length).toBe(1);
+  expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
     "application/vnd.google-apps.folder"
   );
@@ -111,14 +118,15 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
     { id: "DEST_PARENT_ID" },
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
-  expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
-  expect(mocked(logger).log.mock.calls.length).toBe(0);
+  expect(insert.mock.calls[0][2]).toBeDefined();
+  expect(insert.mock.calls[0][2]!.supportsAllDrives).toBe(true);
+  expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("resolveDestinationFolder corretly creates new folder when set to merge folders, but there is no existing folder the same name", () => {
   interface InsertFileOptions {
     supportsAllDrives?: boolean;
-    fields: string;
+    fields?: string;
   }
 
   const insert = jest
@@ -126,8 +134,8 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
       GoogleAppsScript.Drive.Schema.File,
       [
         resource: GoogleAppsScript.Drive.Schema.File,
-        mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs: InsertFileOptions
+        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        optionalArgs?: InsertFileOptions
       ]
     >()
     .mockReturnValueOnce({
@@ -135,7 +143,9 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
       title: "FOLDER_NAME",
     });
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       insert,
     },
   };
@@ -156,7 +166,7 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
     )
   ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
 
-  expect(insert.mock.calls.length).toBe(1);
+  expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
     "application/vnd.google-apps.folder"
   );
@@ -164,26 +174,29 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
     { id: "DEST_PARENT_ID" },
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
-  expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
-  expect(mocked(logger).log.mock.calls.length).toBe(0);
+  expect(insert.mock.calls[0][2]).toBeDefined();
+  expect(insert.mock.calls[0][2]!.supportsAllDrives).toBe(true);
+  expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("resolveDestinationFolder corretly uses an existing folder when set to merge folders", () => {
   interface InsertFileOptions {
     supportsAllDrives?: boolean;
-    fields: string;
+    fields?: string;
   }
 
   const insert = jest.fn<
     GoogleAppsScript.Drive.Schema.File,
     [
       resource: GoogleAppsScript.Drive.Schema.File,
-      mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-      optionalArgs: InsertFileOptions
+      mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+      optionalArgs?: InsertFileOptions
     ]
   >();
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       insert,
     },
   };
@@ -208,14 +221,14 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
     )
   ).toStrictEqual({ id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" });
 
-  expect(insert.mock.calls.length).toBe(0);
-  expect(mocked(logger).log.mock.calls.length).toBe(0);
+  expect(insert.mock.calls).toHaveLength(0);
+  expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
 test("resolveDestinationFolder fails gracefully on multiple existing folders with the same name", () => {
   interface InsertFileOptions {
     supportsAllDrives?: boolean;
-    fields: string;
+    fields?: string;
   }
 
   const insert = jest
@@ -223,8 +236,8 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
       GoogleAppsScript.Drive.Schema.File,
       [
         resource: GoogleAppsScript.Drive.Schema.File,
-        mediaData: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs: InsertFileOptions
+        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        optionalArgs?: InsertFileOptions
       ]
     >()
     .mockReturnValueOnce({
@@ -232,7 +245,9 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
       title: "FOLDER_NAME",
     });
   global.Drive = {
+    ...mockedDrive(),
     Files: {
+      ...mockedFilesCollection(),
       insert,
     },
   };
@@ -261,7 +276,7 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
     title: "FOLDER_NAME",
   });
 
-  expect(insert.mock.calls.length).toBe(1);
+  expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
     "application/vnd.google-apps.folder"
   );
@@ -269,8 +284,9 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
     { id: "DEST_PARENT_ID" },
   ]);
   expect(insert.mock.calls[0][0].title).toBe("FOLDER_NAME");
-  expect(insert.mock.calls[0][2].supportsAllDrives).toBe(true);
-  expect(mocked(logger).log.mock.calls.length).toBe(1);
+  expect(insert.mock.calls[0][2]).toBeDefined();
+  expect(insert.mock.calls[0][2]!.supportsAllDrives).toBe(true);
+  expect(mocked(logger).log.mock.calls).toHaveLength(1);
   expect(mocked(logger).log.mock.calls[0][0]).toStrictEqual([
     "PATH",
     "TO",

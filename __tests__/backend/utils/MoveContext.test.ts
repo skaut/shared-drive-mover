@@ -54,8 +54,8 @@ test("MoveContext.tryAndLog works correctly", () => {
 
   context.tryAndLog(fn);
 
-  expect(fn.mock.calls.length).toBe(1);
-  expect(mocked(context.logger).log.mock.calls.length).toBe(0);
+  expect(fn.mock.calls).toHaveLength(1);
+  expect(mocked(context.logger).log.mock.calls).toHaveLength(0);
 });
 
 test("MoveContext.tryAndLog returns values correctly", () => {
@@ -71,7 +71,7 @@ test("MoveContext.tryAndLog returns values correctly", () => {
 
   expect(context.tryAndLog(() => returnValue)).toStrictEqual(returnValue);
 
-  expect(mocked(context.logger).log.mock.calls.length).toBe(0);
+  expect(mocked(context.logger).log.mock.calls).toHaveLength(0);
 });
 
 test("MoveContext.tryAndLog handles errors gracefully", () => {
@@ -90,7 +90,7 @@ test("MoveContext.tryAndLog handles errors gracefully", () => {
 
   context.tryAndLog(fn);
 
-  expect(mocked(context.logger).log.mock.calls.length).toBe(1);
+  expect(mocked(context.logger).log.mock.calls).toHaveLength(1);
   expect(mocked(context.logger).log.mock.calls[0][0]).toStrictEqual([
     "PATH",
     "TO",

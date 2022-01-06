@@ -21,9 +21,9 @@ test("paginationHelper works correctly", () => {
     "first",
     "second",
   ]);
-  expect(request.mock.calls.length).toBe(1);
-  expect(request.mock.calls[0][0]).toBe(undefined);
-  expect(transform.mock.calls.length).toBe(1);
+  expect(request.mock.calls).toHaveLength(1);
+  expect(request.mock.calls[0][0]).toBeUndefined();
+  expect(transform.mock.calls).toHaveLength(1);
   expect(transform.mock.calls[0][0]).toStrictEqual(rawResponse);
 });
 
@@ -64,11 +64,11 @@ test("paginationHelper works correctly with multiple pages", () => {
     "fifth",
     "sixth",
   ]);
-  expect(request.mock.calls.length).toBe(3);
-  expect(request.mock.calls[0][0]).toBe(undefined);
+  expect(request.mock.calls).toHaveLength(3);
+  expect(request.mock.calls[0][0]).toBeUndefined();
   expect(request.mock.calls[1][0]).toBe("token1");
   expect(request.mock.calls[2][0]).toBe("token2");
-  expect(transform.mock.calls.length).toBe(3);
+  expect(transform.mock.calls).toHaveLength(3);
   expect(transform.mock.calls[0][0]).toStrictEqual(rawResponse1);
   expect(transform.mock.calls[1][0]).toStrictEqual(rawResponse2);
   expect(transform.mock.calls[2][0]).toStrictEqual(rawResponse3);
