@@ -57,7 +57,9 @@
 	},
 	"errorDialog": {
 		"title": "An error occurred",
-		"content": "An unknown error occurred. Please check the source and destination folders and try again. Error message: ",
+		"DriveAPIError": "An error occurred in Google Drive. Please check the source and destination folders and try again.",
+		"unknownError": "An unknown error occurred. Please check the source and destination folders and try again.",
+		"unknownErrorWithMessage": "An unknown error occurred. Please check the source and destination folders and try again. Error message: ",
 		"ok": "Ok"
 	}
 }

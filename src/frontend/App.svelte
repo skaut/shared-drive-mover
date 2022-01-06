@@ -21,11 +21,11 @@
     <Introduction bind:copyComments={copyComments}/>
     <ContinueButton disabled={false} on:next={() => currentTab = "source-selection"}/>
   {:else if currentTab === "source-selection"}
-    <FolderSelection step="source-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
+    <FolderSelection step="source-selection" on:error={(event) => {showErrorDialog($_("errorDialog.unknownErrorWithMessage") + event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
     <BackButton on:previous={() => currentTab = "introduction"}/>
     <ContinueButton disabled={source === null} on:next={() => currentTab = "destination-selection"}/>
   {:else if currentTab === "destination-selection"}
-    <FolderSelection step="destination-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={destinationPath} bind:selected={destination}/>
+    <FolderSelection step="destination-selection" on:error={(event) => {showErrorDialog($_("errorDialog.unknownErrorWithMessage") + event.detail.message)}} bind:path={destinationPath} bind:selected={destination}/>
     <BackButton on:previous={() => currentTab = "source-selection"}/>
     <ContinueButton disabled={destination === null} on:next={() => currentTab = "confirmation"}/>
   {:else if currentTab === "confirmation"}
@@ -40,7 +40,7 @@
       {$_("errorDialog.title")}
     </DialogTitle>
     <Content id="errorDialogContent">
-      {$_("errorDialog.content") + errorMessage}
+      {errorMessage}
     </Content>
     <Actions>
       <Button>
@@ -112,11 +112,18 @@
   function moveSuccessHandler(response: MoveResponse): void {
     moving = false;
     if (response.status === "error") {
-      if (response.type === "notEmpty") {
-        movingComponent.showNonEmptyDialog();
-      } else {
-        currentTab = "confirmation";
-        showErrorDialog(response.type!)
+      switch (response.type) {
+        case "DriveAPIError":
+          currentTab = "confirmation";
+          showErrorDialog($_("errorDialog.DriveAPIError"))
+          break;
+        case "notEmpty":
+          movingComponent.showNonEmptyDialog();
+          break;
+        default:
+          currentTab = "confirmation";
+          showErrorDialog($_("errorDialog.unknownError"))
+          break;
       }
       return;
     }
@@ -127,7 +134,7 @@
   function moveErrorHandler(response: Error) {
     moving = false;
     currentTab = "confirmation";
-    showErrorDialog(response.message)
+    showErrorDialog($_("errorDialog.unknownErrorWithMessage") + response.message)
   }
 
   function showErrorDialog(message: string): void {
