@@ -16,7 +16,9 @@ test("move works correctly", () => {
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
     status: "success",
-    errors: [],
+    response: {
+      errors: [],
+    },
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -50,7 +52,9 @@ test("move passes copyComments correctly", () => {
 
   expect(move("SRC_ID", "DEST_ID", true, false, false)).toStrictEqual({
     status: "success",
-    errors: [],
+    response: {
+      errors: [],
+    },
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -84,7 +88,9 @@ test("move passes mergeFolders correctly", () => {
 
   expect(move("SRC_ID", "DEST_ID", false, true, false)).toStrictEqual({
     status: "success",
-    errors: [],
+    response: {
+      errors: [],
+    },
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -120,7 +126,7 @@ test("move fails gracefully on error when checking folder emptiness", () => {
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
     status: "error",
-    reason: "DriveAPIError",
+    type: "DriveAPIError",
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -138,7 +144,7 @@ test("move fails gracefully on non-empty destination directory", () => {
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
     status: "error",
-    reason: "notEmpty",
+    type: "notEmpty",
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -156,7 +162,9 @@ test("move works correctly with non-empty override", () => {
 
   expect(move("SRC_ID", "DEST_ID", false, false, true)).toStrictEqual({
     status: "success",
-    errors: [],
+    response: {
+      errors: [],
+    },
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -201,7 +209,9 @@ test("move fails gracefully on error while moving", () => {
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
     status: "success",
-    errors: [error],
+    response: {
+      errors: [error],
+    },
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
