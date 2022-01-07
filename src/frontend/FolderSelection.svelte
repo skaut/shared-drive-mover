@@ -38,6 +38,7 @@
 
   import StepHeader from "./StepHeader.svelte";
 
+  import type { ListResponse } from "../interfaces/ListResponse";
   import type { NamedRecord } from "../interfaces/NamedRecord";
 
   export let step: string;
@@ -66,17 +67,40 @@
     getItems();
   }
 
-  function handleSharedDriveResponse(response: Array<NamedRecord>): void {
-    items = [{id: "root", name: $_("drive.myDrive")}, ...response];
+  function handleListError(type: string) {
+    switch (type) {
+      case "DriveAPIError":
+        dispatch("error", {
+          message: $_("errorDialog.DriveAPIError"),
+        })
+        break;
+      default:
+        dispatch("error", {
+          message: $_("errorDialog.unknownError"),
+        })
+        break;
+    }
   }
 
-  function handleFolderResponse(response:Array<NamedRecord>): void {
-    items = response;
+  function handleSharedDriveResponse(response: ListResponse): void {
+    if (response.status === "error") {
+      handleListError(response.type);
+      return;
+    }
+    items = [{id: "root", name: $_("drive.myDrive")}, ...response.response];
+  }
+
+  function handleFolderResponse(response: ListResponse): void {
+    if (response.status === "error") {
+      handleListError(response.type);
+      return;
+    }
+    items = response.response;
   }
 
   function handleError(response: Error): void {
     dispatch("error", {
-      message: response.message,
+      message: $_("errorDialog.unknownErrorWithMessage") + response.message,
     })
   }
 
