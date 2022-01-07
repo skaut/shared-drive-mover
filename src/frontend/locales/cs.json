@@ -57,7 +57,9 @@
 	},
 	"errorDialog": {
 		"title": "Chyba",
-		"content": "Nastala neznámá chyba. Prosím zkontrolujte zdrojovou a cílovou složku a zkuste to znovu. Chybová hláška: ",
+		"DriveAPIError": "Nastala chyba v Google Disku. Prosím zkontrolujte zdrojovou a cílovou složku a zkuste to znovu.",
+		"unknownError": "Nastala neznámá chyba. Prosím zkontrolujte zdrojovou a cílovou složku a zkuste to znovu.",
+		"unknownErrorWithMessage": "Nastala neznámá chyba. Prosím zkontrolujte zdrojovou a cílovou složku a zkuste to znovu. Chybová hláška: ",
 		"ok": "Ok"
 	}
 }

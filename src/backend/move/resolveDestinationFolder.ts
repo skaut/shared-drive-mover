@@ -1,18 +1,16 @@
 import { backoffHelper_ } from "../utils/backoffHelper";
 import { listFoldersInFolder_ } from "./folderManagement";
 
-import type { ErrorLogger_ } from "../utils/ErrorLogger";
+import type { MoveContext_ } from "../utils/MoveContext";
 
 export async function resolveDestinationFolder_(
   sourceFolder: GoogleAppsScript.Drive.Schema.File,
-  destinationParentID: string,
-  path: Array<string>,
-  mergeFolders: boolean,
-  logger: ErrorLogger_
+  context: MoveContext_,
+  mergeFolders: boolean
 ): Promise<GoogleAppsScript.Drive.Schema.File> {
   if (mergeFolders) {
     const existingFoldersWithSameName = await listFoldersInFolder_(
-      destinationParentID
+      context.destinationID
     ).then((folders) =>
       folders.filter((folder) => folder.title === sourceFolder.title)
     );
@@ -20,8 +18,8 @@ export async function resolveDestinationFolder_(
       return existingFoldersWithSameName[0];
     }
     if (existingFoldersWithSameName.length > 1) {
-      logger.log(
-        path.concat([sourceFolder.title!]),
+      context.logger.log(
+        context.path.concat([sourceFolder.title!]),
         "Coudn't merge with existing folder as there are multiple existing directories with the same name"
       );
     }
@@ -29,7 +27,7 @@ export async function resolveDestinationFolder_(
   return await backoffHelper_(() =>
     Drive.Files!.insert(
       {
-        parents: [{ id: destinationParentID }],
+        parents: [{ id: context.destinationID }],
         title: sourceFolder.title!,
         mimeType: "application/vnd.google-apps.folder",
       },

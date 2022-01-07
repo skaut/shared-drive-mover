@@ -1,3 +1,5 @@
+import { mockedDrive, mockedDrivesCollection } from "../test-utils/gas-stubs";
+
 import { listSharedDrives } from "../../src/backend/listSharedDrives";
 
 test("listSharedDrives works correctly", () => {
@@ -19,20 +21,60 @@ test("listSharedDrives works correctly", () => {
   const list = jest
     .fn<
       GoogleAppsScript.Drive.Schema.DriveList,
-      [optionalArgs: ListDrivesOptions]
+      [optionalArgs?: ListDrivesOptions]
     >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
+    ...mockedDrive(),
     Drives: {
+      ...mockedDrivesCollection(),
       list,
     },
   };
 
-  expect(listSharedDrives()).toStrictEqual(response);
-  expect(list.mock.calls.length).toBe(1);
-  expect(list.mock.calls[0][0].pageToken).toBe(undefined);
-  expect(list.mock.calls[0][0].orderBy).toBe("name");
+  expect(listSharedDrives()).toStrictEqual({ status: "success", response });
+  expect(list.mock.calls).toHaveLength(1);
+  expect(list.mock.calls[0][0]).toBeDefined();
+  expect(list.mock.calls[0][0]!.pageToken).toBeUndefined();
+  expect(list.mock.calls[0][0]!.orderBy).toBe("name");
   expect(
-    list.mock.calls[0][0].fields!.split(",").map((s) => s.trim())
+    list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim())
+  ).toContain("nextPageToken");
+});
+
+test("listSharedDrives handles Drive API error gracefully", () => {
+  interface ListDrivesOptions {
+    pageToken?: string;
+    maxResults?: number;
+    orderBy?: string;
+    fields?: string;
+  }
+
+  const list = jest
+    .fn<
+      GoogleAppsScript.Drive.Schema.DriveList,
+      [optionalArgs?: ListDrivesOptions]
+    >()
+    .mockImplementationOnce(() => {
+      throw new Error();
+    });
+  global.Drive = {
+    ...mockedDrive(),
+    Drives: {
+      ...mockedDrivesCollection(),
+      list,
+    },
+  };
+
+  expect(listSharedDrives()).toStrictEqual({
+    status: "error",
+    type: "DriveAPIError",
+  });
+  expect(list.mock.calls).toHaveLength(1);
+  expect(list.mock.calls[0][0]).toBeDefined();
+  expect(list.mock.calls[0][0]!.pageToken).toBeUndefined();
+  expect(list.mock.calls[0][0]!.orderBy).toBe("name");
+  expect(
+    list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim())
   ).toContain("nextPageToken");
 });

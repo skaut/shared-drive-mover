@@ -1,5 +1,6 @@
 import { ErrorLogger_ } from "./utils/ErrorLogger";
 import { isFolderEmpty_ } from "./move/folderManagement";
+import { MoveContext_ } from "./utils/MoveContext";
 import { moveFolderContents_ } from "./move/moveFolderContents";
 
 import type { MoveResponse } from "../interfaces/MoveResponse";
@@ -11,21 +12,23 @@ export async function move(
   mergeFolders: boolean,
   notEmptyOverride: boolean
 ): Promise<MoveResponse> {
-  const isEmpty = await isFolderEmpty_(destinationID);
+  let isEmpty: boolean;
+  try {
+    isEmpty = await isFolderEmpty_(destinationID);
+  } catch (e) {
+    return { status: "error", type: "DriveAPIError" };
+  }
   if (!notEmptyOverride && !isEmpty) {
-    return { status: "error", reason: "notEmpty" };
+    return { status: "error", type: "notEmpty" };
   }
   const logger = new ErrorLogger_();
   await moveFolderContents_(
-    sourceID,
-    destinationID,
-    [],
+    new MoveContext_(sourceID, destinationID, [], logger),
     copyComments,
-    mergeFolders,
-    logger
+    mergeFolders
   );
   if (!logger.isEmpty()) {
     console.error(logger.get());
   }
-  return { status: "success", errors: logger.get() };
+  return { status: "success", response: { errors: logger.get() } };
 }
