@@ -1,9 +1,13 @@
 import { paginationHelper_ } from "./utils/paginationHelper";
 
+import type { ListResponse } from "../interfaces/ListResponse";
 import type { NamedRecord } from "../interfaces/NamedRecord";
 
-export function listFolders(parentID: string): Array<NamedRecord> {
-  return paginationHelper_<GoogleAppsScript.Drive.Schema.FileList, NamedRecord>(
+export function listFolders(parentID: string): ListResponse {
+  const response = paginationHelper_<
+    GoogleAppsScript.Drive.Schema.FileList,
+    NamedRecord
+  >(
     (pageToken) =>
       Drive.Files!.list({
         q:
@@ -33,4 +37,8 @@ export function listFolders(parentID: string): Array<NamedRecord> {
           return { id, name: item.title! };
         })
   );
+  return {
+    status: "success",
+    response,
+  };
 }

@@ -38,6 +38,7 @@
 
   import StepHeader from "./StepHeader.svelte";
 
+  import type { ListResponse } from "../interfaces/ListResponse";
   import type { NamedRecord } from "../interfaces/NamedRecord";
 
   export let step: string;
@@ -66,12 +67,18 @@
     getItems();
   }
 
-  function handleSharedDriveResponse(response: Array<NamedRecord>): void {
-    items = [{id: "root", name: $_("drive.myDrive")}, ...response];
+  function handleSharedDriveResponse(response: ListResponse): void {
+    if (response.status === "error") {
+      return;
+    }
+    items = [{id: "root", name: $_("drive.myDrive")}, ...response.response];
   }
 
-  function handleFolderResponse(response:Array<NamedRecord>): void {
-    items = response;
+  function handleFolderResponse(response: ListResponse): void {
+    if (response.status === "error") {
+      return;
+    }
+    items = response.response;
   }
 
   function handleError(response: Error): void {
