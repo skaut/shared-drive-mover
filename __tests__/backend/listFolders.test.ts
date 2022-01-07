@@ -41,10 +41,13 @@ test("listFolders works correctly", () => {
     getActiveUserLocale: jest.fn<string, []>().mockReturnValueOnce("en"),
   };
 
-  expect(listFolders("ID_PARENT")).toStrictEqual([
-    { id: "ID1", name: "FOLDER1" },
-    { id: "ID2", name: "FOLDER2" },
-  ]);
+  expect(listFolders("ID_PARENT")).toStrictEqual({
+    status: "success",
+    response: [
+      { id: "ID1", name: "FOLDER1" },
+      { id: "ID2", name: "FOLDER2" },
+    ],
+  });
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain("ID_PARENT");
@@ -99,10 +102,13 @@ test("listFolders works correctly with shortcuts", () => {
     getActiveUserLocale: jest.fn<string, []>().mockReturnValueOnce("en"),
   };
 
-  expect(listFolders("ID_PARENT")).toStrictEqual([
-    { id: "TRUE_ID1", name: "FOLDER1" },
-    { id: "ID2", name: "FOLDER2" },
-  ]);
+  expect(listFolders("ID_PARENT")).toStrictEqual({
+    status: "success",
+    response: [
+      { id: "TRUE_ID1", name: "FOLDER1" },
+      { id: "ID2", name: "FOLDER2" },
+    ],
+  });
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain("ID_PARENT");
