@@ -40,7 +40,7 @@
       {$_("errorDialog.title")}
     </DialogTitle>
     <Content id="errorDialogContent">
-      {$_("errorDialog.content") + errorMessage}
+      {errorMessage}
     </Content>
     <Actions>
       <Button>
@@ -112,22 +112,29 @@
   function moveSuccessHandler(response: MoveResponse): void {
     moving = false;
     if (response.status === "error") {
-      if (response.reason === "notEmpty") {
-        movingComponent.showNonEmptyDialog();
-      } else {
-        currentTab = "confirmation";
-        showErrorDialog(response.reason!)
+      switch (response.type) {
+        case "DriveAPIError":
+          currentTab = "confirmation";
+          showErrorDialog($_("errorDialog.DriveAPIError"))
+          break;
+        case "notEmpty":
+          movingComponent.showNonEmptyDialog();
+          break;
+        default:
+          currentTab = "confirmation";
+          showErrorDialog($_("errorDialog.unknownError"))
+          break;
       }
       return;
     }
-    errors = response.errors ?? null;
+    errors = response.response.errors ?? null;
     currentTab = "done";
   }
 
   function moveErrorHandler(response: Error) {
     moving = false;
     currentTab = "confirmation";
-    showErrorDialog(response.message)
+    showErrorDialog($_("errorDialog.unknownErrorWithMessage") + response.message)
   }
 
   function showErrorDialog(message: string): void {
