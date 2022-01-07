@@ -121,6 +121,10 @@
         case "notEmpty":
           movingComponent.showNonEmptyDialog();
           break;
+        case "sourceEqualsDestination":
+          currentTab = "confirmation";
+          showErrorDialog($_("errorDialog.sourceEqualsDestination"))
+          break;
         default:
           currentTab = "confirmation";
           showErrorDialog($_("errorDialog.unknownError"))

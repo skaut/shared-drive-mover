@@ -118,6 +118,23 @@ test("move passes mergeFolders correctly", () => {
   );
 });
 
+test("move detects and reports source matching destination", () => {
+  mocked(folderManagement).isFolderEmpty_.mockImplementationOnce(() => {
+    throw new Error();
+  });
+  mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
+
+  expect(move("SRC_ID", "SRC_ID", false, false, false)).toStrictEqual({
+    status: "error",
+    type: "sourceEqualsDestination",
+  });
+
+  expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(0);
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls
+  ).toHaveLength(0);
+});
+
 test("move fails gracefully on error when checking folder emptiness", () => {
   mocked(folderManagement).isFolderEmpty_.mockImplementationOnce(() => {
     throw new Error();

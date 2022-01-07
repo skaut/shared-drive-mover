@@ -12,6 +12,9 @@ export function move(
   mergeFolders: boolean,
   notEmptyOverride: boolean
 ): MoveResponse {
+  if (sourceID === destinationID) {
+    return { status: "error", type: "sourceEqualsDestination" };
+  }
   let isEmpty: boolean;
   try {
     isEmpty = isFolderEmpty_(destinationID);
