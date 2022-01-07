@@ -67,8 +67,24 @@
     getItems();
   }
 
+  function handleListError(type: string) {
+    switch (type) {
+      case "DriveAPIError":
+        dispatch("error", {
+          message: $_("errorDialog.DriveAPIError"),
+        })
+        break;
+      default:
+        dispatch("error", {
+          message: $_("errorDialog.unknownError"),
+        })
+        break;
+    }
+  }
+
   function handleSharedDriveResponse(response: ListResponse): void {
     if (response.status === "error") {
+      handleListError(response.type);
       return;
     }
     items = [{id: "root", name: $_("drive.myDrive")}, ...response.response];
@@ -76,6 +92,7 @@
 
   function handleFolderResponse(response: ListResponse): void {
     if (response.status === "error") {
+      handleListError(response.type);
       return;
     }
     items = response.response;
@@ -83,7 +100,7 @@
 
   function handleError(response: Error): void {
     dispatch("error", {
-      message: response.message,
+      message: $_("errorDialog.unknownErrorWithMessage") + response.message,
     })
   }
 

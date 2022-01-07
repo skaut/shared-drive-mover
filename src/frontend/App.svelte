@@ -21,11 +21,11 @@
     <Introduction bind:copyComments={copyComments}/>
     <ContinueButton disabled={false} on:next={() => currentTab = "source-selection"}/>
   {:else if currentTab === "source-selection"}
-    <FolderSelection step="source-selection" on:error={(event) => {showErrorDialog($_("errorDialog.unknownErrorWithMessage") + event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
+    <FolderSelection step="source-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
     <BackButton on:previous={() => currentTab = "introduction"}/>
     <ContinueButton disabled={source === null} on:next={() => currentTab = "destination-selection"}/>
   {:else if currentTab === "destination-selection"}
-    <FolderSelection step="destination-selection" on:error={(event) => {showErrorDialog($_("errorDialog.unknownErrorWithMessage") + event.detail.message)}} bind:path={destinationPath} bind:selected={destination}/>
+    <FolderSelection step="destination-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={destinationPath} bind:selected={destination}/>
     <BackButton on:previous={() => currentTab = "source-selection"}/>
     <ContinueButton disabled={destination === null} on:next={() => currentTab = "confirmation"}/>
   {:else if currentTab === "confirmation"}
