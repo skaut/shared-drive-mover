@@ -5,6 +5,10 @@
 			"welcome": "Vítejte v nástroji \"Shared drive mover\", sloužícím k hromadnému přesouvání souborů a složek v Google Disku. Nástroj je zvlášť užitečný pro přesun z \"Mého Disku\" do Sdílených disků (dříve označovaných jako Týmové disky). V následujících krocích vyberete zdrojovou a cílovou složku. Obsah vybrané zdrojové složky pak bude přesunut do cílové složky. Přesun může trvat déle, buďte prosím trpěliví.",
 			"configuration": {
 				"header": "Nastavení",
+				"moveOnly": {
+					"title": "Pouze přesunout soubory",
+					"description": "Soubory, jichž nejste vlastníkem, se přeskočí místo vytvoření jejich kopie v cílové složce."
+				},
 				"copyComments": {
 					"title": "Kopírovat komentáře při kopírování souborů",
 					"description": "U souborů, jichž nejste vlastníkem, se místo jejich přesunutí vytvoří kopie v cílové složce. Pokud je zaškrtnuta tato volba, komentáře budou vytvořeny pod vaším účtem a původní autor bude označen. Kopírování komentářů může přesun takových souborů zpomalit."

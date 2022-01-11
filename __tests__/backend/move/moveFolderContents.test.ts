@@ -28,7 +28,7 @@ test("moveFolderContents works correctly with an empty folder", () => {
     new ErrorLogger_()
   );
 
-  moveFolderContents_(context, false, false);
+  moveFolderContents_(context, false, false, false);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -57,7 +57,7 @@ test("moveFolderContents moves files correctly", () => {
     ["PATH", "TO", "FOLDER"],
     new ErrorLogger_()
   );
-  moveFolderContents_(context, false, false);
+  moveFolderContents_(context, false, false, false);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -99,7 +99,7 @@ test("moveFolderContents moves folders correctly", () => {
     new ErrorLogger_()
   );
 
-  moveFolderContents_(context, false, false);
+  moveFolderContents_(context, false, false, false);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(3);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -144,7 +144,7 @@ test("moveFolderContents moves files correctly, even when listing folders throws
     ["PATH", "TO", "FOLDER"],
     new ErrorLogger_()
   );
-  moveFolderContents_(context, false, false);
+  moveFolderContents_(context, false, false, false);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -194,7 +194,7 @@ test("moveFolderContents moves folders correctly, even when listing files throws
     new ErrorLogger_()
   );
 
-  moveFolderContents_(context, false, false);
+  moveFolderContents_(context, false, false, false);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(3);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -251,7 +251,7 @@ test("moveFolderContents handles error when deleting folder gracefully", () => {
     new ErrorLogger_()
   );
 
-  moveFolderContents_(context, false, false);
+  moveFolderContents_(context, false, false, false);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(3);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -302,7 +302,7 @@ test("moveFolderContents passes copyComments correctly", () => {
     new ErrorLogger_()
   );
 
-  moveFolderContents_(context, true, false);
+  moveFolderContents_(context, false, true, false);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -311,10 +311,10 @@ test("moveFolderContents passes copyComments correctly", () => {
   expect(moveFileFn.mock.calls).toHaveLength(2);
   expect(moveFileFn.mock.calls[0][0].id).toBe("FILE1_ID");
   expect(moveFileFn.mock.calls[0][1]).toStrictEqual(context);
-  expect(moveFileFn.mock.calls[0][2]).toBe(true);
+  expect(moveFileFn.mock.calls[0][3]).toBe(true);
   expect(moveFileFn.mock.calls[1][0].id).toBe("FILE2_ID");
   expect(moveFileFn.mock.calls[1][1]).toStrictEqual(context);
-  expect(moveFileFn.mock.calls[1][2]).toBe(true);
+  expect(moveFileFn.mock.calls[1][3]).toBe(true);
   expect(mocked(context.logger).log.mock.calls).toHaveLength(0);
 });
 
@@ -344,7 +344,7 @@ test("moveFolderContents passes mergeFolders correctly", () => {
     new ErrorLogger_()
   );
 
-  moveFolderContents_(context, false, true);
+  moveFolderContents_(context, false, false, true);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(3);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");

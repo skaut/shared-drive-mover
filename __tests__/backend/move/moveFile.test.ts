@@ -49,6 +49,7 @@ test("moveFile works correctly with a file that can be moved directly", () => {
       ["PATH", "TO", "FILE"],
       logger
     ),
+    false,
     false
   );
 
@@ -117,6 +118,7 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
       ["PATH", "TO", "FILE"],
       logger
     ),
+    false,
     false
   );
 
@@ -173,6 +175,7 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
       ["PATH", "TO", "FILE"],
       logger
     ),
+    false,
     false
   );
 
@@ -183,6 +186,51 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
   expect(copy.mock.calls[0][1]).toBe("SRC_FILE_ID");
   expect(copy.mock.calls[0][2]).toBeDefined();
   expect(copy.mock.calls[0][2]!.supportsAllDrives).toBe(true);
+  expect(mocked(logger).log.mock.calls).toHaveLength(0);
+});
+
+test("moveFile skips a file that cannot be moved out of drive when `moveOnly` is turned on", () => {
+  interface CopyFileOptions {
+    supportsAllDrives?: boolean;
+    fields?: string;
+  }
+
+  const copy = jest
+    .fn<
+      GoogleAppsScript.Drive.Schema.File,
+      [
+        resource: GoogleAppsScript.Drive.Schema.File,
+        fileId: string,
+        optionalArgs?: CopyFileOptions
+      ]
+    >()
+    .mockReturnValueOnce({});
+  global.Drive = {
+    ...mockedDrive(),
+    Files: {
+      ...mockedFilesCollection(),
+      copy,
+    },
+  };
+  const logger = new ErrorLogger_();
+
+  moveFile_(
+    {
+      capabilities: { canMoveItemOutOfDrive: false },
+      id: "SRC_FILE_ID",
+      title: "FILE_NAME",
+    },
+    new MoveContext_(
+      "SRC_PARENT_ID",
+      "DEST_PARENT_ID",
+      ["PATH", "TO", "FILE"],
+      logger
+    ),
+    true,
+    false
+  );
+
+  expect(copy.mock.calls).toHaveLength(0);
   expect(mocked(logger).log.mock.calls).toHaveLength(0);
 });
 
@@ -225,6 +273,7 @@ test("moveFile works correctly with a file that can be moved directly with comme
       ["PATH", "TO", "FILE"],
       logger
     ),
+    false,
     true
   );
 
@@ -275,6 +324,7 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
       ["PATH", "TO", "FILE"],
       logger
     ),
+    false,
     true
   );
 
@@ -353,6 +403,7 @@ test("moveFile fails gracefully on error", () => {
       ["PATH", "TO", "FILE"],
       logger
     ),
+    false,
     false
   );
   expect(mocked(logger).log.mock.calls).toHaveLength(1);

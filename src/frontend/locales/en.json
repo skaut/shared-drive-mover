@@ -5,6 +5,10 @@
 			"welcome": "Welcome to the Shared drive mover, a tool for moving batches of files and folders across Google Drive. The tool is particularly useful for moving from \"My Drive\" to a Shared drive (formerly known as a Team drive). In the following steps, you will select a source folder and a destination folder. The contents of the selected source folder will then be moved to the destination folder. This process can take some time, so please be patient.",
 			"configuration": {
 				"header": "Configuration",
+				"moveOnly": {
+					"title": "Move files only",
+					"description": "Move only files of which you are the owner, skip other files instead of copying them."
+				},
 				"copyComments": {
 					"title": "Copy comments when copying files",
 					"description": "When moving files of which you are not the owner, instead of moving the file, a copy without comments is created in the destination folder. If this option is checked, the comments will be recreated from your account, with the original commenter tagged. Note that this may slow down the moving of such files."

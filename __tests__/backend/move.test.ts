@@ -14,7 +14,7 @@ test("move works correctly", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(true);
   mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
 
-  expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
+  expect(move("SRC_ID", "DEST_ID", false, false, false, false)).toStrictEqual({
     status: "success",
     response: {
       errors: [],
@@ -42,6 +42,9 @@ test("move works correctly", () => {
     false
   );
   expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]).toBe(
+    false
+  );
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][3]).toBe(
     false
   );
 });
@@ -50,7 +53,7 @@ test("move passes copyComments correctly", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(true);
   mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
 
-  expect(move("SRC_ID", "DEST_ID", true, false, false)).toStrictEqual({
+  expect(move("SRC_ID", "DEST_ID", false, true, false, false)).toStrictEqual({
     status: "success",
     response: {
       errors: [],
@@ -75,9 +78,12 @@ test("move passes copyComments correctly", () => {
     mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].path
   ).toStrictEqual([]);
   expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
-    true
+    false
   );
   expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]).toBe(
+    true
+  );
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][3]).toBe(
     false
   );
 });
@@ -86,7 +92,7 @@ test("move passes mergeFolders correctly", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(true);
   mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
 
-  expect(move("SRC_ID", "DEST_ID", false, true, false)).toStrictEqual({
+  expect(move("SRC_ID", "DEST_ID", false, false, true, false)).toStrictEqual({
     status: "success",
     response: {
       errors: [],
@@ -114,6 +120,9 @@ test("move passes mergeFolders correctly", () => {
     false
   );
   expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]).toBe(
+    false
+  );
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][3]).toBe(
     true
   );
 });
@@ -124,7 +133,7 @@ test("move detects and reports source matching destination", () => {
   });
   mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
 
-  expect(move("SRC_ID", "SRC_ID", false, false, false)).toStrictEqual({
+  expect(move("SRC_ID", "SRC_ID", false, false, false, false)).toStrictEqual({
     status: "error",
     type: "sourceEqualsDestination",
   });
@@ -141,7 +150,7 @@ test("move fails gracefully on error when checking folder emptiness", () => {
   });
   mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
 
-  expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
+  expect(move("SRC_ID", "DEST_ID", false, false, false, false)).toStrictEqual({
     status: "error",
     type: "DriveAPIError",
   });
@@ -159,7 +168,7 @@ test("move fails gracefully on non-empty destination directory", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(false);
   mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
 
-  expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
+  expect(move("SRC_ID", "DEST_ID", false, false, false, false)).toStrictEqual({
     status: "error",
     type: "notEmpty",
   });
@@ -177,7 +186,7 @@ test("move works correctly with non-empty override", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(false);
   mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
 
-  expect(move("SRC_ID", "DEST_ID", false, false, true)).toStrictEqual({
+  expect(move("SRC_ID", "DEST_ID", false, false, false, true)).toStrictEqual({
     status: "success",
     response: {
       errors: [],
@@ -224,7 +233,7 @@ test("move fails gracefully on error while moving", () => {
     .spyOn(console, "error")
     .mockImplementationOnce(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
 
-  expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
+  expect(move("SRC_ID", "DEST_ID", false, false, false, false)).toStrictEqual({
     status: "success",
     response: {
       errors: [error],

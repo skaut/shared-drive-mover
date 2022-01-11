@@ -6,6 +6,17 @@
   {$_("steps.introduction.configuration.header")}
 </h5>
 <FormField>
+  <Checkbox bind:checked={moveOnly}/>
+  <span slot="label">
+    <div class="form-heading">
+      {$_("steps.introduction.configuration.moveOnly.title")}
+    </div>
+    {$_("steps.introduction.configuration.moveOnly.description")}
+  </span>
+</FormField>
+<br/>
+<br/>
+<FormField>
   <Checkbox bind:checked={copyComments}/>
   <span slot="label">
     <div class="form-heading">
@@ -35,6 +46,7 @@
 
   import StepHeader from "./StepHeader.svelte";
 
+  export let moveOnly: boolean;
   export let copyComments: boolean;
   export let mergeFolders: boolean;
 </script>

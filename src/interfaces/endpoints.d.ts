@@ -10,6 +10,7 @@ declare namespace google.script {
     move(
       sourceID: string,
       destinationID: string,
+      moveOnly: boolean,
       copyComments: boolean,
       mergeFolders: boolean,
       notEmptyOverride: boolean

@@ -8,6 +8,7 @@ import type { MoveResponse } from "../interfaces/MoveResponse";
 export function move(
   sourceID: string,
   destinationID: string,
+  moveOnly: boolean,
   copyComments: boolean,
   mergeFolders: boolean,
   notEmptyOverride: boolean
@@ -27,6 +28,7 @@ export function move(
   const logger = new ErrorLogger_();
   moveFolderContents_(
     new MoveContext_(sourceID, destinationID, [], logger),
+    moveOnly,
     copyComments,
     mergeFolders
   );

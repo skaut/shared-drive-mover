@@ -35,6 +35,7 @@ function moveFileByCopy_(
 export function moveFile_(
   file: GoogleAppsScript.Drive.Schema.File,
   context: MoveContext_,
+  moveOnly: boolean,
   copyComments: boolean
 ): void {
   if (file.capabilities!.canMoveItemOutOfDrive!) {
@@ -43,5 +44,7 @@ export function moveFile_(
       return;
     } catch (e) {} // eslint-disable-line no-empty
   }
-  moveFileByCopy_(file.id!, file.title!, context, copyComments);
+  if (!moveOnly) {
+    moveFileByCopy_(file.id!, file.title!, context, copyComments);
+  }
 }

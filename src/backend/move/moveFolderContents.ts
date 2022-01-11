@@ -10,6 +10,7 @@ import type { MoveContext_ } from "../utils/MoveContext";
 
 function moveFolderContentsFiles_(
   context: MoveContext_,
+  moveOnly: boolean,
   copyComments: boolean
 ): void {
   const files = context.tryAndLog(() => listFilesInFolder_(context.sourceID));
@@ -17,12 +18,13 @@ function moveFolderContentsFiles_(
     return;
   }
   for (const file of files) {
-    moveFile_(file, context, copyComments);
+    moveFile_(file, context, moveOnly, copyComments);
   }
 }
 
 function moveFolderContentsFolders_(
   context: MoveContext_,
+  moveOnly: boolean,
   copyComments: boolean,
   mergeFolders: boolean
 ): void {
@@ -41,6 +43,7 @@ function moveFolderContentsFolders_(
       );
       moveFolderContents_(
         context.childContext(folder.id!, destinationFolder.id!, folder.title!),
+        moveOnly,
         copyComments,
         mergeFolders
       );
@@ -51,9 +54,10 @@ function moveFolderContentsFolders_(
 
 export function moveFolderContents_(
   context: MoveContext_,
+  moveOnly: boolean,
   copyComments: boolean,
   mergeFolders: boolean
 ): void {
-  moveFolderContentsFiles_(context, copyComments);
-  moveFolderContentsFolders_(context, copyComments, mergeFolders);
+  moveFolderContentsFiles_(context, moveOnly, copyComments);
+  moveFolderContentsFolders_(context, moveOnly, copyComments, mergeFolders);
 }

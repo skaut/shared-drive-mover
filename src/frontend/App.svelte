@@ -18,7 +18,7 @@
 </div>
 <div id="tab">
   {#if currentTab === "introduction"}
-    <Introduction bind:copyComments={copyComments} bind:mergeFolders={mergeFolders}/>
+    <Introduction bind:moveOnly={moveOnly} bind:copyComments={copyComments} bind:mergeFolders={mergeFolders}/>
     <ContinueButton disabled={false} on:next={() => currentTab = "source-selection"}/>
   {:else if currentTab === "source-selection"}
     <FolderSelection step="source-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
@@ -93,6 +93,7 @@
     currentTab === "destination-selection" ? 3/5 :
     currentTab === "confirmation" ? 4/5 : 0;
 
+  let moveOnly = false;
   let copyComments = true;
   let mergeFolders = true;
   let sourcePath: Array<NamedRecord> = [];
@@ -107,7 +108,7 @@
     google.script.run
       .withSuccessHandler(moveSuccessHandler)
       .withFailureHandler(moveErrorHandler)
-      .move(source!.id, destination!.id, copyComments, mergeFolders, forceNonEmpty);
+      .move(source!.id, destination!.id, moveOnly, copyComments, mergeFolders, forceNonEmpty);
   }
 
   function moveSuccessHandler(response: MoveResponse): void {
