@@ -23,7 +23,7 @@
     "@smui/linear-progress": "^5.0.1",
     "@smui/list": "^5.0.1",
     "@smui/top-app-bar": "^5.0.1",
-    "@types/google-apps-script": "^1.0.44",
+    "@types/google-apps-script": "^1.0.45",
     "@types/google.script.client-side": "^0.1.0",
     "@types/jest": "^27.4.0",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
