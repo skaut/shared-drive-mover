@@ -18,7 +18,7 @@
 </div>
 <div id="tab">
   {#if currentTab === "introduction"}
-    <Introduction bind:copyComments={copyComments}/>
+    <Introduction bind:copyComments={copyComments} bind:mergeFolders={mergeFolders}/>
     <ContinueButton disabled={false} on:next={() => currentTab = "source-selection"}/>
   {:else if currentTab === "source-selection"}
     <FolderSelection step="source-selection" on:error={(event) => {showErrorDialog(event.detail.message)}} bind:path={sourcePath} bind:selected={source}/>
@@ -40,7 +40,7 @@
       {$_("errorDialog.title")}
     </DialogTitle>
     <Content id="errorDialogContent">
-      {$_("errorDialog.content") + errorMessage}
+      {errorMessage}
     </Content>
     <Actions>
       <Button>
@@ -94,6 +94,7 @@
     currentTab === "confirmation" ? 4/5 : 0;
 
   let copyComments = true;
+  let mergeFolders = true;
   let sourcePath: Array<NamedRecord> = [];
   let destinationPath: Array<NamedRecord> = [];
   let source: NamedRecord|null = null;
@@ -106,28 +107,39 @@
     google.script.run
       .withSuccessHandler(moveSuccessHandler)
       .withFailureHandler(moveErrorHandler)
-      .move(source!.id, destination!.id, copyComments, false, forceNonEmpty);
+      .move(source!.id, destination!.id, copyComments, mergeFolders, forceNonEmpty);
   }
 
   function moveSuccessHandler(response: MoveResponse): void {
     moving = false;
     if (response.status === "error") {
-      if (response.reason === "notEmpty") {
-        movingComponent.showNonEmptyDialog();
-      } else {
-        currentTab = "confirmation";
-        showErrorDialog(response.reason!)
+      switch (response.type) {
+        case "DriveAPIError":
+          currentTab = "confirmation";
+          showErrorDialog($_("errorDialog.DriveAPIError"))
+          break;
+        case "notEmpty":
+          movingComponent.showNonEmptyDialog();
+          break;
+        case "sourceEqualsDestination":
+          currentTab = "confirmation";
+          showErrorDialog($_("errorDialog.sourceEqualsDestination"))
+          break;
+        default:
+          currentTab = "confirmation";
+          showErrorDialog($_("errorDialog.unknownError"))
+          break;
       }
       return;
     }
-    errors = response.errors;
+    errors = response.response.errors;
     currentTab = "done";
   }
 
   function moveErrorHandler(response: Error) {
     moving = false;
     currentTab = "confirmation";
-    showErrorDialog(response.message)
+    showErrorDialog($_("errorDialog.unknownErrorWithMessage") + response.message)
   }
 
   function showErrorDialog(message: string): void {

@@ -6,67 +6,54 @@ import {
 import { moveFile_ } from "./moveFile";
 import { resolveDestinationFolder_ } from "./resolveDestinationFolder";
 
-import type { ErrorLogger_ } from "../utils/ErrorLogger";
+import type { MoveContext_ } from "../utils/MoveContext";
 
 function moveFolderContentsFiles_(
-  sourceID: string,
-  destinationID: string,
-  path: Array<string>,
-  copyComments: boolean,
-  logger: ErrorLogger_
+  context: MoveContext_,
+  copyComments: boolean
 ): void {
-  for (const file of listFilesInFolder_(sourceID)) {
-    moveFile_(file, sourceID, destinationID, path, copyComments, logger);
+  const files = context.tryAndLog(() => listFilesInFolder_(context.sourceID));
+  if (files === null) {
+    return;
+  }
+  for (const file of files) {
+    moveFile_(file, context, copyComments);
   }
 }
 
 function moveFolderContentsFolders_(
-  sourceID: string,
-  destinationID: string,
-  path: Array<string>,
+  context: MoveContext_,
   copyComments: boolean,
-  mergeFolders: boolean,
-  logger: ErrorLogger_
+  mergeFolders: boolean
 ): void {
-  for (const folder of listFoldersInFolder_(sourceID)) {
-    try {
+  const subFolders = context.tryAndLog(() =>
+    listFoldersInFolder_(context.sourceID)
+  );
+  if (subFolders === null) {
+    return;
+  }
+  for (const folder of subFolders) {
+    context.tryAndLog(() => {
       const destinationFolder = resolveDestinationFolder_(
         folder,
-        destinationID,
-        path,
-        mergeFolders,
-        logger
+        context,
+        mergeFolders
       );
       moveFolderContents_(
-        folder.id!,
-        destinationFolder.id!,
-        path.concat([folder.title!]),
+        context.childContext(folder.id!, destinationFolder.id!, folder.title!),
         copyComments,
-        mergeFolders,
-        logger
+        mergeFolders
       );
       deleteFolderIfEmpty_(folder.id!);
-    } catch (e) {
-      logger.log(path.concat([folder.title!]), (e as Error).message);
-    }
+    }, folder.title);
   }
 }
 
 export function moveFolderContents_(
-  sourceID: string,
-  destinationID: string,
-  path: Array<string>,
+  context: MoveContext_,
   copyComments: boolean,
-  mergeFolders: boolean,
-  logger: ErrorLogger_
+  mergeFolders: boolean
 ): void {
-  moveFolderContentsFiles_(sourceID, destinationID, path, copyComments, logger);
-  moveFolderContentsFolders_(
-    sourceID,
-    destinationID,
-    path,
-    copyComments,
-    mergeFolders,
-    logger
-  );
+  moveFolderContentsFiles_(context, copyComments);
+  moveFolderContentsFolders_(context, copyComments, mergeFolders);
 }

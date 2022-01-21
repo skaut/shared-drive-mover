@@ -5,10 +5,13 @@
 			"welcome": "Vítejte v nástroji \"Shared drive mover\", sloužícím k hromadnému přesouvání souborů a složek v Google Disku. Nástroj je zvlášť užitečný pro přesun z \"Mého Disku\" do Sdílených disků (dříve označovaných jako Týmové disky). V následujících krocích vyberete zdrojovou a cílovou složku. Obsah vybrané zdrojové složky pak bude přesunut do cílové složky. Přesun může trvat déle, buďte prosím trpěliví.",
 			"configuration": {
 				"header": "Nastavení",
-				"introduction": "U souborů, jichž nejste vlastníkem, se místo jejich přesunutí vytvoří kopie v cílové složce.",
 				"copyComments": {
 					"title": "Kopírovat komentáře při kopírování souborů",
-					"description": "Komentáře budou vytvořeny pod vaším účtem a původní autor bude označen. Kopírování komentářů může přesun takových souborů zpomalit."
+					"description": "U souborů, jichž nejste vlastníkem, se místo jejich přesunutí vytvoří kopie v cílové složce. Pokud je zaškrtnuta tato volba, komentáře budou vytvořeny pod vaším účtem a původní autor bude označen. Kopírování komentářů může přesun takových souborů zpomalit."
+				},
+				"mergeFolders": {
+					"title": "Sloučit složky se stejným jménem",
+					"description": "Pokud složka ze zdroje již existuje v cíli, budou sloučeny dohromady. Funguje i pro podsložky."
 				}
 			}
 		},
@@ -57,7 +60,10 @@
 	},
 	"errorDialog": {
 		"title": "Chyba",
-		"content": "Nastala neznámá chyba. Prosím zkontrolujte zdrojovou a cílovou složku a zkuste to znovu. Chybová hláška: ",
+		"DriveAPIError": "Nastala chyba v Google Disku. Prosím zkontrolujte zdrojovou a cílovou složku a zkuste to znovu.",
+		"sourceEqualsDestination": "Zdrojová a cílová složka se musí lišit.",
+		"unknownError": "Nastala neznámá chyba. Prosím zkontrolujte zdrojovou a cílovou složku a zkuste to znovu.",
+		"unknownErrorWithMessage": "Nastala neznámá chyba. Prosím zkontrolujte zdrojovou a cílovou složku a zkuste to znovu. Chybová hláška: ",
 		"ok": "Ok"
 	}
 }

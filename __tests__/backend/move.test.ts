@@ -2,7 +2,7 @@ import { mocked } from "jest-mock";
 
 import { move } from "../../src/backend/move";
 
-import type { ErrorLogger_ } from "../../src/backend/utils/ErrorLogger";
+import type { MoveContext_ } from "../../src/backend/utils/MoveContext";
 
 import * as folderManagement from "../../src/backend/move/folderManagement";
 import * as moveFolderContents from "../../src/backend/move/moveFolderContents";
@@ -16,7 +16,9 @@ test("move works correctly", () => {
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
     status: "success",
-    errors: [],
+    response: {
+      errors: [],
+    },
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -26,19 +28,20 @@ test("move works correctly", () => {
   expect(
     mocked(moveFolderContents).moveFolderContents_.mock.calls
   ).toHaveLength(1);
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]).toBe(
-    "SRC_ID"
-  );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
-    "DEST_ID"
-  );
   expect(
-    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].sourceID
+  ).toBe("SRC_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]
+      .destinationID
+  ).toBe("DEST_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].path
   ).toStrictEqual([]);
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][3]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
     false
   );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][4]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]).toBe(
     false
   );
 });
@@ -49,7 +52,9 @@ test("move passes copyComments correctly", () => {
 
   expect(move("SRC_ID", "DEST_ID", true, false, false)).toStrictEqual({
     status: "success",
-    errors: [],
+    response: {
+      errors: [],
+    },
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -59,19 +64,20 @@ test("move passes copyComments correctly", () => {
   expect(
     mocked(moveFolderContents).moveFolderContents_.mock.calls
   ).toHaveLength(1);
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]).toBe(
-    "SRC_ID"
-  );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
-    "DEST_ID"
-  );
   expect(
-    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].sourceID
+  ).toBe("SRC_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]
+      .destinationID
+  ).toBe("DEST_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].path
   ).toStrictEqual([]);
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][3]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
     true
   );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][4]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]).toBe(
     false
   );
 });
@@ -82,7 +88,9 @@ test("move passes mergeFolders correctly", () => {
 
   expect(move("SRC_ID", "DEST_ID", false, true, false)).toStrictEqual({
     status: "success",
-    errors: [],
+    response: {
+      errors: [],
+    },
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -92,21 +100,59 @@ test("move passes mergeFolders correctly", () => {
   expect(
     mocked(moveFolderContents).moveFolderContents_.mock.calls
   ).toHaveLength(1);
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]).toBe(
-    "SRC_ID"
-  );
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].sourceID
+  ).toBe("SRC_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]
+      .destinationID
+  ).toBe("DEST_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].path
+  ).toStrictEqual([]);
   expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
+    false
+  );
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]).toBe(
+    true
+  );
+});
+
+test("move detects and reports source matching destination", () => {
+  mocked(folderManagement).isFolderEmpty_.mockImplementationOnce(() => {
+    throw new Error();
+  });
+  mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
+
+  expect(move("SRC_ID", "SRC_ID", false, false, false)).toStrictEqual({
+    status: "error",
+    type: "sourceEqualsDestination",
+  });
+
+  expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(0);
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls
+  ).toHaveLength(0);
+});
+
+test("move fails gracefully on error when checking folder emptiness", () => {
+  mocked(folderManagement).isFolderEmpty_.mockImplementationOnce(() => {
+    throw new Error();
+  });
+  mocked(moveFolderContents).moveFolderContents_.mockReturnValueOnce();
+
+  expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
+    status: "error",
+    type: "DriveAPIError",
+  });
+
+  expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
+  expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID"
   );
   expect(
-    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]
-  ).toStrictEqual([]);
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][3]).toBe(
-    false
-  );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][4]).toBe(
-    true
-  );
+    mocked(moveFolderContents).moveFolderContents_.mock.calls
+  ).toHaveLength(0);
 });
 
 test("move fails gracefully on non-empty destination directory", () => {
@@ -115,7 +161,7 @@ test("move fails gracefully on non-empty destination directory", () => {
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
     status: "error",
-    reason: "notEmpty",
+    type: "notEmpty",
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -133,7 +179,9 @@ test("move works correctly with non-empty override", () => {
 
   expect(move("SRC_ID", "DEST_ID", false, false, true)).toStrictEqual({
     status: "success",
-    errors: [],
+    response: {
+      errors: [],
+    },
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -143,19 +191,20 @@ test("move works correctly with non-empty override", () => {
   expect(
     mocked(moveFolderContents).moveFolderContents_.mock.calls
   ).toHaveLength(1);
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]).toBe(
-    "SRC_ID"
-  );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
-    "DEST_ID"
-  );
   expect(
-    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].sourceID
+  ).toBe("SRC_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]
+      .destinationID
+  ).toBe("DEST_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].path
   ).toStrictEqual([]);
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][3]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
     false
   );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][4]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]).toBe(
     false
   );
 });
@@ -167,8 +216,8 @@ test("move fails gracefully on error while moving", () => {
     error: "ERROR_MESSAGE",
   };
   mocked(moveFolderContents).moveFolderContents_.mockImplementationOnce(
-    (_1, _2, _3, _4, _5, logger: ErrorLogger_) => {
-      logger.log(error.file, error.error);
+    (context: MoveContext_) => {
+      context.logger.log(error.file, error.error);
     }
   );
   const consoleError = jest
@@ -177,7 +226,9 @@ test("move fails gracefully on error while moving", () => {
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
     status: "success",
-    errors: [error],
+    response: {
+      errors: [error],
+    },
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -187,19 +238,20 @@ test("move fails gracefully on error while moving", () => {
   expect(
     mocked(moveFolderContents).moveFolderContents_.mock.calls
   ).toHaveLength(1);
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]).toBe(
-    "SRC_ID"
-  );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
-    "DEST_ID"
-  );
   expect(
-    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].sourceID
+  ).toBe("SRC_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0]
+      .destinationID
+  ).toBe("DEST_ID");
+  expect(
+    mocked(moveFolderContents).moveFolderContents_.mock.calls[0][0].path
   ).toStrictEqual([]);
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][3]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][1]).toBe(
     false
   );
-  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][4]).toBe(
+  expect(mocked(moveFolderContents).moveFolderContents_.mock.calls[0][2]).toBe(
     false
   );
   expect(consoleError.mock.calls).toHaveLength(1);

@@ -1,5 +1,6 @@
 import { mocked } from "jest-mock";
 
+import { MoveContext_ } from "../../../src/backend/utils/MoveContext";
 import { moveFile_ } from "../../../src/backend/move/moveFile";
 
 import { ErrorLogger_ } from "../../../src/backend/utils/ErrorLogger";
@@ -42,11 +43,13 @@ test("moveFile works correctly with a file that can be moved directly", () => {
       id: "SRC_FILE_ID",
       title: "FILE_NAME",
     },
-    "SRC_PARENT_ID",
-    "DEST_PARENT_ID",
-    ["PATH", "TO", "FILE"],
-    false,
-    logger
+    new MoveContext_(
+      "SRC_PARENT_ID",
+      "DEST_PARENT_ID",
+      ["PATH", "TO", "FILE"],
+      logger
+    ),
+    false
   );
 
   expect(update.mock.calls).toHaveLength(1);
@@ -108,11 +111,13 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
       id: "SRC_FILE_ID",
       title: "FILE_NAME",
     },
-    "SRC_PARENT_ID",
-    "DEST_PARENT_ID",
-    ["PATH", "TO", "FILE"],
-    false,
-    logger
+    new MoveContext_(
+      "SRC_PARENT_ID",
+      "DEST_PARENT_ID",
+      ["PATH", "TO", "FILE"],
+      logger
+    ),
+    false
   );
 
   expect(update.mock.calls).toHaveLength(1);
@@ -162,11 +167,13 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
       id: "SRC_FILE_ID",
       title: "FILE_NAME",
     },
-    "SRC_PARENT_ID",
-    "DEST_PARENT_ID",
-    ["PATH", "TO", "FILE"],
-    false,
-    logger
+    new MoveContext_(
+      "SRC_PARENT_ID",
+      "DEST_PARENT_ID",
+      ["PATH", "TO", "FILE"],
+      logger
+    ),
+    false
   );
 
   expect(copy.mock.calls).toHaveLength(1);
@@ -212,11 +219,13 @@ test("moveFile works correctly with a file that can be moved directly with comme
       id: "SRC_FILE_ID",
       title: "FILE_NAME",
     },
-    "SRC_PARENT_ID",
-    "DEST_PARENT_ID",
-    ["PATH", "TO", "FILE"],
-    true,
-    logger
+    new MoveContext_(
+      "SRC_PARENT_ID",
+      "DEST_PARENT_ID",
+      ["PATH", "TO", "FILE"],
+      logger
+    ),
+    true
   );
 
   expect(update.mock.calls).toHaveLength(1);
@@ -260,11 +269,13 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
       id: "SRC_FILE_ID",
       title: "FILE_NAME",
     },
-    "SRC_PARENT_ID",
-    "DEST_PARENT_ID",
-    ["PATH", "TO", "FILE"],
-    true,
-    logger
+    new MoveContext_(
+      "SRC_PARENT_ID",
+      "DEST_PARENT_ID",
+      ["PATH", "TO", "FILE"],
+      logger
+    ),
+    true
   );
 
   expect(copy.mock.calls).toHaveLength(1);
@@ -336,11 +347,13 @@ test("moveFile fails gracefully on error", () => {
       id: "SRC_FILE_ID",
       title: "FILE_NAME",
     },
-    "SRC_PARENT_ID",
-    "DEST_PARENT_ID",
-    ["PATH", "TO", "FILE"],
-    false,
-    logger
+    new MoveContext_(
+      "SRC_PARENT_ID",
+      "DEST_PARENT_ID",
+      ["PATH", "TO", "FILE"],
+      logger
+    ),
+    false
   );
   expect(mocked(logger).log.mock.calls).toHaveLength(1);
   expect(mocked(logger).log.mock.calls[0][0]).toStrictEqual([
