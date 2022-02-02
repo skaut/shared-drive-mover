@@ -3,23 +3,15 @@
   "collectCoverageFrom": [
     "src/**/*.svelte",
     "src/**/*.ts",
-    "!src/**/*.d.ts",
-    "!src/backend/index.ts",
+    "!src/backend/**/*.*",
     "!src/frontend/index.ts"
   ],
   "coverageDirectory": "coverage",
   "coverageProvider": "babel",
   "projects": [
     {
-      "displayName": "backend",
-      "preset": "ts-jest/presets/default-esm",
-      "resetMocks": true,
-      "testMatch": ["<rootDir>/__tests__/backend/**/*.test.ts"]
-    },
-    {
       "displayName": "frontend",
       "preset": "ts-jest/presets/default",
-      "resetMocks": true,
       "testMatch": ["<rootDir>/__tests__/frontend/**/*.test.ts"],
       "transformIgnorePatterns": ["node_modules/(?!(@smui)/)"],
       "testEnvironment": "jsdom",
