@@ -45,7 +45,7 @@
     "sass": "^1.39.2 <1.40",
     "sass-loader": "^12.6.0",
     "style-loader": "^3.3.1",
-    "svelte": "^3.46.4",
+    "svelte": "^3.46.5",
     "svelte-check": "^2.4.6",
     "svelte-i18n": "^3.3.13",
     "svelte-loader": "^3.0.0",
