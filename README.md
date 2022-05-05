@@ -21,7 +21,9 @@ $ cd shared-drive-mover
 $ npm install
 ```
 
-Create a new script project on https://script.google.com under a Google Workspace account and in the Project properties, copy the Script ID. Put this inside `.clasp.json`. Then enable [Google Apps Script API](https://script.google.com/home/usersettings). Build the code and push it to the online project by running:
+Create a new script project on https://script.google.com under a Google Workspace account and in the Project properties, copy the Script ID. Put this inside `.clasp.json`. Then enable [Google Apps Script API](https://script.google.com/home/usersettings). You should also modify the `webapp.access` value in `appsscript.json` to control who can run the script - see the [docs](https://developers.google.com/apps-script/manifest/web-app-api-executable#webapp) for details.
+
+Finally, build the code and push it to the online project by running:
 
 ```sh
 $ npm run build
