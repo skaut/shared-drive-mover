@@ -1,7 +1,7 @@
 # Shared drive mover
 [![GitHub Actions](https://github.com/skaut/shared-drive-mover/workflows/CI/badge.svg)](https://github.com/skaut/shared-drive-mover/actions)
 
-This app enables G Suite users to easily move files from their personal drives to a Shared Drive (previously known as a Team Drive).
+This app enables Google Workspace users to easily move files from their personal drives to a Shared Drive (previously known as a Team Drive).
 
 The app is intended to run as a [Google Apps Script Web App](https://developers.google.com/apps-script/guides/web).
 
@@ -9,7 +9,7 @@ The app is intended to run as a [Google Apps Script Web App](https://developers.
 
 ### skaut.cz deployment
 
-The app is currently running for skaut.cz G Suite users at [presun-disku.skauting.cz](https://presun-disku.skauting.cz).
+The app is currently running for users in the `@skaut.cz` Google Workspace at [presun-disku.skauting.cz](https://presun-disku.skauting.cz).
 
 ### Own deployment
 
@@ -21,7 +21,7 @@ $ cd shared-drive-mover
 $ npm install
 ```
 
-Create a new script project on https://script.google.com under a G Suite account and in the Project properties, copy the Script ID. Put this inside `.clasp.json`. Then enable [Google Apps Script API](https://script.google.com/home/usersettings). Build the code and push it to the online project by running:
+Create a new script project on https://script.google.com under a Google Workspace account and in the Project properties, copy the Script ID. Put this inside `.clasp.json`. Then enable [Google Apps Script API](https://script.google.com/home/usersettings). Build the code and push it to the online project by running:
 
 ```sh
 $ npm run build
