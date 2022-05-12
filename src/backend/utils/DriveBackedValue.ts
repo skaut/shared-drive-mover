@@ -17,10 +17,22 @@ export class DriveBackedValue_<T> {
     this.saveDriveFile(this.getDriveFolderId(), value);
   }
 
+  public loadValue(): T | null {
+    const folderId = this.getExistingDriveFolderId();
+    if (folderId === null) {
+      return null;
+    }
+    const fileId = this.getExistingDriveFileId(folderId);
+    if (fileId === null) {
+      return null;
+    }
+    return this.getExistingDriveFileContents(fileId);
+  }
+
   private getDriveFolderId(): string {
-    const stateFolderId = this.getExistingDriveFolderId();
-    if (stateFolderId !== null) {
-      return stateFolderId;
+    const folderId = this.getExistingDriveFolderId();
+    if (folderId !== null) {
+      return folderId;
     }
     return this.createDriveFolder();
   }
@@ -51,22 +63,22 @@ export class DriveBackedValue_<T> {
     return response.id!;
   }
 
-  private saveDriveFile(stateFolderId: string, value: T): void {
-    const fileId = this.getExistingDriveFileId(stateFolderId);
+  private saveDriveFile(folderId: string, value: T): void {
+    const fileId = this.getExistingDriveFileId(folderId);
     if (fileId !== null) {
       this.updateExistingDriveFile(fileId, value);
     } else {
-      this.saveAsNewDriveFile(stateFolderId, value);
+      this.saveAsNewDriveFile(folderId, value);
     }
   }
 
-  private getExistingDriveFileId(stateFolderId: string): string | null {
+  private getExistingDriveFileId(folderId: string): string | null {
     const response = Drive.Files!.list({
       q:
         'title = "' +
         this.getFileName() +
         '" and "' +
-        stateFolderId +
+        folderId +
         '" in parents and trashed = false',
       maxResults: 1,
       fields: "items(id)",
@@ -88,15 +100,21 @@ export class DriveBackedValue_<T> {
     );
   }
 
-  private saveAsNewDriveFile(stateFolderId: string, value: T): void {
+  private saveAsNewDriveFile(folderId: string, value: T): void {
     Drive.Files!.insert(
       {
         mimeType: "application/json",
-        parents: [{ id: stateFolderId }],
+        parents: [{ id: folderId }],
         title: this.getFileName(),
       },
       Utilities.newBlob(JSON.stringify(value), "application/json")
     );
+  }
+
+  private getExistingDriveFileContents(fileId: string): T {
+    return JSON.parse(
+      Drive.Files!.get(fileId, { alt: "media" }) as string
+    ) as T;
   }
 
   private getFileName(): string {
