@@ -21,9 +21,6 @@ export function move(
   } catch (e) {
     return { status: "error", type: "DriveAPIError" };
   }
-  if (!notEmptyOverride && !isEmpty) {
-    return { status: "error", type: "notEmpty" };
-  }
 
   const state = new MoveState_(
     sourceID,
@@ -32,10 +29,16 @@ export function move(
     mergeFolders
   );
   state.loadState();
+
+  if (!notEmptyOverride && !isEmpty && state.isNull()) {
+    return { status: "error", type: "notEmpty" };
+  }
+
   if (state.isNull()) {
     state.addPath(sourceID, destinationID, []);
   }
   state.saveState();
+
   const logger = new ErrorLogger_();
   moveFolderContents_(
     new MoveContext_(sourceID, destinationID, [], logger),
