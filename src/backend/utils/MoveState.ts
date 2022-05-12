@@ -1,14 +1,21 @@
 import { DriveBackedValue_ } from "./DriveBackedValue";
 
-type MoveStateType = Array<{
+import type { MoveError } from "../../interfaces/MoveError";
+
+// TODO: Split out
+interface MoveContextv2_ {
   sourceID: string;
   destinationID: string;
   path: Array<string>;
-}>;
+}
 
 export class MoveState_ {
-  private readonly driveBackedState: DriveBackedValue_<MoveStateType>;
-  private state: MoveStateType | null;
+  private readonly driveBackedState: DriveBackedValue_<{
+    pathsToProcess: Array<MoveContextv2_>;
+    errors: Array<MoveError>;
+  }>;
+  private pathsToProcess: Array<MoveContextv2_> | null;
+  private errors: Array<MoveError>;
 
   public constructor(
     sourceID: string,
@@ -24,21 +31,20 @@ export class MoveState_ {
         mergeFolders,
       })
     );
-    this.state = null;
+    this.pathsToProcess = null;
+    this.errors = [];
   }
 
   public isNull(): boolean {
-    return this.state === null;
+    return this.pathsToProcess === null;
   }
 
-  public saveState(): void {
-    if (this.state !== null) {
-      this.driveBackedState.saveValue(this.state);
-    }
+  public isEmpty(): boolean {
+    return this.pathsToProcess === null || this.pathsToProcess.length === 0;
   }
 
-  public loadState(): void {
-    this.state = this.driveBackedState.loadValue();
+  public getErrors(): Array<MoveError> {
+    return this.errors;
   }
 
   public addPath(
@@ -46,9 +52,29 @@ export class MoveState_ {
     destinationID: string,
     path: Array<string>
   ): void {
-    if (this.state === null) {
-      this.state = [];
+    if (this.pathsToProcess === null) {
+      this.pathsToProcess = [];
     }
-    this.state.push({ sourceID, destinationID, path });
+    this.pathsToProcess.push({ sourceID, destinationID, path });
+  }
+
+  public saveState(): void {
+    if (this.pathsToProcess !== null) {
+      this.driveBackedState.saveValue({
+        pathsToProcess: this.pathsToProcess,
+        errors: this.errors,
+      });
+    }
+  }
+
+  public loadState(): void {
+    const state = this.driveBackedState.loadValue();
+    if (state !== null) {
+      this.pathsToProcess = state.pathsToProcess;
+      this.errors = state.errors;
+    } else {
+      this.pathsToProcess = null;
+      this.errors = [];
+    }
   }
 }

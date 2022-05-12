@@ -1,12 +1,13 @@
 import type { MoveError } from "../../interfaces/MoveError";
 
 export class ErrorLogger_ {
-  private readonly errors: Array<MoveError>;
+  private errors: Array<MoveError>;
 
   public constructor() {
     this.errors = [];
   }
 
+  // TODO: save state on each log?
   public log(file: Array<string>, error: string): void {
     this.errors.push({ file, error });
   }
@@ -17,5 +18,9 @@ export class ErrorLogger_ {
 
   public get(): Array<MoveError> {
     return this.errors;
+  }
+
+  public set(errors: Array<MoveError>): void {
+    this.errors = errors;
   }
 }

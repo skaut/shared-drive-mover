@@ -40,6 +40,7 @@ export function move(
   state.saveState();
 
   const logger = new ErrorLogger_();
+  logger.set(state.getErrors());
   moveFolderContents_(
     new MoveContext_(sourceID, destinationID, [], logger),
     copyComments,
