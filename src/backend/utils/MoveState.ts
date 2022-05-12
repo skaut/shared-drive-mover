@@ -1,7 +1,14 @@
 import { DriveBackedValue_ } from "./DriveBackedValue";
 
+type MoveStateType = Array<{
+  sourceID: string;
+  destinationID: string;
+  path: Array<string>;
+}>;
+
 export class MoveState_ {
-  private readonly driveBackedState: DriveBackedValue_<{ key: string }>;
+  private readonly driveBackedState: DriveBackedValue_<MoveStateType>;
+  private state: MoveStateType | null;
 
   public constructor(
     sourceID: string,
@@ -17,9 +24,31 @@ export class MoveState_ {
         mergeFolders,
       })
     );
+    this.state = null;
+  }
+
+  public isNull(): boolean {
+    return this.state === null;
   }
 
   public saveState(): void {
-    this.driveBackedState.saveValue({ key: "val" });
+    if (this.state !== null) {
+      this.driveBackedState.saveValue(this.state);
+    }
+  }
+
+  public loadState(): void {
+    this.state = this.driveBackedState.loadValue();
+  }
+
+  public addPath(
+    sourceID: string,
+    destinationID: string,
+    path: Array<string>
+  ): void {
+    if (this.state === null) {
+      this.state = [];
+    }
+    this.state.push({ sourceID, destinationID, path });
   }
 }

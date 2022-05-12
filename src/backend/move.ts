@@ -24,6 +24,18 @@ export function move(
   if (!notEmptyOverride && !isEmpty) {
     return { status: "error", type: "notEmpty" };
   }
+
+  const state = new MoveState_(
+    sourceID,
+    destinationID,
+    copyComments,
+    mergeFolders
+  );
+  state.loadState();
+  if (state.isNull()) {
+    state.addPath(sourceID, destinationID, []);
+  }
+  state.saveState();
   const logger = new ErrorLogger_();
   moveFolderContents_(
     new MoveContext_(sourceID, destinationID, [], logger),
