@@ -25,11 +25,17 @@ export class ErrorLogger_ {
     this.errors = errors;
   }
 
-  public tryOrLog<T>(context: MoveContextv2_, fn: () => T): T | null {
+  public tryOrLog<T>(
+    context: MoveContextv2_,
+    fn: () => T,
+    filename?: string
+  ): T | null {
     try {
       return fn();
     } catch (e) {
-      this.log(context.path, (e as Error).message);
+      const path =
+        filename !== undefined ? context.path.concat([filename]) : context.path;
+      this.log(path, (e as Error).message);
     }
     return null;
   }

@@ -12,15 +12,18 @@ import type { MoveContextv2_ } from "../../interfaces/MoveContext";
 import type { MoveState_ } from "../utils/MoveState";
 
 function moveFolderContentsFiles_(
-  context: MoveContext_,
+  context: MoveContextv2_,
+  logger: ErrorLogger_,
   copyComments: boolean
 ): void {
-  const files = context.tryAndLog(() => listFilesInFolder_(context.sourceID));
+  const files = logger.tryOrLog(context, () =>
+    listFilesInFolder_(context.sourceID)
+  );
   if (files === null) {
     return;
   }
   for (const file of files) {
-    moveFile_(file, context, copyComments);
+    moveFile_(file, context, logger, copyComments);
   }
 }
 
@@ -52,6 +55,7 @@ function moveFolderContentsFolders_(
   }
 }
 
+/*
 export function moveFolderContents_(
   context: MoveContext_,
   copyComments: boolean,
@@ -60,6 +64,7 @@ export function moveFolderContents_(
   moveFolderContentsFiles_(context, copyComments);
   moveFolderContentsFolders_(context, copyComments, mergeFolders);
 }
+*/
 
 export function moveFolder_(
   state: MoveState_,
@@ -68,7 +73,7 @@ export function moveFolder_(
   copyComments: boolean,
   mergeFolders: boolean
 ): void {
-  moveFolderContentsFiles_(context, copyComments)
+  moveFolderContentsFiles_(context, logger, copyComments);
   const subFolders = logger.tryOrLog(context, () =>
     listFoldersInFolder_(context.sourceID)
   );
