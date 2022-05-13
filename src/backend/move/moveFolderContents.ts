@@ -1,5 +1,4 @@
 import {
-  deleteFolderIfEmpty_,
   listFilesInFolder_,
   listFoldersInFolder_,
 } from "./folderManagement";
@@ -7,7 +6,6 @@ import { moveFile_ } from "./moveFile";
 import { resolveDestinationFolder_ } from "./resolveDestinationFolder";
 
 import type { ErrorLogger_ } from "../utils/ErrorLogger";
-import type { MoveContext_ } from "../utils/MoveContext";
 import type { MoveContextv2_ } from "../../interfaces/MoveContext";
 import type { MoveState_ } from "../utils/MoveState";
 
@@ -27,6 +25,7 @@ function moveFolderContentsFiles_(
   }
 }
 
+/*
 function moveFolderContentsFolders_(
   context: MoveContext_,
   copyComments: boolean,
@@ -54,6 +53,7 @@ function moveFolderContentsFolders_(
     }, folder.title);
   }
 }
+*/
 
 /*
 export function moveFolderContents_(
@@ -78,11 +78,13 @@ export function moveFolder_(
     listFoldersInFolder_(context.sourceID)
   );
   if (subFolders !== null) {
+    // TODO: Delete folders?
     for (const folder of subFolders) {
       // TODO: Create destination folder later?
       const destinationFolder = resolveDestinationFolder_(
         folder,
         context,
+        logger,
         mergeFolders
       );
       state.addPath(
