@@ -6,7 +6,10 @@ import {
 import { moveFile_ } from "./moveFile";
 import { resolveDestinationFolder_ } from "./resolveDestinationFolder";
 
+import type { ErrorLogger_ } from "../utils/ErrorLogger";
 import type { MoveContext_ } from "../utils/MoveContext";
+import type { MoveContextv2_ } from "../../interfaces/MoveContext";
+import type { MoveState_ } from "../utils/MoveState";
 
 function moveFolderContentsFiles_(
   context: MoveContext_,
@@ -56,4 +59,33 @@ export function moveFolderContents_(
 ): void {
   moveFolderContentsFiles_(context, copyComments);
   moveFolderContentsFolders_(context, copyComments, mergeFolders);
+}
+
+export function moveFolder_(
+  state: MoveState_,
+  context: MoveContextv2_,
+  logger: ErrorLogger_,
+  copyComments: boolean,
+  mergeFolders: boolean
+): void {
+  moveFolderContentsFiles_(context, copyComments)
+  const subFolders = logger.tryOrLog(context, () =>
+    listFoldersInFolder_(context.sourceID)
+  );
+  if (subFolders !== null) {
+    for (const folder of subFolders) {
+      // TODO: Create destination folder later?
+      const destinationFolder = resolveDestinationFolder_(
+        folder,
+        context,
+        mergeFolders
+      );
+      state.addPath(
+        folder.id!,
+        destinationFolder.id!,
+        context.path.concat([folder.title!])
+      );
+    }
+  }
+  state.removePath(context);
 }

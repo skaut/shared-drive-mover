@@ -1,7 +1,7 @@
 import { ErrorLogger_ } from "./utils/ErrorLogger";
 import { isFolderEmpty_ } from "./move/folderManagement";
-import { MoveContext_ } from "./utils/MoveContext";
-import { moveFolderContents_ } from "./move/moveFolderContents";
+import { moveFolder_ } from "./move/moveFolderContents";
+import { MoveState_ } from "./utils/MoveState";
 
 import type { MoveResponse } from "../interfaces/MoveResponse";
 
@@ -41,11 +41,14 @@ export function move(
 
   const logger = new ErrorLogger_();
   logger.set(state.getErrors());
-  moveFolderContents_(
-    new MoveContext_(sourceID, destinationID, [], logger),
-    copyComments,
-    mergeFolders
-  );
+  while (true) {
+    const nextPath = state.getNextPath();
+    if (nextPath === null) {
+      break;
+    }
+    moveFolder_(state, nextPath, logger, copyComments, mergeFolders)
+  }
+
   if (!logger.isEmpty()) {
     console.error(logger.get());
   }

@@ -1,3 +1,4 @@
+import type { MoveContextv2_ } from "../../interfaces/MoveContext";
 import type { MoveError } from "../../interfaces/MoveError";
 
 export class ErrorLogger_ {
@@ -22,5 +23,14 @@ export class ErrorLogger_ {
 
   public set(errors: Array<MoveError>): void {
     this.errors = errors;
+  }
+
+  public tryOrLog<T>(context: MoveContextv2_, fn: () => T): T | null {
+    try {
+      return fn();
+    } catch (e) {
+      this.log(context.path, (e as Error).message);
+    }
+    return null;
   }
 }
