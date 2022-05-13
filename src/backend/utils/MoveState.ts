@@ -37,6 +37,13 @@ export class MoveState_ {
     return this.pathsToProcess === null || this.pathsToProcess.length === 0;
   }
 
+  public getNextPath(): MoveContextv2_ | null {
+    if (this.isEmpty()) {
+      return null;
+    }
+    return this.pathsToProcess![this.pathsToProcess!.length - 1];
+  }
+
   public getErrors(): Array<MoveError> {
     return this.errors;
   }
@@ -50,6 +57,17 @@ export class MoveState_ {
       this.pathsToProcess = [];
     }
     this.pathsToProcess.push({ sourceID, destinationID, path });
+  }
+
+  public removePath(path: MoveContextv2_): void {
+    if (this.pathsToProcess === null) {
+      return;
+    }
+    this.pathsToProcess = this.pathsToProcess.filter(
+      (value) =>
+        value.sourceID !== path.sourceID ||
+        value.destinationID !== path.destinationID
+    );
   }
 
   public saveState(): void {

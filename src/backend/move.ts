@@ -46,7 +46,7 @@ export function move(
     if (nextPath === null) {
       break;
     }
-    moveFolder_(state, nextPath, logger, copyComments, mergeFolders)
+    moveFolder_(state, nextPath, logger, copyComments, mergeFolders);
   }
 
   if (!logger.isEmpty()) {
