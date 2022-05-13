@@ -34,7 +34,6 @@ export function moveFolder_(
   if (subFolders !== null) {
     // TODO: Delete folders? (deleteFolderIfEmpty_)
     for (const folder of subFolders) {
-      // TODO: Create destination folder later?
       const destinationFolder = resolveDestinationFolder_(
         folder,
         state,
