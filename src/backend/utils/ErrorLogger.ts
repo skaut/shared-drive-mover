@@ -1,4 +1,4 @@
-import type { MoveContextv2_ } from "../../interfaces/MoveContext";
+import type { MoveContext } from "../../interfaces/MoveContext";
 import type { MoveError } from "../../interfaces/MoveError";
 
 export class ErrorLogger_ {
@@ -26,7 +26,7 @@ export class ErrorLogger_ {
   }
 
   public tryOrLog<T>(
-    context: MoveContextv2_,
+    context: MoveContext,
     fn: () => T,
     filename?: string
   ): T | null {

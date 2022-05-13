@@ -1,4 +1,4 @@
-export interface MoveContextv2_ {
+export interface MoveContext {
   sourceID: string;
   destinationID: string;
   path: Array<string>;

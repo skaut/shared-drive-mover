@@ -1,9 +1,9 @@
 import { copyFileComments_ } from "./copyFileComments";
 
 import type { ErrorLogger_ } from "../utils/ErrorLogger";
-import type { MoveContextv2_ } from "../../interfaces/MoveContext";
+import type { MoveContext } from "../../interfaces/MoveContext";
 
-function moveFileDirectly_(fileID: string, context: MoveContextv2_): void {
+function moveFileDirectly_(fileID: string, context: MoveContext): void {
   Drive.Files!.update({}, fileID, null, {
     addParents: context.destinationID,
     removeParents: context.sourceID,
@@ -15,7 +15,7 @@ function moveFileDirectly_(fileID: string, context: MoveContextv2_): void {
 function moveFileByCopy_(
   fileID: string,
   name: string,
-  context: MoveContextv2_,
+  context: MoveContext,
   logger: ErrorLogger_,
   copyComments: boolean
 ): void {
@@ -40,7 +40,7 @@ function moveFileByCopy_(
 
 export function moveFile_(
   file: GoogleAppsScript.Drive.Schema.File,
-  context: MoveContextv2_,
+  context: MoveContext,
   logger: ErrorLogger_,
   copyComments: boolean
 ): void {

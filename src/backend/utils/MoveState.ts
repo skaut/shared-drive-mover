@@ -1,14 +1,14 @@
 import { DriveBackedValue_ } from "./DriveBackedValue";
 
-import type { MoveContextv2_ } from "../../interfaces/MoveContext";
+import type { MoveContext } from "../../interfaces/MoveContext";
 import type { MoveError } from "../../interfaces/MoveError";
 
 export class MoveState_ {
   private readonly driveBackedState: DriveBackedValue_<{
-    pathsToProcess: Array<MoveContextv2_>;
+    pathsToProcess: Array<MoveContext>;
     errors: Array<MoveError>;
   }>;
-  private pathsToProcess: Array<MoveContextv2_> | null;
+  private pathsToProcess: Array<MoveContext> | null;
   private errors: Array<MoveError>;
 
   public constructor(
@@ -37,7 +37,7 @@ export class MoveState_ {
     return this.pathsToProcess === null || this.pathsToProcess.length === 0;
   }
 
-  public getNextPath(): MoveContextv2_ | null {
+  public getNextPath(): MoveContext | null {
     if (this.isEmpty()) {
       return null;
     }
@@ -59,7 +59,7 @@ export class MoveState_ {
     this.pathsToProcess.push({ sourceID, destinationID, path });
   }
 
-  public removePath(path: MoveContextv2_): void {
+  public removePath(path: MoveContext): void {
     if (this.pathsToProcess === null) {
       return;
     }

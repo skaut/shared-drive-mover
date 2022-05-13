@@ -3,11 +3,11 @@ import { moveFile_ } from "./moveFile";
 import { resolveDestinationFolder_ } from "./resolveDestinationFolder";
 
 import type { ErrorLogger_ } from "../utils/ErrorLogger";
-import type { MoveContextv2_ } from "../../interfaces/MoveContext";
+import type { MoveContext } from "../../interfaces/MoveContext";
 import type { MoveState_ } from "../utils/MoveState";
 
 function moveFolderContentsFiles_(
-  context: MoveContextv2_,
+  context: MoveContext,
   logger: ErrorLogger_,
   copyComments: boolean
 ): void {
@@ -24,7 +24,7 @@ function moveFolderContentsFiles_(
 
 export function moveFolder_(
   state: MoveState_,
-  context: MoveContextv2_,
+  context: MoveContext,
   logger: ErrorLogger_,
   copyComments: boolean,
   mergeFolders: boolean
