@@ -49,5 +49,6 @@ export function move(
   if (!logger.isEmpty()) {
     console.error(logger.get());
   }
+  state.destroyState();
   return { status: "success", response: { errors: logger.get() } };
 }

@@ -29,6 +29,21 @@ export class DriveBackedValue_<T> {
     return this.getExistingDriveFileContents(fileId);
   }
 
+  public deleteValue(): void {
+    const folderId = this.getExistingDriveFolderId();
+    if (folderId === null) {
+      return;
+    }
+    const fileId = this.getExistingDriveFileId(folderId);
+    if (fileId !== null) {
+      this.deleteExistingDriveFile(fileId);
+    }
+    if (this.isExistingDriveFolderEmpty(folderId)) {
+      // This function works with folders as well
+      this.deleteExistingDriveFile(folderId);
+    }
+  }
+
   private getDriveFolderId(): string {
     const folderId = this.getExistingDriveFolderId();
     if (folderId !== null) {
@@ -115,6 +130,19 @@ export class DriveBackedValue_<T> {
     return JSON.parse(
       Drive.Files!.get(fileId, { alt: "media" }) as string
     ) as T;
+  }
+
+  private deleteExistingDriveFile(fileId: string): void {
+    Drive.Files!.remove(fileId);
+  }
+
+  private isExistingDriveFolderEmpty(folderId: string): boolean {
+    const response = Drive.Files!.list({
+      q: '"' + folderId + '" in parents and trashed = false',
+      maxResults: 1,
+      fields: "items(id)",
+    });
+    return response.items!.length === 0;
   }
 
   private getFileName(): string {

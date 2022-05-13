@@ -77,4 +77,10 @@ export class MoveState_ {
       this.errors = [];
     }
   }
+
+  public destroyState(): void {
+    this.driveBackedState.deleteValue();
+    this.pathsToProcess = null;
+    this.errors = [];
+  }
 }
