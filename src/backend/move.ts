@@ -41,7 +41,7 @@ export function move(
 
   const logger = new ErrorLogger_();
   logger.set(state.getErrors());
-  while (true) {
+  for (;;) {
     const nextPath = state.getNextPath();
     if (nextPath === null) {
       break;

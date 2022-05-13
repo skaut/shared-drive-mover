@@ -1,7 +1,4 @@
-import {
-  listFilesInFolder_,
-  listFoldersInFolder_,
-} from "./folderManagement";
+import { listFilesInFolder_, listFoldersInFolder_ } from "./folderManagement";
 import { moveFile_ } from "./moveFile";
 import { resolveDestinationFolder_ } from "./resolveDestinationFolder";
 
