@@ -1,5 +1,5 @@
 import { isFolderEmpty_ } from "./move/folderManagement";
-import { moveFolder_ } from "./move/moveFolderContents";
+import { moveFolder_ } from "./move/moveFolder";
 import { MoveState_ } from "./utils/MoveState";
 
 import type { MoveResponse } from "../interfaces/MoveResponse";
