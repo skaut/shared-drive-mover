@@ -70,9 +70,9 @@ export class MoveState_ {
     return this.errors;
   }
 
-  // TODO: save state on each log?
   public logError(file: Array<string>, error: string): void {
     this.errors.push({ file, error });
+    this.saveState();
   }
 
   public tryOrLog<T>(
