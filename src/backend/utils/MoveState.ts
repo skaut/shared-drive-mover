@@ -33,19 +33,13 @@ export class MoveState_ {
     return this.pathsToProcess === null;
   }
 
-  public isEmpty(): boolean {
-    return this.pathsToProcess === null || this.pathsToProcess.length === 0;
-  }
+  // Path get/set
 
   public getNextPath(): MoveContext | null {
-    if (this.isEmpty()) {
+    if (this.isNull() || this.pathsToProcess!.length === 0) {
       return null;
     }
     return this.pathsToProcess![this.pathsToProcess!.length - 1];
-  }
-
-  public getErrors(): Array<MoveError> {
-    return this.errors;
   }
 
   public addPath(
@@ -69,6 +63,14 @@ export class MoveState_ {
         value.destinationID !== path.destinationID
     );
   }
+
+  // Error get/set
+
+  public getErrors(): Array<MoveError> {
+    return this.errors;
+  }
+
+  // Save/load/destroy
 
   public saveState(): void {
     if (this.pathsToProcess !== null) {
