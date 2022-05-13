@@ -51,4 +51,5 @@ export function moveFolder_(
     }
   }
   state.removePath(context);
+  state.saveState();
 }
