@@ -70,6 +70,26 @@ export class MoveState_ {
     return this.errors;
   }
 
+  // TODO: save state on each log?
+  public logError(file: Array<string>, error: string): void {
+    this.errors.push({ file, error });
+  }
+
+  public tryOrLog<T>(
+    context: MoveContext,
+    fn: () => T,
+    filename?: string
+  ): T | null {
+    try {
+      return fn();
+    } catch (e) {
+      const path =
+        filename !== undefined ? context.path.concat([filename]) : context.path;
+      this.logError(path, (e as Error).message);
+    }
+    return null;
+  }
+
   // Save/load/destroy
 
   public saveState(): void {

@@ -1,12 +1,12 @@
 import { listFoldersInFolder_ } from "./folderManagement";
 
-import type { ErrorLogger_ } from "../utils/ErrorLogger";
 import type { MoveContext } from "../../interfaces/MoveContext";
+import type { MoveState_ } from "../utils/MoveState";
 
 export function resolveDestinationFolder_(
   sourceFolder: GoogleAppsScript.Drive.Schema.File,
+  state: MoveState_,
   context: MoveContext,
-  logger: ErrorLogger_,
   mergeFolders: boolean
 ): GoogleAppsScript.Drive.Schema.File {
   if (mergeFolders) {
@@ -17,7 +17,7 @@ export function resolveDestinationFolder_(
       return existingFoldersWithSameName[0];
     }
     if (existingFoldersWithSameName.length > 1) {
-      logger.log(
+      state.logError(
         context.path.concat([sourceFolder.title!]),
         "Coudn't merge with existing folder as there are multiple existing directories with the same name"
       );

@@ -1,7 +1,7 @@
 import { copyFileComments_ } from "./copyFileComments";
 
-import type { ErrorLogger_ } from "../utils/ErrorLogger";
 import type { MoveContext } from "../../interfaces/MoveContext";
+import type { MoveState_ } from "../utils/MoveState";
 
 function moveFileDirectly_(fileID: string, context: MoveContext): void {
   Drive.Files!.update({}, fileID, null, {
@@ -15,11 +15,11 @@ function moveFileDirectly_(fileID: string, context: MoveContext): void {
 function moveFileByCopy_(
   fileID: string,
   name: string,
+  state: MoveState_,
   context: MoveContext,
-  logger: ErrorLogger_,
   copyComments: boolean
 ): void {
-  logger.tryOrLog(
+  state.tryOrLog(
     context,
     () => {
       const copy = Drive.Files!.copy(
@@ -40,8 +40,8 @@ function moveFileByCopy_(
 
 export function moveFile_(
   file: GoogleAppsScript.Drive.Schema.File,
+  state: MoveState_,
   context: MoveContext,
-  logger: ErrorLogger_,
   copyComments: boolean
 ): void {
   if (file.capabilities!.canMoveItemOutOfDrive!) {
@@ -50,5 +50,5 @@ export function moveFile_(
       return;
     } catch (e) {} // eslint-disable-line no-empty
   }
-  moveFileByCopy_(file.id!, file.title!, context, logger, copyComments);
+  moveFileByCopy_(file.id!, file.title!, state, context, copyComments);
 }

@@ -1,4 +1,3 @@
-import { ErrorLogger_ } from "./utils/ErrorLogger";
 import { isFolderEmpty_ } from "./move/folderManagement";
 import { moveFolder_ } from "./move/moveFolderContents";
 import { MoveState_ } from "./utils/MoveState";
@@ -39,19 +38,18 @@ export function move(
   }
   state.saveState();
 
-  const logger = new ErrorLogger_();
-  logger.set(state.getErrors());
   for (;;) {
     const nextPath = state.getNextPath();
     if (nextPath === null) {
       break;
     }
-    moveFolder_(state, nextPath, logger, copyComments, mergeFolders);
+    moveFolder_(state, nextPath, copyComments, mergeFolders);
   }
 
-  if (!logger.isEmpty()) {
-    console.error(logger.get());
+  const errors = state.getErrors();
+  if (errors.length > 0) {
+    console.error(errors);
   }
   state.destroyState();
-  return { status: "success", response: { errors: logger.get() } };
+  return { status: "success", response: { errors: errors } };
 }
