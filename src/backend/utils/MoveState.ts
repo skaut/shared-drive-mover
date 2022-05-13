@@ -1,13 +1,7 @@
 import { DriveBackedValue_ } from "./DriveBackedValue";
 
+import type { MoveContextv2_ } from "../../interfaces/MoveContext";
 import type { MoveError } from "../../interfaces/MoveError";
-
-// TODO: Split out
-interface MoveContextv2_ {
-  sourceID: string;
-  destinationID: string;
-  path: Array<string>;
-}
 
 export class MoveState_ {
   private readonly driveBackedState: DriveBackedValue_<{
