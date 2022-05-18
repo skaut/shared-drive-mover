@@ -20,18 +20,15 @@ jest.mock("../../src/backend/utils/MoveState", () => ({
 test("move works correctly", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(true);
   mocked(moveFolder).moveFolder_.mockReturnValueOnce();
-  const moveStateMock: MoveState_ = {
-    ...mockedMoveState(),
-    getNextPath: jest
-      .fn()
-      .mockImplementationOnce(() => ({
-        sourceID: "SRC_ID",
-        destinationID: "DEST_ID",
-        path: [],
-      }))
-      .mockImplementation(() => null),
-    getErrors: jest.fn().mockImplementationOnce(() => []),
-  } as unknown as MoveState_;
+  const moveStateMock = mockedMoveState();
+  moveStateMock.getNextPath
+    .mockImplementationOnce(() => ({
+      sourceID: "SRC_ID",
+      destinationID: "DEST_ID",
+      path: [],
+    }))
+    .mockImplementation(() => null);
+  moveStateMock.getErrors.mockImplementationOnce(() => []);
   mocked(MoveState_).mockImplementation(() => moveStateMock);
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({

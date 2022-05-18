@@ -1,6 +1,8 @@
+import type { MockedObject } from "jest-mock";
+
 import type { MoveState_ } from "../../src/backend/utils/MoveState";
 
-export function mockedMoveState(): MoveState_ {
+export function mockedMoveState(): MockedObject<MoveState_> {
   return {
     isNull: jest.fn(),
     getNextPath: jest.fn(),
@@ -12,5 +14,5 @@ export function mockedMoveState(): MoveState_ {
     saveState: jest.fn(),
     loadState: jest.fn(),
     destroyState: jest.fn(),
-  } as unknown as MoveState_;
+  } as unknown as MockedObject<MoveState_>;
 }
