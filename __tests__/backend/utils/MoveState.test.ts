@@ -13,19 +13,35 @@ test("MoveState constructs correctly", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
   mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
-  const state = new MoveState_("SRC_ID", "DEST_ID", false, false);
+  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
 
   expect(mocked(DriveBackedValue_).mock.calls).toHaveLength(1);
   expect(mocked(DriveBackedValue_).mock.calls[0][0]).toBe(
     JSON.stringify({
-      sourceID: "SRC_ID",
-      destinationID: "DEST_ID",
+      sourceID: "SRC_BASE_ID",
+      destinationID: "DEST_BASE_ID",
       copyComments: false,
       mergeFolders: false,
     })
   );
   expect(state.getNextPath()).toBeNull();
   expect(state.getErrors()).toStrictEqual([]);
+});
+
+test("MoveState logs errors", () => {
+  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const error1 = {
+    file: ["PATH", "TO", "FILE1"],
+    error: "ERROR_MESSAGE1",
+  };
+  const error2 = {
+    file: ["PATH", "TO", "FILE2"],
+    error: "ERROR_MESSAGE2",
+  };
+  state.logError(error1.file, error1.error);
+  state.logError(error2.file, error2.error);
+
+  expect(state.getErrors()).toStrictEqual([error1, error2]);
 });
 
 test("MoveState.tryOrLog works correctly", () => {
