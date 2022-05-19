@@ -39,6 +39,11 @@ test("move works correctly", () => {
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID"
   );
+  expect(mocked(MoveState_).mock.calls).toHaveLength(1);
+  expect(mocked(MoveState_).mock.calls[0][0]).toBe("SRC_ID");
+  expect(mocked(MoveState_).mock.calls[0][1]).toBe("DEST_ID");
+  expect(mocked(MoveState_).mock.calls[0][2]).toBe(false);
+  expect(mocked(MoveState_).mock.calls[0][3]).toBe(false);
   expect(mocked(moveStateMock).loadState.mock.calls).toHaveLength(1);
   expect(mocked(moveStateMock).isNull.mock.calls).toHaveLength(1);
   expect(mocked(moveStateMock).addPath.mock.calls).toHaveLength(1);
@@ -88,6 +93,11 @@ test("move passes copyComments correctly", () => {
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID"
   );
+  expect(mocked(MoveState_).mock.calls).toHaveLength(1);
+  expect(mocked(MoveState_).mock.calls[0][0]).toBe("SRC_ID");
+  expect(mocked(MoveState_).mock.calls[0][1]).toBe("DEST_ID");
+  expect(mocked(MoveState_).mock.calls[0][2]).toBe(true);
+  expect(mocked(MoveState_).mock.calls[0][3]).toBe(false);
   expect(mocked(moveStateMock).loadState.mock.calls).toHaveLength(1);
   expect(mocked(moveStateMock).isNull.mock.calls).toHaveLength(1);
   expect(mocked(moveStateMock).addPath.mock.calls).toHaveLength(1);
@@ -137,6 +147,11 @@ test("move passes mergeFolders correctly", () => {
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID"
   );
+  expect(mocked(MoveState_).mock.calls).toHaveLength(1);
+  expect(mocked(MoveState_).mock.calls[0][0]).toBe("SRC_ID");
+  expect(mocked(MoveState_).mock.calls[0][1]).toBe("DEST_ID");
+  expect(mocked(MoveState_).mock.calls[0][2]).toBe(false);
+  expect(mocked(MoveState_).mock.calls[0][3]).toBe(true);
   expect(mocked(moveStateMock).loadState.mock.calls).toHaveLength(1);
   expect(mocked(moveStateMock).isNull.mock.calls).toHaveLength(1);
   expect(mocked(moveStateMock).addPath.mock.calls).toHaveLength(1);
@@ -168,6 +183,7 @@ test("move detects and reports source matching destination", () => {
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(0);
+  expect(mocked(MoveState_).mock.calls).toHaveLength(0);
   expect(mocked(moveFolder).moveFolder_.mock.calls).toHaveLength(0);
 });
 
@@ -185,6 +201,7 @@ test("move fails gracefully on error when checking folder emptiness", () => {
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID"
   );
+  expect(mocked(MoveState_).mock.calls).toHaveLength(0);
   expect(mocked(moveFolder).moveFolder_.mock.calls).toHaveLength(0);
 });
 
@@ -203,6 +220,11 @@ test("move fails gracefully on non-empty destination directory", () => {
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID"
   );
+  expect(mocked(MoveState_).mock.calls).toHaveLength(1);
+  expect(mocked(MoveState_).mock.calls[0][0]).toBe("SRC_ID");
+  expect(mocked(MoveState_).mock.calls[0][1]).toBe("DEST_ID");
+  expect(mocked(MoveState_).mock.calls[0][2]).toBe(false);
+  expect(mocked(MoveState_).mock.calls[0][3]).toBe(false);
   expect(mocked(moveStateMock).loadState.mock.calls).toHaveLength(1);
   expect(mocked(moveStateMock).isNull.mock.calls).toHaveLength(1);
   expect(mocked(moveStateMock).addPath.mock.calls).toHaveLength(0);
@@ -238,6 +260,11 @@ test("move works correctly with non-empty override", () => {
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID"
   );
+  expect(mocked(MoveState_).mock.calls).toHaveLength(1);
+  expect(mocked(MoveState_).mock.calls[0][0]).toBe("SRC_ID");
+  expect(mocked(MoveState_).mock.calls[0][1]).toBe("DEST_ID");
+  expect(mocked(MoveState_).mock.calls[0][2]).toBe(false);
+  expect(mocked(MoveState_).mock.calls[0][3]).toBe(false);
   expect(mocked(moveStateMock).loadState.mock.calls).toHaveLength(1);
   expect(mocked(moveStateMock).isNull.mock.calls).toHaveLength(1);
   expect(mocked(moveStateMock).addPath.mock.calls).toHaveLength(1);
@@ -309,6 +336,11 @@ test("move fails gracefully on error while moving", () => {
   );
   expect(mocked(moveFolder).moveFolder_.mock.calls[0][2]).toBe(false);
   expect(mocked(moveFolder).moveFolder_.mock.calls[0][3]).toBe(false);
+  expect(mocked(MoveState_).mock.calls).toHaveLength(1);
+  expect(mocked(MoveState_).mock.calls[0][0]).toBe("SRC_ID");
+  expect(mocked(MoveState_).mock.calls[0][1]).toBe("DEST_ID");
+  expect(mocked(MoveState_).mock.calls[0][2]).toBe(false);
+  expect(mocked(MoveState_).mock.calls[0][3]).toBe(false);
   expect(mocked(moveStateMock).loadState.mock.calls).toHaveLength(1);
   expect(mocked(moveStateMock).isNull.mock.calls).toHaveLength(1);
   expect(mocked(moveStateMock).addPath.mock.calls).toHaveLength(1);
