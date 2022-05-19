@@ -28,62 +28,56 @@ test("MoveState constructs correctly", () => {
   expect(state.getErrors()).toStrictEqual([]);
 });
 
-/*
-test("MoveContext.tryAndLog works correctly", () => {
-  const logger = new ErrorLogger_();
-  const context = new MoveContext_(
-    "SRC_ID",
-    "DEST_ID",
-    ["PATH", "TO", "FILE"],
-    logger
-  );
+test("MoveState.tryOrLog works correctly", () => {
+  const context = {
+    sourceID: "SRC_ID",
+    destinationID: "DEST_ID",
+    path: ["PATH", "TO", "FOLDER"],
+  };
+  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
 
   const fn = jest.fn<void, []>().mockReturnValueOnce(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
 
-  context.tryAndLog(fn);
+  state.tryOrLog(context, fn);
 
   expect(fn.mock.calls).toHaveLength(1);
-  expect(mocked(context.logger).log.mock.calls).toHaveLength(0);
+  expect(state.getErrors()).toStrictEqual([]);
 });
 
 test("MoveContext.tryAndLog returns values correctly", () => {
-  const logger = new ErrorLogger_();
-  const context = new MoveContext_(
-    "SRC_ID",
-    "DEST_ID",
-    ["PATH", "TO", "FILE"],
-    logger
-  );
+  const context = {
+    sourceID: "SRC_ID",
+    destinationID: "DEST_ID",
+    path: ["PATH", "TO", "FOLDER"],
+  };
+  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
 
   const returnValue = { complex: { return: "object" } };
 
-  expect(context.tryAndLog(() => returnValue)).toStrictEqual(returnValue);
+  expect(state.tryOrLog(context, () => returnValue)).toStrictEqual(returnValue);
 
-  expect(mocked(context.logger).log.mock.calls).toHaveLength(0);
+  expect(state.getErrors()).toStrictEqual([]);
 });
 
 test("MoveContext.tryAndLog handles errors gracefully", () => {
-  const logger = new ErrorLogger_();
-  const context = new MoveContext_(
-    "SRC_ID",
-    "DEST_ID",
-    ["PATH", "TO", "FILE"],
-    logger
-  );
+  const context = {
+    sourceID: "SRC_ID",
+    destinationID: "DEST_ID",
+    path: ["PATH", "TO", "FOLDER"],
+  };
+  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
 
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   const fn = jest.fn<void, []>().mockImplementationOnce(() => {
     throw new Error("ERROR_MESSAGE");
   });
 
-  context.tryAndLog(fn);
+  state.tryOrLog(context, fn);
 
-  expect(mocked(context.logger).log.mock.calls).toHaveLength(1);
-  expect(mocked(context.logger).log.mock.calls[0][0]).toStrictEqual([
-    "PATH",
-    "TO",
-    "FILE",
+  expect(state.getErrors()).toStrictEqual([
+    {
+      error: "ERROR_MESSAGE",
+      file: ["PATH", "TO", "FOLDER"],
+    },
   ]);
-  expect(mocked(context.logger).log.mock.calls[0][1]).toBe("ERROR_MESSAGE");
 });
-*/
