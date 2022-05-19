@@ -235,6 +235,57 @@ test("move fails gracefully on non-empty destination directory", () => {
   expect(mocked(moveFolder).moveFolder_.mock.calls).toHaveLength(0);
 });
 
+test("move doesn't care about non-empty destination directory when resuming from an existing move", () => {
+  mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(false);
+  const moveStateMock = mockedMoveState();
+  moveStateMock.getNextPath
+    .mockReturnValueOnce({
+      sourceID: "SRC_ID",
+      destinationID: "DEST_ID",
+      path: [],
+    })
+    .mockReturnValue(null);
+  moveStateMock.getErrors.mockReturnValueOnce([]);
+  moveStateMock.isNull.mockReturnValueOnce(false).mockReturnValueOnce(false);
+  mocked(MoveState_).mockReturnValue(moveStateMock);
+
+  expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
+    status: "success",
+    response: {
+      errors: [],
+    },
+  });
+
+  expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
+  expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
+    "DEST_ID"
+  );
+  expect(mocked(MoveState_).mock.calls).toHaveLength(1);
+  expect(mocked(MoveState_).mock.calls[0][0]).toBe("SRC_ID");
+  expect(mocked(MoveState_).mock.calls[0][1]).toBe("DEST_ID");
+  expect(mocked(MoveState_).mock.calls[0][2]).toBe(false);
+  expect(mocked(MoveState_).mock.calls[0][3]).toBe(false);
+  expect(mocked(moveStateMock).loadState.mock.calls).toHaveLength(1);
+  expect(mocked(moveStateMock).isNull.mock.calls).toHaveLength(2);
+  expect(mocked(moveStateMock).addPath.mock.calls).toHaveLength(0);
+  expect(mocked(moveStateMock).saveState.mock.calls).toHaveLength(1);
+  expect(mocked(moveStateMock).getNextPath.mock.calls).toHaveLength(2);
+  expect(mocked(moveStateMock).getErrors.mock.calls).toHaveLength(1);
+  expect(mocked(moveStateMock).destroyState.mock.calls).toHaveLength(1);
+  expect(mocked(moveFolder).moveFolder_.mock.calls).toHaveLength(1);
+  expect(mocked(moveFolder).moveFolder_.mock.calls[0][1].sourceID).toBe(
+    "SRC_ID"
+  );
+  expect(mocked(moveFolder).moveFolder_.mock.calls[0][1].destinationID).toBe(
+    "DEST_ID"
+  );
+  expect(mocked(moveFolder).moveFolder_.mock.calls[0][1].path).toStrictEqual(
+    []
+  );
+  expect(mocked(moveFolder).moveFolder_.mock.calls[0][2]).toBe(false);
+  expect(mocked(moveFolder).moveFolder_.mock.calls[0][3]).toBe(false);
+});
+
 test("move works correctly with non-empty override", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(false);
   const moveStateMock = mockedMoveState();
