@@ -9,9 +9,8 @@ export class DriveBackedValue_<T> {
       key,
       Utilities.Charset.US_ASCII
     )
-      .map((byte) =>
-        (byte < 0 ? byte + 256 : byte).toString(16).padStart(2, "0")
-      )
+      .map((byte) => (byte < 0 ? byte + 256 : byte).toString(16))
+      .map((s) => (s.length < 2 ? "0" + s : s))
       .join("");
   }
 
