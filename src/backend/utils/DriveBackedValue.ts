@@ -9,7 +9,9 @@ export class DriveBackedValue_<T> {
       key,
       Utilities.Charset.US_ASCII
     )
-      .map((byte) => (byte < 0 ? byte + 256 : byte).toString(16).slice(-2))
+      .map((byte) =>
+        (byte < 0 ? byte + 256 : byte).toString(16).padStart(2, "0")
+      )
       .join("");
   }
 
@@ -62,7 +64,7 @@ export class DriveBackedValue_<T> {
       fields: "items(id)",
     });
     if (
-      response.items!.length > 0 &&
+      response.items!.length === 1 &&
       typeof response.items![0].id === "string"
     ) {
       return response.items![0].id;
@@ -99,7 +101,7 @@ export class DriveBackedValue_<T> {
       fields: "items(id)",
     });
     if (
-      response.items!.length > 0 &&
+      response.items!.length === 1 &&
       typeof response.items![0].id === "string"
     ) {
       return response.items![0].id;
