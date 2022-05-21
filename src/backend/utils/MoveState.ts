@@ -6,6 +6,7 @@ import type { MoveError } from "../../interfaces/MoveError";
 export class MoveState_ {
   private readonly driveBackedState: DriveBackedValue_<{
     pathsToProcess: Array<MoveContext>;
+    pathsToDelete: Array<MoveContext>; // Currently unused.
     errors: Array<MoveError>;
   }>;
   private pathsToProcess: Array<MoveContext> | null;
@@ -96,6 +97,7 @@ export class MoveState_ {
     if (this.pathsToProcess !== null) {
       this.driveBackedState.saveValue({
         pathsToProcess: this.pathsToProcess,
+        pathsToDelete: [],
         errors: this.errors,
       });
     }

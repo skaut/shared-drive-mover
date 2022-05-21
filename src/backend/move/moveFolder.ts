@@ -32,7 +32,6 @@ export function moveFolder_(
     listFoldersInFolder_(context.sourceID)
   );
   if (subFolders !== null) {
-    // TODO: Delete folders? (deleteFolderIfEmpty_)
     for (const folder of subFolders) {
       const destinationFolder = resolveDestinationFolder_(
         folder,
