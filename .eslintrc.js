@@ -129,7 +129,11 @@ module.exports = {
         "jest/prefer-called-with": "error",
         "jest/prefer-expect-assertions": [
           "error",
-          { onlyFunctionsWithAsyncKeyword: true },
+          {
+            onlyFunctionsWithAsyncKeyword: true,
+            onlyFunctionsWithExpectInLoop: true,
+            onlyFunctionsWithExpectInCallback: true,
+          },
         ],
         "jest/prefer-expect-resolves": "error",
         "jest/prefer-hooks-on-top": "error",
