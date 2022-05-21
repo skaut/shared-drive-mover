@@ -137,6 +137,10 @@
   }
 
   function moveErrorHandler(response: Error) {
+    if (response.name === "ScriptError" && response.message === "Exceeded maximum execution time") {
+      move();
+      return;
+    }
     moving = false;
     currentTab = "confirmation";
     showErrorDialog($_("errorDialog.unknownErrorWithMessage") + response.message)

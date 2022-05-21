@@ -1,7 +1,6 @@
-import { ErrorLogger_ } from "./utils/ErrorLogger";
 import { isFolderEmpty_ } from "./move/folderManagement";
-import { MoveContext_ } from "./utils/MoveContext";
-import { moveFolderContents_ } from "./move/moveFolderContents";
+import { moveFolder_ } from "./move/moveFolder";
+import { MoveState_ } from "./utils/MoveState";
 
 import type { MoveResponse } from "../interfaces/MoveResponse";
 
@@ -21,17 +20,36 @@ export function move(
   } catch (e) {
     return { status: "error", type: "DriveAPIError" };
   }
-  if (!notEmptyOverride && !isEmpty) {
-    return { status: "error", type: "notEmpty" };
-  }
-  const logger = new ErrorLogger_();
-  moveFolderContents_(
-    new MoveContext_(sourceID, destinationID, [], logger),
+
+  const state = new MoveState_(
+    sourceID,
+    destinationID,
     copyComments,
     mergeFolders
   );
-  if (!logger.isEmpty()) {
-    console.error(logger.get());
+  state.loadState();
+
+  if (!notEmptyOverride && !isEmpty && state.isNull()) {
+    return { status: "error", type: "notEmpty" };
   }
-  return { status: "success", response: { errors: logger.get() } };
+
+  if (state.isNull()) {
+    state.addPath(sourceID, destinationID, []);
+  }
+  state.saveState();
+
+  for (;;) {
+    const nextPath = state.getNextPath();
+    if (nextPath === null) {
+      break;
+    }
+    moveFolder_(state, nextPath, copyComments, mergeFolders);
+  }
+
+  const errors = state.getErrors();
+  if (errors.length > 0) {
+    console.error(errors);
+  }
+  state.destroyState();
+  return { status: "success", response: { errors: errors } };
 }
