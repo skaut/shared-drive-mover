@@ -147,7 +147,7 @@ export function mockedFilesCollection(): GoogleAppsScript.Drive.Collection.Files
     get: jest.fn<GoogleAppsScript.Drive.Schema.File, [fileId: string]>(),
     insert: jest.fn<
       GoogleAppsScript.Drive.Schema.File,
-      [resource: GoogleAppsScript.Drive.Schema.File]
+      [resource: GoogleAppsScript.Drive.Schema.File, mediaData?: Blob]
     >(),
     list: jest.fn<GoogleAppsScript.Drive.Schema.FileList, []>(),
     patch: jest.fn<
