@@ -137,7 +137,7 @@
   }
 
   function moveErrorHandler(response: Error) {
-    if (response.name === "ScriptError" && response.message === "Exceeded maximum execution time") {
+    if (response.name === "ScriptError") {
       move();
       return;
     }
