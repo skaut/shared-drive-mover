@@ -31,7 +31,7 @@
     "css-loader": "^6.7.1",
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-jest": "^26.4.5",
+    "eslint-plugin-jest": "^26.4.6",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-svelte3": "^4.0.0",
     "gas-webpack-plugin": "^2.2.1",
