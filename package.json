@@ -34,7 +34,7 @@
     "eslint-plugin-jest": "^26.5.3",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-svelte3": "^4.0.0",
-    "gas-webpack-plugin": "^2.2.2",
+    "gas-webpack-plugin": "^2.3.0",
     "gulp": "^4.0.2",
     "gulp-filter": "^7.0.0",
     "gulp-replace": "^1.0.0",
