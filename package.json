@@ -22,7 +22,7 @@
     "@smui/form-field": "^5.0.1",
     "@smui/linear-progress": "^5.0.1",
     "@smui/list": "^5.0.1",
-    "@smui/top-app-bar": "^5.0.1",
+    "@smui/top-app-bar": "^6.0.0",
     "@types/google-apps-script": "^1.0.53",
     "@types/google.script.client-side": "^0.1.0",
     "@types/jest": "^27.5.0",
