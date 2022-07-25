@@ -18,7 +18,7 @@
     "@smui/button": "^5.0.1",
     "@smui/checkbox": "^5.0.1",
     "@smui/data-table": "^5.0.1",
-    "@smui/dialog": "^5.0.1",
+    "@smui/dialog": "^6.0.0",
     "@smui/form-field": "^5.0.1",
     "@smui/linear-progress": "^5.0.1",
     "@smui/list": "^5.0.1",
