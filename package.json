@@ -19,7 +19,7 @@
     "@smui/checkbox": "^5.0.1",
     "@smui/data-table": "^5.0.1",
     "@smui/dialog": "^5.0.1",
-    "@smui/form-field": "^5.0.1",
+    "@smui/form-field": "^6.0.0",
     "@smui/linear-progress": "^5.0.1",
     "@smui/list": "^5.0.1",
     "@smui/top-app-bar": "^5.0.1",
