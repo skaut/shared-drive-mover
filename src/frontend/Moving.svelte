@@ -25,8 +25,8 @@
 <script lang="ts">
   import {createEventDispatcher} from "svelte";
   import {_} from "svelte-i18n";
-  import Button, {Label} from "@smui/button/styled";
-  import Dialog, {Actions, Content, Title} from "@smui/dialog/styled";
+  import Button, {Label} from "@smui/button";
+  import Dialog, {Actions, Content, Title} from "@smui/dialog";
 
   export function showNonEmptyDialog() {
     nonEmptyDialogOpen = true;

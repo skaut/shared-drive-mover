@@ -30,8 +30,8 @@
 
 <script lang="ts">
   import {_} from "svelte-i18n";
-  import FormField from "@smui/form-field/styled";
-  import Checkbox from "@smui/checkbox/styled";
+  import FormField from "@smui/form-field";
+  import Checkbox from "@smui/checkbox";
 
   import StepHeader from "./StepHeader.svelte";
 

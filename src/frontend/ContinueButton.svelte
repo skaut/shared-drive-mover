@@ -6,7 +6,7 @@
 <script lang="ts">
   import {createEventDispatcher} from "svelte";
   import {_} from "svelte-i18n";
-  import Button, {Icon, Label} from "@smui/button/styled";
+  import Button, {Icon, Label} from "@smui/button";
 
   export let disabled: boolean;
 
