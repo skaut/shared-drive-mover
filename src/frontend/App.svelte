@@ -153,8 +153,12 @@
 </script>
 
 <style lang="scss">
-  @use 'smui-theme' as theme;
-  @use '@material/linear-progress/index' as linear-progress;
+   @use '@material/linear-progress/index' as linear-progress;
+
+  :root {
+    --mdc-theme-primary: #448aff; /* Blue A200 */
+    --mdc-theme-secondary: #ff5252; /* Red A200 */
+  }
 
   :global(body) {
     margin: 0;
@@ -165,6 +169,6 @@
   }
 
   .global-progress:global {
-    @include linear-progress.bar-color(theme.$secondary);
+    @include linear-progress.bar-color(var(--mdc-theme-secondary));
   }
 </style>

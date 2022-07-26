@@ -123,10 +123,8 @@
 </script>
 
 <style lang="scss">
-  @use "smui-theme" as theme;
-
   .breadcrumb {
     cursor: pointer;
-    color: theme.$primary;
+    color: var(--mdc-theme-primary);
   }
 </style>
