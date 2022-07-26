@@ -59,7 +59,7 @@
   import LinearProgress from '@smui/linear-progress';
   import TopAppBar, {Row, Section, Title as TopAppBarTitle} from '@smui/top-app-bar';
 
-  import "./_smui-theme.scss"
+  import "svelte-material-ui/bare.css";
   import BackButton from "./BackButton.svelte";
   import Confirmation from "./Confirmation.svelte";
   import ContinueButton from "./ContinueButton.svelte";
