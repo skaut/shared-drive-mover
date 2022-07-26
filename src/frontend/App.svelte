@@ -56,8 +56,8 @@
   import {addMessages, init, _} from "svelte-i18n";
   import Button, {Label} from "@smui/button";
   import Dialog, {Actions, Content, Title as DialogTitle} from "@smui/dialog";
-  import LinearProgress from '@smui/linear-progress';
-  import TopAppBar, {Row, Section, Title as TopAppBarTitle} from '@smui/top-app-bar';
+  import LinearProgress from "@smui/linear-progress";
+  import TopAppBar, {Row, Section, Title as TopAppBarTitle} from "@smui/top-app-bar";
 
   import "svelte-material-ui/bare.css";
   import BackButton from "./BackButton.svelte";
@@ -75,8 +75,8 @@
   import cs from "./locales/cs.json"
   import en from "./locales/en.json"
 
-  addMessages('en', en);
-  addMessages('cs', cs);
+  addMessages("en", en);
+  addMessages("cs", cs);
   init({
     fallbackLocale: "en",
     initialLocale: "<?= Session.getActiveUserLocale() ?>",
@@ -153,7 +153,7 @@
 </script>
 
 <style lang="scss">
-   @use '@material/linear-progress/index' as linear-progress;
+   @use "@material/linear-progress/index" as linear-progress;
 
   :root {
     --mdc-theme-primary: #448aff; /* Blue A200 */
