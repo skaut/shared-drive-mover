@@ -54,12 +54,12 @@
 
 <script lang="ts">
   import {addMessages, init, _} from "svelte-i18n";
-  import Button, {Label} from "@smui/button/styled";
-  import Dialog, {Actions, Content, Title as DialogTitle} from "@smui/dialog/styled";
-  import LinearProgress from '@smui/linear-progress/styled';
-  import TopAppBar, {Row, Section, Title as TopAppBarTitle} from '@smui/top-app-bar/styled';
+  import Button, {Label} from "@smui/button";
+  import Dialog, {Actions, Content, Title as DialogTitle} from "@smui/dialog";
+  import LinearProgress from "@smui/linear-progress";
+  import TopAppBar, {Row, Section, Title as TopAppBarTitle} from "@smui/top-app-bar";
 
-  import "./_smui-theme.scss"
+  import "svelte-material-ui/bare.css";
   import BackButton from "./BackButton.svelte";
   import Confirmation from "./Confirmation.svelte";
   import ContinueButton from "./ContinueButton.svelte";
@@ -75,8 +75,8 @@
   import cs from "./locales/cs.json"
   import en from "./locales/en.json"
 
-  addMessages('en', en);
-  addMessages('cs', cs);
+  addMessages("en", en);
+  addMessages("cs", cs);
   init({
     fallbackLocale: "en",
     initialLocale: "<?= Session.getActiveUserLocale() ?>",
@@ -153,8 +153,12 @@
 </script>
 
 <style lang="scss">
-  @use 'smui-theme' as theme;
-  @use '@material/linear-progress/index' as linear-progress;
+   @use "@material/linear-progress/index" as linear-progress;
+
+  :root {
+    --mdc-theme-primary: #448aff; /* Blue A200 */
+    --mdc-theme-secondary: #ff5252; /* Red A200 */
+  }
 
   :global(body) {
     margin: 0;
@@ -165,6 +169,6 @@
   }
 
   .global-progress:global {
-    @include linear-progress.bar-color(theme.$secondary);
+    @include linear-progress.bar-color(var(--mdc-theme-secondary));
   }
 </style>
