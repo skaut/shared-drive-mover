@@ -33,8 +33,8 @@
 <script lang="ts">
   import {createEventDispatcher} from "svelte";
   import {_} from "svelte-i18n";
-  import LinearProgress from "@smui/linear-progress/styled";
-  import List, {Item, Separator, Subheader, Text} from "@smui/list/styled";
+  import LinearProgress from "@smui/linear-progress";
+  import List, {Item, Separator, Subheader, Text} from "@smui/list";
 
   import StepHeader from "./StepHeader.svelte";
 
@@ -123,10 +123,8 @@
 </script>
 
 <style lang="scss">
-  @use "smui-theme" as theme;
-
   .breadcrumb {
     cursor: pointer;
-    color: theme.$primary;
+    color: var(--mdc-theme-primary);
   }
 </style>
