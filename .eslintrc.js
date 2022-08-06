@@ -10,7 +10,7 @@ module.exports = {
     browser: true,
     node: false,
   },
-  plugins: ["svelte3", "@typescript-eslint", "jest"],
+  plugins: ["deprecation", "svelte3", "@typescript-eslint", "jest"],
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -18,6 +18,7 @@ module.exports = {
     "plugin:prettier/recommended",
   ],
   rules: {
+    "deprecation/deprecation": "warn",
     "no-warning-comments": "warn",
     "@typescript-eslint/array-type": ["error", { default: "generic" }],
     "@typescript-eslint/consistent-indexed-object-style": "error",
@@ -82,6 +83,7 @@ module.exports = {
         ".eslintrc.js",
       ],
       rules: {
+        "deprecation/deprecation": "off",
         "@typescript-eslint/await-thenable": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-base-to-string": "off",
