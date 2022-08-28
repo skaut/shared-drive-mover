@@ -4,19 +4,24 @@ import { stubEndpoints } from "../test-utils/stubEndpoints";
 
 const stubs = stubEndpoints({
   listFolders: (successHandler) => {
-    successHandler([]);
+    successHandler({ status: "success", response: [] });
   },
   listSharedDrives: (successHandler) => {
-    successHandler([]);
+    successHandler({ status: "success", response: [] });
   },
   move: (successHandler) => {
     setTimeout(() => {
       successHandler({
         status: "success",
-        errors: [
-          { file: ["PATH", "TO", "FILE"], error: "ERROR MESSAGE 1" },
-          { file: ["PATH", "TO", "SECOND", "FILE"], error: "ERROR MESSAGE 2" },
-        ],
+        response: {
+          errors: [
+            { file: ["PATH", "TO", "FILE"], error: "ERROR MESSAGE 1" },
+            {
+              file: ["PATH", "TO", "SECOND", "FILE"],
+              error: "ERROR MESSAGE 2"
+            },
+          ],
+        },
       });
     }, 100);
   },
@@ -48,7 +53,7 @@ it("works and displays moving errors", () => {
       "root",
       "root",
       true,
-      false,
+      true,
       false
     );
   });

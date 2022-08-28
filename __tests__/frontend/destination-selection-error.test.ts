@@ -7,7 +7,7 @@ stubEndpoints({
     }, 100);
   },
   listSharedDrives: (successHandler) => {
-    successHandler([]);
+    successHandler({ status: "success", response: [] });
   },
 });
 

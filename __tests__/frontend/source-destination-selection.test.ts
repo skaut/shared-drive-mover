@@ -4,64 +4,79 @@ const stubs = stubEndpoints({
   listFolders: (successHandler, _, parameters) => {
     switch (parameters[0]) {
       case "root":
-        successHandler([
-          {
-            id: "ID_MY_DRIVE_FOLDER_1",
-            name: "FOLDER 1 IN MY DRIVE",
-          },
-          {
-            id: "ID_MY_DRIVE_FOLDER_2",
-            name: "FOLDER 2 IN MY DRIVE",
-          },
-        ]);
+        successHandler({
+          status: "success",
+          response: [
+            {
+              id: "ID_MY_DRIVE_FOLDER_1",
+              name: "FOLDER 1 IN MY DRIVE",
+            },
+            {
+              id: "ID_MY_DRIVE_FOLDER_2",
+              name: "FOLDER 2 IN MY DRIVE",
+            },
+          ],
+        });
         break;
       case "ID_DRIVE_1":
-        successHandler([
-          {
-            id: "ID_DRIVE_1_FOLDER_1",
-            name: "FOLDER 1 IN DRIVE 1",
-          },
-          {
-            id: "ID_DRIVE_1_FOLDER_2",
-            name: "FOLDER 2 IN DRIVE 1",
-          },
-        ]);
+        successHandler({
+          status: "success",
+          response: [
+            {
+              id: "ID_DRIVE_1_FOLDER_1",
+              name: "FOLDER 1 IN DRIVE 1",
+            },
+            {
+              id: "ID_DRIVE_1_FOLDER_2",
+              name: "FOLDER 2 IN DRIVE 1",
+            },
+          ],
+        });
         break;
       case "ID_MY_DRIVE_FOLDER_1":
-        successHandler([
-          {
-            id: "ID_MY_DRIVE_FOLDER_1_FOLDER_1",
-            name: "FOLDER 1 IN FOLDER 1 IN MY DRIVE",
-          },
-          {
-            id: "ID_MY_DRIVE_FOLDER_1_FOLDER_2",
-            name: "FOLDER 2 IN FOLDER 1 IN MY DRIVE",
-          },
-        ]);
+        successHandler({
+          status: "success",
+          response: [
+            {
+              id: "ID_MY_DRIVE_FOLDER_1_FOLDER_1",
+              name: "FOLDER 1 IN FOLDER 1 IN MY DRIVE",
+            },
+            {
+              id: "ID_MY_DRIVE_FOLDER_1_FOLDER_2",
+              name: "FOLDER 2 IN FOLDER 1 IN MY DRIVE",
+            },
+          ],
+        });
         break;
       case "ID_MY_DRIVE_FOLDER_2":
-        successHandler([
-          {
-            id: "ID_MY_DRIVE_FOLDER_2_FOLDER_1",
-            name: "FOLDER 1 IN FOLDER 2 IN MY DRIVE",
-          },
-          {
-            id: "ID_MY_DRIVE_FOLDER_2_FOLDER_2",
-            name: "FOLDER 2 IN FOLDER 2 IN MY DRIVE",
-          },
-        ]);
+        successHandler({
+          status: "success",
+          response: [
+            {
+              id: "ID_MY_DRIVE_FOLDER_2_FOLDER_1",
+              name: "FOLDER 1 IN FOLDER 2 IN MY DRIVE",
+            },
+            {
+              id: "ID_MY_DRIVE_FOLDER_2_FOLDER_2",
+              name: "FOLDER 2 IN FOLDER 2 IN MY DRIVE",
+            },
+          ],
+        });
         break;
     }
   },
   listSharedDrives: (successHandler) => {
-    successHandler([
-      { id: "ID_DRIVE_1", name: "DRIVE 1" },
-      { id: "ID_DRIVE_2", name: "DRIVE 2" },
-    ]);
+    successHandler({
+      status: "success",
+      response: [
+        { id: "ID_DRIVE_1", name: "DRIVE 1" },
+        { id: "ID_DRIVE_2", name: "DRIVE 2" },
+      ],
+    });
   },
   move: (successHandler) => {
     setTimeout(() => {
-      successHandler({ status: "success", errors: [] });
+      successHandler({ status: "success", response: { errors: [] } });
     }, 100);
   },
 });
@@ -92,7 +107,7 @@ it("works with folder selection", () => {
       "ID_DRIVE_1_FOLDER_2",
       "ID_MY_DRIVE_FOLDER_1_FOLDER_2",
       true,
-      false,
+      true,
       false
     );
   });

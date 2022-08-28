@@ -2,17 +2,17 @@ import { stubEndpoints } from "../test-utils/stubEndpoints";
 
 const stubs = stubEndpoints({
   listFolders: (successHandler) => {
-    successHandler([]);
+    successHandler({ status: "success", response: [] });
   },
   listSharedDrives: (successHandler) => {
-    successHandler([]);
+    successHandler({ status: "success", response: [] });
   },
   move: (successHandler, _, parameters) => {
     setTimeout(() => {
       if (parameters[4] === true) {
-        successHandler({ status: "success", errors: [] });
+        successHandler({ status: "success", response: { errors: [] } });
       } else {
-        successHandler({ status: "error", reason: "notEmpty" });
+        successHandler({ status: "error", type: "notEmpty" });
       }
     }, 100);
   },
@@ -42,7 +42,7 @@ it("works with non-empty destination folder", () => {
       "root",
       "root",
       true,
-      false,
+      true,
       true
     );
   });

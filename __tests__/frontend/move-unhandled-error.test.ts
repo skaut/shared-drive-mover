@@ -2,10 +2,10 @@ import { stubEndpoints } from "../test-utils/stubEndpoints";
 
 stubEndpoints({
   listFolders: (successHandler) => {
-    successHandler([]);
+    successHandler({ status: "success", response: [] });
   },
   listSharedDrives: (successHandler) => {
-    successHandler([]);
+    successHandler({ status: "success", response: [] });
   },
   move: (_, failureHandler) => {
     setTimeout(() => {

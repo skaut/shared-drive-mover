@@ -2,19 +2,19 @@ import { stubEndpoints } from "../test-utils/stubEndpoints";
 
 const stubs = stubEndpoints({
   listFolders: (successHandler) => {
-    successHandler([]);
+    successHandler({ status: "success", response: [] });
   },
   listSharedDrives: (successHandler) => {
-    successHandler([]);
+    successHandler({ status: "success", response: [] });
   },
   move: (successHandler) => {
     setTimeout(() => {
-      successHandler({ status: "success", errors: [] });
+      successHandler({ status: "success", response: { errors: [] } });
     }, 100);
   },
 });
 
-it("works with configuration options", () => {
+it("works with copy configuration", () => {
   cy.visit("http://localhost:8080");
   cy.contains("Shared drive mover");
   cy.contains("Copy comments").click();
@@ -32,7 +32,7 @@ it("works with configuration options", () => {
       "root",
       "root",
       false,
-      false,
+      true,
       false
     );
   });

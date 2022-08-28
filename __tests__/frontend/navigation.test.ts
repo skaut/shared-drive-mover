@@ -2,14 +2,14 @@ import { stubEndpoints } from "../test-utils/stubEndpoints";
 
 const stubs = stubEndpoints({
   listFolders: (successHandler) => {
-    successHandler([]);
+    successHandler({ status: "success", response: [] });
   },
   listSharedDrives: (successHandler) => {
-    successHandler([]);
+    successHandler({ status: "success", response: [] });
   },
   move: (successHandler) => {
     setTimeout(() => {
-      successHandler({ status: "success", errors: [] });
+      successHandler({ status: "success", response: { errors: [] } });
     }, 100);
   },
 });
@@ -47,7 +47,7 @@ it("works with basic configuration", () => {
       "root",
       "root",
       true,
-      false,
+      true,
       false
     );
   });
