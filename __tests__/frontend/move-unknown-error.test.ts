@@ -9,12 +9,12 @@ stubEndpoints({
   },
   move: (successHandler) => {
     setTimeout(() => {
-      successHandler({ status: "error", type: "DriveAPIError" });
+      successHandler({ status: "error", type: "unknown" });
     }, 100);
   },
 });
 
-it("works with an API error", () => {
+it("works with an unknown move error", () => {
   cy.visit("http://localhost:8080");
   cy.contains("Shared drive mover");
   cy.contains("Continue").click();
@@ -27,5 +27,5 @@ it("works with an API error", () => {
   cy.contains("is moving");
   cy.contains("Confirmation");
   cy.contains("An error occurred").should("be.visible");
-  cy.contains("An error occurred in Google Drive").should("be.visible");
+  cy.contains("An unknown error occurred").should("be.visible");
 });
