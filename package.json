@@ -31,7 +31,7 @@
     "@typescript-eslint/parser": "^5.35.1",
     "coverage-istanbul-loader": "github:marekdedic/coverage-istanbul-loader#fixed-sourcemap-not-plain-object",
     "css-loader": "^6.7.1",
-    "cypress": "^9.2.0",
+    "cypress": "^10.6.0",
     "cypress-get-table": "^1.0.1",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
