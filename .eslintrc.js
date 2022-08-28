@@ -146,7 +146,7 @@ module.exports = {
     },
     {
       files: [
-        "__tests__/frontend/**/*.test.ts",
+        "__tests__/frontend/**/*.cy.ts",
         "__tests__/test-utils/stubEndpoints.ts",
       ],
       extends: ["plugin:cypress/recommended"],

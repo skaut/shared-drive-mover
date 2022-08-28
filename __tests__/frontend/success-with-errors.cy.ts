@@ -18,7 +18,7 @@ const stubs = stubEndpoints({
             { file: ["PATH", "TO", "FILE"], error: "ERROR MESSAGE 1" },
             {
               file: ["PATH", "TO", "SECOND", "FILE"],
-              error: "ERROR MESSAGE 2"
+              error: "ERROR MESSAGE 2",
             },
           ],
         },
