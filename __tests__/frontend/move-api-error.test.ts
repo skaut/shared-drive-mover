@@ -9,12 +9,12 @@ stubEndpoints({
   },
   move: (successHandler) => {
     setTimeout(() => {
-      successHandler({ status: "error", reason: "unspecified" });
+      successHandler({ status: "error", type: "DriveAPIError" });
     }, 100);
   },
 });
 
-it("works with an unspecified move error", () => {
+it("works with an API error", () => {
   cy.visit("http://localhost:8080");
   cy.contains("Shared drive mover");
   cy.contains("Continue").click();
@@ -27,5 +27,4 @@ it("works with an unspecified move error", () => {
   cy.contains("is moving");
   cy.contains("Confirmation");
   cy.contains("An error occurred").should("be.visible");
-  cy.contains("unspecified");
 });
