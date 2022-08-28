@@ -340,6 +340,7 @@ test("moveFile fails gracefully on error", () => {
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
   mocked(state).tryOrLog.mockImplementation((_, fn) => {
     expect(fn).toThrow("ERROR_MESAGE");
+    return null;
   });
 
   moveFile_(
