@@ -1,3 +1,4 @@
+import { expect, jest, test } from "@jest/globals";
 import { mocked } from "jest-mock";
 
 import { move } from "../../src/backend/move";
