@@ -1,17 +1,17 @@
 import { stubEndpoints } from "../test-utils/stubEndpoints";
 
 stubEndpoints({
-  listSharedDrives: (_, failureHandler) => {
+  listSharedDrives: (successHandler) => {
     setTimeout(() => {
-      failureHandler(new Error("ERROR MESSAGE"));
+      successHandler({ status: "error", type: "unknown" });
     }, 100);
   },
 });
 
-it("handles errors in source folder selection gracefully", () => {
+it("handles raw errors in source folder selection gracefully", () => {
   cy.visit("http://localhost:8080");
   cy.contains("Shared drive mover");
   cy.contains("Continue").click();
   cy.contains("An error occurred").should("be.visible");
-  cy.contains("ERROR MESSAGE");
+  cy.contains("An unknown error occurred").should("be.visible");
 });
