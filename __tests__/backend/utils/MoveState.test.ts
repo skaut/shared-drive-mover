@@ -156,7 +156,7 @@ test("MoveState.tryOrLog works correctly", () => {
   };
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
 
-  const fn = jest.fn<() => void>().mockReturnValueOnce(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+  const fn = jest.fn<() => void>().mockReturnValueOnce();
 
   state.tryOrLog(context, fn);
 
@@ -187,7 +187,6 @@ test("MoveState.tryOrLog handles errors gracefully", () => {
   };
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
 
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   const fn = jest.fn<() => void>().mockImplementationOnce(() => {
     throw new Error("ERROR_MESSAGE");
   });
@@ -210,7 +209,6 @@ test("MoveState.tryOrLog handles errors gracefully with a filename", () => {
   };
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
 
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   const fn = jest.fn<() => void>().mockImplementationOnce(() => {
     throw new Error("ERROR_MESSAGE");
   });

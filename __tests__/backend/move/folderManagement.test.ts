@@ -232,7 +232,7 @@ test.each(["owner", "organizer"] as Array<
         ) => GoogleAppsScript.Drive.Schema.FileList
       >()
       .mockReturnValueOnce(listResponse);
-    const remove = jest.fn<(fileId: string) => void>().mockReturnValueOnce(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+    const remove = jest.fn<(fileId: string) => void>().mockReturnValueOnce();
     global.Drive = {
       ...mockedDrive(),
       Files: {
@@ -290,7 +290,7 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(listResponse);
-  const remove = jest.fn<(fileId: string) => void>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+  const remove = jest.fn<(fileId: string) => void>();
   global.Drive = {
     ...mockedDrive(),
     Files: {
@@ -351,7 +351,7 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
         ) => GoogleAppsScript.Drive.Schema.FileList
       >()
       .mockReturnValueOnce(listResponse);
-    const remove = jest.fn<(fileId: string) => void>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+    const remove = jest.fn<(fileId: string) => void>();
     global.Drive = {
       ...mockedDrive(),
       Files: {

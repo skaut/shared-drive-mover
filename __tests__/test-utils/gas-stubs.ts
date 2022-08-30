@@ -26,7 +26,7 @@ export function mockedCommentsCollection(): GoogleAppsScript.Drive.Collection.Co
           commentId: string
         ) => GoogleAppsScript.Drive.Schema.Comment
       >(),
-    remove: jest.fn<(fileId: string, commentId: string) => void>(), // eslint-disable-line @typescript-eslint/no-invalid-void-type
+    remove: jest.fn<(fileId: string, commentId: string) => void>(),
     update:
       jest.fn<
         (
@@ -110,7 +110,7 @@ export function mockedDrivesCollection(): GoogleAppsScript.Drive.Collection.Driv
         ) => GoogleAppsScript.Drive.Schema.Drive
       >(),
     list: jest.fn<() => GoogleAppsScript.Drive.Schema.DriveList>(),
-    remove: jest.fn<(driveId: string) => void>(), // eslint-disable-line @typescript-eslint/no-invalid-void-type
+    remove: jest.fn<(driveId: string) => void>(),
     unhide: jest.fn<(driveId: string) => GoogleAppsScript.Drive.Schema.Drive>(),
     update:
       jest.fn<
@@ -131,7 +131,7 @@ export function mockedFilesCollection(): GoogleAppsScript.Drive.Collection.Files
       ) => GoogleAppsScript.Drive.Schema.File
     >(),
     emptyTrash: jest.fn<() => void>(),
-    export: jest.fn<(fileId: string, mimeType: string) => void>(), // eslint-disable-line @typescript-eslint/no-invalid-void-type
+    export: jest.fn<(fileId: string, mimeType: string) => void>(),
     generateIds: jest.fn<() => GoogleAppsScript.Drive.Schema.GeneratedIds>(),
     get: jest.fn<(fileId: string) => GoogleAppsScript.Drive.Schema.File>(),
     insert:
@@ -149,7 +149,7 @@ export function mockedFilesCollection(): GoogleAppsScript.Drive.Collection.Files
           fileId: string
         ) => GoogleAppsScript.Drive.Schema.File
       >(),
-    remove: jest.fn<(fileId: string) => void>(), // eslint-disable-line @typescript-eslint/no-invalid-void-type
+    remove: jest.fn<(fileId: string) => void>(),
     touch: jest.fn<(fileId: string) => GoogleAppsScript.Drive.Schema.File>(),
     trash: jest.fn<(fileId: string) => GoogleAppsScript.Drive.Schema.File>(),
     untrash: jest.fn<(fileId: string) => GoogleAppsScript.Drive.Schema.File>(),

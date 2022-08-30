@@ -551,7 +551,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2)
     .mockReturnValueOnce(response3);
-  const remove = jest.fn<(fileId: string) => void>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+  const remove = jest.fn<(fileId: string) => void>();
   global.Drive = {
     ...mockedDrive(),
     Files: {
@@ -635,7 +635,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2)
     .mockReturnValueOnce(response3);
-  const remove = jest.fn<(fileId: string) => void>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+  const remove = jest.fn<(fileId: string) => void>();
   global.Drive = {
     ...mockedDrive(),
     Files: {
@@ -710,7 +710,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2)
     .mockReturnValueOnce(response3);
-  const remove = jest.fn<(fileId: string) => void>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+  const remove = jest.fn<(fileId: string) => void>();
   global.Drive = {
     ...mockedDrive(),
     Files: {
@@ -789,7 +789,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2)
     .mockReturnValueOnce(response3);
-  const remove = jest.fn<(fileId: string) => void>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+  const remove = jest.fn<(fileId: string) => void>();
   global.Drive = {
     ...mockedDrive(),
     Files: {
@@ -849,7 +849,7 @@ test("DriveBackedValue deletes a value - the folder doesn't exist", () => {
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response);
-  const remove = jest.fn<(fileId: string) => void>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+  const remove = jest.fn<(fileId: string) => void>();
   global.Drive = {
     ...mockedDrive(),
     Files: {
