@@ -1,3 +1,5 @@
+import { expect, jest, test } from "@jest/globals";
+
 import {
   mockedHtmlOutput,
   mockedHtmlService,
@@ -9,18 +11,18 @@ import { doGet } from "../../src/backend/doGet";
 test("doGet works correctly", () => {
   const outputWithTitle = mockedHtmlOutput();
   const setTitle = jest
-    .fn<GoogleAppsScript.HTML.HtmlOutput, [title: string]>()
+    .fn<(title: string) => GoogleAppsScript.HTML.HtmlOutput>()
     .mockReturnValueOnce(outputWithTitle);
   const outputWithoutTitle = {
     ...mockedHtmlOutput(),
     setTitle,
   };
   const createTemplateFromFile = jest
-    .fn<GoogleAppsScript.HTML.HtmlTemplate, [filename: string]>()
+    .fn<(filename: string) => GoogleAppsScript.HTML.HtmlTemplate>()
     .mockReturnValueOnce({
       ...mockedHtmlTemplate(),
       evaluate: jest
-        .fn<GoogleAppsScript.HTML.HtmlOutput, []>()
+        .fn<() => GoogleAppsScript.HTML.HtmlOutput>()
         .mockReturnValueOnce(outputWithoutTitle),
     });
   global.HtmlService = {
