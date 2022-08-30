@@ -7,17 +7,23 @@ stubEndpoints({
     }, 100);
   },
   listSharedDrives: (successHandler) => {
-    successHandler({ status: "success", response: [] });
+    successHandler({
+      status: "success",
+      response: [
+        { id: "ID_DRIVE_1", name: "DRIVE 1" },
+        { id: "ID_DRIVE_2", name: "DRIVE 2" },
+      ],
+    });
   },
 });
 
-it("handles errors in destination folder selection gracefully", () => {
+it("handles raw errors in source folder selection gracefully", () => {
   cy.visit("http://localhost:8080");
   cy.contains("Shared drive mover");
   cy.contains("Continue").click();
-  cy.contains("My Drive").click();
+  cy.contains("DRIVE 1").click();
   cy.contains("Continue").click();
-  cy.contains("My Drive").dblclick();
+  cy.contains("DRIVE 2").dblclick();
   cy.contains("An error occurred").should("be.visible");
   cy.contains("ERROR MESSAGE");
 });
