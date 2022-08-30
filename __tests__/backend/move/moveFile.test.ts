@@ -1,3 +1,4 @@
+import { expect, jest, test } from "@jest/globals";
 import { mocked } from "jest-mock";
 
 import { moveFile_ } from "../../../src/backend/move/moveFile";
@@ -18,13 +19,12 @@ test("moveFile works correctly with a file that can be moved directly", () => {
 
   const update = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.File,
-      [
+      (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
         optionalArgs?: UpdateFileOptions
-      ]
+      ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({});
   global.Drive = {
@@ -72,23 +72,21 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
 
   const copy = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.File,
-      [
+      (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         optionalArgs?: CopyFileOptions
-      ]
+      ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({});
   const update = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.File,
-      [
+      (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
         optionalArgs?: UpdateFileOptions
-      ]
+      ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockImplementation(() => {
       throw new Error();
@@ -142,12 +140,11 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
 
   const copy = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.File,
-      [
+      (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         optionalArgs?: CopyFileOptions
-      ]
+      ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({});
   global.Drive = {
@@ -193,13 +190,12 @@ test("moveFile works correctly with a file that can be moved directly with comme
 
   const update = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.File,
-      [
+      (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
         optionalArgs?: UpdateFileOptions
-      ]
+      ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({});
   global.Drive = {
@@ -242,12 +238,11 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
 
   const copy = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.File,
-      [
+      (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         optionalArgs?: CopyFileOptions
-      ]
+      ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({ id: "DEST_FILE_ID" });
   global.Drive = {
@@ -306,25 +301,23 @@ test("moveFile fails gracefully on error", () => {
 
   const copy = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.File,
-      [
+      (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         optionalArgs?: CopyFileOptions
-      ]
+      ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockImplementation(() => {
       throw new Error("ERROR_MESAGE");
     });
   const update = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.File,
-      [
+      (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
         optionalArgs?: UpdateFileOptions
-      ]
+      ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockImplementation(() => {
       throw new Error("ERROR_MESAGE");

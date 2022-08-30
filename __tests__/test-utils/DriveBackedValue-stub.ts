@@ -1,3 +1,4 @@
+import { jest } from "@jest/globals";
 import type { MockedObject } from "jest-mock";
 
 import type { DriveBackedValue_ } from "../../src/backend/utils/DriveBackedValue";

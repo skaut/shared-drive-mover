@@ -1,3 +1,5 @@
+import { expect, jest, test } from "@jest/globals";
+
 import { copyFileComments_ } from "../../../src/backend/move/copyFileComments";
 import {
   mockedCommentsCollection,
@@ -31,14 +33,18 @@ test("copyFileComments works correctly", () => {
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.CommentList,
-      [fileId: string, optionalArgs?: ListCommentsOptions]
+      (
+        fileId: string,
+        optionalArgs?: ListCommentsOptions
+      ) => GoogleAppsScript.Drive.Schema.CommentList
     >()
     .mockReturnValueOnce(rawResponse);
   const insert = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.Comment,
-      [resource: GoogleAppsScript.Drive.Schema.Comment, fileId: string]
+      (
+        resource: GoogleAppsScript.Drive.Schema.Comment,
+        fileId: string
+      ) => GoogleAppsScript.Drive.Schema.Comment
     >()
     .mockReturnValueOnce({
       commentId: "DEST_COM1_ID",
@@ -102,26 +108,29 @@ test("copyFileComments works correctly with replies", () => {
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.CommentList,
-      [fileId: string, optionalArgs?: ListCommentsOptions]
+      (
+        fileId: string,
+        optionalArgs?: ListCommentsOptions
+      ) => GoogleAppsScript.Drive.Schema.CommentList
     >()
     .mockReturnValueOnce(rawResponse);
   const insertComment = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.Comment,
-      [resource: GoogleAppsScript.Drive.Schema.Comment, fileId: string]
+      (
+        resource: GoogleAppsScript.Drive.Schema.Comment,
+        fileId: string
+      ) => GoogleAppsScript.Drive.Schema.Comment
     >()
     .mockReturnValueOnce({
       commentId: "DEST_COM_ID",
     });
   const insertReply = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.CommentReply,
-      [
+      (
         resource: GoogleAppsScript.Drive.Schema.CommentReply,
         fileId: string,
         commentId: string
-      ]
+      ) => GoogleAppsScript.Drive.Schema.CommentReply
     >()
     .mockReturnValueOnce({});
   global.Drive = {
