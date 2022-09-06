@@ -28,6 +28,15 @@ module.exports = {
         },
       },
       {
+        test: /\.ts$/,
+        use: {
+          loader: "ts-loader",
+          options: {
+            onlyCompileBundledFiles: true,
+          },
+        },
+      },
+      {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
       },
