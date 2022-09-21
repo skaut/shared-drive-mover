@@ -10,7 +10,7 @@ module.exports = {
     browser: true,
     node: false,
   },
-  plugins: ["deprecation", "svelte3", "@typescript-eslint", "jest"],
+  plugins: ["deprecation", "@typescript-eslint", "jest"],
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -63,15 +63,7 @@ module.exports = {
     "@typescript-eslint/unified-signatures": "error",
     "@typescript-eslint/no-non-null-assertion": "off",
   },
-  settings: {
-    "svelte3/typescript": require("typescript"),
-    "svelte3/ignore-styles": () => true,
-  },
   overrides: [
-    {
-      files: ["*.svelte"],
-      processor: "svelte3/svelte3",
-    },
     {
       parserOptions: {
         project: null,
