@@ -5,6 +5,7 @@ module.exports = {
     parser: "@typescript-eslint/parser",
     project: "./tsconfig.json",
     sourceType: "script",
+    extraFileExtensions: [".svelte"],
   },
   env: {
     browser: true,
@@ -15,7 +16,9 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:svelte/recommended",
     "plugin:prettier/recommended",
+    "plugin:svelte/prettier",
   ],
   rules: {
     "deprecation/deprecation": "warn",
@@ -64,6 +67,16 @@ module.exports = {
     "@typescript-eslint/no-non-null-assertion": "off",
   },
   overrides: [
+    {
+      files: ["*.svelte"],
+      parser: "svelte-eslint-parser",
+      parserOptions: {
+        parser: "@typescript-eslint/parser",
+      },
+      rules: {
+        "deprecation/deprecation": "off",
+      },
+    },
     {
       parserOptions: {
         project: null,
