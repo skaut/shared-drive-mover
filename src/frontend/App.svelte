@@ -29,9 +29,9 @@
     <BackButton on:previous={() => currentTab = "source-selection"}/>
     <ContinueButton disabled={destination === null} on:next={() => currentTab = "confirmation"}/>
   {:else if currentTab === "confirmation"}
-    <Confirmation on:previous={() => currentTab = "destination-selection"} on:next={() => move()} {sourcePath} {destinationPath} {source} {destination}/>
+    <Confirmation on:previous={() => {currentTab = "destination-selection"}} on:next={() => {move()}} {sourcePath} {destinationPath} {source} {destination}/>
   {:else if currentTab === "moving"}
-    <Moving bind:this={movingComponent} on:nonEmptyDialogCancel={() => currentTab = "destination-selection"} on:nonEmptyDialogConfirm={() => move(true)}/>
+    <Moving bind:this={movingComponent} on:nonEmptyDialogCancel={() => {currentTab = "destination-selection"}} on:nonEmptyDialogConfirm={() => {move(true)}}/>
   {:else if currentTab === "done"}
     <Done {errors}/>
   {/if}
@@ -77,16 +77,16 @@
 
   addMessages("en", en);
   addMessages("cs", cs);
-  init({
+  void init({
     fallbackLocale: "en",
     initialLocale: "<?= Session.getActiveUserLocale() ?>",
   })
 
-  let currentTab: "introduction"|"source-selection"|"destination-selection"|"confirmation"|"moving"|"done" = "introduction";
+  let currentTab: "confirmation"|"destination-selection"|"done"|"introduction"|"moving"|"source-selection" = "introduction";
   let moving = false;
   let movingComponent: Moving;
   let errorDialogOpen: boolean;
-  let errorMessage: string = "";
+  let errorMessage = "";
 
   $: progress = currentTab === "introduction" ? 1/5 :
     currentTab === "source-selection" ? 2/5 :
@@ -101,7 +101,7 @@
   let destination: NamedRecord|null = null;
   let errors: Array<MoveError>|null = null;
 
-  function move(forceNonEmpty: boolean = false): void {
+  function move(forceNonEmpty = false): void {
     currentTab = "moving";
     moving = true;
     google.script.run
@@ -132,11 +132,11 @@
       }
       return;
     }
-    errors = response.response.errors ?? null;
+    errors = response.response.errors;
     currentTab = "done";
   }
 
-  function moveErrorHandler(response: Error) {
+  function moveErrorHandler(response: Error): void {
     if (response.name === "ScriptError") {
       move();
       return;

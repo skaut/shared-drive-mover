@@ -25,6 +25,6 @@
 
   const dispatch = createEventDispatcher();
 
-  $: sourceDisplay = sourcePath.map((segment) => segment.name + "/").join("") + source?.name;
-  $: destinationDisplay = destinationPath.map((segment) => segment.name + "/").join("") + destination?.name;
+  $: sourceDisplay = sourcePath.map((segment) => segment.name + "/").join("") + (source?.name ?? "");
+  $: destinationDisplay = destinationPath.map((segment) => segment.name + "/").join("") + (destination?.name ?? "");
 </script>

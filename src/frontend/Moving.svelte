@@ -28,7 +28,7 @@
   import Button, {Label} from "@smui/button";
   import Dialog, {Actions, Content, Title} from "@smui/dialog";
 
-  export function showNonEmptyDialog() {
+  export function showNonEmptyDialog(): void {
     nonEmptyDialogOpen = true;
   }
 
