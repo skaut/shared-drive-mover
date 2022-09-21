@@ -5,6 +5,7 @@ module.exports = {
     parser: "@typescript-eslint/parser",
     project: "./tsconfig.json",
     sourceType: "script",
+    extraFileExtensions: [".svelte"],
   },
   env: {
     browser: true,
