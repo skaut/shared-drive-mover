@@ -62,7 +62,7 @@
     "build": "gulp build",
     "lint:svelte:svelte-check": "svelte-check",
     "lint:svelte": "run-s -c lint:svelte:*",
-    "lint:ts:eslint": "eslint \"src/**/*.svelte\" \"src/**/*.ts\" \"__tests__/**/*.ts\" gulpfile.js backend.webpack.config.js frontend.webpack.config.js .eslintrc.js",
+    "lint:ts:eslint": "eslint \"src/**/*.svelte\" \"src/**/*.ts\" \"__tests__/**/*.ts\" gulpfile.js backend.webpack.config.js frontend.webpack.config.js",
     "lint:ts": "run-s -c lint:ts:*",
     "lint": "run-s -c lint:*",
     "test": "jest"
