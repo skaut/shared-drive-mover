@@ -1,7 +1,26 @@
+<script lang="ts">
+  import { createEventDispatcher } from "svelte";
+  import { _ } from "svelte-i18n";
+  import Button, { Label } from "@smui/button";
+  import Dialog, { Actions, Content, Title } from "@smui/dialog";
+
+  export function showNonEmptyDialog() {
+    nonEmptyDialogOpen = true;
+  }
+
+  const dispatch = createEventDispatcher();
+
+  let nonEmptyDialogOpen: boolean;
+</script>
+
 <p>
   {$_("steps.moving.introduction")}
 </p>
-<Dialog bind:open={nonEmptyDialogOpen} aria-labelledby="title" aria-describedby="content">
+<Dialog
+  bind:open={nonEmptyDialogOpen}
+  aria-labelledby="title"
+  aria-describedby="content"
+>
   <Title id="title">
     {$_("steps.moving.nonEmptyDialog.title")}
   </Title>
@@ -21,18 +40,3 @@
     </Button>
   </Actions>
 </Dialog>
-
-<script lang="ts">
-  import {createEventDispatcher} from "svelte";
-  import {_} from "svelte-i18n";
-  import Button, {Label} from "@smui/button";
-  import Dialog, {Actions, Content, Title} from "@smui/dialog";
-
-  export function showNonEmptyDialog() {
-    nonEmptyDialogOpen = true;
-  }
-
-  const dispatch = createEventDispatcher();
-
-  let nonEmptyDialogOpen: boolean;
-</script>
