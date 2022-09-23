@@ -64,6 +64,13 @@
     "@typescript-eslint/unified-signatures": "error",
     "@typescript-eslint/no-non-null-assertion": "off"
   },
+  "settings": {
+    "svelte": {
+      "ignoreWarnings": [
+        "@typescript-eslint/explicit-function-return-type"
+      ]
+    }
+  },
   "overrides": [
     {
       "files": ["*.svelte"],
