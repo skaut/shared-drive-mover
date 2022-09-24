@@ -62,7 +62,21 @@
     "@typescript-eslint/strict-boolean-expressions": "error",
     "@typescript-eslint/switch-exhaustiveness-check": "error",
     "@typescript-eslint/unified-signatures": "error",
-    "@typescript-eslint/no-non-null-assertion": "off"
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "svelte/no-store-async": "error",
+    "svelte/no-target-blank": "error",
+    "svelte/button-has-type": "error",
+    "svelte/no-reactive-functions": "error",
+    "svelte/no-reactive-literals": "error",
+    "svelte/no-useless-mustaches": "error",
+    "svelte/require-optimized-style-attribute": "error",
+    "svelte/require-stores-init": "error",
+    "svelte/derived-has-same-inputs-outputs": "error",
+    "svelte/no-extra-reactive-curlies": "error",
+    "svelte/prefer-class-directive": "error",
+    "svelte/prefer-style-directive": "error",
+    "svelte/sort-attributes": "error",
+    "svelte/spaced-html-comment": "error"
   },
   "settings": {
     "svelte": {
