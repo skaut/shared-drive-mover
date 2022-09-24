@@ -124,11 +124,11 @@
 
 <svelte:head>
   <link
-    rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons"
+    rel="stylesheet"
   />
 </svelte:head>
-<TopAppBar variant="static" color="primary">
+<TopAppBar color="primary" variant="static">
   <Row>
     <Section>
       <TopAppBarTitle>Shared drive mover</TopAppBarTitle>
@@ -180,14 +180,14 @@
     />
   {:else if currentTab === "confirmation"}
     <Confirmation
+      {destination}
+      {destinationPath}
+      {source}
+      {sourcePath}
       on:previous={() => (currentTab = "destination-selection")}
       on:next={() => {
         move();
       }}
-      {sourcePath}
-      {destinationPath}
-      {source}
-      {destination}
     />
   {:else if currentTab === "moving"}
     <Moving
@@ -201,9 +201,9 @@
     <Done {errors} />
   {/if}
   <Dialog
-    bind:open={errorDialogOpen}
-    aria-labelledby="errorDialogTitle"
     aria-describedby="errorDialogContent"
+    aria-labelledby="errorDialogTitle"
+    bind:open={errorDialogOpen}
   >
     <DialogTitle id="errorDialogTitle">
       {$_("errorDialog.title")}

@@ -118,11 +118,11 @@
   {:else}
     {#each items as item (item.id)}
       <Item
+        selected={selected !== null && selected.id === item.id}
         on:dblclick={() => {
           itemNavigation(item);
         }}
         on:SMUI:action={() => (selected = item)}
-        selected={selected !== null && selected.id === item.id}
       >
         <Text>
           {item.name}

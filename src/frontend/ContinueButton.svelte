@@ -8,7 +8,7 @@
   const dispatch = createEventDispatcher();
 </script>
 
-<Button variant="raised" {disabled} on:click={() => dispatch("next")}>
+<Button {disabled} variant="raised" on:click={() => dispatch("next")}>
   <Label>{$_("continue.buttonLabel")}</Label>
   <Icon class="material-icons">navigate_next</Icon>
 </Button>

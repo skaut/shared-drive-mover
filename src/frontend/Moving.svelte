@@ -17,9 +17,9 @@
   {$_("steps.moving.introduction")}
 </p>
 <Dialog
-  bind:open={nonEmptyDialogOpen}
-  aria-labelledby="title"
   aria-describedby="content"
+  aria-labelledby="title"
+  bind:open={nonEmptyDialogOpen}
 >
   <Title id="title">
     {$_("steps.moving.nonEmptyDialog.title")}
