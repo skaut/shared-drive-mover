@@ -16,10 +16,11 @@
   const dispatch = createEventDispatcher();
 
   $: sourceDisplay =
-    sourcePath.map((segment) => segment.name + "/").join("") + source?.name!;
+    sourcePath.map((segment) => segment.name + "/").join("") +
+    (source?.name ?? "");
   $: destinationDisplay =
     destinationPath.map((segment) => segment.name + "/").join("") +
-    destination?.name!;
+    (destination?.name ?? "");
 </script>
 
 <StepHeader step="confirmation" />

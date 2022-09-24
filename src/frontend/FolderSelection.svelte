@@ -102,7 +102,12 @@
     </span>
     {#each path as segment (segment.id)}
       &nbsp; &gt; &nbsp;
-      <span class="breadcrumb" on:click={() => {breadcrumbNavigation(segment);}}>
+      <span
+        class="breadcrumb"
+        on:click={() => {
+          breadcrumbNavigation(segment);
+        }}
+      >
         {segment.name}
       </span>
     {/each}
@@ -113,7 +118,9 @@
   {:else}
     {#each items as item (item.id)}
       <Item
-        on:dblclick={() => {itemNavigation(item);}}
+        on:dblclick={() => {
+          itemNavigation(item);
+        }}
         on:SMUI:action={() => (selected = item)}
         selected={selected !== null && selected.id === item.id}
       >

@@ -181,7 +181,9 @@
   {:else if currentTab === "confirmation"}
     <Confirmation
       on:previous={() => (currentTab = "destination-selection")}
-      on:next={() => {move();}}
+      on:next={() => {
+        move();
+      }}
       {sourcePath}
       {destinationPath}
       {source}
@@ -191,7 +193,9 @@
     <Moving
       bind:this={movingComponent}
       on:nonEmptyDialogCancel={() => (currentTab = "destination-selection")}
-      on:nonEmptyDialogConfirm={() => {move(true);}}
+      on:nonEmptyDialogConfirm={() => {
+        move(true);
+      }}
     />
   {:else if currentTab === "done"}
     <Done {errors} />
