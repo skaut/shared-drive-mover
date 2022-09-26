@@ -40,7 +40,7 @@
     | "moving"
     | "source-selection" = "introduction";
   let moving = false;
-  let movingComponent: Moving;
+  let showNonEmptyDialog: () => void;
   let errorDialogOpen: boolean;
   let errorMessage = "";
 
@@ -87,7 +87,7 @@
           showErrorDialog($_("errorDialog.DriveAPIError"));
           break;
         case "notEmpty":
-          movingComponent.showNonEmptyDialog();
+          showNonEmptyDialog();
           break;
         case "sourceEqualsDestination":
           currentTab = "confirmation";
@@ -191,7 +191,7 @@
     />
   {:else if currentTab === "moving"}
     <Moving
-      bind:this={movingComponent}
+      bind:showNonEmptyDialog
       on:nonEmptyDialogCancel={() => (currentTab = "destination-selection")}
       on:nonEmptyDialogConfirm={() => {
         move(true);
