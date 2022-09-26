@@ -1,26 +1,27 @@
-/* eslint-env node */
-
-module.exports = {
-  parserOptions: {
-    parser: "@typescript-eslint/parser",
-    project: "./tsconfig.json",
-    sourceType: "script",
+{
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "project": "./tsconfig.json",
+    "sourceType": "script",
+    "extraFileExtensions": [".svelte"]
   },
-  env: {
-    browser: true,
-    node: false,
+  "env": {
+    "browser": true,
+    "node": false
   },
-  plugins: ["deprecation", "svelte3", "@typescript-eslint", "jest"],
-  extends: [
+  "plugins": ["deprecation", "@typescript-eslint", "jest"],
+  "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:svelte/recommended",
     "plugin:prettier/recommended",
+    "plugin:svelte/prettier"
   ],
-  rules: {
+  "rules": {
     "deprecation/deprecation": "warn",
     "no-warning-comments": "warn",
-    "@typescript-eslint/array-type": ["error", { default: "generic" }],
+    "@typescript-eslint/array-type": ["error", { "default": "generic" }],
     "@typescript-eslint/consistent-indexed-object-style": "error",
     "@typescript-eslint/consistent-type-assertions": "error",
     "@typescript-eslint/consistent-type-definitions": "error",
@@ -37,7 +38,7 @@ module.exports = {
     "@typescript-eslint/no-extraneous-class": "error",
     "@typescript-eslint/no-invalid-void-type": "error",
     "@typescript-eslint/no-meaningless-void-operator": "error",
-    "@typescript-eslint/no-namespace": ["error", { allowDeclarations: true }],
+    "@typescript-eslint/no-namespace": ["error", { "allowDeclarations": true }],
     "@typescript-eslint/no-non-null-asserted-nullish-coalescing": "error",
     "@typescript-eslint/no-parameter-properties": "error",
     "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
@@ -62,27 +63,52 @@ module.exports = {
     "@typescript-eslint/switch-exhaustiveness-check": "error",
     "@typescript-eslint/unified-signatures": "error",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "svelte/no-store-async": "error",
+    "svelte/no-target-blank": "error",
+    "svelte/button-has-type": "error",
+    "svelte/no-reactive-functions": "error",
+    "svelte/no-reactive-literals": "error",
+    "svelte/no-useless-mustaches": "error",
+    "svelte/require-optimized-style-attribute": "error",
+    "svelte/require-stores-init": "error",
+    "svelte/derived-has-same-inputs-outputs": "error",
+    "svelte/no-extra-reactive-curlies": "error",
+    "svelte/prefer-class-directive": "error",
+    "svelte/prefer-style-directive": "error",
+    "svelte/sort-attributes": "error",
+    "svelte/spaced-html-comment": "error"
   },
-  settings: {
-    "svelte3/typescript": require("typescript"),
-    "svelte3/ignore-styles": () => true,
+  "settings": {
+    "svelte": {
+      "ignoreWarnings": [
+        "@typescript-eslint/explicit-function-return-type"
+      ]
+    }
   },
-  overrides: [
+  "overrides": [
     {
-      files: ["*.svelte"],
-      processor: "svelte3/svelte3",
+      "files": ["*.svelte"],
+      "parser": "svelte-eslint-parser",
+      "parserOptions": {
+        "parser": "@typescript-eslint/parser"
+      },
+      "rules": {
+        "deprecation/deprecation": "off",
+        "@typescript-eslint/no-unnecessary-condition": "off",
+        "svelte/@typescript-eslint/no-unnecessary-condition": "error"
+      }
     },
     {
-      parserOptions: {
-        project: null,
+      "parserOptions": {
+        "project": null
       },
-      files: [
+      "files": [
         "gulpfile.js",
         "backend.webpack.config.js",
         "frontend.webpack.config.js",
-        ".eslintrc.js",
+        ".eslintrc.js"
       ],
-      rules: {
+      "rules": {
         "deprecation/deprecation": "off",
         "@typescript-eslint/await-thenable": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
@@ -117,14 +143,14 @@ module.exports = {
         "@typescript-eslint/restrict-template-expressions": "off",
         "@typescript-eslint/strict-boolean-expressions": "off",
         "@typescript-eslint/switch-exhaustiveness-check": "off",
-        "@typescript-eslint/unbound-method": "off",
-      },
+        "@typescript-eslint/unbound-method": "off"
+      }
     },
     {
-      files: ["__tests__/**/*.test.ts"],
-      extends: ["plugin:jest/recommended", "plugin:jest/style"],
-      rules: {
-        "jest/consistent-test-it": ["error", { withinDescribe: "test" }],
+      "files": ["__tests__/**/*.test.ts"],
+      "extends": ["plugin:jest/recommended", "plugin:jest/style"],
+      "rules": {
+        "jest/consistent-test-it": ["error", { "withinDescribe": "test" }],
         "jest/no-duplicate-hooks": "error",
         "jest/no-if": "error",
         "jest/no-test-return-statement": "error",
@@ -132,10 +158,10 @@ module.exports = {
         "jest/prefer-expect-assertions": [
           "error",
           {
-            onlyFunctionsWithAsyncKeyword: true,
-            onlyFunctionsWithExpectInLoop: true,
-            onlyFunctionsWithExpectInCallback: true,
-          },
+            "onlyFunctionsWithAsyncKeyword": true,
+            "onlyFunctionsWithExpectInLoop": true,
+            "onlyFunctionsWithExpectInCallback": true
+          }
         ],
         "jest/prefer-expect-resolves": "error",
         "jest/prefer-hooks-on-top": "error",
@@ -143,14 +169,11 @@ module.exports = {
         "jest/prefer-strict-equal": "error",
         "jest/require-hook": "error",
         "jest/require-to-throw-message": "error",
-        "jest/unbound-method": "error",
-      },
-    },
+        "jest/unbound-method": "error"
+      }
+    }
   ],
-  globals: {
-    google: "readonly",
-    MoveError: "readonly",
-    MoveResponse: "readonly",
-    NamedRecord: "readonly",
-  },
-};
+  "globals": {
+    "google": "readonly"
+  }
+}
