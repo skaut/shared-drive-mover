@@ -13,7 +13,7 @@
   export let path: Array<NamedRecord> = [];
   export let selected: NamedRecord | null = null;
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ error: { message: string } }>();
 
   let items: Array<NamedRecord> | null = null;
 

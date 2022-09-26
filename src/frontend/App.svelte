@@ -104,7 +104,7 @@
     currentTab = "done";
   }
 
-  function moveErrorHandler(response: Error) {
+  function moveErrorHandler(response: Error): void {
     if (response.name === "ScriptError") {
       move();
       return;
@@ -119,6 +119,12 @@
   function showErrorDialog(message: string): void {
     errorMessage = message;
     errorDialogOpen = true;
+  }
+
+  function showErrorDialogWithEvent(
+    event: CustomEvent<{ message: string }>
+  ): void {
+    showErrorDialog(event.detail.message);
   }
 </script>
 
@@ -153,9 +159,7 @@
   {:else if currentTab === "source-selection"}
     <FolderSelection
       step="source-selection"
-      on:error={(event) => {
-        showErrorDialog(event.detail.message);
-      }}
+      on:error={showErrorDialogWithEvent}
       bind:path={sourcePath}
       bind:selected={source}
     />
@@ -167,9 +171,7 @@
   {:else if currentTab === "destination-selection"}
     <FolderSelection
       step="destination-selection"
-      on:error={(event) => {
-        showErrorDialog(event.detail.message);
-      }}
+      on:error={showErrorDialogWithEvent}
       bind:path={destinationPath}
       bind:selected={destination}
     />
