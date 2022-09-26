@@ -15,6 +15,7 @@
 </p>
 {#if errors !== null && errors.length > 0}
   <p class="mdc-typography--subtitle2">
+    <!-- eslint-disable-next-line svelte/no-at-html-tags -->
     {@html $_("steps.done.errors.introduction", {
       values: {
         link:
