@@ -13,7 +13,7 @@
   "license": "MIT",
   "author": "Marek Dědič",
   "devDependencies": {
-    "@google/clasp": "^2.4.1",
+    "@google/clasp": "^2.4.2",
     "@material/theme": "^13.0.0",
     "@smui/button": "^6.0.0",
     "@smui/checkbox": "^6.1.0",
