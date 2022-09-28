@@ -20,7 +20,7 @@
     "@smui/data-table": "^6.0.0",
     "@smui/dialog": "^6.1.0",
     "@smui/form-field": "^6.0.0",
-    "@smui/linear-progress": "^6.0.0",
+    "@smui/linear-progress": "^6.1.4",
     "@smui/list": "^6.0.0",
     "@smui/top-app-bar": "^6.0.0",
     "@types/google-apps-script": "^1.0.55",
