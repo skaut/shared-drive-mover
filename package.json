@@ -29,7 +29,7 @@
     "@types/jest": "^28.1.8",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
-    "coverage-istanbul-loader": "github:marekdedic/coverage-istanbul-loader#fixed-sourcemap-not-plain-object",
+    "coverage-istanbul-loader": "^3.0.5",
     "css-loader": "^6.7.1",
     "cypress": "^10.6.0",
     "cypress-get-table": "^1.0.1",
