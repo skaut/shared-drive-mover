@@ -29,6 +29,15 @@ module.exports = (_, options) => ({
         },
       },
       {
+        test: /\.ts$/,
+        use: {
+          loader: "ts-loader",
+          options: {
+            onlyCompileBundledFiles: true,
+          },
+        },
+      },
+      {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
       },
