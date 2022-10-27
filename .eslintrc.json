@@ -94,9 +94,7 @@
         "parser": "@typescript-eslint/parser"
       },
       "rules": {
-        "deprecation/deprecation": "off",
-        "@typescript-eslint/no-unnecessary-condition": "off",
-        "svelte/@typescript-eslint/no-unnecessary-condition": "error"
+        "deprecation/deprecation": "off"
       }
     },
     {
