@@ -27,7 +27,7 @@
     "@types/google.script.client-side": "^0.1.0",
     "@types/jest": "^28.1.8",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
-    "@typescript-eslint/parser": "^5.42.0",
+    "@typescript-eslint/parser": "^5.42.1",
     "css-loader": "^6.7.1",
     "eslint": "^8.27.0",
     "eslint-config-prettier": "^8.5.0",
