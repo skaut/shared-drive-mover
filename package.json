@@ -49,7 +49,7 @@
     "style-loader": "^3.3.1",
     "svelte": "^3.53.1",
     "svelte-check": "^2.9.2",
-    "svelte-i18n": "^3.5.2",
+    "svelte-i18n": "^3.6.0",
     "svelte-loader": "^3.1.4",
     "svelte-material-ui": "^6.2.0",
     "svelte-preprocess": "^4.10.7",
