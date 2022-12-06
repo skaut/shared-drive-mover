@@ -67,6 +67,8 @@
     "svelte/no-target-blank": "error",
     "svelte/button-has-type": "error",
     "svelte/no-dom-manipulating": "error",
+    "svelte/no-dupe-on-directives": "error",
+    "svelte/no-dupe-use-directives": "error",
     "svelte/no-reactive-functions": "error",
     "svelte/no-reactive-literals": "error",
     "svelte/no-useless-mustaches": "error",
