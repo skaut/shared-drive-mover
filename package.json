@@ -48,7 +48,7 @@
     "sass-loader": "^13.2.0",
     "style-loader": "^3.3.1",
     "svelte": "^3.55.0",
-    "svelte-check": "^2.10.3",
+    "svelte-check": "^3.0.0",
     "svelte-i18n": "^3.6.0",
     "svelte-loader": "^3.1.4",
     "svelte-material-ui": "^6.2.0",
