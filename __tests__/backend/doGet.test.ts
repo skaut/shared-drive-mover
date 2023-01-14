@@ -1,12 +1,11 @@
 import { expect, jest, test } from "@jest/globals";
 
+import { doGet } from "../../src/backend/doGet";
 import {
   mockedHtmlOutput,
   mockedHtmlService,
   mockedHtmlTemplate,
 } from "../test-utils/gas-stubs";
-
-import { doGet } from "../../src/backend/doGet";
 
 test("doGet works correctly", () => {
   const outputWithTitle = mockedHtmlOutput();

@@ -1,12 +1,10 @@
 import { expect, jest, test } from "@jest/globals";
 import { mocked } from "jest-mock";
 
-import { mockedDrive, mockedFilesCollection } from "../../test-utils/gas-stubs";
-
-import { MoveState_ } from "../../../src/backend/utils/MoveState";
-import { resolveDestinationFolder_ } from "../../../src/backend/move/resolveDestinationFolder";
-
 import * as folderManagement from "../../../src/backend/move/folderManagement";
+import { resolveDestinationFolder_ } from "../../../src/backend/move/resolveDestinationFolder";
+import { MoveState_ } from "../../../src/backend/utils/MoveState";
+import { mockedDrive, mockedFilesCollection } from "../../test-utils/gas-stubs";
 
 jest.mock("../../../src/backend/utils/MoveState");
 jest.mock("../../../src/backend/move/folderManagement");
