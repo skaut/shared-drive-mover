@@ -1,10 +1,9 @@
 import { expect, jest, test } from "@jest/globals";
 import { mocked } from "jest-mock";
 
-import { mockedDriveBackedValue } from "../../test-utils/DriveBackedValue-stub";
-import { MoveState_ } from "../../../src/backend/utils/MoveState";
-
 import { DriveBackedValue_ } from "../../../src/backend/utils/DriveBackedValue";
+import { MoveState_ } from "../../../src/backend/utils/MoveState";
+import { mockedDriveBackedValue } from "../../test-utils/DriveBackedValue-stub";
 
 jest.mock("../../../src/backend/utils/DriveBackedValue", () => ({
   DriveBackedValue_: jest.fn(),
