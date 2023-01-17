@@ -1,13 +1,12 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
-  import { _ } from "svelte-i18n";
   import LinearProgress from "@smui/linear-progress";
   import List, { Item, Separator, Subheader, Text } from "@smui/list";
-
-  import StepHeader from "./StepHeader.svelte";
+  import { createEventDispatcher } from "svelte";
+  import { _ } from "svelte-i18n";
 
   import type { ListResponse } from "../interfaces/ListResponse";
   import type { NamedRecord } from "../interfaces/NamedRecord";
+  import StepHeader from "./StepHeader.svelte";
 
   export let step: string;
   export let path: Array<NamedRecord> = [];
