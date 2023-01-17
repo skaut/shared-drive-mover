@@ -1,12 +1,11 @@
 <script lang="ts">
+  import Button, { Icon, Label } from "@smui/button";
   import { createEventDispatcher } from "svelte";
   import { _ } from "svelte-i18n";
-  import Button, { Icon, Label } from "@smui/button";
-
-  import BackButton from "./BackButton.svelte";
-  import StepHeader from "./StepHeader.svelte";
 
   import type { NamedRecord } from "../interfaces/NamedRecord";
+  import BackButton from "./BackButton.svelte";
+  import StepHeader from "./StepHeader.svelte";
 
   export let sourcePath: Array<NamedRecord> = [];
   export let destinationPath: Array<NamedRecord> = [];
