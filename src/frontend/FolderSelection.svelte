@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" strictEvents>
   import LinearProgress from "@smui/linear-progress";
   import List, { Item, Separator, Subheader, Text } from "@smui/list";
   import { createEventDispatcher } from "svelte";

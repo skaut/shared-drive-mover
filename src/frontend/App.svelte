@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" strictEvents>
   import "svelte-material-ui/bare.css";
 
   import Button, { Label } from "@smui/button";

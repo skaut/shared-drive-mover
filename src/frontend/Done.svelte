@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" strictEvents>
   import DataTable, { Body, Cell, Head, Row } from "@smui/data-table";
   import { _ } from "svelte-i18n";
 

@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" strictEvents>
   import Button, { Label } from "@smui/button";
   import Dialog, { Actions, Content, Title } from "@smui/dialog";
   import { createEventDispatcher } from "svelte";

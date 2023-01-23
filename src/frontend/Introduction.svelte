@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" strictEvents>
   import Checkbox from "@smui/checkbox";
   import FormField from "@smui/form-field";
   import { _ } from "svelte-i18n";
