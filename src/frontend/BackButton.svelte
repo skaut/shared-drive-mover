@@ -3,7 +3,7 @@
   import { createEventDispatcher } from "svelte";
   import { _ } from "svelte-i18n";
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ previous: never }>();
 </script>
 
 <br />

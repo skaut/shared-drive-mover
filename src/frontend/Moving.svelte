@@ -8,7 +8,10 @@
     nonEmptyDialogOpen = true;
   }
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{
+    nonEmptyDialogCancel: never;
+    nonEmptyDialogConfirm: never;
+  }>();
 
   let nonEmptyDialogOpen: boolean;
 </script>
