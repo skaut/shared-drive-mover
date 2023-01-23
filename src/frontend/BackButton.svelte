@@ -1,9 +1,9 @@
-<script lang="ts">
+<script lang="ts" strictEvents>
   import Button, { Icon, Label } from "@smui/button";
   import { createEventDispatcher } from "svelte";
   import { _ } from "svelte-i18n";
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ previous: never }>();
 </script>
 
 <br />

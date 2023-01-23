@@ -1,11 +1,11 @@
-<script lang="ts">
+<script lang="ts" strictEvents>
   import Button, { Icon, Label } from "@smui/button";
   import { createEventDispatcher } from "svelte";
   import { _ } from "svelte-i18n";
 
   export let disabled: boolean;
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ next: never }>();
 </script>
 
 <Button {disabled} variant="raised" on:click={() => dispatch("next")}>

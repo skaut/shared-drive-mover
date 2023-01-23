@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" strictEvents>
   import Button, { Label } from "@smui/button";
   import Dialog, { Actions, Content, Title } from "@smui/dialog";
   import { createEventDispatcher } from "svelte";
@@ -8,7 +8,10 @@
     nonEmptyDialogOpen = true;
   }
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{
+    nonEmptyDialogCancel: never;
+    nonEmptyDialogConfirm: never;
+  }>();
 
   let nonEmptyDialogOpen: boolean;
 </script>
