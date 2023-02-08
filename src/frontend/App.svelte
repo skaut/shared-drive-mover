@@ -26,7 +26,7 @@
 
   addMessages("en", en);
   addMessages("cs", cs);
-  void init({
+  init({
     fallbackLocale: "en",
     initialLocale: "<?= Session.getActiveUserLocale() ?>",
   });

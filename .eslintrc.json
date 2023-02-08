@@ -1,14 +1,14 @@
 {
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
-    "project": "./tsconfig.json",
+    "project": ["./tsconfig.json", "./cypress/tsconfig.json"],
     "extraFileExtensions": [".svelte"]
   },
   "env": {
     "browser": true,
     "node": false
   },
-  "plugins": ["deprecation", "jest", "simple-import-sort", "@typescript-eslint"],
+  "plugins": ["deprecation", "cypress", "jest", "simple-import-sort", "@typescript-eslint"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -109,6 +109,7 @@
         "gulpfile.js",
         "backend.webpack.config.js",
         "frontend.webpack.config.js",
+        "test.frontend.webpack.config.js",
         ".eslintrc.js"
       ],
       "rules": {
@@ -150,7 +151,10 @@
       }
     },
     {
-      "files": ["__tests__/**/*.test.ts"],
+      "files": [
+        "__tests__/**/*.test.ts",
+        "__tests__/test-utils/gas-stubs.ts"
+      ],
       "extends": ["plugin:jest/recommended", "plugin:jest/style"],
       "rules": {
         "jest/consistent-test-it": ["error", { "withinDescribe": "test" }],
@@ -173,6 +177,18 @@
         "jest/require-hook": "error",
         "jest/require-to-throw-message": "error",
         "jest/unbound-method": "error"
+      }
+    },
+    {
+      "files": [
+        "__tests__/frontend/**/*.cy.ts",
+        "__tests__/test-utils/stubEndpoints.ts"
+      ],
+      "extends": ["plugin:cypress/recommended"],
+      "rules": {
+        "cypress/no-force": "error",
+        "cypress/assertion-before-screenshot": "error",
+        "cypress/no-pause": "error"
       }
     }
   ],

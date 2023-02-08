@@ -61,8 +61,8 @@ jobs:
         run: |
           npm run lint
 
-  test:
-    name: "Test"
+  backend-test:
+    name: "Backend test"
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
@@ -84,7 +84,39 @@ jobs:
 
       - name: "Run tests"
         run: |
-          npm test
+          npm run test:backend
 
       - name: "Upload coverage results"
         uses: codecov/codecov-action@v2.1.0
+        with:
+          flags: backend
+
+  frontend-test:
+    name: "Frontend test"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v2.4.0
+
+      - name: "Cache NPM dependencies"
+        uses: actions/cache@v2.1.6
+        with:
+          path: "~/.npm"
+          key: npm-dependencies-${{ runner.os }}-${{ env.cache-version }}-${{ hashFiles('package.json') }}
+          restore-keys: |
+            npm-dependencies-${{ runner.os }}-${{ env.cache-version }}-${{ hashFiles('package.json') }}
+            npm-dependencies-${{ runner.os }}-${{ env.cache-version }}-
+            npm-dependencies-${{ runner.os }}-
+
+      - name: "Install NPM dependencies"
+        run: |
+          npm ci
+
+      - name: "Run tests"
+        run: |
+          npm run test:frontend
+
+      - name: "Upload coverage results"
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          flags: frontend

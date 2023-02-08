@@ -13,7 +13,7 @@ gulp.task("build:appsscript", function () {
 gulp.task("build:frontend", function () {
   return gulp
     .src("src/frontend/index.ts")
-    .pipe(webpack(require("./frontend.webpack.config.js")))
+    .pipe(webpack(require("./frontend.webpack.config.js")(undefined, {})))
     .pipe(filter(["index.html"]))
     .pipe(replace("\u0085", "\\u0085"))
     .pipe(gulp.dest("dist/"));
