@@ -11,7 +11,7 @@ module.exports = (env, options) =>
           {
             test: /src\/frontend\/.*\.(ts|svelte)$/,
             use: {
-              loader: "coverage-istanbul-loader",
+              loader: "webpack-plugin-istanbul/loader",
               options: {
                 extension: [".svelte", ".js", ".ts"],
               },

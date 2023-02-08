@@ -29,7 +29,6 @@
     "@types/jest": "^28.1.8",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
-    "coverage-istanbul-loader": "^3.0.5",
     "css-loader": "^6.7.3",
     "cypress": "^10.6.0",
     "cypress-get-table": "^1.0.1",
@@ -56,7 +55,7 @@
     "style-loader": "^3.3.1",
     "svelte": "^3.55.1",
     "svelte-check": "^2.10.3",
-    "svelte-i18n": "^3.6.0",
+    "svelte-i18n": "^2.3.1",
     "svelte-loader": "^3.1.5",
     "svelte-material-ui": "^6.2.0",
     "svelte-preprocess": "^5.0.1",
@@ -66,6 +65,7 @@
     "webpack": "^5.75.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.7.1",
+    "webpack-plugin-istanbul": "^1.0.3",
     "webpack-stream": "^7.0.0"
   },
   "scripts": {
