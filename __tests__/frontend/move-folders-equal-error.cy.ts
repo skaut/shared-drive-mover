@@ -10,7 +10,7 @@ stubEndpoints({
   move: (successHandler) => {
     setTimeout(() => {
       successHandler({ status: "error", type: "sourceEqualsDestination" });
-    }, 100);
+    }, 300);
   },
 });
 

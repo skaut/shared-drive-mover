@@ -19,7 +19,7 @@ const stubs = stubEndpoints({
         successHandler({ status: "success", response: { errors: [] } });
       }
       attempt += 1;
-    }, 100);
+    }, 300);
   },
 });
 

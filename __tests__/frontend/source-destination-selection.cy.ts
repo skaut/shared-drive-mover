@@ -77,7 +77,7 @@ const stubs = stubEndpoints({
   move: (successHandler) => {
     setTimeout(() => {
       successHandler({ status: "success", response: { errors: [] } });
-    }, 100);
+    }, 300);
   },
 });
 

@@ -10,7 +10,7 @@ stubEndpoints({
   move: (successHandler) => {
     setTimeout(() => {
       successHandler({ status: "error", type: "DriveAPIError" });
-    }, 100);
+    }, 300);
   },
 });
 

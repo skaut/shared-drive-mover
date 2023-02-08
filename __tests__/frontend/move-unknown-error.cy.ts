@@ -10,7 +10,7 @@ stubEndpoints({
   move: (successHandler) => {
     setTimeout(() => {
       successHandler({ status: "error", type: "unknown" });
-    }, 100);
+    }, 300);
   },
 });
 

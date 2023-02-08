@@ -10,7 +10,7 @@ stubEndpoints({
   move: (_, failureHandler) => {
     setTimeout(() => {
       failureHandler(new Error("ERROR MESSAGE"));
-    }, 100);
+    }, 3);
   },
 });
 
