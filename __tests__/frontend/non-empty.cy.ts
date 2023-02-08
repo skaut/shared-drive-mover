@@ -14,7 +14,7 @@ const stubs = stubEndpoints({
       } else {
         successHandler({ status: "error", type: "notEmpty" });
       }
-    }, 300);
+    }, 100);
   },
 });
 

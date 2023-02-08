@@ -23,7 +23,7 @@ const stubs = stubEndpoints({
           ],
         },
       });
-    }, 300);
+    }, 100);
   },
 });
 
