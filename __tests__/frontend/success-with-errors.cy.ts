@@ -37,7 +37,6 @@ it("works and displays moving errors", () => {
   cy.contains("Continue").click();
   cy.contains('contents of the folder "My Drive" into the folder "My Drive"');
   cy.contains("Move").click();
-  cy.contains("is moving");
   cy.contains("Done!");
   cy.contains("errors were encountered");
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call

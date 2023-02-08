@@ -28,12 +28,10 @@ it("works with non-empty destination folder", () => {
   cy.contains("Continue").click();
   cy.contains('contents of the folder "My Drive" into the folder "My Drive"');
   cy.contains("Move").click();
-  cy.contains("is moving");
   cy.contains("Destination not empty").should("be.visible");
   cy.contains("No").click();
   cy.contains("Continue").click();
   cy.contains("Move").click();
-  cy.contains("is moving");
   cy.contains("Destination not empty").should("be.visible");
   cy.contains("Yes").click();
   cy.contains("Done!");

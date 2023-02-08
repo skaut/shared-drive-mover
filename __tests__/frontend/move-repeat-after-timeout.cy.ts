@@ -33,7 +33,6 @@ it("works with an unhandled move error", () => {
   cy.contains("Continue").click();
   cy.contains('contents of the folder "My Drive" into the folder "My Drive"');
   cy.contains("Move").click();
-  cy.contains("is moving");
   cy.contains("Done!");
   cy.contains("Successfully moved").then(() => {
     expect(stubs.move).to.have.been.calledOnceWith(

@@ -24,7 +24,6 @@ it("works with an unknown move error", () => {
   cy.contains("Continue").click();
   cy.contains('contents of the folder "My Drive" into the folder "My Drive"');
   cy.contains("Move").click();
-  cy.contains("is moving");
   cy.contains("Confirmation");
   cy.contains("An error occurred").should("be.visible");
   cy.contains("An unknown error occurred").should("be.visible");

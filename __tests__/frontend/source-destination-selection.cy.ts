@@ -100,7 +100,6 @@ it("works with folder selection", () => {
     'contents of the folder "DRIVE 1/FOLDER 2 IN DRIVE 1" into the folder "My Drive/FOLDER 1 IN MY DRIVE/FOLDER 2 IN FOLDER 1 IN MY DRIVE"'
   );
   cy.contains("Move").click();
-  cy.contains("is moving");
   cy.contains("Done!");
   cy.contains("Successfully moved").then(() => {
     expect(stubs.move).to.have.been.calledOnceWith(

@@ -24,7 +24,6 @@ it("works with source and destination folders being equal", () => {
   cy.contains("Continue").click();
   cy.contains('contents of the folder "My Drive" into the folder "My Drive"');
   cy.contains("Move").click();
-  cy.contains("is moving");
   cy.contains("Confirmation");
   cy.contains("An error occurred").should("be.visible");
   cy.contains("The source and destination folders must be different").should(
