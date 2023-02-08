@@ -1,10 +1,9 @@
-<script lang="ts">
-  import { _ } from "svelte-i18n";
+<script lang="ts" strictEvents>
   import DataTable, { Body, Cell, Head, Row } from "@smui/data-table";
-
-  import StepHeader from "./StepHeader.svelte";
+  import { _ } from "svelte-i18n";
 
   import type { MoveError } from "../interfaces/MoveError";
+  import StepHeader from "./StepHeader.svelte";
 
   export let errors: Array<MoveError> | null = [];
 </script>

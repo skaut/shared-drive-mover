@@ -1,7 +1,6 @@
-import { listFoldersInFolder_ } from "./folderManagement";
-
 import type { MoveContext } from "../../interfaces/MoveContext";
 import type { MoveState_ } from "../utils/MoveState";
+import { listFoldersInFolder_ } from "./folderManagement";
 
 export function resolveDestinationFolder_(
   sourceFolder: GoogleAppsScript.Drive.Schema.File,

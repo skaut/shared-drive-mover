@@ -2,14 +2,13 @@
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
     "project": ["./tsconfig.json", "./cypress/tsconfig.json"],
-    "sourceType": "script",
     "extraFileExtensions": [".svelte"]
   },
   "env": {
     "browser": true,
     "node": false
   },
-  "plugins": ["deprecation", "@typescript-eslint", "jest", "cypress"],
+  "plugins": ["deprecation", "cypress", "jest", "simple-import-sort", "@typescript-eslint"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -21,6 +20,8 @@
   "rules": {
     "deprecation/deprecation": "warn",
     "no-warning-comments": "warn",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
     "@typescript-eslint/array-type": ["error", { "default": "generic" }],
     "@typescript-eslint/consistent-indexed-object-style": "error",
     "@typescript-eslint/consistent-type-assertions": "error",
@@ -66,10 +67,17 @@
     "svelte/no-store-async": "error",
     "svelte/no-target-blank": "error",
     "svelte/button-has-type": "error",
+    "svelte/no-dom-manipulating": "error",
+    "svelte/no-dupe-on-directives": "error",
+    "svelte/no-dupe-use-directives": "error",
     "svelte/no-reactive-functions": "error",
     "svelte/no-reactive-literals": "error",
     "svelte/no-useless-mustaches": "error",
+    "svelte/prefer-destructured-store-props": "error",
+    "svelte/require-event-dispatcher-types": "error",
     "svelte/require-optimized-style-attribute": "error",
+    "svelte/require-store-callbacks-use-set-param": "error",
+    "svelte/require-store-reactive-access": "error",
     "svelte/require-stores-init": "error",
     "svelte/derived-has-same-inputs-outputs": "error",
     "svelte/no-extra-reactive-curlies": "error",
@@ -91,11 +99,6 @@
       "parser": "svelte-eslint-parser",
       "parserOptions": {
         "parser": "@typescript-eslint/parser"
-      },
-      "rules": {
-        "deprecation/deprecation": "off",
-        "@typescript-eslint/no-unnecessary-condition": "off",
-        "svelte/@typescript-eslint/no-unnecessary-condition": "error"
       }
     },
     {
