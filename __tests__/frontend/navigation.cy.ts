@@ -40,6 +40,7 @@ it("works with basic configuration", () => {
   cy.contains("Continue").click();
   cy.contains("Confirmation");
   cy.contains("Move").click();
+  cy.contains("is moving");
   cy.contains("Done!");
   cy.contains("Successfully moved").then(() => {
     expect(stubs.move).to.have.been.calledOnceWith(
