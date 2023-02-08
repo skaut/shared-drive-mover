@@ -40,6 +40,7 @@ it("works and displays moving errors", () => {
   cy.contains("is moving");
   cy.contains("Done!");
   cy.contains("errors were encountered");
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   cy.get(".mdc-data-table")
     .getTable()
     .should((tableData) => {
