@@ -109,6 +109,7 @@
         "gulpfile.js",
         "backend.webpack.config.js",
         "frontend.webpack.config.js",
+        "test.frontend.webpack.config.js",
         ".eslintrc.js"
       ],
       "rules": {
