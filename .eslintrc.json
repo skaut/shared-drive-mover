@@ -67,6 +67,8 @@
     "svelte/no-store-async": "error",
     "svelte/no-target-blank": "error",
     "svelte/button-has-type": "error",
+    "svelte/experimental-require-slot-types": "error",
+    "svelte/experimental-require-strict-events": "error",
     "svelte/no-dom-manipulating": "error",
     "svelte/no-dupe-on-directives": "error",
     "svelte/no-dupe-use-directives": "error",
