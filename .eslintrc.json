@@ -66,6 +66,14 @@
     "@typescript-eslint/no-non-null-assertion": "off",
     "svelte/no-store-async": "error",
     "svelte/no-target-blank": "error",
+    "svelte/block-lang": [
+      "error",
+      {
+        "enforceScriptPresent": true,
+        "script": "ts",
+        "style": "scss"
+      }
+    ],
     "svelte/button-has-type": "error",
     "svelte/experimental-require-slot-types": "error",
     "svelte/experimental-require-strict-events": "error",
