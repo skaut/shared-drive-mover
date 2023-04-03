@@ -50,7 +50,7 @@
     "prettier": "^2.8.5",
     "prettier-plugin-svelte": "^2.10.0",
     "sass": "^1.60.0",
-    "sass-loader": "^13.2.0",
+    "sass-loader": "^13.2.2",
     "start-server-and-test": "^2.0.0",
     "style-loader": "^3.3.2",
     "svelte": "^3.57.0",
