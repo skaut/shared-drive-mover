@@ -53,7 +53,7 @@
     "sass-loader": "^13.2.2",
     "start-server-and-test": "^2.0.0",
     "style-loader": "^3.3.2",
-    "svelte": "^3.57.0",
+    "svelte": "^3.58.0",
     "svelte-check": "^2.10.3",
     "svelte-i18n": "^3.2.0 <3.2.1",
     "svelte-loader": "^3.1.7",
