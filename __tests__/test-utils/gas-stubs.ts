@@ -432,6 +432,8 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
       jest.fn<
         (csv: string, delimiter?: GoogleAppsScript.Char) => Array<Array<string>>
       >(),
+    parseDate:
+      jest.fn<(date: string, timeZone: string, format: string) => Date>(),
     sleep: jest.fn<(milliseconds: GoogleAppsScript.Integer) => void>(),
     ungzip:
       jest.fn<
