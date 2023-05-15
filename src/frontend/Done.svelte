@@ -36,7 +36,7 @@
       </Row>
     </Head>
     <Body>
-      {#each errors as error}
+      {#each errors as error (error)}
         <Row>
           <Cell>
             {error.file.join("/")}
