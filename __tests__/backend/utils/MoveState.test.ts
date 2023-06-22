@@ -1,9 +1,9 @@
+import { expect, jest, test } from "@jest/globals";
 import { mocked } from "jest-mock";
 
-import { mockedDriveBackedValue } from "../../test-utils/DriveBackedValue-stub";
-import { MoveState_ } from "../../../src/backend/utils/MoveState";
-
 import { DriveBackedValue_ } from "../../../src/backend/utils/DriveBackedValue";
+import { MoveState_ } from "../../../src/backend/utils/MoveState";
+import { mockedDriveBackedValue } from "../../test-utils/DriveBackedValue-stub";
 
 jest.mock("../../../src/backend/utils/DriveBackedValue", () => ({
   DriveBackedValue_: jest.fn(),
@@ -155,7 +155,7 @@ test("MoveState.tryOrLog works correctly", () => {
   };
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
 
-  const fn = jest.fn<void, []>().mockReturnValueOnce(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+  const fn = jest.fn<() => void>().mockReturnValueOnce();
 
   state.tryOrLog(context, fn);
 
@@ -186,8 +186,7 @@ test("MoveState.tryOrLog handles errors gracefully", () => {
   };
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
 
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-  const fn = jest.fn<void, []>().mockImplementationOnce(() => {
+  const fn = jest.fn<() => void>().mockImplementationOnce(() => {
     throw new Error("ERROR_MESSAGE");
   });
 
@@ -209,8 +208,7 @@ test("MoveState.tryOrLog handles errors gracefully with a filename", () => {
   };
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
 
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-  const fn = jest.fn<void, []>().mockImplementationOnce(() => {
+  const fn = jest.fn<() => void>().mockImplementationOnce(() => {
     throw new Error("ERROR_MESSAGE");
   });
 

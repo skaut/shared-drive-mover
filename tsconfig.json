@@ -10,5 +10,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strict": true
-  }
+  },
+  "exclude": [
+    "__tests__/frontend/**/*",
+    "__tests__/test-utils/stubEndpoints.ts"
+  ]
 }

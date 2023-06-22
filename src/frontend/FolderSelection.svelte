@@ -1,53 +1,20 @@
-<StepHeader {step}/>
-<p>
-  {$_("steps." + step + ".introduction")}
-</p>
-<List singleSelection>
-  <Separator/>
-  <Subheader>
-    <span class="breadcrumb" on:click={rootNavigation}>
-      {$_("drive.driveList")}
-    </span>
-    {#each path as segment (segment.id)}
-      &nbsp; &gt; &nbsp;
-      <span class="breadcrumb" on:click={() => breadcrumbNavigation(segment)}>
-        {segment.name}
-      </span>
-    {/each}
-  </Subheader>
-  <Separator/>
-  {#if items === null}
-    <LinearProgress indeterminate/>
-  {:else}
-    {#each items as item (item.id)}
-      <Item on:dblclick={() => itemNavigation(item)} on:SMUI:action={() => selected = item} selected={selected !== null && selected.id === item.id}>
-        <Text>
-          {item.name}
-        </Text>
-      </Item>
-    {/each}
-  {/if}
-  <Separator/>
-</List>
-
-<script lang="ts">
-  import {createEventDispatcher} from "svelte";
-  import {_} from "svelte-i18n";
-  import LinearProgress from "@smui/linear-progress/styled";
-  import List, {Item, Separator, Subheader, Text} from "@smui/list/styled";
-
-  import StepHeader from "./StepHeader.svelte";
+<script lang="ts" strictEvents>
+  import LinearProgress from "@smui/linear-progress";
+  import List, { Item, Separator, Subheader, Text } from "@smui/list";
+  import { createEventDispatcher } from "svelte";
+  import { _ } from "svelte-i18n";
 
   import type { ListResponse } from "../interfaces/ListResponse";
   import type { NamedRecord } from "../interfaces/NamedRecord";
+  import StepHeader from "./StepHeader.svelte";
 
   export let step: string;
   export let path: Array<NamedRecord> = [];
-  export let selected: NamedRecord|null = null;
+  export let selected: NamedRecord | null = null;
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ error: { message: string } }>();
 
-  let items: Array<NamedRecord>|null = null;
+  let items: Array<NamedRecord> | null = null;
 
   function rootNavigation(): void {
     selected = null;
@@ -67,17 +34,17 @@
     getItems();
   }
 
-  function handleListError(type: string) {
+  function handleListError(type: string): void {
     switch (type) {
       case "DriveAPIError":
         dispatch("error", {
           message: $_("errorDialog.DriveAPIError"),
-        })
+        });
         break;
       default:
         dispatch("error", {
           message: $_("errorDialog.unknownError"),
-        })
+        });
         break;
     }
   }
@@ -87,7 +54,7 @@
       handleListError(response.type);
       return;
     }
-    items = [{id: "root", name: $_("drive.myDrive")}, ...response.response];
+    items = [{ id: "root", name: $_("drive.myDrive") }, ...response.response];
   }
 
   function handleFolderResponse(response: ListResponse): void {
@@ -101,12 +68,12 @@
   function handleError(response: Error): void {
     dispatch("error", {
       message: $_("errorDialog.unknownErrorWithMessage") + response.message,
-    })
+    });
   }
 
   function getItems(): void {
     items = null;
-    if(path.length === 0) {
+    if (path.length === 0) {
       google.script.run
         .withSuccessHandler(handleSharedDriveResponse)
         .withFailureHandler(handleError)
@@ -122,11 +89,59 @@
   getItems();
 </script>
 
-<style lang="scss">
-  @use "smui-theme" as theme;
+<StepHeader {step} />
+<p>
+  {$_("steps." + step + ".introduction")}
+</p>
+<List singleSelection>
+  <Separator />
+  <Subheader>
+    <span
+      class="breadcrumb"
+      on:click={rootNavigation}
+      on:keydown={rootNavigation}
+    >
+      {$_("drive.driveList")}
+    </span>
+    {#each path as segment (segment.id)}
+      &nbsp; &gt; &nbsp;
+      <span
+        class="breadcrumb"
+        on:click={() => {
+          breadcrumbNavigation(segment);
+        }}
+        on:keydown={() => {
+          breadcrumbNavigation(segment);
+        }}
+      >
+        {segment.name}
+      </span>
+    {/each}
+  </Subheader>
+  <Separator />
+  {#if items === null}
+    <LinearProgress indeterminate />
+  {:else}
+    {#each items as item (item.id)}
+      <Item
+        selected={selected !== null && selected.id === item.id}
+        on:dblclick={() => {
+          itemNavigation(item);
+        }}
+        on:SMUI:action={() => (selected = item)}
+      >
+        <Text>
+          {item.name}
+        </Text>
+      </Item>
+    {/each}
+  {/if}
+  <Separator />
+</List>
 
+<style lang="scss">
   .breadcrumb {
     cursor: pointer;
-    color: theme.$primary;
+    color: var(--mdc-theme-primary);
   }
 </style>

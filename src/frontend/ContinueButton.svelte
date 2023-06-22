@@ -1,14 +1,14 @@
-<Button variant="raised" {disabled} on:click={() => dispatch("next")}>
-  <Label>{$_("continue.buttonLabel")}</Label>
-  <Icon class="material-icons">navigate_next</Icon>
-</Button>
-
-<script lang="ts">
-  import {createEventDispatcher} from "svelte";
-  import {_} from "svelte-i18n";
-  import Button, {Icon, Label} from "@smui/button/styled";
+<script lang="ts" strictEvents>
+  import Button, { Icon, Label } from "@smui/button";
+  import { createEventDispatcher } from "svelte";
+  import { _ } from "svelte-i18n";
 
   export let disabled: boolean;
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ next: never }>();
 </script>
+
+<Button {disabled} variant="raised" on:click={() => dispatch("next")}>
+  <Label>{$_("continue.buttonLabel")}</Label>
+  <Icon class="material-icons">navigate_next</Icon>
+</Button>

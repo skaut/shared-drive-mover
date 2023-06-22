@@ -1,6 +1,12 @@
-import { mockedDrive, mockedFilesCollection } from "../../test-utils/gas-stubs";
+import { expect, jest, test } from "@jest/globals";
+import { mocked } from "jest-mock";
 
 import { DriveBackedValue_ } from "../../../src/backend/utils/DriveBackedValue";
+import {
+  mockedDrive,
+  mockedFilesCollection,
+  mockedUtilities,
+} from "../../test-utils/gas-stubs";
 
 test("DriveBackedValue constructs correctly", () => {
   const key = "SAVE_KEY";
@@ -10,15 +16,8 @@ test("DriveBackedValue constructs correctly", () => {
     16,
   ];
 
-  global.Utilities = {
-    computeDigest: jest.fn().mockReturnValueOnce(key_encoded),
-    Charset: {
-      US_ASCII: "TEST_US_ASCII_CONST",
-    },
-    DigestAlgorithm: {
-      SHA_256: "TEST_SHA_256_CONST",
-    },
-  };
+  global.Utilities = mockedUtilities();
+  mocked(global.Utilities).computeDigest.mockReturnValueOnce(key_encoded);
 
   expect(() => {
     new DriveBackedValue_(key);
@@ -41,20 +40,11 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
     fields?: string;
   }
 
-  // Return type should actually be Blob, but that's hard to create reliably.
-  const newBlob = jest
-    .fn<string, [data: string, contentType?: string]>()
-    .mockReturnValueOnce("BLOB");
-  global.Utilities = {
-    computeDigest: jest.fn().mockReturnValueOnce(key_encoded),
-    newBlob,
-    Charset: {
-      US_ASCII: "TEST_US_ASCII_CONST",
-    },
-    DigestAlgorithm: {
-      SHA_256: "TEST_SHA_256_CONST",
-    },
-  };
+  global.Utilities = mockedUtilities();
+  mocked(global.Utilities).computeDigest.mockReturnValueOnce(key_encoded);
+  mocked(global.Utilities).newBlob.mockReturnValueOnce(
+    "BLOB" as unknown as GoogleAppsScript.Base.Blob
+  );
   const response1 = {
     items: [
       {
@@ -71,23 +61,27 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs?: ListFilesOptions]
+      (
+        optionalArgs?: ListFilesOptions
+      ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2);
-  const insert = jest.fn<
-    GoogleAppsScript.Drive.Schema.File,
-    [resource: GoogleAppsScript.Drive.Schema.File, mediaData: Blob]
-  >();
-  const update = jest.fn<
-    GoogleAppsScript.Drive.Schema.File,
-    [
-      resource: GoogleAppsScript.Drive.Schema.File,
-      fileId: string,
-      mediaData?: Blob
-    ]
-  >();
+  const insert =
+    jest.fn<
+      (
+        resource: GoogleAppsScript.Drive.Schema.File,
+        mediaData?: Blob
+      ) => GoogleAppsScript.Drive.Schema.File
+    >();
+  const update =
+    jest.fn<
+      (
+        resource: GoogleAppsScript.Drive.Schema.File,
+        fileId: string,
+        mediaData?: Blob
+      ) => GoogleAppsScript.Drive.Schema.File
+    >();
   global.Drive = {
     ...mockedDrive(),
     Files: {
@@ -120,9 +114,13 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
   expect(update.mock.calls).toHaveLength(1);
   expect(update.mock.calls[0][1]).toBe("FILE_ID");
   expect(update.mock.calls[0][2]).toBe("BLOB");
-  expect(newBlob.mock.calls).toHaveLength(1);
-  expect(newBlob.mock.calls[0][0]).toBe(JSON.stringify("VALUE"));
-  expect(newBlob.mock.calls[0][1]).toBe("application/json");
+  expect(mocked(global.Utilities).newBlob.mock.calls).toHaveLength(1);
+  expect(mocked(global.Utilities).newBlob.mock.calls[0][0]).toBe(
+    JSON.stringify("VALUE")
+  );
+  expect(mocked(global.Utilities).newBlob.mock.calls[0][1]).toBe(
+    "application/json"
+  );
 });
 
 test("DriveBackedValue saves a value - the folder exists, the value doesn't", () => {
@@ -141,20 +139,11 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
     fields?: string;
   }
 
-  // Return type should actually be Blob, but that's hard to create reliably.
-  const newBlob = jest
-    .fn<string, [data: string, contentType?: string]>()
-    .mockReturnValueOnce("BLOB");
-  global.Utilities = {
-    computeDigest: jest.fn().mockReturnValueOnce(key_encoded),
-    newBlob,
-    Charset: {
-      US_ASCII: "TEST_US_ASCII_CONST",
-    },
-    DigestAlgorithm: {
-      SHA_256: "TEST_SHA_256_CONST",
-    },
-  };
+  global.Utilities = mockedUtilities();
+  mocked(global.Utilities).computeDigest.mockReturnValueOnce(key_encoded);
+  mocked(global.Utilities).newBlob.mockReturnValueOnce(
+    "BLOB" as unknown as GoogleAppsScript.Base.Blob
+  );
   const response1 = {
     items: [
       {
@@ -167,15 +156,19 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs?: ListFilesOptions]
+      (
+        optionalArgs?: ListFilesOptions
+      ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2);
-  const insert = jest.fn<
-    GoogleAppsScript.Drive.Schema.File,
-    [resource: GoogleAppsScript.Drive.Schema.File, mediaData: Blob]
-  >();
+  const insert =
+    jest.fn<
+      (
+        resource: GoogleAppsScript.Drive.Schema.File,
+        mediaData?: Blob
+      ) => GoogleAppsScript.Drive.Schema.File
+    >();
   global.Drive = {
     ...mockedDrive(),
     Files: {
@@ -210,9 +203,13 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
     "shared-drive-mover-state-" + key_sha256 + ".json"
   );
   expect(insert.mock.calls[0][1]).toBe("BLOB");
-  expect(newBlob.mock.calls).toHaveLength(1);
-  expect(newBlob.mock.calls[0][0]).toBe(JSON.stringify("VALUE"));
-  expect(newBlob.mock.calls[0][1]).toBe("application/json");
+  expect(mocked(global.Utilities).newBlob.mock.calls).toHaveLength(1);
+  expect(mocked(global.Utilities).newBlob.mock.calls[0][0]).toBe(
+    JSON.stringify("VALUE")
+  );
+  expect(mocked(global.Utilities).newBlob.mock.calls[0][1]).toBe(
+    "application/json"
+  );
 });
 
 test("DriveBackedValue saves a value - the folder doesn't exists", () => {
@@ -231,34 +228,28 @@ test("DriveBackedValue saves a value - the folder doesn't exists", () => {
     fields?: string;
   }
 
-  // Return type should actually be Blob, but that's hard to create reliably.
-  const newBlob = jest
-    .fn<string, [data: string, contentType?: string]>()
-    .mockReturnValueOnce("BLOB");
-  global.Utilities = {
-    computeDigest: jest.fn().mockReturnValueOnce(key_encoded),
-    newBlob,
-    Charset: {
-      US_ASCII: "TEST_US_ASCII_CONST",
-    },
-    DigestAlgorithm: {
-      SHA_256: "TEST_SHA_256_CONST",
-    },
-  };
+  global.Utilities = mockedUtilities();
+  mocked(global.Utilities).computeDigest.mockReturnValueOnce(key_encoded);
+  mocked(global.Utilities).newBlob.mockReturnValueOnce(
+    "BLOB" as unknown as GoogleAppsScript.Base.Blob
+  );
   const response = {
     items: [],
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs?: ListFilesOptions]
+      (
+        optionalArgs?: ListFilesOptions
+      ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response)
     .mockReturnValueOnce(response);
   const insert = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.File,
-      [resource: GoogleAppsScript.Drive.Schema.File, mediaData: Blob]
+      (
+        resource: GoogleAppsScript.Drive.Schema.File,
+        mediaData?: Blob
+      ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({ id: "FOLDER_ID" });
   global.Drive = {
@@ -299,9 +290,13 @@ test("DriveBackedValue saves a value - the folder doesn't exists", () => {
     "shared-drive-mover-state-" + key_sha256 + ".json"
   );
   expect(insert.mock.calls[1][1]).toBe("BLOB");
-  expect(newBlob.mock.calls).toHaveLength(1);
-  expect(newBlob.mock.calls[0][0]).toBe(JSON.stringify("VALUE"));
-  expect(newBlob.mock.calls[0][1]).toBe("application/json");
+  expect(mocked(global.Utilities).newBlob.mock.calls).toHaveLength(1);
+  expect(mocked(global.Utilities).newBlob.mock.calls[0][0]).toBe(
+    JSON.stringify("VALUE")
+  );
+  expect(mocked(global.Utilities).newBlob.mock.calls[0][1]).toBe(
+    "application/json"
+  );
 });
 
 test("DriveBackedValue loads a value - the folder exists, the value exists", () => {
@@ -324,15 +319,8 @@ test("DriveBackedValue loads a value - the folder exists, the value exists", () 
     alt?: string;
   }
 
-  global.Utilities = {
-    computeDigest: jest.fn().mockReturnValueOnce(key_encoded),
-    Charset: {
-      US_ASCII: "TEST_US_ASCII_CONST",
-    },
-    DigestAlgorithm: {
-      SHA_256: "TEST_SHA_256_CONST",
-    },
-  };
+  global.Utilities = mockedUtilities();
+  mocked(global.Utilities).computeDigest.mockReturnValueOnce(key_encoded);
   const response1 = {
     items: [
       {
@@ -349,14 +337,23 @@ test("DriveBackedValue loads a value - the folder exists, the value exists", () 
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs?: ListFilesOptions]
+      (
+        optionalArgs?: ListFilesOptions
+      ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2);
   const get = jest
-    .fn<string, [fileId: string, optionalArgs?: GetFileOptions]>()
-    .mockReturnValueOnce(JSON.stringify("VALUE"));
+    .fn<
+      (
+        fileId: string,
+        optionalArgs?: GetFileOptions
+      ) => GoogleAppsScript.Drive.Schema.File
+    >()
+    .mockReturnValueOnce(
+      // Incorrect upstream typings, string is actually permissible
+      JSON.stringify("VALUE") as unknown as GoogleAppsScript.Drive.Schema.File
+    );
   global.Drive = {
     ...mockedDrive(),
     Files: {
@@ -406,15 +403,8 @@ test("DriveBackedValue loads a value - the folder exists, the value doesn't", ()
     fields?: string;
   }
 
-  global.Utilities = {
-    computeDigest: jest.fn().mockReturnValueOnce(key_encoded),
-    Charset: {
-      US_ASCII: "TEST_US_ASCII_CONST",
-    },
-    DigestAlgorithm: {
-      SHA_256: "TEST_SHA_256_CONST",
-    },
-  };
+  global.Utilities = mockedUtilities();
+  mocked(global.Utilities).computeDigest.mockReturnValueOnce(key_encoded);
   const response1 = {
     items: [
       {
@@ -427,12 +417,13 @@ test("DriveBackedValue loads a value - the folder exists, the value doesn't", ()
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs?: ListFilesOptions]
+      (
+        optionalArgs?: ListFilesOptions
+      ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2);
-  const get = jest.fn<GoogleAppsScript.Drive.Schema.File, [fileId: string]>();
+  const get = jest.fn<(fileId: string) => GoogleAppsScript.Drive.Schema.File>();
   global.Drive = {
     ...mockedDrive(),
     Files: {
@@ -477,25 +468,19 @@ test("DriveBackedValue loads a value - the folder doesn't exist", () => {
     fields?: string;
   }
 
-  global.Utilities = {
-    computeDigest: jest.fn().mockReturnValueOnce(key_encoded),
-    Charset: {
-      US_ASCII: "TEST_US_ASCII_CONST",
-    },
-    DigestAlgorithm: {
-      SHA_256: "TEST_SHA_256_CONST",
-    },
-  };
+  global.Utilities = mockedUtilities();
+  mocked(global.Utilities).computeDigest.mockReturnValueOnce(key_encoded);
   const response1 = {
     items: [],
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs?: ListFilesOptions]
+      (
+        optionalArgs?: ListFilesOptions
+      ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1);
-  const get = jest.fn<GoogleAppsScript.Drive.Schema.File, [fileId: string]>();
+  const get = jest.fn<(fileId: string) => GoogleAppsScript.Drive.Schema.File>();
   global.Drive = {
     ...mockedDrive(),
     Files: {
@@ -536,15 +521,8 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
     fields?: string;
   }
 
-  global.Utilities = {
-    computeDigest: jest.fn().mockReturnValueOnce(key_encoded),
-    Charset: {
-      US_ASCII: "TEST_US_ASCII_CONST",
-    },
-    DigestAlgorithm: {
-      SHA_256: "TEST_SHA_256_CONST",
-    },
-  };
+  global.Utilities = mockedUtilities();
+  mocked(global.Utilities).computeDigest.mockReturnValueOnce(key_encoded);
   const response1 = {
     items: [
       {
@@ -564,13 +542,14 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs?: ListFilesOptions]
+      (
+        optionalArgs?: ListFilesOptions
+      ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2)
     .mockReturnValueOnce(response3);
-  const remove = jest.fn<void, [fileId: string]>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+  const remove = jest.fn<(fileId: string) => void>();
   global.Drive = {
     ...mockedDrive(),
     Files: {
@@ -622,15 +601,8 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
     fields?: string;
   }
 
-  global.Utilities = {
-    computeDigest: jest.fn().mockReturnValueOnce(key_encoded),
-    Charset: {
-      US_ASCII: "TEST_US_ASCII_CONST",
-    },
-    DigestAlgorithm: {
-      SHA_256: "TEST_SHA_256_CONST",
-    },
-  };
+  global.Utilities = mockedUtilities();
+  mocked(global.Utilities).computeDigest.mockReturnValueOnce(key_encoded);
   const response1 = {
     items: [
       {
@@ -654,13 +626,14 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs?: ListFilesOptions]
+      (
+        optionalArgs?: ListFilesOptions
+      ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2)
     .mockReturnValueOnce(response3);
-  const remove = jest.fn<void, [fileId: string]>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+  const remove = jest.fn<(fileId: string) => void>();
   global.Drive = {
     ...mockedDrive(),
     Files: {
@@ -711,15 +684,8 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
     fields?: string;
   }
 
-  global.Utilities = {
-    computeDigest: jest.fn().mockReturnValueOnce(key_encoded),
-    Charset: {
-      US_ASCII: "TEST_US_ASCII_CONST",
-    },
-    DigestAlgorithm: {
-      SHA_256: "TEST_SHA_256_CONST",
-    },
-  };
+  global.Utilities = mockedUtilities();
+  mocked(global.Utilities).computeDigest.mockReturnValueOnce(key_encoded);
   const response1 = {
     items: [
       {
@@ -735,13 +701,14 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs?: ListFilesOptions]
+      (
+        optionalArgs?: ListFilesOptions
+      ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2)
     .mockReturnValueOnce(response3);
-  const remove = jest.fn<void, [fileId: string]>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+  const remove = jest.fn<(fileId: string) => void>();
   global.Drive = {
     ...mockedDrive(),
     Files: {
@@ -792,15 +759,8 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
     fields?: string;
   }
 
-  global.Utilities = {
-    computeDigest: jest.fn().mockReturnValueOnce(key_encoded),
-    Charset: {
-      US_ASCII: "TEST_US_ASCII_CONST",
-    },
-    DigestAlgorithm: {
-      SHA_256: "TEST_SHA_256_CONST",
-    },
-  };
+  global.Utilities = mockedUtilities();
+  mocked(global.Utilities).computeDigest.mockReturnValueOnce(key_encoded);
   const response1 = {
     items: [
       {
@@ -820,13 +780,14 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs?: ListFilesOptions]
+      (
+        optionalArgs?: ListFilesOptions
+      ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2)
     .mockReturnValueOnce(response3);
-  const remove = jest.fn<void, [fileId: string]>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+  const remove = jest.fn<(fileId: string) => void>();
   global.Drive = {
     ...mockedDrive(),
     Files: {
@@ -874,25 +835,19 @@ test("DriveBackedValue deletes a value - the folder doesn't exist", () => {
     fields?: string;
   }
 
-  global.Utilities = {
-    computeDigest: jest.fn().mockReturnValueOnce(key_encoded),
-    Charset: {
-      US_ASCII: "TEST_US_ASCII_CONST",
-    },
-    DigestAlgorithm: {
-      SHA_256: "TEST_SHA_256_CONST",
-    },
-  };
+  global.Utilities = mockedUtilities();
+  mocked(global.Utilities).computeDigest.mockReturnValueOnce(key_encoded);
   const response = {
     items: [],
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs?: ListFilesOptions]
+      (
+        optionalArgs?: ListFilesOptions
+      ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response);
-  const remove = jest.fn<void, [fileId: string]>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+  const remove = jest.fn<(fileId: string) => void>();
   global.Drive = {
     ...mockedDrive(),
     Files: {

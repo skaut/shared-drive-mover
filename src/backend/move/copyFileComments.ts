@@ -24,7 +24,7 @@ export function copyFileComments_(
 ): void {
   const comments = listFileComments_(sourceID);
   for (const comment of comments) {
-    if (!comment.author!.isAuthenticatedUser!) {
+    if (!comment.author || !comment.author.isAuthenticatedUser!) {
       comment.content =
         "*" + comment.author!.displayName! + ":*\n" + comment.content!;
     }
@@ -32,7 +32,7 @@ export function copyFileComments_(
     delete comment.replies;
     const commentId = Drive.Comments!.insert(comment, destinationID).commentId!;
     for (const reply of replies) {
-      if (!reply.author!.isAuthenticatedUser!) {
+      if (!reply.author || !reply.author.isAuthenticatedUser!) {
         reply.content =
           "*" + reply.author!.displayName! + ":*\n" + reply.content!;
       }

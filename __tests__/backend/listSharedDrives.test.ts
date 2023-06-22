@@ -1,6 +1,7 @@
-import { mockedDrive, mockedDrivesCollection } from "../test-utils/gas-stubs";
+import { expect, jest, test } from "@jest/globals";
 
 import { listSharedDrives } from "../../src/backend/listSharedDrives";
+import { mockedDrive, mockedDrivesCollection } from "../test-utils/gas-stubs";
 
 test("listSharedDrives works correctly", () => {
   interface ListDrivesOptions {
@@ -20,8 +21,9 @@ test("listSharedDrives works correctly", () => {
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.DriveList,
-      [optionalArgs?: ListDrivesOptions]
+      (
+        optionalArgs?: ListDrivesOptions
+      ) => GoogleAppsScript.Drive.Schema.DriveList
     >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
@@ -52,8 +54,9 @@ test("listSharedDrives handles Drive API error gracefully", () => {
 
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.DriveList,
-      [optionalArgs?: ListDrivesOptions]
+      (
+        optionalArgs?: ListDrivesOptions
+      ) => GoogleAppsScript.Drive.Schema.DriveList
     >()
     .mockImplementationOnce(() => {
       throw new Error();

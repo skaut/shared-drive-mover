@@ -12,6 +12,7 @@
   "projects": [
     {
       "displayName": "backend",
+      "injectGlobals": false,
       "preset": "ts-jest/presets/default-esm",
       "resetMocks": true,
       "testMatch": ["<rootDir>/__tests__/backend/**/*.test.ts"]

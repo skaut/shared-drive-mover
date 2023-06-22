@@ -1,3 +1,5 @@
+import { expect, jest, test } from "@jest/globals";
+
 import { listFolders } from "../../src/backend/listFolders";
 import {
   mockedDrive,
@@ -24,8 +26,9 @@ test("listFolders works correctly", () => {
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs?: ListFilesOptions]
+      (
+        optionalArgs?: ListFilesOptions
+      ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
@@ -38,7 +41,7 @@ test("listFolders works correctly", () => {
 
   global.Session = {
     ...mockedSession(),
-    getActiveUserLocale: jest.fn<string, []>().mockReturnValueOnce("en"),
+    getActiveUserLocale: jest.fn<() => string>().mockReturnValueOnce("en"),
   };
 
   expect(listFolders("ID_PARENT")).toStrictEqual({
@@ -85,8 +88,9 @@ test("listFolders works correctly with shortcuts", () => {
   };
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs?: ListFilesOptions]
+      (
+        optionalArgs?: ListFilesOptions
+      ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(rawResponse);
   global.Drive = {
@@ -99,7 +103,7 @@ test("listFolders works correctly with shortcuts", () => {
 
   global.Session = {
     ...mockedSession(),
-    getActiveUserLocale: jest.fn<string, []>().mockReturnValueOnce("en"),
+    getActiveUserLocale: jest.fn<() => string>().mockReturnValueOnce("en"),
   };
 
   expect(listFolders("ID_PARENT")).toStrictEqual({
@@ -132,8 +136,9 @@ test("listFolders handles errors in Google Drive API gracefully", () => {
 
   const list = jest
     .fn<
-      GoogleAppsScript.Drive.Schema.FileList,
-      [optionalArgs?: ListFilesOptions]
+      (
+        optionalArgs?: ListFilesOptions
+      ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockImplementationOnce(() => {
       throw new Error();
@@ -148,7 +153,7 @@ test("listFolders handles errors in Google Drive API gracefully", () => {
 
   global.Session = {
     ...mockedSession(),
-    getActiveUserLocale: jest.fn<string, []>().mockReturnValueOnce("en"),
+    getActiveUserLocale: jest.fn<() => string>().mockReturnValueOnce("en"),
   };
 
   expect(listFolders("ID_PARENT")).toStrictEqual({

@@ -5,7 +5,7 @@ const sveltePreprocess = require("svelte-preprocess");
 
 const path = require("path");
 
-module.exports = {
+module.exports = (_, options) => ({
   mode: "production",
   plugins: [
     new HtmlWebpackPlugin({
@@ -23,12 +23,26 @@ module.exports = {
           options: {
             preprocess: sveltePreprocess({
               tsconfigFile: "./frontend.tsconfig.json",
+              sourceMap: options.mode === "development",
             }),
           },
         },
       },
       {
-        test: /\.(sa|sc|c)ss$/,
+        test: /\.ts$/,
+        use: {
+          loader: "ts-loader",
+          options: {
+            onlyCompileBundledFiles: true,
+          },
+        },
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(sa|sc)ss$/,
         use: [
           "style-loader",
           "css-loader",
@@ -56,8 +70,9 @@ module.exports = {
   },
   output: {
     filename: "[name].js",
+    publicPath: "",
   },
   performance: {
     hints: false,
   },
-};
+});
