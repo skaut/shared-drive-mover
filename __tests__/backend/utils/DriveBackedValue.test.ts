@@ -1,14 +1,12 @@
 import { expect, jest, test } from "@jest/globals";
-
 import { mocked } from "jest-mock";
 
+import { DriveBackedValue_ } from "../../../src/backend/utils/DriveBackedValue";
 import {
   mockedDrive,
   mockedFilesCollection,
   mockedUtilities,
 } from "../../test-utils/gas-stubs";
-
-import { DriveBackedValue_ } from "../../../src/backend/utils/DriveBackedValue";
 
 test("DriveBackedValue constructs correctly", () => {
   const key = "SAVE_KEY";

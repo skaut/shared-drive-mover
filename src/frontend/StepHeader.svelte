@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" strictEvents>
   import { _ } from "svelte-i18n";
 
   export let step: string;

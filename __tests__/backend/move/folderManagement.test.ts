@@ -1,13 +1,12 @@
 import { expect, jest, test } from "@jest/globals";
 
-import { mockedDrive, mockedFilesCollection } from "../../test-utils/gas-stubs";
-
 import {
   deleteFolderIfEmpty_,
   isFolderEmpty_,
   listFilesInFolder_,
   listFoldersInFolder_,
 } from "../../../src/backend/move/folderManagement";
+import { mockedDrive, mockedFilesCollection } from "../../test-utils/gas-stubs";
 
 test("listFilesInFolder works correctly", () => {
   interface ListFilesOptions {

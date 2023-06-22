@@ -1,10 +1,9 @@
 import { expect, jest, test } from "@jest/globals";
 import { mocked } from "jest-mock";
 
-import { moveFile_ } from "../../../src/backend/move/moveFile";
-
-import { MoveState_ } from "../../../src/backend/utils/MoveState";
 import * as copyFileComments from "../../../src/backend/move/copyFileComments";
+import { moveFile_ } from "../../../src/backend/move/moveFile";
+import { MoveState_ } from "../../../src/backend/utils/MoveState";
 import { mockedDrive, mockedFilesCollection } from "../../test-utils/gas-stubs";
 
 jest.mock("../../../src/backend/utils/MoveState");

@@ -1,8 +1,7 @@
 import { expect, jest, test } from "@jest/globals";
 
-import { mockedDrive, mockedDrivesCollection } from "../test-utils/gas-stubs";
-
 import { listSharedDrives } from "../../src/backend/listSharedDrives";
+import { mockedDrive, mockedDrivesCollection } from "../test-utils/gas-stubs";
 
 test("listSharedDrives works correctly", () => {
   interface ListDrivesOptions {

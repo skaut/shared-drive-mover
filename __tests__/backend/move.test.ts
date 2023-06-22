@@ -2,12 +2,10 @@ import { expect, jest, test } from "@jest/globals";
 import { mocked } from "jest-mock";
 
 import { move } from "../../src/backend/move";
-
-import { mockedMoveState } from "../test-utils/MoveState-stub";
-
 import * as folderManagement from "../../src/backend/move/folderManagement";
 import * as moveFolder from "../../src/backend/move/moveFolder";
 import { MoveState_ } from "../../src/backend/utils/MoveState";
+import { mockedMoveState } from "../test-utils/MoveState-stub";
 
 jest.mock("../../src/backend/move/folderManagement");
 jest.mock("../../src/backend/move/moveFolder");

@@ -1,7 +1,6 @@
-import { DriveBackedValue_ } from "./DriveBackedValue";
-
 import type { MoveContext } from "../../interfaces/MoveContext";
 import type { MoveError } from "../../interfaces/MoveError";
+import { DriveBackedValue_ } from "./DriveBackedValue";
 
 export class MoveState_ {
   private readonly driveBackedState: DriveBackedValue_<{

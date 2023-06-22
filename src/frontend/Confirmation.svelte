@@ -1,19 +1,18 @@
-<script lang="ts">
+<script lang="ts" strictEvents>
+  import Button, { Icon, Label } from "@smui/button";
   import { createEventDispatcher } from "svelte";
   import { _ } from "svelte-i18n";
-  import Button, { Icon, Label } from "@smui/button";
-
-  import BackButton from "./BackButton.svelte";
-  import StepHeader from "./StepHeader.svelte";
 
   import type { NamedRecord } from "../interfaces/NamedRecord";
+  import BackButton from "./BackButton.svelte";
+  import StepHeader from "./StepHeader.svelte";
 
   export let sourcePath: Array<NamedRecord> = [];
   export let destinationPath: Array<NamedRecord> = [];
   export let source: NamedRecord | null;
   export let destination: NamedRecord | null;
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ next: never; previous: never }>();
 
   $: sourceDisplay =
     sourcePath.map((segment) => segment.name + "/").join("") +

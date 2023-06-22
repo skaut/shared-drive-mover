@@ -1,16 +1,12 @@
 import { expect, jest, test } from "@jest/globals";
 import { mocked } from "jest-mock";
 
-//import { MoveContext_ } from "../../../src/backend/utils/MoveContext";
-import { moveFolder_ } from "../../../src/backend/move/moveFolder";
-
-//import { ErrorLogger_ } from "../../../src/backend/utils/ErrorLogger";
 import * as folderManagement from "../../../src/backend/move/folderManagement";
 import * as moveFile from "../../../src/backend/move/moveFile";
+import { moveFolder_ } from "../../../src/backend/move/moveFolder";
 import * as resolveDestinationFolder from "../../../src/backend/move/resolveDestinationFolder";
 import { MoveState_ } from "../../../src/backend/utils/MoveState";
 
-//jest.mock("../../../src/backend/utils/ErrorLogger");
 jest.mock("../../../src/backend/move/folderManagement");
 jest.mock("../../../src/backend/move/moveFile");
 jest.mock("../../../src/backend/move/resolveDestinationFolder");
