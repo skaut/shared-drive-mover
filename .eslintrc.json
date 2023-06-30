@@ -93,7 +93,12 @@
     "svelte/no-extra-reactive-curlies": "error",
     "svelte/no-immutable-reactive-statements": "error",
     "svelte/no-reactive-reassign": "error",
-    "svelte/no-unused-class-name": "error",
+    "svelte/no-unused-class-name": [
+      "error",
+      {
+        "allowedClassNames": ["mdc-typography--subtitle2"]
+      }
+    ],
     "svelte/prefer-class-directive": "error",
     "svelte/prefer-style-directive": "error",
     "svelte/require-each-key": "error",
