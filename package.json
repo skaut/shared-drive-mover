@@ -59,7 +59,7 @@
     "svelte-i18n": "^3.2.0 <3.2.1",
     "svelte-loader": "^3.1.9",
     "svelte-material-ui": "^6.2.0",
-    "svelte-preprocess": "^5.0.3",
+    "svelte-preprocess": "^5.0.4",
     "ts-jest": "^28.0.8",
     "ts-loader": "^9.4.4",
     "typescript": "^5.0.4",
