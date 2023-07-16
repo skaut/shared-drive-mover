@@ -1,5 +1,6 @@
 /* eslint-env node */
 
+import * as coverageTask from "@cypress/code-coverage/task";
 import { defineConfig } from "cypress";
 
 export default defineConfig({
@@ -7,7 +8,7 @@ export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-var-requires
-      require("@cypress/code-coverage/task")(on, config);
+      coverageTask(on, config);
       return config;
     },
     specPattern: "__tests__/frontend/**/*.cy.ts",

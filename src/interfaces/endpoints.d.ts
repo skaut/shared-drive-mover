@@ -1,7 +1,7 @@
 import type { ListResponse } from "./ListResponse";
 import type { MoveResponse } from "./MoveResponse";
 
-declare namespace google.script {
+declare namespace script {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface PublicEndpoints {
     doGet(): GoogleAppsScript.HTML.HtmlOutput;
