@@ -14,10 +14,10 @@ jest.mock("../../../src/backend/utils/MoveState");
 
 test("moveFolder works correctly with an empty folder", () => {
   const listFilesInFolder = mocked(
-    folderManagement
+    folderManagement,
   ).listFilesInFolder_.mockReturnValueOnce([]);
   const listFoldersInFolder = mocked(
-    folderManagement
+    folderManagement,
   ).listFoldersInFolder_.mockReturnValueOnce([]);
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
@@ -42,13 +42,13 @@ test("moveFolder works correctly with an empty folder", () => {
 
 test("moveFolder moves files correctly", () => {
   const listFilesInFolder = mocked(
-    folderManagement
+    folderManagement,
   ).listFilesInFolder_.mockReturnValueOnce([
     { id: "FILE1_ID" },
     { id: "FILE2_ID" },
   ]);
   const listFoldersInFolder = mocked(
-    folderManagement
+    folderManagement,
   ).listFoldersInFolder_.mockReturnValueOnce([]);
   const moveFileFn = mocked(moveFile)
     .moveFile_.mockReturnValueOnce()
@@ -84,10 +84,10 @@ test("moveFolder moves files correctly", () => {
 
 test("moveFolder adds subfolders to the state correctly", () => {
   const listFilesInFolder = mocked(
-    folderManagement
+    folderManagement,
   ).listFilesInFolder_.mockReturnValueOnce([]);
   const listFoldersInFolder = mocked(
-    folderManagement
+    folderManagement,
   ).listFoldersInFolder_.mockReturnValueOnce([
     { id: "SRC_SUBFOLDER1_ID", title: "SUBFOLDER1_NAME" },
     { id: "SRC_SUBFOLDER2_ID", title: "SUBFOLDER2_NAME" },
@@ -111,13 +111,13 @@ test("moveFolder adds subfolders to the state correctly", () => {
   expect(listFoldersInFolder.mock.calls[0][0]).toBe("SRC_ID");
   expect(resolveDestinationFolderFn.mock.calls).toHaveLength(2);
   expect(resolveDestinationFolderFn.mock.calls[0][0].id).toBe(
-    "SRC_SUBFOLDER1_ID"
+    "SRC_SUBFOLDER1_ID",
   );
   expect(resolveDestinationFolderFn.mock.calls[0][1]).toStrictEqual(state);
   expect(resolveDestinationFolderFn.mock.calls[0][2]).toStrictEqual(context);
   expect(resolveDestinationFolderFn.mock.calls[0][3]).toBe(false);
   expect(resolveDestinationFolderFn.mock.calls[1][0].id).toBe(
-    "SRC_SUBFOLDER2_ID"
+    "SRC_SUBFOLDER2_ID",
   );
   expect(resolveDestinationFolderFn.mock.calls[1][1]).toStrictEqual(state);
   expect(resolveDestinationFolderFn.mock.calls[1][2]).toStrictEqual(context);
@@ -147,13 +147,13 @@ test("moveFolder adds subfolders to the state correctly", () => {
 test("moveFolder moves files correctly, even when listing folders throws", () => {
   expect.assertions(18);
   const listFilesInFolder = mocked(
-    folderManagement
+    folderManagement,
   ).listFilesInFolder_.mockReturnValueOnce([
     { id: "FILE1_ID" },
     { id: "FILE2_ID" },
   ]);
   const listFoldersInFolder = mocked(
-    folderManagement
+    folderManagement,
   ).listFoldersInFolder_.mockImplementationOnce(() => {
     throw new Error("ERROR_MESSAGE");
   });
@@ -197,12 +197,12 @@ test("moveFolder moves files correctly, even when listing folders throws", () =>
 test("moveFolder adds subfolders to the state correctly, even when listing files throws", () => {
   expect.assertions(24);
   const listFilesInFolder = mocked(
-    folderManagement
+    folderManagement,
   ).listFilesInFolder_.mockImplementationOnce(() => {
     throw new Error("ERROR_MESSAGE");
   });
   const listFoldersInFolder = mocked(
-    folderManagement
+    folderManagement,
   ).listFoldersInFolder_.mockReturnValueOnce([
     { id: "SRC_SUBFOLDER1_ID", title: "SUBFOLDER1_NAME" },
     { id: "SRC_SUBFOLDER2_ID", title: "SUBFOLDER2_NAME" },
@@ -232,13 +232,13 @@ test("moveFolder adds subfolders to the state correctly, even when listing files
   expect(listFoldersInFolder.mock.calls[0][0]).toBe("SRC_ID");
   expect(resolveDestinationFolderFn.mock.calls).toHaveLength(2);
   expect(resolveDestinationFolderFn.mock.calls[0][0].id).toBe(
-    "SRC_SUBFOLDER1_ID"
+    "SRC_SUBFOLDER1_ID",
   );
   expect(resolveDestinationFolderFn.mock.calls[0][1]).toStrictEqual(state);
   expect(resolveDestinationFolderFn.mock.calls[0][2]).toStrictEqual(context);
   expect(resolveDestinationFolderFn.mock.calls[0][3]).toBe(false);
   expect(resolveDestinationFolderFn.mock.calls[1][0].id).toBe(
-    "SRC_SUBFOLDER2_ID"
+    "SRC_SUBFOLDER2_ID",
   );
   expect(resolveDestinationFolderFn.mock.calls[1][1]).toStrictEqual(state);
   expect(resolveDestinationFolderFn.mock.calls[1][2]).toStrictEqual(context);
@@ -267,13 +267,13 @@ test("moveFolder adds subfolders to the state correctly, even when listing files
 
 test("moveFolder passes copyComments correctly", () => {
   const listFilesInFolder = mocked(
-    folderManagement
+    folderManagement,
   ).listFilesInFolder_.mockReturnValueOnce([
     { id: "FILE1_ID" },
     { id: "FILE2_ID" },
   ]);
   const listFoldersInFolder = mocked(
-    folderManagement
+    folderManagement,
   ).listFoldersInFolder_.mockReturnValueOnce([]);
   const moveFileFn = mocked(moveFile)
     .moveFile_.mockReturnValueOnce()
@@ -310,10 +310,10 @@ test("moveFolder passes copyComments correctly", () => {
 
 test("moveFolder passes mergeFolders correctly", () => {
   const listFilesInFolder = mocked(
-    folderManagement
+    folderManagement,
   ).listFilesInFolder_.mockReturnValueOnce([]);
   const listFoldersInFolder = mocked(
-    folderManagement
+    folderManagement,
   ).listFoldersInFolder_.mockReturnValueOnce([
     { id: "SRC_SUBFOLDER1_ID", title: "SUBFOLDER1_NAME" },
     { id: "SRC_SUBFOLDER2_ID", title: "SUBFOLDER2_NAME" },
@@ -338,13 +338,13 @@ test("moveFolder passes mergeFolders correctly", () => {
   expect(listFoldersInFolder.mock.calls[0][0]).toBe("SRC_ID");
   expect(resolveDestinationFolderFn.mock.calls).toHaveLength(2);
   expect(resolveDestinationFolderFn.mock.calls[0][0].id).toBe(
-    "SRC_SUBFOLDER1_ID"
+    "SRC_SUBFOLDER1_ID",
   );
   expect(resolveDestinationFolderFn.mock.calls[0][1]).toStrictEqual(state);
   expect(resolveDestinationFolderFn.mock.calls[0][2]).toStrictEqual(context);
   expect(resolveDestinationFolderFn.mock.calls[0][3]).toBe(true);
   expect(resolveDestinationFolderFn.mock.calls[1][0].id).toBe(
-    "SRC_SUBFOLDER2_ID"
+    "SRC_SUBFOLDER2_ID",
   );
   expect(resolveDestinationFolderFn.mock.calls[1][1]).toStrictEqual(state);
   expect(resolveDestinationFolderFn.mock.calls[1][2]).toStrictEqual(context);

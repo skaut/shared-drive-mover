@@ -26,8 +26,8 @@ export function listFolders(parentID: string): ListResponse {
           .items!.sort((first, second) =>
             first.title!.localeCompare(
               second.title!,
-              Session.getActiveUserLocale()
-            )
+              Session.getActiveUserLocale(),
+            ),
           )
           .map((item) => {
             const id =
@@ -35,7 +35,7 @@ export function listFolders(parentID: string): ListResponse {
                 ? item.shortcutDetails!.targetId!
                 : item.id!;
             return { id, name: item.title! };
-          })
+          }),
     );
     return {
       status: "success",

@@ -37,7 +37,7 @@ test("listFilesInFolder works correctly", () => {
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(rawResponse);
@@ -55,7 +55,7 @@ test("listFilesInFolder works correctly", () => {
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[0][0]!.q).toContain(
-    'mimeType != "application/vnd.google-apps.folder"'
+    'mimeType != "application/vnd.google-apps.folder"',
   );
   expect(list.mock.calls[0][0]!.includeItemsFromAllDrives).toBe(true);
   expect(list.mock.calls[0][0]!.supportsAllDrives).toBe(true);
@@ -94,7 +94,7 @@ test("listFoldersInFolder works correctly", () => {
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(rawResponse);
@@ -112,7 +112,7 @@ test("listFoldersInFolder works correctly", () => {
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[0][0]!.q).toContain(
-    'mimeType = "application/vnd.google-apps.folder"'
+    'mimeType = "application/vnd.google-apps.folder"',
   );
   expect(list.mock.calls[0][0]!.includeItemsFromAllDrives).toBe(true);
   expect(list.mock.calls[0][0]!.supportsAllDrives).toBe(true);
@@ -137,7 +137,7 @@ test("isFolderEmpty works correctly with an empty folder", () => {
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(rawResponse);
@@ -172,7 +172,7 @@ test("isFolderEmpty works correctly with a non-empty folder", () => {
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(rawResponse);
@@ -216,7 +216,7 @@ test.each(["owner", "organizer"] as Array<
       .fn<
         (
           fileId: string,
-          optionalArgs?: GetFileOptions
+          optionalArgs?: GetFileOptions,
         ) => GoogleAppsScript.Drive.Schema.File
       >()
       .mockReturnValueOnce(getResponse);
@@ -227,7 +227,7 @@ test.each(["owner", "organizer"] as Array<
     const list = jest
       .fn<
         (
-          optionalArgs?: ListFilesOptions
+          optionalArgs?: ListFilesOptions,
         ) => GoogleAppsScript.Drive.Schema.FileList
       >()
       .mockReturnValueOnce(listResponse);
@@ -255,7 +255,7 @@ test.each(["owner", "organizer"] as Array<
     expect(get.mock.calls[0][1]!.fields).toContain("role");
     expect(remove.mock.calls).toHaveLength(1);
     expect(remove.mock.calls[0][0]).toBe("FOLDER_ID");
-  }
+  },
 );
 
 test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
@@ -275,7 +275,7 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
     jest.fn<
       (
         fileId: string,
-        optionalArgs?: GetFileOptions
+        optionalArgs?: GetFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >();
   const listResponse: GoogleAppsScript.Drive.Schema.FileList = {
@@ -285,7 +285,7 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(listResponse);
@@ -335,7 +335,7 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
       .fn<
         (
           fileId: string,
-          optionalArgs?: GetFileOptions
+          optionalArgs?: GetFileOptions,
         ) => GoogleAppsScript.Drive.Schema.File
       >()
       .mockReturnValueOnce(getResponse);
@@ -346,7 +346,7 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
     const list = jest
       .fn<
         (
-          optionalArgs?: ListFilesOptions
+          optionalArgs?: ListFilesOptions,
         ) => GoogleAppsScript.Drive.Schema.FileList
       >()
       .mockReturnValueOnce(listResponse);
@@ -373,5 +373,5 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
     expect(get.mock.calls[0][1]).toBeDefined();
     expect(get.mock.calls[0][1]!.fields).toContain("role");
     expect(remove.mock.calls).toHaveLength(0);
-  }
+  },
 );

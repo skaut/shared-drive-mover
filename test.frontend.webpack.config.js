@@ -20,5 +20,5 @@ module.exports = (env, options) =>
         ],
       },
     },
-    prod(env, options)
+    prod(env, options),
   );

@@ -43,7 +43,7 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
   global.Utilities = mockedUtilities();
   mocked(global.Utilities).computeDigest.mockReturnValueOnce(key_encoded);
   mocked(global.Utilities).newBlob.mockReturnValueOnce(
-    "BLOB" as unknown as GoogleAppsScript.Base.Blob
+    "BLOB" as unknown as GoogleAppsScript.Base.Blob,
   );
   const response1 = {
     items: [
@@ -62,7 +62,7 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
@@ -71,7 +71,7 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
     jest.fn<
       (
         resource: GoogleAppsScript.Drive.Schema.File,
-        mediaData?: Blob
+        mediaData?: Blob,
       ) => GoogleAppsScript.Drive.Schema.File
     >();
   const update =
@@ -79,7 +79,7 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
       (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
-        mediaData?: Blob
+        mediaData?: Blob,
       ) => GoogleAppsScript.Drive.Schema.File
     >();
   global.Drive = {
@@ -97,16 +97,16 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
-    'title = "Shared drive mover cache"'
+    'title = "Shared drive mover cache"',
   );
   expect(list.mock.calls[0][0]!.q).toContain('"root" in parents');
   expect(list.mock.calls[0][0]!.q).toContain(
-    'mimeType = "application/vnd.google-apps.folder"'
+    'mimeType = "application/vnd.google-apps.folder"',
   );
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + key_sha256 + '.json"'
+    'title = "shared-drive-mover-state-' + key_sha256 + '.json"',
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -116,10 +116,10 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
   expect(update.mock.calls[0][2]).toBe("BLOB");
   expect(mocked(global.Utilities).newBlob.mock.calls).toHaveLength(1);
   expect(mocked(global.Utilities).newBlob.mock.calls[0][0]).toBe(
-    JSON.stringify("VALUE")
+    JSON.stringify("VALUE"),
   );
   expect(mocked(global.Utilities).newBlob.mock.calls[0][1]).toBe(
-    "application/json"
+    "application/json",
   );
 });
 
@@ -142,7 +142,7 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
   global.Utilities = mockedUtilities();
   mocked(global.Utilities).computeDigest.mockReturnValueOnce(key_encoded);
   mocked(global.Utilities).newBlob.mockReturnValueOnce(
-    "BLOB" as unknown as GoogleAppsScript.Base.Blob
+    "BLOB" as unknown as GoogleAppsScript.Base.Blob,
   );
   const response1 = {
     items: [
@@ -157,7 +157,7 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
@@ -166,7 +166,7 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
     jest.fn<
       (
         resource: GoogleAppsScript.Drive.Schema.File,
-        mediaData?: Blob
+        mediaData?: Blob,
       ) => GoogleAppsScript.Drive.Schema.File
     >();
   global.Drive = {
@@ -183,16 +183,16 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
-    'title = "Shared drive mover cache"'
+    'title = "Shared drive mover cache"',
   );
   expect(list.mock.calls[0][0]!.q).toContain('"root" in parents');
   expect(list.mock.calls[0][0]!.q).toContain(
-    'mimeType = "application/vnd.google-apps.folder"'
+    'mimeType = "application/vnd.google-apps.folder"',
   );
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + key_sha256 + '.json"'
+    'title = "shared-drive-mover-state-' + key_sha256 + '.json"',
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -200,15 +200,15 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
   expect(insert.mock.calls[0][0].mimeType).toBe("application/json");
   expect(insert.mock.calls[0][0].parents).toStrictEqual([{ id: "FOLDER_ID" }]);
   expect(insert.mock.calls[0][0].title).toBe(
-    "shared-drive-mover-state-" + key_sha256 + ".json"
+    "shared-drive-mover-state-" + key_sha256 + ".json",
   );
   expect(insert.mock.calls[0][1]).toBe("BLOB");
   expect(mocked(global.Utilities).newBlob.mock.calls).toHaveLength(1);
   expect(mocked(global.Utilities).newBlob.mock.calls[0][0]).toBe(
-    JSON.stringify("VALUE")
+    JSON.stringify("VALUE"),
   );
   expect(mocked(global.Utilities).newBlob.mock.calls[0][1]).toBe(
-    "application/json"
+    "application/json",
   );
 });
 
@@ -231,7 +231,7 @@ test("DriveBackedValue saves a value - the folder doesn't exists", () => {
   global.Utilities = mockedUtilities();
   mocked(global.Utilities).computeDigest.mockReturnValueOnce(key_encoded);
   mocked(global.Utilities).newBlob.mockReturnValueOnce(
-    "BLOB" as unknown as GoogleAppsScript.Base.Blob
+    "BLOB" as unknown as GoogleAppsScript.Base.Blob,
   );
   const response = {
     items: [],
@@ -239,7 +239,7 @@ test("DriveBackedValue saves a value - the folder doesn't exists", () => {
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response)
@@ -248,7 +248,7 @@ test("DriveBackedValue saves a value - the folder doesn't exists", () => {
     .fn<
       (
         resource: GoogleAppsScript.Drive.Schema.File,
-        mediaData?: Blob
+        mediaData?: Blob,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({ id: "FOLDER_ID" });
@@ -266,36 +266,36 @@ test("DriveBackedValue saves a value - the folder doesn't exists", () => {
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
-    'title = "Shared drive mover cache"'
+    'title = "Shared drive mover cache"',
   );
   expect(list.mock.calls[0][0]!.q).toContain('"root" in parents');
   expect(list.mock.calls[0][0]!.q).toContain(
-    'mimeType = "application/vnd.google-apps.folder"'
+    'mimeType = "application/vnd.google-apps.folder"',
   );
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + key_sha256 + '.json"'
+    'title = "shared-drive-mover-state-' + key_sha256 + '.json"',
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
   expect(insert.mock.calls).toHaveLength(2);
   expect(insert.mock.calls[0][0].mimeType).toBe(
-    "application/vnd.google-apps.folder"
+    "application/vnd.google-apps.folder",
   );
   expect(insert.mock.calls[0][0].title).toBe("Shared drive mover cache");
   expect(insert.mock.calls[1][0].mimeType).toBe("application/json");
   expect(insert.mock.calls[1][0].parents).toStrictEqual([{ id: "FOLDER_ID" }]);
   expect(insert.mock.calls[1][0].title).toBe(
-    "shared-drive-mover-state-" + key_sha256 + ".json"
+    "shared-drive-mover-state-" + key_sha256 + ".json",
   );
   expect(insert.mock.calls[1][1]).toBe("BLOB");
   expect(mocked(global.Utilities).newBlob.mock.calls).toHaveLength(1);
   expect(mocked(global.Utilities).newBlob.mock.calls[0][0]).toBe(
-    JSON.stringify("VALUE")
+    JSON.stringify("VALUE"),
   );
   expect(mocked(global.Utilities).newBlob.mock.calls[0][1]).toBe(
-    "application/json"
+    "application/json",
   );
 });
 
@@ -338,7 +338,7 @@ test("DriveBackedValue loads a value - the folder exists, the value exists", () 
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
@@ -347,12 +347,12 @@ test("DriveBackedValue loads a value - the folder exists, the value exists", () 
     .fn<
       (
         fileId: string,
-        optionalArgs?: GetFileOptions
+        optionalArgs?: GetFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce(
       // Incorrect upstream typings, string is actually permissible
-      JSON.stringify("VALUE") as unknown as GoogleAppsScript.Drive.Schema.File
+      JSON.stringify("VALUE") as unknown as GoogleAppsScript.Drive.Schema.File,
     );
   global.Drive = {
     ...mockedDrive(),
@@ -368,16 +368,16 @@ test("DriveBackedValue loads a value - the folder exists, the value exists", () 
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
-    'title = "Shared drive mover cache"'
+    'title = "Shared drive mover cache"',
   );
   expect(list.mock.calls[0][0]!.q).toContain('"root" in parents');
   expect(list.mock.calls[0][0]!.q).toContain(
-    'mimeType = "application/vnd.google-apps.folder"'
+    'mimeType = "application/vnd.google-apps.folder"',
   );
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + key_sha256 + '.json"'
+    'title = "shared-drive-mover-state-' + key_sha256 + '.json"',
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -418,7 +418,7 @@ test("DriveBackedValue loads a value - the folder exists, the value doesn't", ()
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
@@ -438,16 +438,16 @@ test("DriveBackedValue loads a value - the folder exists, the value doesn't", ()
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
-    'title = "Shared drive mover cache"'
+    'title = "Shared drive mover cache"',
   );
   expect(list.mock.calls[0][0]!.q).toContain('"root" in parents');
   expect(list.mock.calls[0][0]!.q).toContain(
-    'mimeType = "application/vnd.google-apps.folder"'
+    'mimeType = "application/vnd.google-apps.folder"',
   );
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + key_sha256 + '.json"'
+    'title = "shared-drive-mover-state-' + key_sha256 + '.json"',
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -476,7 +476,7 @@ test("DriveBackedValue loads a value - the folder doesn't exist", () => {
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1);
@@ -495,11 +495,11 @@ test("DriveBackedValue loads a value - the folder doesn't exist", () => {
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
-    'title = "Shared drive mover cache"'
+    'title = "Shared drive mover cache"',
   );
   expect(list.mock.calls[0][0]!.q).toContain('"root" in parents');
   expect(list.mock.calls[0][0]!.q).toContain(
-    'mimeType = "application/vnd.google-apps.folder"'
+    'mimeType = "application/vnd.google-apps.folder"',
   );
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(get.mock.calls).toHaveLength(0);
@@ -543,7 +543,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
@@ -564,16 +564,16 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
   expect(list.mock.calls).toHaveLength(3);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
-    'title = "Shared drive mover cache"'
+    'title = "Shared drive mover cache"',
   );
   expect(list.mock.calls[0][0]!.q).toContain('"root" in parents');
   expect(list.mock.calls[0][0]!.q).toContain(
-    'mimeType = "application/vnd.google-apps.folder"'
+    'mimeType = "application/vnd.google-apps.folder"',
   );
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + key_sha256 + '.json"'
+    'title = "shared-drive-mover-state-' + key_sha256 + '.json"',
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -627,7 +627,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
@@ -648,16 +648,16 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
   expect(list.mock.calls).toHaveLength(3);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
-    'title = "Shared drive mover cache"'
+    'title = "Shared drive mover cache"',
   );
   expect(list.mock.calls[0][0]!.q).toContain('"root" in parents');
   expect(list.mock.calls[0][0]!.q).toContain(
-    'mimeType = "application/vnd.google-apps.folder"'
+    'mimeType = "application/vnd.google-apps.folder"',
   );
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + key_sha256 + '.json"'
+    'title = "shared-drive-mover-state-' + key_sha256 + '.json"',
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -702,7 +702,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
@@ -723,16 +723,16 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
   expect(list.mock.calls).toHaveLength(3);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
-    'title = "Shared drive mover cache"'
+    'title = "Shared drive mover cache"',
   );
   expect(list.mock.calls[0][0]!.q).toContain('"root" in parents');
   expect(list.mock.calls[0][0]!.q).toContain(
-    'mimeType = "application/vnd.google-apps.folder"'
+    'mimeType = "application/vnd.google-apps.folder"',
   );
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + key_sha256 + '.json"'
+    'title = "shared-drive-mover-state-' + key_sha256 + '.json"',
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -781,7 +781,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response1)
@@ -802,16 +802,16 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
   expect(list.mock.calls).toHaveLength(3);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
-    'title = "Shared drive mover cache"'
+    'title = "Shared drive mover cache"',
   );
   expect(list.mock.calls[0][0]!.q).toContain('"root" in parents');
   expect(list.mock.calls[0][0]!.q).toContain(
-    'mimeType = "application/vnd.google-apps.folder"'
+    'mimeType = "application/vnd.google-apps.folder"',
   );
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + key_sha256 + '.json"'
+    'title = "shared-drive-mover-state-' + key_sha256 + '.json"',
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -843,7 +843,7 @@ test("DriveBackedValue deletes a value - the folder doesn't exist", () => {
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(response);
@@ -862,11 +862,11 @@ test("DriveBackedValue deletes a value - the folder doesn't exist", () => {
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
-    'title = "Shared drive mover cache"'
+    'title = "Shared drive mover cache"',
   );
   expect(list.mock.calls[0][0]!.q).toContain('"root" in parents');
   expect(list.mock.calls[0][0]!.q).toContain(
-    'mimeType = "application/vnd.google-apps.folder"'
+    'mimeType = "application/vnd.google-apps.folder"',
   );
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(remove.mock.calls).toHaveLength(0);

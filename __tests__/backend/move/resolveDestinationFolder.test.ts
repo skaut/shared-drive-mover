@@ -20,7 +20,7 @@ test("resolveDestinationFolder corretly creates new folder", () => {
       (
         resource: GoogleAppsScript.Drive.Schema.File,
         mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs?: InsertFileOptions
+        optionalArgs?: InsertFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({
@@ -45,13 +45,13 @@ test("resolveDestinationFolder corretly creates new folder", () => {
         destinationID: "DEST_PARENT_ID",
         path: ["PATH", "TO", "FOLDER"],
       },
-      false
-    )
+      false,
+    ),
   ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
 
   expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
-    "application/vnd.google-apps.folder"
+    "application/vnd.google-apps.folder",
   );
   expect(insert.mock.calls[0][0].parents).toStrictEqual([
     { id: "DEST_PARENT_ID" },
@@ -73,7 +73,7 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
       (
         resource: GoogleAppsScript.Drive.Schema.File,
         mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs?: InsertFileOptions
+        optionalArgs?: InsertFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({
@@ -102,13 +102,13 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
         destinationID: "DEST_PARENT_ID",
         path: ["PATH", "TO", "FOLDER"],
       },
-      false
-    )
+      false,
+    ),
   ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
 
   expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
-    "application/vnd.google-apps.folder"
+    "application/vnd.google-apps.folder",
   );
   expect(insert.mock.calls[0][0].parents).toStrictEqual([
     { id: "DEST_PARENT_ID" },
@@ -130,7 +130,7 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
       (
         resource: GoogleAppsScript.Drive.Schema.File,
         mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs?: InsertFileOptions
+        optionalArgs?: InsertFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({
@@ -157,13 +157,13 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
         destinationID: "DEST_PARENT_ID",
         path: ["PATH", "TO", "FOLDER"],
       },
-      true
-    )
+      true,
+    ),
   ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
 
   expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
-    "application/vnd.google-apps.folder"
+    "application/vnd.google-apps.folder",
   );
   expect(insert.mock.calls[0][0].parents).toStrictEqual([
     { id: "DEST_PARENT_ID" },
@@ -184,7 +184,7 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
     (
       resource: GoogleAppsScript.Drive.Schema.File,
       mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-      optionalArgs?: InsertFileOptions
+      optionalArgs?: InsertFileOptions,
     ) => GoogleAppsScript.Drive.Schema.File
   >();
   global.Drive = {
@@ -211,8 +211,8 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
         destinationID: "DEST_PARENT_ID",
         path: ["PATH", "TO", "FOLDER"],
       },
-      true
-    )
+      true,
+    ),
   ).toStrictEqual({ id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" });
 
   expect(insert.mock.calls).toHaveLength(0);
@@ -230,7 +230,7 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
       (
         resource: GoogleAppsScript.Drive.Schema.File,
         mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs?: InsertFileOptions
+        optionalArgs?: InsertFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({
@@ -262,8 +262,8 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
         destinationID: "DEST_PARENT_ID",
         path: ["PATH", "TO", "FOLDER"],
       },
-      true
-    )
+      true,
+    ),
   ).toStrictEqual({
     id: "NEWLY_CREATED_FOLDER_ID",
     title: "FOLDER_NAME",
@@ -271,7 +271,7 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
 
   expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0].mimeType).toBe(
-    "application/vnd.google-apps.folder"
+    "application/vnd.google-apps.folder",
   );
   expect(insert.mock.calls[0][0].parents).toStrictEqual([
     { id: "DEST_PARENT_ID" },

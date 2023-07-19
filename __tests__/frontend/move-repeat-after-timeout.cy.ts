@@ -40,7 +40,7 @@ it("works with an unhandled move error", () => {
       "root",
       true,
       true,
-      false
+      false,
     );
   });
 });

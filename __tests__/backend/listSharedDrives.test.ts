@@ -22,7 +22,7 @@ test("listSharedDrives works correctly", () => {
   const list = jest
     .fn<
       (
-        optionalArgs?: ListDrivesOptions
+        optionalArgs?: ListDrivesOptions,
       ) => GoogleAppsScript.Drive.Schema.DriveList
     >()
     .mockReturnValueOnce(rawResponse);
@@ -40,7 +40,7 @@ test("listSharedDrives works correctly", () => {
   expect(list.mock.calls[0][0]!.pageToken).toBeUndefined();
   expect(list.mock.calls[0][0]!.orderBy).toBe("name");
   expect(
-    list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim())
+    list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim()),
   ).toContain("nextPageToken");
 });
 
@@ -55,7 +55,7 @@ test("listSharedDrives handles Drive API error gracefully", () => {
   const list = jest
     .fn<
       (
-        optionalArgs?: ListDrivesOptions
+        optionalArgs?: ListDrivesOptions,
       ) => GoogleAppsScript.Drive.Schema.DriveList
     >()
     .mockImplementationOnce(() => {
@@ -78,6 +78,6 @@ test("listSharedDrives handles Drive API error gracefully", () => {
   expect(list.mock.calls[0][0]!.pageToken).toBeUndefined();
   expect(list.mock.calls[0][0]!.orderBy).toBe("name");
   expect(
-    list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim())
+    list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim()),
   ).toContain("nextPageToken");
 });

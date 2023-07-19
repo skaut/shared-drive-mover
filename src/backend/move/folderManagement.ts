@@ -2,7 +2,7 @@ import { paginationHelper_ } from "../utils/paginationHelper";
 
 function listFolderContents_(
   folderID: string,
-  mimeTypeCondition: string
+  mimeTypeCondition: string,
 ): Array<GoogleAppsScript.Drive.Schema.File> {
   return paginationHelper_<
     GoogleAppsScript.Drive.Schema.FileList,
@@ -23,25 +23,25 @@ function listFolderContents_(
         fields:
           "nextPageToken, items(id, title, capabilities(canMoveItemOutOfDrive))",
       }),
-    (response) => response.items!
+    (response) => response.items!,
   );
 }
 
 export function listFilesInFolder_(
-  folderID: string
+  folderID: string,
 ): Array<GoogleAppsScript.Drive.Schema.File> {
   return listFolderContents_(
     folderID,
-    '!= "application/vnd.google-apps.folder"'
+    '!= "application/vnd.google-apps.folder"',
   );
 }
 
 export function listFoldersInFolder_(
-  folderID: string
+  folderID: string,
 ): Array<GoogleAppsScript.Drive.Schema.File> {
   return listFolderContents_(
     folderID,
-    '= "application/vnd.google-apps.folder"'
+    '= "application/vnd.google-apps.folder"',
   );
 }
 

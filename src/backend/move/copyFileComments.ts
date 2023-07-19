@@ -1,7 +1,7 @@
 import { paginationHelper_ } from "../utils/paginationHelper";
 
 function listFileComments_(
-  fileID: string
+  fileID: string,
 ): Array<GoogleAppsScript.Drive.Schema.Comment> {
   return paginationHelper_<
     GoogleAppsScript.Drive.Schema.CommentList,
@@ -14,13 +14,13 @@ function listFileComments_(
         fields:
           "nextPageToken, items(author(isAuthenticatedUser, displayName), content, status, context, anchor, replies(author(isAuthenticatedUser, displayName), content, verb))",
       }),
-    (response) => response.items!
+    (response) => response.items!,
   );
 }
 
 export function copyFileComments_(
   sourceID: string,
-  destinationID: string
+  destinationID: string,
 ): void {
   const comments = listFileComments_(sourceID);
   for (const comment of comments) {

@@ -6,11 +6,11 @@ export function resolveDestinationFolder_(
   sourceFolder: GoogleAppsScript.Drive.Schema.File,
   state: MoveState_,
   context: MoveContext,
-  mergeFolders: boolean
+  mergeFolders: boolean,
 ): GoogleAppsScript.Drive.Schema.File {
   if (mergeFolders) {
     const existingFoldersWithSameName = listFoldersInFolder_(
-      context.destinationID
+      context.destinationID,
     ).filter((folder) => folder.title === sourceFolder.title);
     if (existingFoldersWithSameName.length === 1) {
       return existingFoldersWithSameName[0];
@@ -18,7 +18,7 @@ export function resolveDestinationFolder_(
     if (existingFoldersWithSameName.length > 1) {
       state.logError(
         context.path.concat([sourceFolder.title!]),
-        "Coudn't merge with existing folder as there are multiple existing directories with the same name"
+        "Coudn't merge with existing folder as there are multiple existing directories with the same name",
       );
     }
   }
@@ -29,6 +29,6 @@ export function resolveDestinationFolder_(
       mimeType: "application/vnd.google-apps.folder",
     },
     undefined,
-    { supportsAllDrives: true, fields: "id" }
+    { supportsAllDrives: true, fields: "id" },
   );
 }

@@ -8,7 +8,7 @@ export function move(
   destinationID: string,
   copyComments: boolean,
   mergeFolders: boolean,
-  notEmptyOverride: boolean
+  notEmptyOverride: boolean,
 ): MoveResponse {
   if (sourceID === destinationID) {
     return { status: "error", type: "sourceEqualsDestination" };
@@ -24,7 +24,7 @@ export function move(
     sourceID,
     destinationID,
     copyComments,
-    mergeFolders
+    mergeFolders,
   );
   state.loadState();
 

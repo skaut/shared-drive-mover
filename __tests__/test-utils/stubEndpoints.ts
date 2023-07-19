@@ -9,14 +9,14 @@ export function stubEndpoints(
     (
       successHandler: SuccessHandlerType,
       failureHandler: FailureHandlerType,
-      parameters: Array<google.script.Parameter>
+      parameters: Array<google.script.Parameter>,
     ) => void
-  >
+  >,
 ): Record<string, sinon.SinonStub> {
   const stubbedEndpoints: Record<string, sinon.SinonStub> = {};
   function endpointFn(
     successHandler: SuccessHandlerType,
-    failureHandler: FailureHandlerType
+    failureHandler: FailureHandlerType,
   ): Record<string, sinon.SinonStub> {
     for (const key in endpoints) {
       stubbedEndpoints[key] = cy.stub().callsFake((...args) => {
@@ -49,7 +49,7 @@ export function stubEndpoints(
               withSuccessHandler: cy
                 .stub()
                 .callsFake((successHandler: SuccessHandlerType) =>
-                  endpointFn(successHandler, failureHandler)
+                  endpointFn(successHandler, failureHandler),
                 ),
             })),
           withSuccessHandler: cy
@@ -58,7 +58,7 @@ export function stubEndpoints(
               withFailureHandler: cy
                 .stub()
                 .callsFake((failureHandler: FailureHandlerType) =>
-                  endpointFn(successHandler, failureHandler)
+                  endpointFn(successHandler, failureHandler),
                 ),
             })),
           withUserObject: cy.stub(),

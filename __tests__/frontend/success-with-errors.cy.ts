@@ -54,7 +54,7 @@ it("works and displays moving errors", () => {
       "root",
       true,
       true,
-      false
+      false,
     );
   });
 });

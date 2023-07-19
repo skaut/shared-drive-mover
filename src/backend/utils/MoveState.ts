@@ -15,7 +15,7 @@ export class MoveState_ {
     sourceID: string,
     destinationID: string,
     copyComments: boolean,
-    mergeFolders: boolean
+    mergeFolders: boolean,
   ) {
     this.driveBackedState = new DriveBackedValue_(
       JSON.stringify({
@@ -23,7 +23,7 @@ export class MoveState_ {
         destinationID,
         copyComments,
         mergeFolders,
-      })
+      }),
     );
     this.pathsToProcess = null;
     this.errors = [];
@@ -45,7 +45,7 @@ export class MoveState_ {
   public addPath(
     sourceID: string,
     destinationID: string,
-    path: Array<string>
+    path: Array<string>,
   ): void {
     if (this.pathsToProcess === null) {
       this.pathsToProcess = [];
@@ -60,7 +60,7 @@ export class MoveState_ {
     this.pathsToProcess = this.pathsToProcess.filter(
       (value) =>
         value.sourceID !== path.sourceID ||
-        value.destinationID !== path.destinationID
+        value.destinationID !== path.destinationID,
     );
   }
 
@@ -78,7 +78,7 @@ export class MoveState_ {
   public tryOrLog<T>(
     context: MoveContext,
     fn: () => T,
-    filename?: string
+    filename?: string,
   ): T | null {
     try {
       return fn();

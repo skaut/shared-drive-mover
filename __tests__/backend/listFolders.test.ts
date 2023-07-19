@@ -27,7 +27,7 @@ test("listFolders works correctly", () => {
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(rawResponse);
@@ -58,7 +58,7 @@ test("listFolders works correctly", () => {
   expect(list.mock.calls[0][0]!.supportsAllDrives).toBe(true);
   expect(list.mock.calls[0][0]!.pageToken).toBeUndefined();
   expect(
-    list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim())
+    list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim()),
   ).toContain("nextPageToken");
 });
 
@@ -89,7 +89,7 @@ test("listFolders works correctly with shortcuts", () => {
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockReturnValueOnce(rawResponse);
@@ -120,7 +120,7 @@ test("listFolders works correctly with shortcuts", () => {
   expect(list.mock.calls[0][0]!.supportsAllDrives).toBe(true);
   expect(list.mock.calls[0][0]!.pageToken).toBeUndefined();
   expect(
-    list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim())
+    list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim()),
   ).toContain("nextPageToken");
 });
 
@@ -137,7 +137,7 @@ test("listFolders handles errors in Google Drive API gracefully", () => {
   const list = jest
     .fn<
       (
-        optionalArgs?: ListFilesOptions
+        optionalArgs?: ListFilesOptions,
       ) => GoogleAppsScript.Drive.Schema.FileList
     >()
     .mockImplementationOnce(() => {
@@ -167,6 +167,6 @@ test("listFolders handles errors in Google Drive API gracefully", () => {
   expect(list.mock.calls[0][0]!.supportsAllDrives).toBe(true);
   expect(list.mock.calls[0][0]!.pageToken).toBeUndefined();
   expect(
-    list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim())
+    list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim()),
   ).toContain("nextPageToken");
 });

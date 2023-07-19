@@ -28,5 +28,5 @@ gulp.task("build:backend", function () {
 
 gulp.task(
   "build",
-  gulp.parallel("build:appsscript", "build:frontend", "build:backend")
+  gulp.parallel("build:appsscript", "build:frontend", "build:backend"),
 );

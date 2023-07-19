@@ -12,7 +12,7 @@ declare namespace script {
       destinationID: string,
       copyComments: boolean,
       mergeFolders: boolean,
-      notEmptyOverride: boolean
+      notEmptyOverride: boolean,
     ): MoveResponse;
   }
 }
