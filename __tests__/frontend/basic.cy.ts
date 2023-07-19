@@ -31,7 +31,7 @@ it("works with basic configuration", () => {
       "root",
       true,
       true,
-      false
+      false,
     );
   });
 });

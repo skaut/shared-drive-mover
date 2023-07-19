@@ -22,7 +22,7 @@ test("MoveState constructs correctly", () => {
       destinationID: "DEST_BASE_ID",
       copyComments: false,
       mergeFolders: false,
-    })
+    }),
   );
   expect(state.getNextPath()).toBeNull();
   expect(state.getErrors()).toStrictEqual([]);
@@ -244,33 +244,33 @@ test("MoveState saves the state correctly", () => {
 
   expect(driveBackedValueMock.saveValue.mock.calls).toHaveLength(3);
   expect(
-    driveBackedValueMock.saveValue.mock.calls[0][0].pathsToProcess
+    driveBackedValueMock.saveValue.mock.calls[0][0].pathsToProcess,
   ).toHaveLength(3);
   expect(
-    driveBackedValueMock.saveValue.mock.calls[0][0].pathsToProcess[0]
+    driveBackedValueMock.saveValue.mock.calls[0][0].pathsToProcess[0],
   ).toStrictEqual({ sourceID: "SRC_ID1", destinationID: "DEST_ID1", path: [] });
   expect(
-    driveBackedValueMock.saveValue.mock.calls[0][0].pathsToProcess[1]
+    driveBackedValueMock.saveValue.mock.calls[0][0].pathsToProcess[1],
   ).toStrictEqual({
     sourceID: "SRC_ID2",
     destinationID: "DEST_ID2",
     path: ["PATH", "TO", "FIRST", "FOLDER"],
   });
   expect(
-    driveBackedValueMock.saveValue.mock.calls[0][0].pathsToProcess[2]
+    driveBackedValueMock.saveValue.mock.calls[0][0].pathsToProcess[2],
   ).toStrictEqual({
     sourceID: "SRC_ID3",
     destinationID: "DEST_ID3",
     path: ["ANOTHER", "DIRECTORY"],
   });
   expect(driveBackedValueMock.saveValue.mock.calls[0][0].errors).toHaveLength(
-    2
+    2,
   );
   expect(
-    driveBackedValueMock.saveValue.mock.calls[0][0].errors[0]
+    driveBackedValueMock.saveValue.mock.calls[0][0].errors[0],
   ).toStrictEqual(error1);
   expect(
-    driveBackedValueMock.saveValue.mock.calls[0][0].errors[1]
+    driveBackedValueMock.saveValue.mock.calls[0][0].errors[1],
   ).toStrictEqual(error2);
 });
 

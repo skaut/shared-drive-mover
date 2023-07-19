@@ -35,7 +35,7 @@ test("copyFileComments works correctly", () => {
     .fn<
       (
         fileId: string,
-        optionalArgs?: ListCommentsOptions
+        optionalArgs?: ListCommentsOptions,
       ) => GoogleAppsScript.Drive.Schema.CommentList
     >()
     .mockReturnValueOnce(rawResponse);
@@ -43,7 +43,7 @@ test("copyFileComments works correctly", () => {
     .fn<
       (
         resource: GoogleAppsScript.Drive.Schema.Comment,
-        fileId: string
+        fileId: string,
       ) => GoogleAppsScript.Drive.Schema.Comment
     >()
     .mockReturnValueOnce({
@@ -68,7 +68,7 @@ test("copyFileComments works correctly", () => {
   expect(list.mock.calls[0][1]).toBeDefined();
   expect(list.mock.calls[0][1]!.pageToken).toBeUndefined();
   expect(
-    list.mock.calls[0][1]!.fields!.split(",").map((s) => s.trim())
+    list.mock.calls[0][1]!.fields!.split(",").map((s) => s.trim()),
   ).toContain("nextPageToken");
   expect(insert.mock.calls).toHaveLength(2);
   expect(insert.mock.calls[0][0].content).toBe("*COM1_AUTH:*\nCOM1_CONTENT");
@@ -110,7 +110,7 @@ test("copyFileComments works correctly with replies", () => {
     .fn<
       (
         fileId: string,
-        optionalArgs?: ListCommentsOptions
+        optionalArgs?: ListCommentsOptions,
       ) => GoogleAppsScript.Drive.Schema.CommentList
     >()
     .mockReturnValueOnce(rawResponse);
@@ -118,7 +118,7 @@ test("copyFileComments works correctly with replies", () => {
     .fn<
       (
         resource: GoogleAppsScript.Drive.Schema.Comment,
-        fileId: string
+        fileId: string,
       ) => GoogleAppsScript.Drive.Schema.Comment
     >()
     .mockReturnValueOnce({
@@ -129,7 +129,7 @@ test("copyFileComments works correctly with replies", () => {
       (
         resource: GoogleAppsScript.Drive.Schema.CommentReply,
         fileId: string,
-        commentId: string
+        commentId: string,
       ) => GoogleAppsScript.Drive.Schema.CommentReply
     >()
     .mockReturnValueOnce({});
@@ -153,7 +153,7 @@ test("copyFileComments works correctly with replies", () => {
   expect(list.mock.calls[0][1]).toBeDefined();
   expect(list.mock.calls[0][1]!.pageToken).toBeUndefined();
   expect(
-    list.mock.calls[0][1]!.fields!.split(",").map((s) => s.trim())
+    list.mock.calls[0][1]!.fields!.split(",").map((s) => s.trim()),
   ).toContain("nextPageToken");
   expect(insertComment.mock.calls).toHaveLength(1);
   expect(insertComment.mock.calls[0][0].content).toBe("COM_CONTENT");
@@ -161,7 +161,7 @@ test("copyFileComments works correctly with replies", () => {
   expect(insertComment.mock.calls[0][1]).toBe("DEST_FILE_ID");
   expect(insertReply.mock.calls).toHaveLength(2);
   expect(insertReply.mock.calls[0][0].content).toBe(
-    "*REPLY1_AUTH:*\nREPLY1_CONTENT"
+    "*REPLY1_AUTH:*\nREPLY1_CONTENT",
   );
   expect(insertReply.mock.calls[0][1]).toBe("DEST_FILE_ID");
   expect(insertReply.mock.calls[0][2]).toBe("DEST_COM_ID");

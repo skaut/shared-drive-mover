@@ -16,7 +16,7 @@ function moveFileByCopy_(
   name: string,
   state: MoveState_,
   context: MoveContext,
-  copyComments: boolean
+  copyComments: boolean,
 ): void {
   state.tryOrLog(
     context,
@@ -27,13 +27,13 @@ function moveFileByCopy_(
           title: name,
         },
         fileID,
-        { supportsAllDrives: true, fields: "id" }
+        { supportsAllDrives: true, fields: "id" },
       );
       if (copyComments) {
         copyFileComments_(fileID, copy.id!);
       }
     },
-    name
+    name,
   );
 }
 
@@ -41,7 +41,7 @@ export function moveFile_(
   file: GoogleAppsScript.Drive.Schema.File,
   state: MoveState_,
   context: MoveContext,
-  copyComments: boolean
+  copyComments: boolean,
 ): void {
   if (file.capabilities!.canMoveItemOutOfDrive!) {
     try {

@@ -27,6 +27,6 @@ it("works with source and destination folders being equal", () => {
   cy.contains("Confirmation");
   cy.contains("An error occurred").should("be.visible");
   cy.contains("The source and destination folders must be different").should(
-    "be.visible"
+    "be.visible",
   );
 });

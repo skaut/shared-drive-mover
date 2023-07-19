@@ -22,7 +22,7 @@ test("moveFile works correctly with a file that can be moved directly", () => {
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs?: UpdateFileOptions
+        optionalArgs?: UpdateFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({});
@@ -47,7 +47,7 @@ test("moveFile works correctly with a file that can be moved directly", () => {
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
     },
-    false
+    false,
   );
 
   expect(update.mock.calls).toHaveLength(1);
@@ -74,7 +74,7 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
       (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
-        optionalArgs?: CopyFileOptions
+        optionalArgs?: CopyFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({});
@@ -84,7 +84,7 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs?: UpdateFileOptions
+        optionalArgs?: UpdateFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockImplementation(() => {
@@ -113,7 +113,7 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
     },
-    false
+    false,
   );
 
   expect(update.mock.calls).toHaveLength(1);
@@ -142,7 +142,7 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
       (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
-        optionalArgs?: CopyFileOptions
+        optionalArgs?: CopyFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({});
@@ -168,7 +168,7 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
     },
-    false
+    false,
   );
 
   expect(copy.mock.calls).toHaveLength(1);
@@ -193,7 +193,7 @@ test("moveFile works correctly with a file that can be moved directly with comme
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs?: UpdateFileOptions
+        optionalArgs?: UpdateFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({});
@@ -218,7 +218,7 @@ test("moveFile works correctly with a file that can be moved directly with comme
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
     },
-    true
+    true,
   );
 
   expect(update.mock.calls).toHaveLength(1);
@@ -240,7 +240,7 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
       (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
-        optionalArgs?: CopyFileOptions
+        optionalArgs?: CopyFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockReturnValueOnce({ id: "DEST_FILE_ID" });
@@ -267,7 +267,7 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
     },
-    true
+    true,
   );
 
   expect(copy.mock.calls).toHaveLength(1);
@@ -279,10 +279,10 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
   expect(copy.mock.calls[0][2]!.supportsAllDrives).toBe(true);
   expect(mocked(copyFileComments).copyFileComments_.mock.calls).toHaveLength(1);
   expect(mocked(copyFileComments).copyFileComments_.mock.calls[0][0]).toBe(
-    "SRC_FILE_ID"
+    "SRC_FILE_ID",
   );
   expect(mocked(copyFileComments).copyFileComments_.mock.calls[0][1]).toBe(
-    "DEST_FILE_ID"
+    "DEST_FILE_ID",
   );
 });
 
@@ -303,7 +303,7 @@ test("moveFile fails gracefully on error", () => {
       (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
-        optionalArgs?: CopyFileOptions
+        optionalArgs?: CopyFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockImplementation(() => {
@@ -315,7 +315,7 @@ test("moveFile fails gracefully on error", () => {
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
         mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        optionalArgs?: UpdateFileOptions
+        optionalArgs?: UpdateFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
     .mockImplementation(() => {
@@ -347,6 +347,6 @@ test("moveFile fails gracefully on error", () => {
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
     },
-    false
+    false,
   );
 });

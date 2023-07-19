@@ -5,14 +5,14 @@ export function mockedCommentsCollection(): GoogleAppsScript.Drive.Collection.Co
     get: jest.fn<
       (
         fileId: string,
-        commentId: string
+        commentId: string,
       ) => GoogleAppsScript.Drive.Schema.Comment
     >(),
     insert:
       jest.fn<
         (
           resource: GoogleAppsScript.Drive.Schema.Comment,
-          fileId: string
+          fileId: string,
         ) => GoogleAppsScript.Drive.Schema.Comment
       >(),
     list: jest.fn<
@@ -23,7 +23,7 @@ export function mockedCommentsCollection(): GoogleAppsScript.Drive.Collection.Co
         (
           resource: GoogleAppsScript.Drive.Schema.Comment,
           fileId: string,
-          commentId: string
+          commentId: string,
         ) => GoogleAppsScript.Drive.Schema.Comment
       >(),
     remove: jest.fn<(fileId: string, commentId: string) => void>(),
@@ -32,7 +32,7 @@ export function mockedCommentsCollection(): GoogleAppsScript.Drive.Collection.Co
         (
           resource: GoogleAppsScript.Drive.Schema.Comment,
           fileId: string,
-          commentId: string
+          commentId: string,
         ) => GoogleAppsScript.Drive.Schema.Comment
       >(),
   };
@@ -106,7 +106,7 @@ export function mockedDrivesCollection(): GoogleAppsScript.Drive.Collection.Driv
       jest.fn<
         (
           resource: GoogleAppsScript.Drive.Schema.Drive,
-          requestId: string
+          requestId: string,
         ) => GoogleAppsScript.Drive.Schema.Drive
       >(),
     list: jest.fn<() => GoogleAppsScript.Drive.Schema.DriveList>(),
@@ -116,7 +116,7 @@ export function mockedDrivesCollection(): GoogleAppsScript.Drive.Collection.Driv
       jest.fn<
         (
           resource: GoogleAppsScript.Drive.Schema.Drive,
-          driveId: string
+          driveId: string,
         ) => GoogleAppsScript.Drive.Schema.Drive
       >(),
   };
@@ -127,7 +127,7 @@ export function mockedFilesCollection(): GoogleAppsScript.Drive.Collection.Files
     copy: jest.fn<
       (
         resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string
+        fileId: string,
       ) => GoogleAppsScript.Drive.Schema.File
     >(),
     emptyTrash: jest.fn<() => void>(),
@@ -138,7 +138,7 @@ export function mockedFilesCollection(): GoogleAppsScript.Drive.Collection.Files
       jest.fn<
         (
           resource: GoogleAppsScript.Drive.Schema.File,
-          mediaData?: Blob
+          mediaData?: Blob,
         ) => GoogleAppsScript.Drive.Schema.File
       >(),
     list: jest.fn<() => GoogleAppsScript.Drive.Schema.FileList>(),
@@ -146,7 +146,7 @@ export function mockedFilesCollection(): GoogleAppsScript.Drive.Collection.Files
       jest.fn<
         (
           resource: GoogleAppsScript.Drive.Schema.File,
-          fileId: string
+          fileId: string,
         ) => GoogleAppsScript.Drive.Schema.File
       >(),
     remove: jest.fn<(fileId: string) => void>(),
@@ -158,14 +158,14 @@ export function mockedFilesCollection(): GoogleAppsScript.Drive.Collection.Files
         (
           resource: GoogleAppsScript.Drive.Schema.File,
           fileId: string,
-          mediaData?: Blob
+          mediaData?: Blob,
         ) => GoogleAppsScript.Drive.Schema.File
       >(),
     watch:
       jest.fn<
         (
           resource: GoogleAppsScript.Drive.Schema.Channel,
-          fileId: string
+          fileId: string,
         ) => GoogleAppsScript.Drive.Schema.Channel
       >(),
   };
@@ -203,7 +203,7 @@ export function mockedHtmlOutput(): GoogleAppsScript.HTML.HtmlOutput {
     setSandboxMode:
       jest.fn<
         (
-          mode: GoogleAppsScript.HTML.SandboxMode
+          mode: GoogleAppsScript.HTML.SandboxMode,
         ) => GoogleAppsScript.HTML.HtmlOutput
       >(),
     setTitle: jest.fn<(title: string) => GoogleAppsScript.HTML.HtmlOutput>(),
@@ -214,7 +214,7 @@ export function mockedHtmlOutput(): GoogleAppsScript.HTML.HtmlOutput {
     setXFrameOptionsMode:
       jest.fn<
         (
-          mode: GoogleAppsScript.HTML.XFrameOptionsMode
+          mode: GoogleAppsScript.HTML.XFrameOptionsMode,
         ) => GoogleAppsScript.HTML.HtmlOutput
       >(),
   };
@@ -231,7 +231,7 @@ export function mockedHtmlService(): GoogleAppsScript.HTML.HtmlService {
     createTemplate:
       jest.fn<
         (
-          arg: GoogleAppsScript.Base.BlobSource | string
+          arg: GoogleAppsScript.Base.BlobSource | string,
         ) => GoogleAppsScript.HTML.HtmlTemplate
       >(),
     createTemplateFromFile: jest.fn<() => GoogleAppsScript.HTML.HtmlTemplate>(),
@@ -254,7 +254,7 @@ export function mockedRepliesCollection(): GoogleAppsScript.Drive.Collection.Rep
       (
         fileId: string,
         commentId: string,
-        replyId: string
+        replyId: string,
       ) => GoogleAppsScript.Drive.Schema.CommentReply
     >(),
     insert:
@@ -262,13 +262,13 @@ export function mockedRepliesCollection(): GoogleAppsScript.Drive.Collection.Rep
         (
           resource: GoogleAppsScript.Drive.Schema.CommentReply,
           fileId: string,
-          commentId: string
+          commentId: string,
         ) => GoogleAppsScript.Drive.Schema.CommentReply
       >(),
     list: jest.fn<
       (
         fileId: string,
-        commentId: string
+        commentId: string,
       ) => GoogleAppsScript.Drive.Schema.CommentReplyList
     >(),
     patch:
@@ -277,7 +277,7 @@ export function mockedRepliesCollection(): GoogleAppsScript.Drive.Collection.Rep
           resource: GoogleAppsScript.Drive.Schema.CommentReply,
           fileId: string,
           commentId: string,
-          replyId: string
+          replyId: string,
         ) => GoogleAppsScript.Drive.Schema.CommentReply
       >(),
     remove:
@@ -288,7 +288,7 @@ export function mockedRepliesCollection(): GoogleAppsScript.Drive.Collection.Rep
           resource: GoogleAppsScript.Drive.Schema.CommentReply,
           fileId: string,
           commentId: string,
-          replyId: string
+          replyId: string,
         ) => GoogleAppsScript.Drive.Schema.CommentReply
       >(),
   };
@@ -329,28 +329,28 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
       jest.fn<
         (
           encoded: string,
-          charset?: GoogleAppsScript.Utilities.Charset
+          charset?: GoogleAppsScript.Utilities.Charset,
         ) => Array<GoogleAppsScript.Byte>
       >(),
     base64DecodeWebSafe:
       jest.fn<
         (
           encoded: string,
-          charset?: GoogleAppsScript.Utilities.Charset
+          charset?: GoogleAppsScript.Utilities.Charset,
         ) => Array<GoogleAppsScript.Byte>
       >(),
     base64Encode:
       jest.fn<
         (
           data: Array<GoogleAppsScript.Byte> | string,
-          charset?: GoogleAppsScript.Utilities.Charset
+          charset?: GoogleAppsScript.Utilities.Charset,
         ) => string
       >(),
     base64EncodeWebSafe:
       jest.fn<
         (
           data: Array<GoogleAppsScript.Byte> | string,
-          charset?: GoogleAppsScript.Utilities.Charset
+          charset?: GoogleAppsScript.Utilities.Charset,
         ) => string
       >(),
     computeDigest:
@@ -358,7 +358,7 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
         (
           algorithm: GoogleAppsScript.Utilities.DigestAlgorithm,
           value: Array<GoogleAppsScript.Byte> | string,
-          charset?: GoogleAppsScript.Utilities.Charset
+          charset?: GoogleAppsScript.Utilities.Charset,
         ) => Array<number>
       >(),
     computeHmacSha256Signature:
@@ -366,7 +366,7 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
         (
           value: Array<GoogleAppsScript.Byte> | string,
           key: Array<GoogleAppsScript.Byte> | string,
-          charset?: GoogleAppsScript.Utilities.Charset
+          charset?: GoogleAppsScript.Utilities.Charset,
         ) => Array<GoogleAppsScript.Byte>
       >(),
     computeHmacSignature:
@@ -375,7 +375,7 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
           algorithm: GoogleAppsScript.Utilities.MacAlgorithm,
           value: Array<GoogleAppsScript.Byte> | string,
           key: Array<GoogleAppsScript.Byte> | string,
-          charset?: GoogleAppsScript.Utilities.Charset
+          charset?: GoogleAppsScript.Utilities.Charset,
         ) => Array<GoogleAppsScript.Byte>
       >(),
     computeRsaSha1Signature:
@@ -383,7 +383,7 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
         (
           value: string,
           key: string,
-          charset?: GoogleAppsScript.Utilities.Charset
+          charset?: GoogleAppsScript.Utilities.Charset,
         ) => Array<GoogleAppsScript.Byte>
       >(),
     computeRsaSha256Signature:
@@ -391,7 +391,7 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
         (
           value: string,
           key: string,
-          charset?: GoogleAppsScript.Utilities.Charset
+          charset?: GoogleAppsScript.Utilities.Charset,
         ) => Array<GoogleAppsScript.Byte>
       >(),
     computeRsaSignature:
@@ -400,7 +400,7 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
           algorithm: GoogleAppsScript.Utilities.RsaAlgorithm,
           value: string,
           key: string,
-          charset?: GoogleAppsScript.Utilities.Charset
+          charset?: GoogleAppsScript.Utilities.Charset,
         ) => Array<GoogleAppsScript.Byte>
       >(),
     formatDate:
@@ -408,7 +408,7 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
         (
           date: GoogleAppsScript.Base.Date,
           timeZone: string,
-          format: string
+          format: string,
         ) => string
       >(),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -417,7 +417,7 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
     gzip: jest.fn<
       (
         blob: GoogleAppsScript.Base.BlobSource,
-        name?: string
+        name?: string,
       ) => GoogleAppsScript.Base.Blob
     >(),
     newBlob:
@@ -425,7 +425,7 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
         (
           data: Array<GoogleAppsScript.Byte> | string,
           contentType?: string,
-          name?: string
+          name?: string,
         ) => GoogleAppsScript.Base.Blob
       >(),
     parseCsv:
@@ -442,13 +442,13 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
     unzip:
       jest.fn<
         (
-          blob: GoogleAppsScript.Base.BlobSource
+          blob: GoogleAppsScript.Base.BlobSource,
         ) => Array<GoogleAppsScript.Base.Blob>
       >(),
     zip: jest.fn<
       (
         blobs: Array<GoogleAppsScript.Base.BlobSource>,
-        name?: string
+        name?: string,
       ) => GoogleAppsScript.Base.Blob
     >(),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

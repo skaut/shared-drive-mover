@@ -73,7 +73,7 @@
         destination!.id,
         copyComments,
         mergeFolders,
-        forceNonEmpty
+        forceNonEmpty,
       );
   }
 
@@ -111,7 +111,7 @@
     moving = false;
     currentTab = "confirmation";
     showErrorDialog(
-      $_("errorDialog.unknownErrorWithMessage") + response.message
+      $_("errorDialog.unknownErrorWithMessage") + response.message,
     );
   }
 
@@ -121,7 +121,7 @@
   }
 
   function showErrorDialogWithEvent(
-    event: CustomEvent<{ message: string }>
+    event: CustomEvent<{ message: string }>,
   ): void {
     showErrorDialog(event.detail.message);
   }

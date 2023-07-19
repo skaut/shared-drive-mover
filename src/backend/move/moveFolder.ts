@@ -7,10 +7,10 @@ import { resolveDestinationFolder_ } from "./resolveDestinationFolder";
 function moveFolderContentsFiles_(
   state: MoveState_,
   context: MoveContext,
-  copyComments: boolean
+  copyComments: boolean,
 ): void {
   const files = state.tryOrLog(context, () =>
-    listFilesInFolder_(context.sourceID)
+    listFilesInFolder_(context.sourceID),
   );
   if (files === null) {
     return;
@@ -24,11 +24,11 @@ export function moveFolder_(
   state: MoveState_,
   context: MoveContext,
   copyComments: boolean,
-  mergeFolders: boolean
+  mergeFolders: boolean,
 ): void {
   moveFolderContentsFiles_(state, context, copyComments);
   const subFolders = state.tryOrLog(context, () =>
-    listFoldersInFolder_(context.sourceID)
+    listFoldersInFolder_(context.sourceID),
   );
   if (subFolders !== null) {
     for (const folder of subFolders) {
@@ -36,12 +36,12 @@ export function moveFolder_(
         folder,
         state,
         context,
-        mergeFolders
+        mergeFolders,
       );
       state.addPath(
         folder.id!,
         destinationFolder.id!,
-        context.path.concat([folder.title!])
+        context.path.concat([folder.title!]),
       );
     }
   }

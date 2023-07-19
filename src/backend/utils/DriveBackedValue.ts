@@ -7,7 +7,7 @@ export class DriveBackedValue_<T> {
     this.hash = Utilities.computeDigest(
       Utilities.DigestAlgorithm.SHA_256,
       key,
-      Utilities.Charset.US_ASCII
+      Utilities.Charset.US_ASCII,
     )
       .map((byte) => (byte < 0 ? byte + 256 : byte).toString(16))
       .map((s) => (s.length < 2 ? "0" + s : s))
@@ -112,7 +112,7 @@ export class DriveBackedValue_<T> {
     Drive.Files!.update(
       {},
       fileId,
-      Utilities.newBlob(JSON.stringify(value), "application/json")
+      Utilities.newBlob(JSON.stringify(value), "application/json"),
     );
   }
 
@@ -123,13 +123,13 @@ export class DriveBackedValue_<T> {
         parents: [{ id: folderId }],
         title: this.getFileName(),
       },
-      Utilities.newBlob(JSON.stringify(value), "application/json")
+      Utilities.newBlob(JSON.stringify(value), "application/json"),
     );
   }
 
   private getExistingDriveFileContents(fileId: string): T {
     return JSON.parse(
-      Drive.Files!.get(fileId, { alt: "media" }) as string
+      Drive.Files!.get(fileId, { alt: "media" }) as string,
     ) as T;
   }
 

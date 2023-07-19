@@ -41,7 +41,7 @@ it("works with non-empty destination folder", () => {
       "root",
       true,
       true,
-      true
+      true,
     );
   });
 });

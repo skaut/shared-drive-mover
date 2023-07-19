@@ -32,7 +32,7 @@ it("works with copy configuration", () => {
       "root",
       false,
       true,
-      false
+      false,
     );
   });
 });
@@ -55,7 +55,7 @@ it("works with merge configuration", () => {
       "root",
       false,
       true,
-      false
+      false,
     );
   });
 });
