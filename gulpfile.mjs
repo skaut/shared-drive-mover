@@ -1,10 +1,13 @@
 /* eslint-env node */
 
-const gulp = require("gulp");
+import gulp from "gulp";
 
-const filter = require("gulp-filter");
-const replace = require("gulp-replace");
-const webpack = require("webpack-stream");
+import filter from "gulp-filter";
+import replace from "gulp-replace";
+import webpack from "webpack-stream";
+
+import frontendWebpackConfig from "./frontend.webpack.config.js";
+import backendWebpackConfig from "./backend.webpack.config.js";
 
 gulp.task("build:appsscript", function () {
   return gulp.src("src/appsscript.json").pipe(gulp.dest("dist/"));
@@ -13,7 +16,7 @@ gulp.task("build:appsscript", function () {
 gulp.task("build:frontend", function () {
   return gulp
     .src("src/frontend/index.ts")
-    .pipe(webpack(require("./frontend.webpack.config.js")(undefined, {})))
+    .pipe(webpack(frontendWebpackConfig(undefined, {})))
     .pipe(filter(["index.html"]))
     .pipe(replace("\u0085", "\\u0085"))
     .pipe(gulp.dest("dist/"));
@@ -22,7 +25,7 @@ gulp.task("build:frontend", function () {
 gulp.task("build:backend", function () {
   return gulp
     .src("src/backend/index.ts")
-    .pipe(webpack(require("./backend.webpack.config.js")))
+    .pipe(webpack(backendWebpackConfig))
     .pipe(gulp.dest("dist/"));
 });
 

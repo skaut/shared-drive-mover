@@ -75,7 +75,7 @@
     "build": "gulp build",
     "lint:svelte:svelte-check": "svelte-check",
     "lint:svelte": "run-p -c lint:svelte:*",
-    "lint:ts:eslint": "eslint \"src/**/*.svelte\" \"src/**/*.ts\" \"__tests__/**/*.ts\" \"cypress/**/*.js\" gulpfile.js \"*.webpack.config.js\" \"cypress.config.ts\"",
+    "lint:ts:eslint": "eslint \"src/**/*.svelte\" \"src/**/*.ts\" \"__tests__/**/*.ts\" \"cypress/**/*.js\" gulpfile.mjs \"*.webpack.config.js\" \"cypress.config.ts\"",
     "lint:ts": "run-s -c lint:ts:*",
     "lint": "run-s -c lint:*",
     "test:backend": "jest",
