@@ -1,13 +1,12 @@
 /* eslint-env node */
 
 import gulp from "gulp";
-
 import filter from "gulp-filter";
 import replace from "gulp-replace";
 import webpack from "webpack-stream";
 
-import frontendWebpackConfig from "./frontend.webpack.config.js";
 import backendWebpackConfig from "./backend.webpack.config.js";
+import frontendWebpackConfig from "./frontend.webpack.config.js";
 
 gulp.task("build:appsscript", function () {
   return gulp.src("src/appsscript.json").pipe(gulp.dest("dist/"));
