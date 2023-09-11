@@ -30,7 +30,7 @@
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
     "css-loader": "^6.8.1",
-    "cypress": "^12.16.0",
+    "cypress": "^13.1.0",
     "cypress-get-table": "^1.0.1",
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
