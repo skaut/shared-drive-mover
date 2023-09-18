@@ -27,7 +27,7 @@
     "@types/google-apps-script": "^1.0.65",
     "@types/google.script.client-side": "^0.1.0",
     "@types/jest": "^28.1.8",
-    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.4.1",
     "css-loader": "^6.8.1",
     "cypress": "^13.1.0",
