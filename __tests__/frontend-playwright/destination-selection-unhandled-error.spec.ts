@@ -7,20 +7,34 @@ test.beforeEach(async ({ page }) => {
   await setup(page);
 
   await page.evaluate(() => {
-    window._endpointStubs.listFolders = {
-      status: "failure",
-      value: new Error("ERROR MESSAGE"),
-    };
-    window._endpointStubs.listSharedDrives = {
-      status: "success",
-      value: {
-        status: "success",
-        response: [
-          { id: "ID_DRIVE_1", name: "DRIVE 1" },
-          { id: "ID_DRIVE_2", name: "DRIVE 2" },
-        ],
+    window._endpointStubs.listFolders = [
+      {
+        status: "failure",
+        value: new Error("ERROR MESSAGE"),
       },
-    };
+    ];
+    window._endpointStubs.listSharedDrives = [
+      {
+        status: "success",
+        value: {
+          status: "success",
+          response: [
+            { id: "ID_DRIVE_1", name: "DRIVE 1" },
+            { id: "ID_DRIVE_2", name: "DRIVE 2" },
+          ],
+        },
+      },
+      {
+        status: "success",
+        value: {
+          status: "success",
+          response: [
+            { id: "ID_DRIVE_1", name: "DRIVE 1" },
+            { id: "ID_DRIVE_2", name: "DRIVE 2" },
+          ],
+        },
+      },
+    ];
   });
 });
 

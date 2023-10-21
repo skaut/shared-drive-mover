@@ -7,18 +7,22 @@ test.beforeEach(async ({ page }) => {
   await setup(page);
 
   await page.evaluate(() => {
-    window._endpointStubs.listFolders = {
-      status: "success",
-      value: { status: "success", response: [] },
-    };
-    window._endpointStubs.listSharedDrives = {
-      status: "success",
-      value: { status: "success", response: [] },
-    };
-    window._endpointStubs.move = {
-      status: "success",
-      value: { status: "error", type: "sourceEqualsDestination" },
-    };
+    window._endpointStubs.listSharedDrives = [
+      {
+        status: "success",
+        value: { status: "success", response: [] },
+      },
+      {
+        status: "success",
+        value: { status: "success", response: [] },
+      },
+    ];
+    window._endpointStubs.move = [
+      {
+        status: "success",
+        value: { status: "error", type: "sourceEqualsDestination" },
+      },
+    ];
   });
 });
 

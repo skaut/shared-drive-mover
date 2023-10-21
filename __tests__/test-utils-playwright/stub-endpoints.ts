@@ -4,7 +4,7 @@ import type { Page } from "@playwright/test";
 
 declare global {
   interface Window {
-    _endpointStubs: Record<string, EndpointStub>;
+    _endpointStubs: Record<string, Array<EndpointStub>>;
   }
 }
 
@@ -40,7 +40,7 @@ export async function setup(page: Page): Promise<void> {
   );
 
   await page.evaluate(() => {
-    window._endpointStubs = {} as Record<string, EndpointStub>;
+    window._endpointStubs = {} as Record<string, Array<EndpointStub>>;
 
     function endpointFn(
       successHandler: SuccessHandlerType,
@@ -48,22 +48,17 @@ export async function setup(page: Page): Promise<void> {
     ): Record<string, () => void> {
       const stubbedEndpoints: Record<string, () => void> = {};
       for (const key in window._endpointStubs) {
-        const stub = window._endpointStubs[key];
-        if (stub.status === "success") {
-          stubbedEndpoints[key] = (
-            ...args: Array<google.script.Parameter>
-          ): void => {
-            _logEndpointCall(key, args);
+        stubbedEndpoints[key] = (
+          ...args: Array<google.script.Parameter>
+        ): void => {
+          _logEndpointCall(key, args);
+          const stub = window._endpointStubs[key].shift()!;
+          if (stub.status === "success") {
             successHandler(stub.value);
-          };
-        } else {
-          stubbedEndpoints[key] = (
-            ...args: Array<google.script.Parameter>
-          ): void => {
-            _logEndpointCall(key, args);
+          } else {
             failureHandler(stub.value);
-          };
-        }
+          }
+        };
       }
       return stubbedEndpoints;
     }
