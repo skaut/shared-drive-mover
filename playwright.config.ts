@@ -7,7 +7,7 @@ export default defineConfig({
   retries: process.env.CI !== undefined ? 2 : 0,
   // Opt out of parallel tests on CI.
   //workers: process.env.CI !== undefined ? 1 : undefined,
-  reporter: process.env.CI !== undefined ? "github" : "list",
+  reporter: process.env.CI !== undefined ? "html" : "list",
   use: {
     baseURL: "http://127.0.0.1:8080",
     trace: "on-first-retry",
