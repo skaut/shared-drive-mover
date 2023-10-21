@@ -138,11 +138,23 @@ jobs:
             npm-dependencies-${{ runner.os }}-${{ env.cache-version }}-
             npm-dependencies-${{ runner.os }}-
 
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: echo "::set-output name=version::$(npm ls @playwright/test | grep @playwright | sed 's/.*@//')"
+
+      - name: Cache playwright binaries
+        id: playwright-cache
+        uses: actions/cache@v3
+        with:
+          path: "~/.cache/ms-playwright"
+          key: playwright-binaries-${{ runner.os }}-${{ env.cache-version }}-playwright-${{ steps.playwright-version.outputs.version }}
+
       - name: "Install NPM dependencies"
         run: |
           npm ci
 
-      - name: "Install playwright browsers"
+      - name: "Install playwright binaries"
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: |
           npx playwright install --with-deps
 
