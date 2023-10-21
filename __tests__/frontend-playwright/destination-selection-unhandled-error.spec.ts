@@ -1,0 +1,41 @@
+import { expect, test } from "@playwright/test";
+
+import { calls, setup } from "../test-utils-playwright/stub-endpoints";
+
+test.beforeEach(async ({ page }) => {
+  await page.goto("/");
+  await setup(page);
+
+  await page.evaluate(() => {
+    window._endpointStubs.listFolders = {
+      status: "failure",
+      value: new Error("ERROR MESSAGE"),
+    };
+    window._endpointStubs.listSharedDrives = {
+      status: "success",
+      value: {
+        status: "success",
+        response: [
+          { id: "ID_DRIVE_1", name: "DRIVE 1" },
+          { id: "ID_DRIVE_2", name: "DRIVE 2" },
+        ],
+      },
+    };
+  });
+});
+
+test("handles raw errors in source folder selection gracefully", async ({
+  page,
+}) => {
+  await expect(
+    page.getByText("Shared drive mover", { exact: true }),
+  ).toBeVisible();
+  await page.getByText("Continue").click();
+  await page.getByText("DRIVE 1").click();
+  await page.getByText("Continue").click();
+  await page.getByText("DRIVE 2").dblclick();
+  await expect(
+    page.getByText("An error occurred", { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByText("ERROR MESSAGE")).toBeVisible();
+});
