@@ -8,8 +8,8 @@ test.beforeEach(async ({ page }) => {
 
   await page.evaluate(() => {
     window._endpointStubs.listFolders = {
-      status: "failure",
-      value: new Error("ERROR MESSAGE"),
+      status: "success",
+      value: { status: "error", type: "unknown" },
     };
     window._endpointStubs.listSharedDrives = {
       status: "success",
@@ -37,5 +37,5 @@ test("handles raw errors in source folder selection gracefully", async ({
   await expect(
     page.getByText("An error occurred", { exact: true }),
   ).toBeVisible();
-  await expect(page.getByText("ERROR MESSAGE")).toBeVisible();
+  await expect(page.getByText("An unknown error occurred")).toBeVisible();
 });
