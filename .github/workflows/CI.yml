@@ -138,6 +138,10 @@ jobs:
             npm-dependencies-${{ runner.os }}-${{ env.cache-version }}-
             npm-dependencies-${{ runner.os }}-
 
+      - name: "Install NPM dependencies"
+        run: |
+          npm ci
+
       - name: Get installed Playwright version
         id: playwright-version
         run: |
@@ -150,10 +154,6 @@ jobs:
         with:
           path: "~/.cache/ms-playwright"
           key: playwright-binaries-${{ runner.os }}-${{ env.cache-version }}-${{ steps.playwright-version.outputs.version }}
-
-      - name: "Install NPM dependencies"
-        run: |
-          npm ci
 
       - name: "Install playwright binaries"
         if: steps.playwright-cache.outputs.cache-hit != 'true'
