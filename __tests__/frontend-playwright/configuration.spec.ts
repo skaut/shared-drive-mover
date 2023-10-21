@@ -22,10 +22,11 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test("works with basic configuration", async ({ page }) => {
+test("works with copy configuration", async ({ page }) => {
   await expect(
     page.getByText("Shared drive mover", { exact: true }),
   ).toBeVisible();
+  await page.getByText("Copy comments").click();
   await page.getByText("Continue").click();
   await page.getByText("My Drive").click();
   await page.getByText("Continue").click();
@@ -39,7 +40,28 @@ test("works with basic configuration", async ({ page }) => {
   await page.getByText("Move", { exact: true }).click();
   await expect(page.getByText("Done!", { exact: true })).toBeVisible();
   await expect(page.getByText("Successfully moved")).toBeVisible();
-
   expect(calls.move).toHaveLength(1);
-  expect(calls.move[0]).toStrictEqual(["root", "root", true, true, false]);
+  expect(calls.move[0]).toStrictEqual(["root", "root", false, true, false]);
+});
+
+test("works with merge configuration", async ({ page }) => {
+  await expect(
+    page.getByText("Shared drive mover", { exact: true }),
+  ).toBeVisible();
+  await page.getByText("Merge folders").click();
+  await page.getByText("Continue").click();
+  await page.getByText("My Drive").click();
+  await page.getByText("Continue").click();
+  await page.getByText("My Drive").click();
+  await page.getByText("Continue").click();
+  await expect(
+    page.getByText(
+      'contents of the folder "My Drive" into the folder "My Drive"',
+    ),
+  ).toBeVisible();
+  await page.getByText("Move", { exact: true }).click();
+  await expect(page.getByText("Done!", { exact: true })).toBeVisible();
+  await expect(page.getByText("Successfully moved")).toBeVisible();
+  expect(calls.move).toHaveLength(1);
+  expect(calls.move[0]).toStrictEqual(["root", "root", true, false, false]);
 });
