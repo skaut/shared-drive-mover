@@ -158,6 +158,11 @@ jobs:
         run: |
           npx playwright install --with-deps
 
+      - name: "Install playwright binaries"
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: |
+          npx playwright install-deps
+
       - name: "Run tests"
         run: |
           npm run _test:frontend-playwright
