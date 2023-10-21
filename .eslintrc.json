@@ -205,6 +205,22 @@
         "cypress/assertion-before-screenshot": "error",
         "cypress/no-pause": "error"
       }
+    },
+    {
+      "files": [
+        "__tests__/frontend-playwright/*.ts",
+        "__tests__/test-utils-playwright/stub-endpoints.ts"
+      ],
+      "extends": ["plugin:playwright/recommended"],
+      "rules": {
+        "playwright/no-nth-methods": "error",
+        "playwright/no-raw-locators": "error",
+        "playwright/prefer-strict-equal": "error",
+        "playwright/prefer-to-be": "error",
+        "playwright/prefer-to-contain": "error",
+        "playwright/prefer-to-have-count": "error",
+        "playwright/prefer-to-have-length": "error"
+      }
     }
   ],
   "globals": {
