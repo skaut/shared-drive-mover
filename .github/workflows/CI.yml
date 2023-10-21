@@ -140,14 +140,16 @@ jobs:
 
       - name: Get installed Playwright version
         id: playwright-version
-        run: echo "version=$(npm ls @playwright/test | grep @playwright | sed 's/.*@//')" >> $GITHUB_OUTPUT
+        run: |
+          echo "version=$(npm ls @playwright/test | grep @playwright | sed 's/.*@//')"
+          echo "version=$(npm ls @playwright/test | grep @playwright | sed 's/.*@//')" >> $GITHUB_OUTPUT
 
       - name: Cache playwright binaries
         id: playwright-cache
         uses: actions/cache@v3
         with:
           path: "~/.cache/ms-playwright"
-          key: playwright-binaries-${{ runner.os }}-${{ env.cache-version }}-playwright-${{ steps.playwright-version.outputs.version }}
+          key: playwright-binaries-${{ runner.os }}-${{ env.cache-version }}-${{ steps.playwright-version.outputs.version }}
 
       - name: "Install NPM dependencies"
         run: |
