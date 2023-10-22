@@ -112,6 +112,29 @@ jobs:
         run: |
           npm ci
 
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: |
+          echo "version=$(node -e "console.log(require('./package-lock.json').packages['node_modules/@playwright/test'].version)")"
+          echo "version=$(node -e "console.log(require('./package-lock.json').packages['node_modules/@playwright/test'].version)")" >> $GITHUB_OUTPUT
+
+      - name: Cache playwright binaries
+        id: playwright-cache
+        uses: actions/cache@v3
+        with:
+          path: "~/.cache/ms-playwright"
+          key: playwright-binaries-${{ runner.os }}-${{ env.cache-version }}-${{ steps.playwright-version.outputs.version }}
+
+      - name: "Install playwright binaries"
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: |
+          npx playwright install --with-deps
+
+      - name: "Install playwright binaries"
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: |
+          npx playwright install-deps
+
       - name: "Run tests"
         run: |
           npm run test:frontend
@@ -120,3 +143,10 @@ jobs:
         uses: codecov/codecov-action@v3.1.4
         with:
           flags: frontend
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
