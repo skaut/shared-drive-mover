@@ -22,9 +22,9 @@ type SuccessHandlerType = (value?: any, object?: any) => void;
 type FailureHandlerType = (error: Error, object?: any) => void;
 
 type EndpointStub =
-  | { status: "failure"; value: Error }
+  | { status: "failure"; delay?: number; value: Error }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  | { status: "success"; value: any };
+  | { status: "success"; delay?: number; value: any };
 
 export const calls: Record<string, Array<Array<google.script.Parameter>>> = {};
 
@@ -53,11 +53,13 @@ export async function setup(page: Page): Promise<void> {
         ): void => {
           _logEndpointCall(key, args);
           const stub = window._endpointStubs[key].shift()!;
-          if (stub.status === "success") {
-            successHandler(stub.value);
-          } else {
-            failureHandler(stub.value);
-          }
+          setTimeout(() => {
+            if (stub.status === "success") {
+              successHandler(stub.value);
+            } else {
+              failureHandler(stub.value);
+            }
+          }, stub.delay ?? 0);
         };
       }
       return stubbedEndpoints;
