@@ -1,14 +1,14 @@
 {
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
-    "project": ["./tsconfig.json", "./cypress/tsconfig.json"],
+    "project": ["./tsconfig.json"],
     "extraFileExtensions": [".svelte"]
   },
   "env": {
     "browser": true,
     "node": false
   },
-  "plugins": ["deprecation", "cypress", "jest", "simple-import-sort", "@typescript-eslint"],
+  "plugins": ["deprecation", "jest", "simple-import-sort", "@typescript-eslint"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/strict-type-checked",
@@ -196,20 +196,8 @@
     },
     {
       "files": [
-        "__tests__/frontend/**/*.cy.ts",
-        "__tests__/test-utils/stubEndpoints.ts"
-      ],
-      "extends": ["plugin:cypress/recommended"],
-      "rules": {
-        "cypress/no-force": "error",
-        "cypress/assertion-before-screenshot": "error",
-        "cypress/no-pause": "error"
-      }
-    },
-    {
-      "files": [
-        "__tests__/frontend-playwright/*.ts",
-        "__tests__/test-utils-playwright/stub-endpoints.ts"
+        "__tests__/frontend/*.ts",
+        "__tests__/test-utils/stub-endpoints.ts"
       ],
       "extends": ["plugin:playwright/recommended"],
       "rules": {
