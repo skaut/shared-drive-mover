@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 import { setup } from "../test-utils-playwright/stub-endpoints";
 
-test.beforeEach(async ({ page }) => {
+test("works with an unknown move error", async ({ page }) => {
   await page.goto("/");
   await setup(page);
 
@@ -24,9 +24,7 @@ test.beforeEach(async ({ page }) => {
       },
     ];
   });
-});
 
-test("works with an unknown move error", async ({ page }) => {
   await expect(
     page.getByText("Shared drive mover", { exact: true }),
   ).toBeVisible();

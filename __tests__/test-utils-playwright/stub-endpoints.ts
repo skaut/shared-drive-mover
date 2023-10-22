@@ -26,9 +26,11 @@ type EndpointStub =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   | { status: "success"; delay?: number; value: any };
 
-export const calls: Record<string, Array<Array<google.script.Parameter>>> = {};
+export async function setup(
+  page: Page,
+): Promise<(endpoint: string) => Array<Array<google.script.Parameter>>> {
+  const calls: Record<string, Array<Array<google.script.Parameter>>> = {};
 
-export async function setup(page: Page): Promise<void> {
   await page.exposeFunction(
     "_logEndpointCall",
     (name: string, params: Array<google.script.Parameter>) => {
@@ -106,4 +108,6 @@ export async function setup(page: Page): Promise<void> {
       },
     };
   });
+
+  return (endpoint: string) => calls[endpoint];
 }

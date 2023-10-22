@@ -1,10 +1,10 @@
 import { expect, test } from "@playwright/test";
 
-import { calls, setup } from "../test-utils-playwright/stub-endpoints";
+import { setup } from "../test-utils-playwright/stub-endpoints";
 
-test.beforeEach(async ({ page }) => {
+test("works with basic configuration", async ({ page }) => {
   await page.goto("/");
-  await setup(page);
+  const getCalls = await setup(page);
 
   await page.evaluate(() => {
     window._endpointStubs.listSharedDrives = [
@@ -24,9 +24,7 @@ test.beforeEach(async ({ page }) => {
       },
     ];
   });
-});
 
-test("works with basic configuration", async ({ page }) => {
   await expect(
     page.getByText("Shared drive mover", { exact: true }),
   ).toBeVisible();
@@ -44,6 +42,7 @@ test("works with basic configuration", async ({ page }) => {
   await expect(page.getByText("Done!", { exact: true })).toBeVisible();
   await expect(page.getByText("Successfully moved")).toBeVisible();
 
-  expect(calls.move).toHaveLength(1);
-  expect(calls.move[0]).toStrictEqual(["root", "root", true, true, false]);
+  const moveCalls = getCalls("move");
+  expect(moveCalls).toHaveLength(1);
+  expect(moveCalls[0]).toStrictEqual(["root", "root", true, true, false]);
 });

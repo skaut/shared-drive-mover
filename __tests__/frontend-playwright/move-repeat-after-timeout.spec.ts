@@ -1,10 +1,10 @@
 import { expect, test } from "@playwright/test";
 
-import { calls, setup } from "../test-utils-playwright/stub-endpoints";
+import { setup } from "../test-utils-playwright/stub-endpoints";
 
-test.beforeEach(async ({ page }) => {
+test("works with an unhandled move error", async ({ page }) => {
   await page.goto("/");
-  await setup(page);
+  const getCalls = await setup(page);
 
   await page.evaluate(() => {
     const e = new Error();
@@ -34,9 +34,7 @@ test.beforeEach(async ({ page }) => {
       },
     ];
   });
-});
 
-test("works with an unhandled move error", async ({ page }) => {
   await expect(
     page.getByText("Shared drive mover", { exact: true }),
   ).toBeVisible();
@@ -53,8 +51,10 @@ test("works with an unhandled move error", async ({ page }) => {
   await page.getByText("Move", { exact: true }).click();
   await expect(page.getByText("Done!", { exact: true })).toBeVisible();
   await expect(page.getByText("Successfully moved")).toBeVisible();
-  expect(calls.move).toHaveLength(3);
-  expect(calls.move[0]).toStrictEqual(["root", "root", true, true, false]);
-  expect(calls.move[1]).toStrictEqual(["root", "root", true, true, false]);
-  expect(calls.move[1]).toStrictEqual(["root", "root", true, true, false]);
+
+  const moveCalls = getCalls("move");
+  expect(moveCalls).toHaveLength(3);
+  expect(moveCalls[0]).toStrictEqual(["root", "root", true, true, false]);
+  expect(moveCalls[1]).toStrictEqual(["root", "root", true, true, false]);
+  expect(moveCalls[1]).toStrictEqual(["root", "root", true, true, false]);
 });
