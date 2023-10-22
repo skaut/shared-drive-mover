@@ -84,10 +84,7 @@
     "lint": "run-s -c lint:*",
     "start": "webpack serve -c test.frontend.webpack.config.js --mode development --no-client-overlay",
     "test:backend": "jest",
-    "test:frontend:serve": "npm run start",
-    "test:frontend:cypress": "cypress run",
-    "test:frontend": "start-server-and-test test:frontend:serve http-get://localhost:8080 test:frontend:cypress",
-    "_test:frontend-playwright": "playwright test",
+    "test:frontend": "playwright test",
     "test": "run-p -c test:*"
   }
 }
