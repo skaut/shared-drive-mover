@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { setup } from "../test-utils-playwright/stub-endpoints";
+import { setup } from "../test-utils/stub-endpoints";
 
 test("works with copy configuration", async ({ page }) => {
   await page.goto("/");

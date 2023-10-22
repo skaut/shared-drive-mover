@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { setup } from "../test-utils-playwright/stub-endpoints";
+import { setup } from "../test-utils/stub-endpoints";
 
 test("handles raw errors in source folder selection gracefully", async ({
   page,
