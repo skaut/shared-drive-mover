@@ -115,8 +115,8 @@ jobs:
       - name: Get installed Playwright version
         id: playwright-version
         run: |
-          echo "version=$(npm ls @playwright/test | grep @playwright | sed 's/.*@//')"
-          echo "version=$(npm ls @playwright/test | grep @playwright | sed 's/.*@//')" >> $GITHUB_OUTPUT
+          echo "version=$(node -e "console.log(require('./package-lock.json').dependencies['@playwright/test'].version)")"
+          echo "version=$(node -e "console.log(require('./package-lock.json').dependencies['@playwright/test'].version)")" >> $GITHUB_OUTPUT
 
       - name: Cache playwright binaries
         id: playwright-cache
