@@ -28,7 +28,7 @@
     "@types/google.script.client-side": "^0.1.2",
     "@types/jest": "^28.1.8",
     "@types/node": "^20.8.7",
-    "@typescript-eslint/eslint-plugin": "^6.7.5",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.7.3",
     "css-loader": "^6.8.1",
     "eslint": "^8.51.0",
