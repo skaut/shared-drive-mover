@@ -36,7 +36,7 @@
     "eslint-plugin-deprecation": "^2.0.0",
     "eslint-plugin-jest": "^27.4.3",
     "eslint-plugin-playwright": "^0.18.0",
-    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-svelte": "^2.34.0",
     "gas-webpack-plugin": "^2.5.0",
