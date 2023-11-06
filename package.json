@@ -42,7 +42,7 @@
     "eslint-plugin-svelte": "^2.34.1",
     "gas-webpack-plugin": "^2.5.0",
     "gulp": "^4.0.2",
-    "gulp-filter": "^8.0.0",
+    "gulp-filter": "^9.0.0",
     "gulp-replace": "^1.1.4",
     "html-webpack-plugin": "^5.5.3",
     "jest": "^28.0.0",
