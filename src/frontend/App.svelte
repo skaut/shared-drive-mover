@@ -47,12 +47,12 @@
     currentTab === "introduction"
       ? 1 / 5
       : currentTab === "source-selection"
-      ? 2 / 5
-      : currentTab === "destination-selection"
-      ? 3 / 5
-      : currentTab === "confirmation"
-      ? 4 / 5
-      : 0;
+        ? 2 / 5
+        : currentTab === "destination-selection"
+          ? 3 / 5
+          : currentTab === "confirmation"
+            ? 4 / 5
+            : 0;
 
   let copyComments = true;
   let mergeFolders = true;
