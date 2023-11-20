@@ -63,7 +63,7 @@
     "svelte-material-ui": "^6.2.0",
     "svelte-preprocess": "^5.1.0",
     "ts-jest": "^28.0.8",
-    "ts-loader": "^9.5.0",
+    "ts-loader": "^9.5.1",
     "typescript": "^5.2.2",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
