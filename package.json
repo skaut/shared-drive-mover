@@ -39,7 +39,7 @@
     "eslint-plugin-prefer-arrow-functions": "^3.2.4",
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "eslint-plugin-svelte": "^2.35.0",
+    "eslint-plugin-svelte": "^2.35.1",
     "gas-webpack-plugin": "^2.5.0",
     "gulp": "^4.0.2",
     "gulp-filter": "^9.0.1",
