@@ -101,17 +101,19 @@
 <List singleSelection>
   <Separator />
   <Subheader>
-    <span
+    <button
       class="breadcrumb"
+      type="button"
       on:click={rootNavigation}
       on:keydown={rootNavigation}
     >
       {$_("drive.driveList")}
-    </span>
+    </button>
     {#each path as segment (segment.id)}
       &nbsp; &gt; &nbsp;
-      <span
+      <button
         class="breadcrumb"
+        type="button"
         on:click={() => {
           breadcrumbNavigation(segment);
         }}
@@ -120,7 +122,7 @@
         }}
       >
         {segment.name}
-      </span>
+      </button>
     {/each}
   </Subheader>
   <Separator />
@@ -146,7 +148,10 @@
 
 <style lang="scss">
   .breadcrumb {
+    border: none;
+    background-color: unset;
     cursor: pointer;
     color: var(--mdc-theme-primary);
+    font-size: 1rem;
   }
 </style>
