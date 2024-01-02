@@ -60,7 +60,7 @@
     "svelte-check": "^3.6.2",
     "svelte-i18n": "^3.2.0 <4.0.1",
     "svelte-loader": "^3.1.9",
-    "svelte-material-ui": "^6.2.0",
+    "svelte-material-ui": "^7.0.0-beta.16",
     "svelte-preprocess": "^5.1.3",
     "ts-jest": "^28.0.8",
     "ts-loader": "^9.5.1",
