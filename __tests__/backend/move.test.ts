@@ -445,6 +445,29 @@ test("move works correctly with non-empty override", () => {
   expect(mocked(moveFolder).moveFolder_.mock.calls[0][3]).toBe(false);
 });
 
+test("move fails gracefully on invalid parameter types", () => {
+  mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(false);
+  const moveStateMock = mockedMoveState();
+  moveStateMock.isNull.mockReturnValueOnce(true);
+  mocked(MoveState_).mockReturnValue(moveStateMock);
+
+  expect(move(42, "DEST_ID", false, false, false)).toStrictEqual({
+    status: "error",
+    type: "invalidParameter",
+  });
+
+  expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(0);
+  expect(mocked(MoveState_).mock.calls).toHaveLength(0);
+  expect(mocked(moveStateMock).loadState.mock.calls).toHaveLength(0);
+  expect(mocked(moveStateMock).isNull.mock.calls).toHaveLength(0);
+  expect(mocked(moveStateMock).addPath.mock.calls).toHaveLength(0);
+  expect(mocked(moveStateMock).saveState.mock.calls).toHaveLength(0);
+  expect(mocked(moveStateMock).getNextPath.mock.calls).toHaveLength(0);
+  expect(mocked(moveStateMock).getErrors.mock.calls).toHaveLength(0);
+  expect(mocked(moveStateMock).destroyState.mock.calls).toHaveLength(0);
+  expect(mocked(moveFolder).moveFolder_.mock.calls).toHaveLength(0);
+});
+
 test("move fails gracefully on error while moving", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(true);
   const error = {

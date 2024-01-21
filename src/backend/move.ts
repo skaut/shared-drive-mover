@@ -4,12 +4,21 @@ import { moveFolder_ } from "./move/moveFolder";
 import { MoveState_ } from "./utils/MoveState";
 
 export function move(
-  sourceID: string,
-  destinationID: string,
-  copyComments: boolean,
-  mergeFolders: boolean,
-  notEmptyOverride: boolean,
+  sourceID: google.script.Parameter,
+  destinationID: google.script.Parameter,
+  copyComments: google.script.Parameter,
+  mergeFolders: google.script.Parameter,
+  notEmptyOverride: google.script.Parameter,
 ): MoveResponse {
+  if (
+    typeof sourceID !== "string" ||
+    typeof destinationID !== "string" ||
+    typeof copyComments !== "boolean" ||
+    typeof mergeFolders !== "boolean" ||
+    typeof notEmptyOverride !== "boolean"
+  ) {
+    return { status: "error", type: "invalidParameter" };
+  }
   if (sourceID === destinationID) {
     return { status: "error", type: "sourceEqualsDestination" };
   }

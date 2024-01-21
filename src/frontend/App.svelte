@@ -85,6 +85,10 @@
           currentTab = "confirmation";
           showErrorDialog($_("errorDialog.DriveAPIError"));
           break;
+        case "invalidParameter":
+          currentTab = "confirmation";
+          showErrorDialog($_("errorDialog.InvalidParameterError"));
+          break;
         case "notEmpty":
           showNonEmptyDialog();
           break;
