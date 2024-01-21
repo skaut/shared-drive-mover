@@ -9,8 +9,8 @@
   }
 
   const dispatch = createEventDispatcher<{
-    nonEmptyDialogCancel: never;
-    nonEmptyDialogConfirm: never;
+    nonEmptyDialogCancel: null;
+    nonEmptyDialogConfirm: null;
   }>();
 
   let nonEmptyDialogOpen: boolean;
