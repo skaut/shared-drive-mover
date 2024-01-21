@@ -41,6 +41,11 @@
           message: $_("errorDialog.DriveAPIError"),
         });
         break;
+      case "invalidParameter":
+        dispatch("error", {
+          message: $_("errorDialog.InvalidParameterError"),
+        });
+        break;
       default:
         dispatch("error", {
           message: $_("errorDialog.unknownError"),

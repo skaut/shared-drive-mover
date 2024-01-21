@@ -61,6 +61,7 @@
 	"errorDialog": {
 		"title": "Chyba",
 		"DriveAPIError": "Nastala chyba v Google Disku. Prosím zkontrolujte zdrojovou a cílovou složku a zkuste to znovu.",
+		"InvalidParameterError": "V nástroji \"Shared Drive Mover\" nastala chyba. Byly předány parametry špatného typu.",
 		"sourceEqualsDestination": "Zdrojová a cílová složka se musí lišit.",
 		"unknownError": "Nastala neznámá chyba. Prosím zkontrolujte zdrojovou a cílovou složku a zkuste to znovu.",
 		"unknownErrorWithMessage": "Nastala neznámá chyba. Prosím zkontrolujte zdrojovou a cílovou složku a zkuste to znovu. Chybová hláška: ",

@@ -61,6 +61,7 @@
 	"errorDialog": {
 		"title": "An error occurred",
 		"DriveAPIError": "An error occurred in Google Drive. Please check the source and destination folders and try again.",
+		"InvalidParameterError": "An error occurred in Shared Drive Mover. Invalid parameter types were passed.",
 		"sourceEqualsDestination": "The source and destination folders must be different",
 		"unknownError": "An unknown error occurred. Please check the source and destination folders and try again.",
 		"unknownErrorWithMessage": "An unknown error occurred. Please check the source and destination folders and try again. Error message: ",
