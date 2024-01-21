@@ -61,6 +61,7 @@ export default (_, options) => ({
     alias: {
       svelte: path.resolve("node_modules", "svelte/src/runtime"),
     },
+    conditionNames: ["svelte", "require", "node"],
     extensions: [".ts", ".js", ".svelte"],
     mainFields: ["svelte", "browser", "module", "main"],
   },
