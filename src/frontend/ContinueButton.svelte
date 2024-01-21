@@ -5,7 +5,7 @@
 
   export let disabled: boolean;
 
-  const dispatch = createEventDispatcher<{ next: never }>();
+  const dispatch = createEventDispatcher<{ next: null }>();
 </script>
 
 <Button {disabled} variant="raised" on:click={() => dispatch("next")}>

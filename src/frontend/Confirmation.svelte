@@ -12,7 +12,7 @@
   export let source: NamedRecord | null;
   export let destination: NamedRecord | null;
 
-  const dispatch = createEventDispatcher<{ next: never; previous: never }>();
+  const dispatch = createEventDispatcher<{ next: null; previous: null }>();
 
   $: sourceDisplay =
     sourcePath.map((segment) => segment.name + "/").join("") +
