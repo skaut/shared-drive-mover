@@ -83,6 +83,7 @@
     "start": "webpack serve -c test.frontend.webpack.config.js --mode development --no-client-overlay",
     "test:backend": "jest",
     "test:frontend": "nyc --reporter=lcov playwright test",
-    "test": "run-p -c test:*"
+    "test": "run-p -c test:*",
+    "playwright-interactive": "playwright test --ui"
   }
 }
