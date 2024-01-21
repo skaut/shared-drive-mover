@@ -124,6 +124,45 @@ test("listFolders works correctly with shortcuts", () => {
   ).toContain("nextPageToken");
 });
 
+test("listFolders handles invalid parameters gracefully", () => {
+  interface ListFilesOptions {
+    q?: string;
+    includeItemsFromAllDrives?: boolean;
+    supportsAllDrives?: boolean;
+    pageToken?: string;
+    maxResults?: number;
+    fields?: string;
+  }
+
+  const list = jest
+    .fn<
+      (
+        optionalArgs?: ListFilesOptions,
+      ) => GoogleAppsScript.Drive.Schema.FileList
+    >()
+    .mockImplementationOnce(() => {
+      throw new Error();
+    });
+  global.Drive = {
+    ...mockedDrive(),
+    Files: {
+      ...mockedFilesCollection(),
+      list,
+    },
+  };
+
+  global.Session = {
+    ...mockedSession(),
+    getActiveUserLocale: jest.fn<() => string>().mockReturnValueOnce("en"),
+  };
+
+  expect(listFolders(42)).toStrictEqual({
+    status: "error",
+    type: "invalidParameter",
+  });
+  expect(list.mock.calls).toHaveLength(0);
+});
+
 test("listFolders handles errors in Google Drive API gracefully", () => {
   interface ListFilesOptions {
     q?: string;

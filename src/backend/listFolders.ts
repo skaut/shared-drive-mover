@@ -2,7 +2,10 @@ import type { ListResponse } from "../interfaces/ListResponse";
 import type { NamedRecord } from "../interfaces/NamedRecord";
 import { paginationHelper_ } from "./utils/paginationHelper";
 
-export function listFolders(parentID: string): ListResponse {
+export function listFolders(parentID: google.script.Parameter): ListResponse {
+  if (typeof parentID !== "string") {
+    return { status: "error", type: "invalidParameter" };
+  }
   try {
     const response = paginationHelper_<
       GoogleAppsScript.Drive.Schema.FileList,
