@@ -84,7 +84,7 @@ jobs:
           npm run test:backend
 
       - name: "Upload coverage results"
-        uses: codecov/codecov-action@v3.1.4
+        uses: codecov/codecov-action@v3.1.5
         with:
           flags: backend
 
@@ -117,7 +117,7 @@ jobs:
           HOME: /root
 
       - name: "Upload coverage results"
-        uses: codecov/codecov-action@v3.1.4
+        uses: codecov/codecov-action@v3.1.5
         with:
           flags: frontend
 
