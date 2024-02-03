@@ -17,11 +17,11 @@
 		},
 		"source-selection": {
 			"header": "Výběr zdrojové složky",
-			"introduction": "Vyberte prosím složku, ze které chcete přesouvat soubory."
+			"introduction": "Vyberte prosím složku, ze které chcete přesouvat soubory. Dvojklikem můžete vybrat podsložku."
 		},
 		"destination-selection": {
 			"header": "Výběr cílové složky",
-			"introduction": "Vyberte prosím složku, do které chcete přesouvat soubory."
+			"introduction": "Vyberte prosím složku, do které chcete přesouvat soubory.  Dvojklikem můžete vybrat podsložku."
 		},
 		"confirmation": {
 			"header": "Potvrzení",
