@@ -17,11 +17,11 @@
 		},
 		"source-selection": {
 			"header": "Source folder selection",
-			"introduction": "Please select the folder to move files from."
+			"introduction": "Please select the folder to move files from. You can double click to select a subfolder."
 		},
 		"destination-selection": {
 			"header": "Destination folder selection",
-			"introduction": "Please select the folder to move files to."
+			"introduction": "Please select the folder to move files to. You can double click to select a subfolder."
 		},
 		"confirmation": {
 			"header": "Confirmation",
