@@ -87,6 +87,7 @@ jobs:
         uses: codecov/codecov-action@v4.0.1
         with:
           flags: backend
+          fail_ci_if_error: true
 
   frontend-test:
     name: "Frontend test"
@@ -120,6 +121,7 @@ jobs:
         uses: codecov/codecov-action@v4.0.1
         with:
           flags: frontend
+          fail_ci_if_error: true
 
       - uses: actions/upload-artifact@v4
         if: always()
