@@ -91,6 +91,13 @@
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Needed because SMUI doesn't provide types for the event
+  function handleItemKeydown(e: any, item: NamedRecord): void {
+    if ((e as KeyboardEvent).key === "ArrowRight") {
+      itemNavigation(item);
+    }
+  }
+
   getItems();
 </script>
 
@@ -126,6 +133,9 @@
         selected={selected !== null && selected.id === item.id}
         on:dblclick={() => {
           itemNavigation(item);
+        }}
+        on:keydown={(e) => {
+          handleItemKeydown(e, item);
         }}
         on:SMUI:action={() => {
           if (selected === item) {
