@@ -127,7 +127,13 @@
         on:dblclick={() => {
           itemNavigation(item);
         }}
-        on:SMUI:action={() => (selected = item)}
+        on:SMUI:action={() => {
+          if (selected === item) {
+            itemNavigation(item);
+          } else {
+            selected = item;
+          }
+        }}
       >
         <Text>
           {item.name}
