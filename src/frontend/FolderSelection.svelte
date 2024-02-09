@@ -91,6 +91,13 @@
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Needed because SMUI doesn't provide types for the event
+  function handleItemKeydown(e: any, item: NamedRecord): void {
+    if ((e as KeyboardEvent).key === "ArrowRight") {
+      itemNavigation(item);
+    }
+  }
+
   getItems();
 </script>
 
@@ -101,12 +108,7 @@
 <List singleSelection>
   <Separator />
   <Subheader>
-    <button
-      class="breadcrumb"
-      type="button"
-      on:click={rootNavigation}
-      on:keydown={rootNavigation}
-    >
+    <button class="breadcrumb" type="button" on:click={rootNavigation}>
       {$_("drive.driveList")}
     </button>
     {#each path as segment (segment.id)}
@@ -115,9 +117,6 @@
         class="breadcrumb"
         type="button"
         on:click={() => {
-          breadcrumbNavigation(segment);
-        }}
-        on:keydown={() => {
           breadcrumbNavigation(segment);
         }}
       >
@@ -135,7 +134,16 @@
         on:dblclick={() => {
           itemNavigation(item);
         }}
-        on:SMUI:action={() => (selected = item)}
+        on:keydown={(e) => {
+          handleItemKeydown(e, item);
+        }}
+        on:SMUI:action={() => {
+          if (selected === item) {
+            itemNavigation(item);
+          } else {
+            selected = item;
+          }
+        }}
       >
         <Text>
           {item.name}
