@@ -411,7 +411,7 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
           format: string,
         ) => string
       >(),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
     formatString: jest.fn<(template: string, ...args: Array<any>) => string>(),
     getUuid: jest.fn<() => string>(),
     gzip: jest.fn<
@@ -451,9 +451,9 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
         name?: string,
       ) => GoogleAppsScript.Base.Blob
     >(),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
     jsonParse: jest.fn<(jsonString: string) => any>(),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
     jsonStringify: jest.fn<(obj: any) => string>(),
   };
 }

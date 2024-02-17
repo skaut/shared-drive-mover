@@ -490,7 +490,8 @@ test("move fails gracefully on error while moving", () => {
   });
   const consoleError = jest
     .spyOn(console, "error")
-    .mockImplementationOnce(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
+    // eslint-disable-next-line @typescript-eslint/no-empty-function -- The function is needed just to detect its calls
+    .mockImplementationOnce(() => {});
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
     status: "success",

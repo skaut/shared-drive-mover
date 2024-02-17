@@ -19,7 +19,8 @@ test("resolveDestinationFolder corretly creates new folder", () => {
     .fn<
       (
         resource: GoogleAppsScript.Drive.Schema.File,
-        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
+        mediaData?: any,
         optionalArgs?: InsertFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
@@ -72,7 +73,8 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
     .fn<
       (
         resource: GoogleAppsScript.Drive.Schema.File,
-        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
+        mediaData?: any,
         optionalArgs?: InsertFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
@@ -129,7 +131,8 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
     .fn<
       (
         resource: GoogleAppsScript.Drive.Schema.File,
-        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
+        mediaData?: any,
         optionalArgs?: InsertFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
@@ -183,7 +186,8 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
   const insert = jest.fn<
     (
       resource: GoogleAppsScript.Drive.Schema.File,
-      mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
+      mediaData?: any,
       optionalArgs?: InsertFileOptions,
     ) => GoogleAppsScript.Drive.Schema.File
   >();
@@ -229,7 +233,8 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
     .fn<
       (
         resource: GoogleAppsScript.Drive.Schema.File,
-        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
+        mediaData?: any,
         optionalArgs?: InsertFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
