@@ -21,7 +21,8 @@ test("moveFile works correctly with a file that can be moved directly", () => {
       (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
-        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
+        mediaData?: any,
         optionalArgs?: UpdateFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
@@ -83,7 +84,8 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
       (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
-        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
+        mediaData?: any,
         optionalArgs?: UpdateFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
@@ -192,7 +194,8 @@ test("moveFile works correctly with a file that can be moved directly with comme
       (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
-        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
+        mediaData?: any,
         optionalArgs?: UpdateFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()
@@ -314,7 +317,8 @@ test("moveFile fails gracefully on error", () => {
       (
         resource: GoogleAppsScript.Drive.Schema.File,
         fileId: string,
-        mediaData?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
+        mediaData?: any,
         optionalArgs?: UpdateFileOptions,
       ) => GoogleAppsScript.Drive.Schema.File
     >()

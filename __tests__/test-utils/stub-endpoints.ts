@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 
-/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-empty-function -- Stub functions are mostly empty */
 
 declare global {
   interface Window {
@@ -15,15 +15,15 @@ declare function _logEndpointCall(
 
 type Run = google.script.PublicEndpoints & google.script.RunnerFunctions;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- From google.script types
 type SuccessHandlerType = (value?: any, object?: any) => void;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- From google.script types
 type FailureHandlerType = (error: Error, object?: any) => void;
 
 type EndpointStub =
   | { status: "failure"; delay?: number; value: Error }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- The return value of the API can be anything
   | { status: "success"; delay?: number; value: any };
 
 export async function setup(
@@ -111,3 +111,5 @@ export async function setup(
 
   return (endpoint: string) => calls[endpoint];
 }
+
+/* eslint-enable */

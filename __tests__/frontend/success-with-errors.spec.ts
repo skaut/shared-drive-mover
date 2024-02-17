@@ -54,20 +54,10 @@ test("works and displays moving errors", async ({ page }) => {
   await expect(page.getByText("Successfully moved")).toBeVisible();
   await expect(page.getByText("errors were encountered")).toBeVisible();
 
-  /* eslint-disable playwright/no-raw-locators, playwright/no-nth-methods */
-  await expect(page.locator(".mdc-data-table__row").first()).toContainText(
-    "PATH/TO/FILE",
-  );
-  await expect(page.locator(".mdc-data-table__row").first()).toContainText(
-    "ERROR MESSAGE 1",
-  );
-  await expect(page.locator(".mdc-data-table__row").nth(1)).toContainText(
-    "PATH/TO/SECOND/FILE",
-  );
-  await expect(page.locator(".mdc-data-table__row").nth(1)).toContainText(
-    "ERROR MESSAGE 2",
-  );
-  /* eslint-enable */
+  await expect(page.getByRole("table")).toContainText("PATH/TO/FILE");
+  await expect(page.getByRole("table")).toContainText("ERROR MESSAGE 1");
+  await expect(page.getByRole("table")).toContainText("PATH/TO/SECOND/FILE");
+  await expect(page.getByRole("table")).toContainText("ERROR MESSAGE 2");
 
   const moveCalls = getCalls("move");
   expect(moveCalls).toHaveLength(1);

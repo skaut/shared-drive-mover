@@ -47,7 +47,7 @@ export function moveFile_(
     try {
       moveFileDirectly_(file.id!, context);
       return;
-    } catch (e) {} // eslint-disable-line no-empty
+    } catch (e) {} // eslint-disable-line no-empty -- Handled by moving by copying
   }
   moveFileByCopy_(file.id!, file.title!, state, context, copyComments);
 }
