@@ -15,8 +15,8 @@ export function listSharedDrives(): ListResponse {
           orderBy: "name",
           fields: "nextPageToken, items(id, name)",
         }),
-      (response) =>
-        response.items!.map((item) => ({ id: item.id!, name: item.name! })),
+      (listRepsonse) =>
+        listRepsonse.items!.map((item) => ({ id: item.id!, name: item.name! })),
     );
     return {
       status: "success",

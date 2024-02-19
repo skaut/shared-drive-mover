@@ -24,8 +24,8 @@ export function listFolders(parentID: google.script.Parameter): ListResponse {
           fields:
             "nextPageToken, items(id, title, mimeType, shortcutDetails(targetId))",
         }),
-      (response) =>
-        response
+      (listResponse) =>
+        listResponse
           .items!.sort((first, second) =>
             first.title!.localeCompare(
               second.title!,

@@ -4,6 +4,8 @@
   import { createEventDispatcher } from "svelte";
   import { _ } from "svelte-i18n";
 
+  let nonEmptyDialogOpen: boolean;
+
   export function showNonEmptyDialog(): void {
     nonEmptyDialogOpen = true;
   }
@@ -12,8 +14,6 @@
     nonEmptyDialogCancel: null;
     nonEmptyDialogConfirm: null;
   }>();
-
-  let nonEmptyDialogOpen: boolean;
 </script>
 
 <p>
