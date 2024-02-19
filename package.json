@@ -24,7 +24,7 @@
     "@smui/linear-progress": "^6.1.4",
     "@smui/list": "^6.0.0",
     "@smui/top-app-bar": "^6.0.0",
-    "@types/google-apps-script": "^1.0.79",
+    "@types/google-apps-script": "^1.0.81",
     "@types/google.script.client-side": "^0.1.5",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.10",
