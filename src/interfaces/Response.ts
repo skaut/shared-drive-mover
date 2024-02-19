@@ -1,9 +1,9 @@
-export type Response<Response, ErrorType extends string> =
+export type Response<RawResponse, ErrorType extends string> =
   | {
       status: "error";
       type: ErrorType;
     }
   | {
       status: "success";
-      response: Response;
+      response: RawResponse;
     };
