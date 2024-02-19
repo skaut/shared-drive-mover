@@ -62,19 +62,9 @@
   let destination: NamedRecord | null = null;
   let errors: Array<MoveError> | null = null;
 
-  function move(forceNonEmpty = false): void {
-    currentTab = "moving";
-    moving = true;
-    google.script.run
-      .withSuccessHandler(moveSuccessHandler)
-      .withFailureHandler(moveErrorHandler)
-      .move(
-        source!.id,
-        destination!.id,
-        copyComments,
-        mergeFolders,
-        forceNonEmpty,
-      );
+  function showErrorDialog(message: string): void {
+    errorMessage = message;
+    errorDialogOpen = true;
   }
 
   function moveSuccessHandler(response: MoveResponse): void {
@@ -109,6 +99,7 @@
 
   function moveErrorHandler(response: Error): void {
     if (response.name === "ScriptError") {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define -- Cyclical dependency
       move();
       return;
     }
@@ -119,9 +110,19 @@
     );
   }
 
-  function showErrorDialog(message: string): void {
-    errorMessage = message;
-    errorDialogOpen = true;
+  function move(forceNonEmpty = false): void {
+    currentTab = "moving";
+    moving = true;
+    google.script.run
+      .withSuccessHandler(moveSuccessHandler)
+      .withFailureHandler(moveErrorHandler)
+      .move(
+        source!.id,
+        destination!.id,
+        copyComments,
+        mergeFolders,
+        forceNonEmpty,
+      );
   }
 
   function showErrorDialogWithEvent(

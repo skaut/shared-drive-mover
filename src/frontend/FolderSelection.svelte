@@ -16,24 +16,6 @@
 
   let items: Array<NamedRecord> | null = null;
 
-  function rootNavigation(): void {
-    selected = null;
-    path = [];
-    getItems();
-  }
-
-  function breadcrumbNavigation(segment: NamedRecord): void {
-    selected = null;
-    path = path.slice(0, path.findIndex((item) => item.id === segment.id) + 1);
-    getItems();
-  }
-
-  function itemNavigation(item: NamedRecord): void {
-    selected = null;
-    path = [...path, item];
-    getItems();
-  }
-
   function handleListError(type: string): void {
     switch (type) {
       case "DriveAPIError":
@@ -62,18 +44,18 @@
     items = [{ id: "root", name: $_("drive.myDrive") }, ...response.response];
   }
 
+  function handleError(response: Error): void {
+    dispatch("error", {
+      message: $_("errorDialog.unknownErrorWithMessage") + response.message,
+    });
+  }
+
   function handleFolderResponse(response: ListResponse): void {
     if (response.status === "error") {
       handleListError(response.type);
       return;
     }
     items = response.response;
-  }
-
-  function handleError(response: Error): void {
-    dispatch("error", {
-      message: $_("errorDialog.unknownErrorWithMessage") + response.message,
-    });
   }
 
   function getItems(): void {
@@ -89,6 +71,24 @@
         .withFailureHandler(handleError)
         .listFolders(path[path.length - 1].id);
     }
+  }
+
+  function rootNavigation(): void {
+    selected = null;
+    path = [];
+    getItems();
+  }
+
+  function breadcrumbNavigation(segment: NamedRecord): void {
+    selected = null;
+    path = path.slice(0, path.findIndex((item) => item.id === segment.id) + 1);
+    getItems();
+  }
+
+  function itemNavigation(item: NamedRecord): void {
+    selected = null;
+    path = [...path, item];
+    getItems();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Needed because SMUI doesn't provide types for the event
