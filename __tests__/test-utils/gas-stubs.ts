@@ -1,5 +1,7 @@
 import { jest } from "@jest/globals";
 
+/* eslint-disable @typescript-eslint/naming-convention -- These are stubs for external functions */
+
 export function mockedCommentsCollection(): GoogleAppsScript.Drive.Collection.CommentsCollection {
   return {
     get: jest.fn<
@@ -457,3 +459,5 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
     jsonStringify: jest.fn<(obj: any) => string>(),
   };
 }
+
+/* eslint-enable */

@@ -1,5 +1,5 @@
 export class DriveBackedValue_<T> {
-  private static readonly DriveFolderName = "Shared drive mover cache";
+  private static readonly driveFolderName = "Shared drive mover cache";
 
   private readonly hash: string;
 
@@ -26,7 +26,7 @@ export class DriveBackedValue_<T> {
     const response = Drive.Files!.list({
       q:
         'title = "' +
-        DriveBackedValue_.DriveFolderName +
+        DriveBackedValue_.driveFolderName +
         '" and "root" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
       maxResults: 1,
       fields: "items(id)",
@@ -43,7 +43,7 @@ export class DriveBackedValue_<T> {
   private static createDriveFolder(): string {
     const response = Drive.Files!.insert({
       mimeType: "application/vnd.google-apps.folder",
-      title: DriveBackedValue_.DriveFolderName,
+      title: DriveBackedValue_.driveFolderName,
     });
     return response.id!;
   }
