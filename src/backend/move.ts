@@ -22,7 +22,7 @@ export function move(
   if (sourceID === destinationID) {
     return { status: "error", type: "sourceEqualsDestination" };
   }
-  let isEmpty: boolean;
+  let isEmpty = false;
   try {
     isEmpty = isFolderEmpty_(destinationID);
   } catch (e) {
