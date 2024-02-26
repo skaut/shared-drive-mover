@@ -53,6 +53,7 @@ export async function setup(
         stubbedEndpoints[key] = (
           ...args: Array<google.script.Parameter>
         ): void => {
+          // eslint-disable-next-line playwright/no-unsafe-references -- This isn't actually a reference to the function declared in the global scope (that's just a reference for TS), but a call to the exposed function
           _logEndpointCall(key, args);
           const stub = window._endpointStubs[key].shift()!;
           setTimeout(() => {
