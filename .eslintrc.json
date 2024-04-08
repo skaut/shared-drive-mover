@@ -178,7 +178,7 @@
         "project": null
       },
       "files": [
-        "gulpfile.mjs",
+        "gulpfile.js",
         "backend.webpack.config.js",
         "frontend.webpack.config.js",
         "test.frontend.webpack.config.js",
@@ -190,6 +190,7 @@
         "@typescript-eslint/consistent-type-exports": "off",
         "@typescript-eslint/dot-notation": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/naming-convention": "off",
         "@typescript-eslint/no-array-delete": "off",
         "@typescript-eslint/no-base-to-string": "off",

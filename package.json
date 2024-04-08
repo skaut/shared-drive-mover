@@ -12,6 +12,7 @@
   ],
   "license": "MIT",
   "author": "Marek Dědič",
+  "type": "module",
   "devDependencies": {
     "@google/clasp": "^2.4.2",
     "@material/theme": "^13.0.0",
@@ -78,7 +79,7 @@
     "build": "gulp build",
     "lint:svelte:svelte-check": "svelte-check",
     "lint:svelte": "run-p -c lint:svelte:*",
-    "lint:ts:eslint": "eslint \"src/**/*.svelte\" \"src/**/*.ts\" \"__tests__/**/*.ts\" gulpfile.mjs \"*.config.js\" \"*.config.ts\"",
+    "lint:ts:eslint": "eslint \"src/**/*.svelte\" \"src/**/*.ts\" \"__tests__/**/*.ts\" gulpfile.js \"*.config.js\" \"*.config.ts\"",
     "lint:ts": "run-s -c lint:ts:*",
     "lint": "run-s -c lint:*",
     "start": "webpack serve -c test.frontend.webpack.config.js --mode development --no-client-overlay",

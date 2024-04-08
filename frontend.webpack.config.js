@@ -1,11 +1,10 @@
 /* eslint-env node */
 
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const sveltePreprocess = require("svelte-preprocess");
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import path from "path";
+import sveltePreprocess from "svelte-preprocess";
 
-const path = require("path");
-
-module.exports = (_, options) => ({
+export default (_, options) => ({
   mode: "production",
   plugins: [
     new HtmlWebpackPlugin({
