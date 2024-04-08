@@ -1,9 +1,10 @@
 /* eslint-env node */
 
-const { merge } = require("webpack-merge");
-const prod = require("./frontend.webpack.config.js");
+import { merge } from "webpack-merge";
 
-module.exports = (env, options) =>
+import prod from "./frontend.webpack.config.js";
+
+export default (env, options) =>
   merge(
     {
       module: {

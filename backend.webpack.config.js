@@ -1,8 +1,8 @@
 /* eslint-env node */
 
-const GasPlugin = require("gas-webpack-plugin");
+import GasPlugin from "gas-webpack-plugin";
 
-module.exports = {
+export default {
   mode: "production",
   plugins: [new GasPlugin()],
   module: {
