@@ -57,7 +57,7 @@
     "rimraf": "^5.0.5",
     "sass": "^1.74.1",
     "sass-loader": "^14.2.1",
-    "style-loader": "^3.3.4",
+    "style-loader": "^4.0.0",
     "svelte": "^3.59.2",
     "svelte-check": "^2.10.3",
     "svelte-i18n": "^4.0.0",
