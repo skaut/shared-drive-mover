@@ -23,7 +23,7 @@
     "@smui/dialog": "^6.1.0",
     "@smui/form-field": "^6.0.0",
     "@smui/linear-progress": "^6.1.4",
-    "@smui/list": "^6.0.0",
+    "@smui/list": "^7.0.0",
     "@smui/top-app-bar": "^6.0.0",
     "@types/google-apps-script": "^1.0.83",
     "@types/google.script.client-side": "^0.1.5",
