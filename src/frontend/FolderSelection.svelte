@@ -105,56 +105,62 @@
 <p>
   {$_("steps." + step + ".introduction")}
 </p>
-<List singleSelection>
-  <Separator />
-  <Subheader>
-    <button class="breadcrumb" type="button" on:click={rootNavigation}>
-      {$_("drive.driveList")}
-    </button>
-    {#each path as segment (segment.id)}
-      &nbsp; &gt; &nbsp;
-      <button
-        class="breadcrumb"
-        type="button"
-        on:click={() => {
-          breadcrumbNavigation(segment);
-        }}
-      >
-        {segment.name}
+<div>
+  <List singleSelection>
+    <Separator />
+    <Subheader>
+      <button class="breadcrumb" type="button" on:click={rootNavigation}>
+        {$_("drive.driveList")}
       </button>
-    {/each}
-  </Subheader>
-  <Separator />
-  {#if items === null}
-    <LinearProgress indeterminate />
-  {:else}
-    {#each items as item (item.id)}
-      <Item
-        selected={selected !== null && selected.id === item.id}
-        on:dblclick={() => {
-          itemNavigation(item);
-        }}
-        on:keydown={(e) => {
-          handleItemKeydown(e, item);
-        }}
-        on:SMUI:action={() => {
-          if (selected === item) {
+      {#each path as segment (segment.id)}
+        &nbsp; &gt; &nbsp;
+        <button
+          class="breadcrumb"
+          type="button"
+          on:click={() => {
+            breadcrumbNavigation(segment);
+          }}
+        >
+          {segment.name}
+        </button>
+      {/each}
+    </Subheader>
+    <Separator />
+    {#if items === null}
+      <LinearProgress indeterminate />
+    {:else}
+      {#each items as item (item.id)}
+        <Item
+          selected={selected !== null && selected.id === item.id}
+          on:dblclick={() => {
             itemNavigation(item);
-          } else {
-            selected = item;
-          }
-        }}
-      >
-        <Text>
-          {item.name}
-        </Text>
-      </Item>
-    {/each}
-  {/if}
-  <Separator />
-</List>
+          }}
+          on:keydown={(e) => {
+            handleItemKeydown(e, item);
+          }}
+          on:SMUI:action={() => {
+            if (selected === item) {
+              itemNavigation(item);
+            } else {
+              selected = item;
+            }
+          }}
+        >
+          <Text>
+            {item.name}
+          </Text>
+        </Item>
+      {/each}
+    {/if}
+    <Separator />
+  </List>
+</div>
 
 <style lang="scss">
+  div {
+    user-select: none;
+  }
+
   .breadcrumb {
     border: none;
     background-color: unset;
