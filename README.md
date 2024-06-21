@@ -1,5 +1,9 @@
 # Shared drive mover
-[![GitHub Actions](https://github.com/skaut/shared-drive-mover/workflows/CI/badge.svg)](https://github.com/skaut/shared-drive-mover/actions)
+
+[![GitHub Release](https://img.shields.io/github/v/release/skaut/shared-drive-mover?logo=github)](https://github.com/skaut/shared-drive-mover/releases)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/skaut/shared-drive-mover/CI.yml?branch=master&logo=github)](https://github.com/skaut/shared-drive-mover/actions)
+[![Codecov (with branch)](https://img.shields.io/codecov/c/github/skaut/shared-drive-mover/master?logo=codecov)](https://app.codecov.io/gh/skaut/shared-drive-mover)
+[![GitHub License](https://img.shields.io/github/license/skaut/shared-drive-mover)](https://github.com/skaut/shared-drive-mover/blob/master/LICENSE)
 
 This app enables Google Workspace users to easily move files from their personal drives to a Shared Drive (previously known as a Team Drive).
 
