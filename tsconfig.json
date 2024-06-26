@@ -2,6 +2,7 @@
   "compilerOptions": {
     "module": "es6",
     "moduleResolution": "node",
+    "verbatimModuleSyntax": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
