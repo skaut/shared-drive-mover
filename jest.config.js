@@ -14,7 +14,16 @@ export default {
     {
       displayName: "backend",
       injectGlobals: false,
-      preset: "ts-jest/presets/default-esm",
+      transform: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention -- The key is a glob.
+        "^.+\\.ts$": [
+          "ts-jest",
+          {
+            // ts-jest configuration goes here
+            tsconfig: "backend.tsconfig.json",
+          },
+        ],
+      },
       resetMocks: true,
       testMatch: ["<rootDir>/__tests__/backend/**/*.test.ts"],
     },
