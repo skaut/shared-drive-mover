@@ -29,7 +29,7 @@
     "@types/google.script.client-side": "^0.1.5",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.9",
-    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/eslint-plugin": "^7.16.1",
     "@typescript-eslint/parser": "^7.16.0",
     "css-loader": "^7.1.2",
     "eslint": "^8.57.0",
