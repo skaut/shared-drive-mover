@@ -6,7 +6,6 @@
   "plugins": [
     "deprecation",
     "jest",
-    "prefer-arrow-functions",
     "simple-import-sort",
     "@typescript-eslint"
   ],
@@ -21,12 +20,6 @@
       "error",
       {
         "ignore": ["eslint-enable", "eslint-env"]
-      }
-    ],
-    "prefer-arrow-functions/prefer-arrow-functions": [
-      "error",
-      {
-        "allowNamedFunctions": true
       }
     ],
     "simple-import-sort/imports": "error",

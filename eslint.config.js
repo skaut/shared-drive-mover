@@ -3,6 +3,7 @@ import tseslint from "typescript-eslint";
 import svelteParser from "svelte-eslint-parser";
 import js from "@eslint/js";
 import prettierRecommended from "eslint-plugin-prettier/recommended";
+import preferArrowFunctions from "eslint-plugin-prefer-arrow-functions";
 
 /* eslint-disable @typescript-eslint/naming-convention -- Not applicable to this file */
 
@@ -22,6 +23,9 @@ export default tseslint.config(
           defaultProject: "tsconfig.json",
         },
       },
+    },
+    plugins: {
+      "prefer-arrow-functions": preferArrowFunctions,
     },
     rules: {
       "@typescript-eslint/array-type": ["error", { default: "generic" }],
@@ -124,6 +128,12 @@ export default tseslint.config(
       "no-warning-comments": "warn",
       "object-shorthand": "error",
       "operator-assignment": "error",
+      "prefer-arrow-functions/prefer-arrow-functions": [
+        "error",
+        {
+          allowNamedFunctions: true,
+        },
+      ],
       "prefer-exponentiation-operator": "error",
       "prefer-object-spread": "error",
       "prefer-regex-literals": "error",
