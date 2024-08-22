@@ -15,10 +15,10 @@
   const dispatch = createEventDispatcher<{ next: null; previous: null }>();
 
   $: sourceDisplay =
-    sourcePath.map((segment) => segment.name + "/").join("") +
+    sourcePath.map((segment) => `${segment.name}/`).join("") +
     (source?.name ?? "");
   $: destinationDisplay =
-    destinationPath.map((segment) => segment.name + "/").join("") +
+    destinationPath.map((segment) => `${segment.name}/`).join("") +
     (destination?.name ?? "");
 </script>
 

@@ -103,7 +103,7 @@
 
 <StepHeader {step} />
 <p>
-  {$_("steps." + step + ".introduction")}
+  {$_(`steps.${step}.introduction`)}
 </p>
 <div>
   <List singleSelection>

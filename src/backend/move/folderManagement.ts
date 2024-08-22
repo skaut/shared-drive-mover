@@ -16,11 +16,7 @@ function listFolderContents_(
         maxResults: 1000,
         pageToken: pageToken,
         q:
-          '"' +
-          folderID +
-          '" in parents and mimeType ' +
-          mimeTypeCondition +
-          " and trashed = false",
+          `"${folderID}" in parents and mimeType ${mimeTypeCondition} and trashed = false`,
         supportsAllDrives: true,
       }),
     (response) => response.items!,
@@ -50,7 +46,7 @@ export function isFolderEmpty_(folderID: string): boolean {
     fields: "items(id)",
     includeItemsFromAllDrives: true,
     maxResults: 1,
-    q: '"' + folderID + '" in parents and trashed = false',
+    q: `"${folderID}" in parents and trashed = false`,
     supportsAllDrives: true,
   });
   return response.items!.length === 0;

@@ -10,7 +10,7 @@ export class DriveBackedValue_<T> {
       Utilities.Charset.US_ASCII,
     )
       .map((byte) => (byte < 0 ? byte + 256 : byte).toString(16))
-      .map((s) => (s.length < 2 ? "0" + s : s))
+      .map((s) => (s.length < 2 ? `0${s}` : s))
       .join("");
   }
 
@@ -27,9 +27,7 @@ export class DriveBackedValue_<T> {
       fields: "items(id)",
       maxResults: 1,
       q:
-        'title = "' +
-        DriveBackedValue_.driveFolderName +
-        '" and "root" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
+        `title = "${DriveBackedValue_.driveFolderName}" and "root" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false`,
     });
     if (
       response.items!.length === 1 &&
@@ -56,7 +54,7 @@ export class DriveBackedValue_<T> {
     const response = Drive.Files!.list({
       fields: "items(id)",
       maxResults: 1,
-      q: '"' + folderId + '" in parents and trashed = false',
+      q: `"${folderId}" in parents and trashed = false`,
     });
     return response.items!.length === 0;
   }
@@ -106,11 +104,7 @@ export class DriveBackedValue_<T> {
       fields: "items(id)",
       maxResults: 1,
       q:
-        'title = "' +
-        this.getFileName() +
-        '" and "' +
-        folderId +
-        '" in parents and trashed = false',
+        `title = "${this.getFileName()}" and "${folderId}" in parents and trashed = false`,
     });
     if (
       response.items!.length === 1 &&
@@ -149,6 +143,6 @@ export class DriveBackedValue_<T> {
   }
 
   private getFileName(): string {
-    return "shared-drive-mover-state-" + this.hash + ".json";
+    return `shared-drive-mover-state-${this.hash}.json`;
   }
 }

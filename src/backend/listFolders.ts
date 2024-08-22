@@ -19,9 +19,7 @@ export function listFolders(parentID: google.script.Parameter): ListResponse {
           maxResults: 1000,
           pageToken: pageToken,
           q:
-            '"' +
-            parentID +
-            '" in parents and (mimeType = "application/vnd.google-apps.folder" or (mimeType = "application/vnd.google-apps.shortcut" and shortcutDetails.targetMimeType = "application/vnd.google-apps.folder")) and trashed = false',
+            `"${parentID}" in parents and (mimeType = "application/vnd.google-apps.folder" or (mimeType = "application/vnd.google-apps.shortcut" and shortcutDetails.targetMimeType = "application/vnd.google-apps.folder")) and trashed = false`,
           supportsAllDrives: true,
         }),
       (listResponse) =>

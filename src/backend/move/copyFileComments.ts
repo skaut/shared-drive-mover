@@ -26,7 +26,7 @@ export function copyFileComments_(
   for (const comment of comments) {
     if (comment.author?.isAuthenticatedUser !== true) {
       comment.content =
-        "*" + comment.author!.displayName! + ":*\n" + comment.content!;
+        `*${comment.author!.displayName!}:*\n${comment.content!}`;
     }
     const replies = comment.replies!;
     delete comment.replies;
@@ -34,7 +34,7 @@ export function copyFileComments_(
     for (const reply of replies) {
       if (reply.author?.isAuthenticatedUser !== true) {
         reply.content =
-          "*" + reply.author!.displayName! + ":*\n" + reply.content!;
+          `*${reply.author!.displayName!}:*\n${reply.content!}`;
       }
       Drive.Replies!.insert(reply, destinationID, commentId);
     }
