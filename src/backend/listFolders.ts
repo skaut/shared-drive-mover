@@ -17,7 +17,7 @@ export function listFolders(parentID: google.script.Parameter): ListResponse {
             "nextPageToken, items(id, title, mimeType, shortcutDetails(targetId))",
           includeItemsFromAllDrives: true,
           maxResults: 1000,
-          pageToken: pageToken,
+          pageToken,
           q:
             `"${parentID}" in parents and (mimeType = "application/vnd.google-apps.folder" or (mimeType = "application/vnd.google-apps.shortcut" and shortcutDetails.targetMimeType = "application/vnd.google-apps.folder")) and trashed = false`,
           supportsAllDrives: true,

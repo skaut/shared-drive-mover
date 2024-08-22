@@ -12,7 +12,7 @@ function listFileComments_(
         fields:
           "nextPageToken, items(author(isAuthenticatedUser, displayName), content, status, context, anchor, replies(author(isAuthenticatedUser, displayName), content, verb))",
         maxResults: 100,
-        pageToken: pageToken,
+        pageToken,
       }),
     (response) => response.items!,
   );

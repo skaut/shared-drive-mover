@@ -14,7 +14,7 @@ function listFolderContents_(
           "nextPageToken, items(id, title, capabilities(canMoveItemOutOfDrive))",
         includeItemsFromAllDrives: true,
         maxResults: 1000,
-        pageToken: pageToken,
+        pageToken,
         q:
           `"${folderID}" in parents and mimeType ${mimeTypeCondition} and trashed = false`,
         supportsAllDrives: true,

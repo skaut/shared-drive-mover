@@ -13,7 +13,7 @@ export function listSharedDrives(): ListResponse {
           fields: "nextPageToken, items(id, name)",
           maxResults: 100,
           orderBy: "name",
-          pageToken: pageToken,
+          pageToken,
         }),
       (listRepsonse) =>
         listRepsonse.items!.map((item) => ({ id: item.id!, name: item.name! })),
