@@ -5,11 +5,9 @@
   },
   "plugins": [
     "deprecation",
-    "@typescript-eslint"
   ],
   "rules": {
     "deprecation/deprecation": "warn",
-    "@typescript-eslint/sort-type-constituents": "error"
   },
   "overrides": [
     {

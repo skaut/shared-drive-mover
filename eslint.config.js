@@ -2,10 +2,10 @@ import js from "@eslint/js";
 import eslintComments from "@eslint-community/eslint-plugin-eslint-comments";
 import commentsConfig from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import jest from "eslint-plugin-jest";
+import perfectionist from "eslint-plugin-perfectionist";
 import playwright from "eslint-plugin-playwright";
 import preferArrowFunctions from "eslint-plugin-prefer-arrow-functions";
 import prettierRecommended from "eslint-plugin-prettier/recommended";
-import simpleImportSort from "eslint-plugin-simple-import-sort";
 import svelte from "eslint-plugin-svelte";
 import svelteParser from "svelte-eslint-parser";
 import tseslint from "typescript-eslint";
@@ -20,6 +20,7 @@ export default tseslint.config(
   ...tseslint.configs.stylisticTypeChecked,
   ...svelte.configs["flat/recommended"],
   ...svelte.configs["flat/prettier"],
+  perfectionist.configs["recommended-natural"],
   {
     languageOptions: {
       parserOptions: {
@@ -35,7 +36,6 @@ export default tseslint.config(
       jest,
       playwright,
       "prefer-arrow-functions": preferArrowFunctions,
-      "simple-import-sort": simpleImportSort,
     },
     rules: {
       "@typescript-eslint/array-type": ["error", { default: "generic" }],
@@ -47,7 +47,6 @@ export default tseslint.config(
       "@typescript-eslint/explicit-member-accessibility": "error",
       "@typescript-eslint/explicit-module-boundary-types": "error",
       "@typescript-eslint/init-declarations": "error",
-      "@typescript-eslint/member-ordering": "error",
       "@typescript-eslint/method-signature-style": ["error", "method"],
       "@typescript-eslint/naming-convention": [
         "error",
@@ -145,6 +144,27 @@ export default tseslint.config(
       "no-warning-comments": "warn",
       "object-shorthand": "error",
       "operator-assignment": "error",
+      "perfectionist/sort-svelte-attributes": "off",
+      "perfectionist/sort-union-types": [
+        "error",
+        {
+          groups: [
+            "literal",
+            "function",
+            "import",
+            "operator",
+            "conditional",
+            "object",
+            "tuple",
+            "intersection",
+            "union",
+            "named",
+            "keyword",
+            "nullish",
+            "unknown",
+          ],
+        },
+      ],
       "prefer-arrow-functions/prefer-arrow-functions": [
         "error",
         {
@@ -158,9 +178,6 @@ export default tseslint.config(
       radix: "error",
       "require-atomic-updates": "error",
       "require-unicode-regexp": "error",
-      "simple-import-sort/exports": "error",
-      "simple-import-sort/imports": "error",
-      "sort-keys": "error",
       strict: ["error", "never"],
       "svelte/block-lang": [
         "error",
@@ -296,6 +313,7 @@ export default tseslint.config(
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-unnecessary-condition": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/no-unsafe-call": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
