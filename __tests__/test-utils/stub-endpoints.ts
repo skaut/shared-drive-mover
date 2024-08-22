@@ -50,6 +50,9 @@ export async function setup(
     ): Record<string, () => void> {
       const stubbedEndpoints: Record<string, () => void> = {};
       for (const key in window._endpointStubs) {
+        if (!Object.prototype.hasOwnProperty.call(window._endpointStubs, key)) {
+          continue;
+        }
         stubbedEndpoints[key] = (
           ...args: Array<google.script.Parameter>
         ): void => {
