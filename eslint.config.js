@@ -3,6 +3,8 @@ import tseslint from 'typescript-eslint';
 import svelteParser from "svelte-eslint-parser";
 import js from "@eslint/js";
 
+/* eslint-disable @typescript-eslint/naming-convention -- Not applicable to this file */
+
 export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
@@ -21,8 +23,63 @@ export default tseslint.config(
     },
     rules: {
       "@typescript-eslint/array-type": ["error", { "default": "generic" }],
+      "@typescript-eslint/class-methods-use-this": "error",
+      "@typescript-eslint/consistent-type-exports": "error",
+      "@typescript-eslint/consistent-type-imports": "error",
+      "@typescript-eslint/default-param-last": "error",
+      "@typescript-eslint/explicit-function-return-type": "error",
+      "@typescript-eslint/explicit-member-accessibility": "error",
+      "@typescript-eslint/explicit-module-boundary-types": "error",
+      "@typescript-eslint/init-declarations": "error",
+      "@typescript-eslint/member-ordering": "error",
+      "@typescript-eslint/method-signature-style": ["error", "method"],
+      "@typescript-eslint/naming-convention": [
+        "error",
+        {
+          "filter": {
+            "match": false,
+            "regex": "^(Comments|Drives|Files|Replies)$",
+          },
+          "format": ["camelCase"],
+          "leadingUnderscore": "allow",
+          "selector": "default",
+          "trailingUnderscore": "allow",
+        },
+        {
+          "format": ["camelCase", "PascalCase"],
+          "selector": "import",
+        },
+        {
+          "format": ["camelCase", "UPPER_CASE"],
+          "leadingUnderscore": "allow",
+          "selector": "variable",
+          "trailingUnderscore": "allow",
+        },
+        {
+          "custom": {
+            "match": true,
+            "regex": "^(?:[A-Z][A-Za-z]*_?)?$",
+          },
+          "format": null,
+          "selector": "typeLike",
+        }
+      ],
+      "@typescript-eslint/no-import-type-side-effects": "error",
       "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/no-shadow": "error",
+      "@typescript-eslint/no-unnecessary-parameter-property-assignment": "error",
+      "@typescript-eslint/no-unnecessary-qualifier": "error",
       "@typescript-eslint/no-unused-vars": ["error", { caughtErrors: "none" }],
+      "@typescript-eslint/no-use-before-define": "error",
+      "@typescript-eslint/no-useless-empty-export": "error",
+      "@typescript-eslint/parameter-properties": "error",
+      "@typescript-eslint/prefer-enum-initializers": "error",
+      "@typescript-eslint/prefer-readonly": "error",
+      "@typescript-eslint/promise-function-async": "error",
+      "@typescript-eslint/require-array-sort-compare": "error",
+      "@typescript-eslint/strict-boolean-expressions": "error",
+      "@typescript-eslint/switch-exhaustiveness-check": "error",
+      "@typescript-eslint/typedef": "error",
       "array-callback-return": "error",
       "arrow-body-style": ["error", "as-needed"],
       "block-scoped-var": "error",
@@ -86,10 +143,22 @@ export default tseslint.config(
         parser: tseslint.parser,
       },
     },
+    rules: {
+      "@typescript-eslint/init-declarations": "off",
+    },
+    settings: {
+      svelte: {
+        ignoreWarnings: [
+          '@typescript-eslint/explicit-function-return-type',
+        ],
+      }
+    },
   },
   {
     files: ["**/*.js"],
     rules: {
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-unnecessary-condition": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/no-unsafe-call": "off",
