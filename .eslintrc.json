@@ -12,7 +12,6 @@
   ],
   "extends": [
     "plugin:@eslint-community/eslint-comments/recommended",
-    "plugin:prettier/recommended",
     "plugin:svelte/prettier"
   ],
   "rules": {

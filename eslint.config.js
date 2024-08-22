@@ -2,11 +2,13 @@ import eslintPluginSvelte from 'eslint-plugin-svelte';
 import tseslint from 'typescript-eslint';
 import svelteParser from "svelte-eslint-parser";
 import js from "@eslint/js";
+import prettierRecommended from "eslint-plugin-prettier/recommended";
 
 /* eslint-disable @typescript-eslint/naming-convention -- Not applicable to this file */
 
 export default tseslint.config(
   js.configs.recommended,
+  prettierRecommended,
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
   ...eslintPluginSvelte.configs['flat/recommended'],
