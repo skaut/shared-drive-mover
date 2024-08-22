@@ -95,12 +95,12 @@ export async function setup(
         },
         host: {
           close: (): void => {},
-          setHeight: (): void => {},
-          setWidth: (): void => {},
-          origin: "",
           editor: {
             focus: (): void => {},
           },
+          origin: "",
+          setHeight: (): void => {},
+          setWidth: (): void => {},
         },
         run: run as Run,
         url: {

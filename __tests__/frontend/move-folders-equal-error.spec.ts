@@ -12,11 +12,11 @@ test("works with source and destination folders being equal", async ({
     window._endpointStubs.listSharedDrives = [
       {
         status: "success",
-        value: { status: "success", response: [] },
+        value: { response: [], status: "success" },
       },
       {
         status: "success",
-        value: { status: "success", response: [] },
+        value: { response: [], status: "success" },
       },
     ];
     window._endpointStubs.move = [

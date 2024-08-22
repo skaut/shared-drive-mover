@@ -9,10 +9,10 @@ function listFileComments_(
   >(
     (pageToken) =>
       Drive.Comments!.list(fileID, {
-        maxResults: 100,
-        pageToken: pageToken,
         fields:
           "nextPageToken, items(author(isAuthenticatedUser, displayName), content, status, context, anchor, replies(author(isAuthenticatedUser, displayName), content, verb))",
+        maxResults: 100,
+        pageToken: pageToken,
       }),
     (response) => response.items!,
   );

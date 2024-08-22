@@ -19,10 +19,10 @@ test("MoveState constructs correctly", () => {
   expect(mocked(DriveBackedValue_).mock.calls).toHaveLength(1);
   expect(mocked(DriveBackedValue_).mock.calls[0][0]).toBe(
     JSON.stringify({
-      sourceID: "SRC_BASE_ID",
-      destinationID: "DEST_BASE_ID",
       copyComments: false,
+      destinationID: "DEST_BASE_ID",
       mergeFolders: false,
+      sourceID: "SRC_BASE_ID",
     }),
   );
   expect(state.getNextPath()).toBeNull();
@@ -40,9 +40,9 @@ test("MoveState correctly reports itialized state", () => {
   state.addPath("SRC_ID", "DEST_ID", []);
   expect(state.isNull()).toBe(false);
   expect(state.getNextPath()).toStrictEqual({
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: [],
+    sourceID: "SRC_ID",
   });
 });
 
@@ -52,14 +52,14 @@ test("MoveState correctly reports last added path", () => {
   state.addPath("SRC_ID2", "DEST_ID2", ["PATH", "TO", "FIRST", "FOLDER"]);
   state.addPath("SRC_ID3", "DEST_ID3", ["ANOTHER", "DIRECTORY"]);
   expect(state.getNextPath()).toStrictEqual({
-    sourceID: "SRC_ID3",
     destinationID: "DEST_ID3",
     path: ["ANOTHER", "DIRECTORY"],
+    sourceID: "SRC_ID3",
   });
   expect(state.getNextPath()).toStrictEqual({
-    sourceID: "SRC_ID3",
     destinationID: "DEST_ID3",
     path: ["ANOTHER", "DIRECTORY"],
+    sourceID: "SRC_ID3",
   });
 });
 
@@ -69,34 +69,34 @@ test("MoveState correctly removes paths", () => {
   state.addPath("SRC_ID2", "DEST_ID2", ["PATH", "TO", "FIRST", "FOLDER"]);
   state.addPath("SRC_ID3", "DEST_ID3", ["ANOTHER", "DIRECTORY"]);
   expect(state.getNextPath()).toStrictEqual({
-    sourceID: "SRC_ID3",
     destinationID: "DEST_ID3",
     path: ["ANOTHER", "DIRECTORY"],
+    sourceID: "SRC_ID3",
   });
   state.removePath({
-    sourceID: "SRC_ID2",
     destinationID: "DEST_ID2",
     path: ["PATH", "TO", "FIRST", "FOLDER"],
+    sourceID: "SRC_ID2",
   });
   expect(state.getNextPath()).toStrictEqual({
-    sourceID: "SRC_ID3",
     destinationID: "DEST_ID3",
     path: ["ANOTHER", "DIRECTORY"],
+    sourceID: "SRC_ID3",
   });
   state.removePath({
-    sourceID: "SRC_ID3",
     destinationID: "DEST_ID3",
     path: ["ANOTHER", "DIRECTORY"],
+    sourceID: "SRC_ID3",
   });
   expect(state.getNextPath()).toStrictEqual({
-    sourceID: "SRC_ID1",
     destinationID: "DEST_ID1",
     path: [],
+    sourceID: "SRC_ID1",
   });
   state.removePath({
-    sourceID: "SRC_ID1",
     destinationID: "DEST_ID1",
     path: [],
+    sourceID: "SRC_ID1",
   });
   expect(state.getNextPath()).toBeNull();
 });
@@ -105,29 +105,29 @@ test("MoveState doesn't fail on invalid path removal", () => {
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
   expect(() => {
     state.removePath({
-      sourceID: "SRC_ID1",
       destinationID: "DEST_ID1",
       path: [],
+      sourceID: "SRC_ID1",
     });
   }).not.toThrow();
   state.addPath("SRC_ID1", "DEST_ID1", []);
   expect(() => {
     state.removePath({
-      sourceID: "SRC_ID2",
       destinationID: "DEST_ID2",
       path: [],
+      sourceID: "SRC_ID2",
     });
   }).not.toThrow();
   state.removePath({
-    sourceID: "SRC_ID1",
     destinationID: "DEST_ID1",
     path: [],
+    sourceID: "SRC_ID1",
   });
   expect(() => {
     state.removePath({
-      sourceID: "SRC_ID1",
       destinationID: "DEST_ID1",
       path: [],
+      sourceID: "SRC_ID1",
     });
   }).not.toThrow();
 });
@@ -135,12 +135,12 @@ test("MoveState doesn't fail on invalid path removal", () => {
 test("MoveState logs errors", () => {
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
   const error1 = {
-    file: ["PATH", "TO", "FILE1"],
     error: "ERROR_MESSAGE1",
+    file: ["PATH", "TO", "FILE1"],
   };
   const error2 = {
-    file: ["PATH", "TO", "FILE2"],
     error: "ERROR_MESSAGE2",
+    file: ["PATH", "TO", "FILE2"],
   };
   state.logError(error1.file, error1.error);
   state.logError(error2.file, error2.error);
@@ -150,9 +150,9 @@ test("MoveState logs errors", () => {
 
 test("MoveState.tryOrLog works correctly", () => {
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
 
@@ -166,9 +166,9 @@ test("MoveState.tryOrLog works correctly", () => {
 
 test("MoveState.tryOrLog returns values correctly", () => {
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
 
@@ -181,9 +181,9 @@ test("MoveState.tryOrLog returns values correctly", () => {
 
 test("MoveState.tryOrLog handles errors gracefully", () => {
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
 
@@ -203,9 +203,9 @@ test("MoveState.tryOrLog handles errors gracefully", () => {
 
 test("MoveState.tryOrLog handles errors gracefully with a filename", () => {
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
 
@@ -232,12 +232,12 @@ test("MoveState saves the state correctly", () => {
   state.addPath("SRC_ID2", "DEST_ID2", ["PATH", "TO", "FIRST", "FOLDER"]);
   state.addPath("SRC_ID3", "DEST_ID3", ["ANOTHER", "DIRECTORY"]);
   const error1 = {
-    file: ["PATH", "TO", "FILE1"],
     error: "ERROR_MESSAGE1",
+    file: ["PATH", "TO", "FILE1"],
   };
   const error2 = {
-    file: ["PATH", "TO", "FILE2"],
     error: "ERROR_MESSAGE2",
+    file: ["PATH", "TO", "FILE2"],
   };
   state.logError(error1.file, error1.error);
   state.logError(error2.file, error2.error);
@@ -249,20 +249,20 @@ test("MoveState saves the state correctly", () => {
   ).toHaveLength(3);
   expect(
     driveBackedValueMock.saveValue.mock.calls[0][0].pathsToProcess[0],
-  ).toStrictEqual({ sourceID: "SRC_ID1", destinationID: "DEST_ID1", path: [] });
+  ).toStrictEqual({ destinationID: "DEST_ID1", path: [], sourceID: "SRC_ID1" });
   expect(
     driveBackedValueMock.saveValue.mock.calls[0][0].pathsToProcess[1],
   ).toStrictEqual({
-    sourceID: "SRC_ID2",
     destinationID: "DEST_ID2",
     path: ["PATH", "TO", "FIRST", "FOLDER"],
+    sourceID: "SRC_ID2",
   });
   expect(
     driveBackedValueMock.saveValue.mock.calls[0][0].pathsToProcess[2],
   ).toStrictEqual({
-    sourceID: "SRC_ID3",
     destinationID: "DEST_ID3",
     path: ["ANOTHER", "DIRECTORY"],
+    sourceID: "SRC_ID3",
   });
   expect(driveBackedValueMock.saveValue.mock.calls[0][0].errors).toHaveLength(
     2,
@@ -288,21 +288,21 @@ test("MoveState doesn't save empty state", () => {
 test("MoveState loads the state correctly", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
   const path = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
   const error1 = {
-    file: ["PATH", "TO", "FILE1"],
     error: "ERROR_MESSAGE1",
+    file: ["PATH", "TO", "FILE1"],
   };
   const error2 = {
-    file: ["PATH", "TO", "FILE2"],
     error: "ERROR_MESSAGE2",
+    file: ["PATH", "TO", "FILE2"],
   };
   driveBackedValueMock.loadValue.mockReturnValueOnce({
-    pathsToProcess: [path],
     errors: [error1, error2],
+    pathsToProcess: [path],
   });
   mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 

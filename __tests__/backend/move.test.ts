@@ -19,9 +19,9 @@ test("move works correctly", () => {
   const moveStateMock = mockedMoveState();
   moveStateMock.getNextPath
     .mockReturnValueOnce({
-      sourceID: "SRC_ID",
       destinationID: "DEST_ID",
       path: [],
+      sourceID: "SRC_ID",
     })
     .mockReturnValue(null);
   moveStateMock.getErrors.mockReturnValueOnce([]);
@@ -29,10 +29,10 @@ test("move works correctly", () => {
   mocked(MoveState_).mockReturnValue(moveStateMock);
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
-    status: "success",
     response: {
       errors: [],
     },
+    status: "success",
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -73,24 +73,24 @@ test("move works correctly with subfolders", () => {
   const moveStateMock = mockedMoveState();
   moveStateMock.getNextPath
     .mockReturnValueOnce({
-      sourceID: "SRC_ID",
       destinationID: "DEST_ID",
       path: [],
+      sourceID: "SRC_ID",
     })
     .mockReturnValueOnce({
-      sourceID: "SUB1_SRC_ID",
       destinationID: "SUB1_DEST_ID",
       path: ["SUBFOLDER1"],
+      sourceID: "SUB1_SRC_ID",
     })
     .mockReturnValueOnce({
-      sourceID: "SUB2_SRC_ID",
       destinationID: "SUB2_DEST_ID",
       path: ["SUBFOLDER2"],
+      sourceID: "SUB2_SRC_ID",
     })
     .mockReturnValueOnce({
-      sourceID: "SUB3_SRC_ID",
       destinationID: "SUB3_DEST_ID",
       path: ["PATH", "TO", "SOME", "DEEP", "SUBFOLDER3"],
+      sourceID: "SUB3_SRC_ID",
     })
     .mockReturnValue(null);
   moveStateMock.getErrors.mockReturnValueOnce([]);
@@ -98,10 +98,10 @@ test("move works correctly with subfolders", () => {
   mocked(MoveState_).mockReturnValue(moveStateMock);
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
-    status: "success",
     response: {
       errors: [],
     },
+    status: "success",
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -179,9 +179,9 @@ test("move passes copyComments correctly", () => {
   const moveStateMock = mockedMoveState();
   moveStateMock.getNextPath
     .mockReturnValueOnce({
-      sourceID: "SRC_ID",
       destinationID: "DEST_ID",
       path: [],
+      sourceID: "SRC_ID",
     })
     .mockReturnValue(null);
   moveStateMock.getErrors.mockReturnValueOnce([]);
@@ -189,10 +189,10 @@ test("move passes copyComments correctly", () => {
   mocked(MoveState_).mockReturnValue(moveStateMock);
 
   expect(move("SRC_ID", "DEST_ID", true, false, false)).toStrictEqual({
-    status: "success",
     response: {
       errors: [],
     },
+    status: "success",
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -233,9 +233,9 @@ test("move passes mergeFolders correctly", () => {
   const moveStateMock = mockedMoveState();
   moveStateMock.getNextPath
     .mockReturnValueOnce({
-      sourceID: "SRC_ID",
       destinationID: "DEST_ID",
       path: [],
+      sourceID: "SRC_ID",
     })
     .mockReturnValue(null);
   moveStateMock.getErrors.mockReturnValueOnce([]);
@@ -243,10 +243,10 @@ test("move passes mergeFolders correctly", () => {
   mocked(MoveState_).mockReturnValue(moveStateMock);
 
   expect(move("SRC_ID", "DEST_ID", false, true, false)).toStrictEqual({
-    status: "success",
     response: {
       errors: [],
     },
+    status: "success",
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -346,9 +346,9 @@ test("move doesn't care about non-empty destination directory when resuming from
   const moveStateMock = mockedMoveState();
   moveStateMock.getNextPath
     .mockReturnValueOnce({
-      sourceID: "SRC_ID",
       destinationID: "DEST_ID",
       path: [],
+      sourceID: "SRC_ID",
     })
     .mockReturnValue(null);
   moveStateMock.getErrors.mockReturnValueOnce([]);
@@ -356,10 +356,10 @@ test("move doesn't care about non-empty destination directory when resuming from
   mocked(MoveState_).mockReturnValue(moveStateMock);
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
-    status: "success",
     response: {
       errors: [],
     },
+    status: "success",
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -397,9 +397,9 @@ test("move works correctly with non-empty override", () => {
   const moveStateMock = mockedMoveState();
   moveStateMock.getNextPath
     .mockReturnValueOnce({
-      sourceID: "SRC_ID",
       destinationID: "DEST_ID",
       path: [],
+      sourceID: "SRC_ID",
     })
     .mockReturnValue(null);
   moveStateMock.getErrors.mockReturnValueOnce([]);
@@ -407,10 +407,10 @@ test("move works correctly with non-empty override", () => {
   mocked(MoveState_).mockReturnValue(moveStateMock);
 
   expect(move("SRC_ID", "DEST_ID", false, false, true)).toStrictEqual({
-    status: "success",
     response: {
       errors: [],
     },
+    status: "success",
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
@@ -472,15 +472,15 @@ test("move fails gracefully on invalid parameter types", () => {
 test("move fails gracefully on error while moving", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(true);
   const error = {
-    file: ["PATH", "TO", "FILE"],
     error: "ERROR_MESSAGE",
+    file: ["PATH", "TO", "FILE"],
   };
   const moveStateMock = mockedMoveState();
   moveStateMock.getNextPath
     .mockReturnValueOnce({
-      sourceID: "SRC_ID",
       destinationID: "DEST_ID",
       path: [],
+      sourceID: "SRC_ID",
     })
     .mockReturnValue(null);
   moveStateMock.getErrors.mockReturnValueOnce([error]);
@@ -495,10 +495,10 @@ test("move fails gracefully on error while moving", () => {
     .mockImplementationOnce(() => {});
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
-    status: "success",
     response: {
       errors: [error],
     },
+    status: "success",
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);

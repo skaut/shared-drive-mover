@@ -59,5 +59,5 @@ export function move(
     console.error(errors);
   }
   state.destroyState();
-  return { status: "success", response: { errors: errors } };
+  return { response: { errors: errors }, status: "success" };
 }

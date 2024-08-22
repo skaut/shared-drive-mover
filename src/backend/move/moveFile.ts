@@ -5,9 +5,9 @@ import { copyFileComments_ } from "./copyFileComments";
 function moveFileDirectly_(fileID: string, context: MoveContext): void {
   Drive.Files!.update({}, fileID, null, {
     addParents: context.destinationID,
+    fields: "",
     removeParents: context.sourceID,
     supportsAllDrives: true,
-    fields: "",
   });
 }
 
@@ -27,7 +27,7 @@ function moveFileByCopy_(
           title: name,
         },
         fileID,
-        { supportsAllDrives: true, fields: "id" },
+        { fields: "id", supportsAllDrives: true },
       );
       if (copyComments) {
         copyFileComments_(fileID, copy.id!);

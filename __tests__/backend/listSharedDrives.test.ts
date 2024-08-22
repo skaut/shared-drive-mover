@@ -34,7 +34,7 @@ test("listSharedDrives works correctly", () => {
     },
   };
 
-  expect(listSharedDrives()).toStrictEqual({ status: "success", response });
+  expect(listSharedDrives()).toStrictEqual({ response, status: "success" });
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.pageToken).toBeUndefined();

@@ -10,17 +10,17 @@ test("works with basic configuration", async ({ page }) => {
     window._endpointStubs.listSharedDrives = [
       {
         status: "success",
-        value: { status: "success", response: [] },
+        value: { response: [], status: "success" },
       },
       {
         status: "success",
-        value: { status: "success", response: [] },
+        value: { response: [], status: "success" },
       },
     ];
     window._endpointStubs.move = [
       {
         status: "success",
-        value: { status: "success", response: { errors: [] } },
+        value: { response: { errors: [] }, status: "success" },
       },
     ];
   });

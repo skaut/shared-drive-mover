@@ -25,7 +25,7 @@
 <StepHeader step="confirmation" />
 <p>
   {$_("steps.confirmation.introduction", {
-    values: { source: sourceDisplay, destination: destinationDisplay },
+    values: { destination: destinationDisplay, source: sourceDisplay },
   })}
 </p>
 <BackButton on:previous={() => dispatch("previous")} />

@@ -20,14 +20,14 @@ test("listFilesInFolder works correctly", () => {
 
   const items = [
     {
+      capabilities: { canMoveItemOutOfDrive: true },
       id: "FILE1_ID",
       title: "FILE1_TITLE",
-      capabilities: { canMoveItemOutOfDrive: true },
     },
     {
+      capabilities: { canMoveItemOutOfDrive: false },
       id: "FILE2_ID",
       title: "FILE2_TITLE",
-      capabilities: { canMoveItemOutOfDrive: false },
     },
   ];
   const rawResponse = {
@@ -77,14 +77,14 @@ test("listFoldersInFolder works correctly", () => {
 
   const items = [
     {
+      capabilities: { canMoveItemOutOfDrive: true },
       id: "FILE1_ID",
       title: "FILE1_TITLE",
-      capabilities: { canMoveItemOutOfDrive: true },
     },
     {
+      capabilities: { canMoveItemOutOfDrive: false },
       id: "FILE2_ID",
       title: "FILE2_TITLE",
-      capabilities: { canMoveItemOutOfDrive: false },
     },
   ];
   const rawResponse = {

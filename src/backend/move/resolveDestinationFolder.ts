@@ -24,11 +24,11 @@ export function resolveDestinationFolder_(
   }
   return Drive.Files!.insert(
     {
+      mimeType: "application/vnd.google-apps.folder",
       parents: [{ id: context.destinationID }],
       title: sourceFolder.title!,
-      mimeType: "application/vnd.google-apps.folder",
     },
     undefined,
-    { supportsAllDrives: true, fields: "id" },
+    { fields: "id", supportsAllDrives: true },
   );
 }

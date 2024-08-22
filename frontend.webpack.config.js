@@ -3,14 +3,10 @@ import path from "path";
 import sveltePreprocess from "svelte-preprocess";
 
 export default (_, options) => ({
+  entry: {
+    index: "./src/frontend/index.ts",
+  },
   mode: "production",
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "src/frontend/index.html",
-      minify: false,
-      inject: false,
-    }),
-  ],
   module: {
     rules: [
       {
@@ -19,8 +15,8 @@ export default (_, options) => ({
           loader: "svelte-loader",
           options: {
             preprocess: sveltePreprocess({
-              tsconfigFile: "./frontend.tsconfig.json",
               sourceMap: options.mode === "development",
+              tsconfigFile: "./frontend.tsconfig.json",
             }),
           },
         },
@@ -55,6 +51,20 @@ export default (_, options) => ({
       },
     ],
   },
+  output: {
+    filename: "[name].js",
+    publicPath: "",
+  },
+  performance: {
+    hints: false,
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      inject: false,
+      minify: false,
+      template: "src/frontend/index.html",
+    }),
+  ],
   resolve: {
     alias: {
       svelte: path.resolve("node_modules", "svelte/src/runtime"),
@@ -62,15 +72,5 @@ export default (_, options) => ({
     conditionNames: ["svelte", "require", "node"],
     extensions: [".ts", ".js", ".svelte"],
     mainFields: ["svelte", "browser", "module", "main"],
-  },
-  entry: {
-    index: "./src/frontend/index.ts",
-  },
-  output: {
-    filename: "[name].js",
-    publicPath: "",
-  },
-  performance: {
-    hints: false,
   },
 });

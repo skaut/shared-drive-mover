@@ -56,8 +56,8 @@ test("copyFileComments works correctly", () => {
     ...mockedDrive(),
     Comments: {
       ...mockedCommentsCollection(),
-      list,
       insert,
+      list,
     },
   };
 
@@ -137,8 +137,8 @@ test("copyFileComments works correctly with replies", () => {
     ...mockedDrive(),
     Comments: {
       ...mockedCommentsCollection(),
-      list,
       insert: insertComment,
+      list,
     },
     Replies: {
       ...mockedRepliesCollection(),

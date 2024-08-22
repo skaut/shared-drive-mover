@@ -10,17 +10,17 @@ export function listSharedDrives(): ListResponse {
     >(
       (pageToken) =>
         Drive.Drives!.list({
-          pageToken: pageToken,
+          fields: "nextPageToken, items(id, name)",
           maxResults: 100,
           orderBy: "name",
-          fields: "nextPageToken, items(id, name)",
+          pageToken: pageToken,
         }),
       (listRepsonse) =>
         listRepsonse.items!.map((item) => ({ id: item.id!, name: item.name! })),
     );
     return {
-      status: "success",
       response,
+      status: "success",
     };
   } catch (e) {
     return { status: "error", type: "DriveAPIError" };

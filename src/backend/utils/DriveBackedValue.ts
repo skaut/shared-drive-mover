@@ -24,12 +24,12 @@ export class DriveBackedValue_<T> {
 
   private static getExistingDriveFolderId(): string | null {
     const response = Drive.Files!.list({
+      fields: "items(id)",
+      maxResults: 1,
       q:
         'title = "' +
         DriveBackedValue_.driveFolderName +
         '" and "root" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false',
-      maxResults: 1,
-      fields: "items(id)",
     });
     if (
       response.items!.length === 1 &&
@@ -54,9 +54,9 @@ export class DriveBackedValue_<T> {
 
   private static isExistingDriveFolderEmpty(folderId: string): boolean {
     const response = Drive.Files!.list({
-      q: '"' + folderId + '" in parents and trashed = false',
-      maxResults: 1,
       fields: "items(id)",
+      maxResults: 1,
+      q: '"' + folderId + '" in parents and trashed = false',
     });
     return response.items!.length === 0;
   }
@@ -103,14 +103,14 @@ export class DriveBackedValue_<T> {
 
   private getExistingDriveFileId(folderId: string): string | null {
     const response = Drive.Files!.list({
+      fields: "items(id)",
+      maxResults: 1,
       q:
         'title = "' +
         this.getFileName() +
         '" and "' +
         folderId +
         '" in parents and trashed = false',
-      maxResults: 1,
-      fields: "items(id)",
     });
     if (
       response.items!.length === 1 &&

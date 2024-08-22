@@ -11,14 +11,13 @@ test("works with folder selection", async ({ page }) => {
       {
         status: "success",
         value: {
-          status: "success",
           response: [],
+          status: "success",
         },
       },
       {
         status: "success",
         value: {
-          status: "success",
           response: [
             {
               id: "ID_DRIVE_1_FOLDER_1",
@@ -29,12 +28,12 @@ test("works with folder selection", async ({ page }) => {
               name: "FOLDER 2 IN DRIVE 1",
             },
           ],
+          status: "success",
         },
       },
       {
         status: "success",
         value: {
-          status: "success",
           response: [
             {
               id: "ID_MY_DRIVE_FOLDER_1",
@@ -45,12 +44,12 @@ test("works with folder selection", async ({ page }) => {
               name: "FOLDER 2 IN MY DRIVE",
             },
           ],
+          status: "success",
         },
       },
       {
         status: "success",
         value: {
-          status: "success",
           response: [
             {
               id: "ID_MY_DRIVE_FOLDER_2_FOLDER_1",
@@ -61,12 +60,12 @@ test("works with folder selection", async ({ page }) => {
               name: "FOLDER 2 IN FOLDER 2 IN MY DRIVE",
             },
           ],
+          status: "success",
         },
       },
       {
         status: "success",
         value: {
-          status: "success",
           response: [
             {
               id: "ID_MY_DRIVE_FOLDER_1",
@@ -77,12 +76,12 @@ test("works with folder selection", async ({ page }) => {
               name: "FOLDER 2 IN MY DRIVE",
             },
           ],
+          status: "success",
         },
       },
       {
         status: "success",
         value: {
-          status: "success",
           response: [
             {
               id: "ID_MY_DRIVE_FOLDER_1_FOLDER_1",
@@ -93,6 +92,7 @@ test("works with folder selection", async ({ page }) => {
               name: "FOLDER 2 IN FOLDER 1 IN MY DRIVE",
             },
           ],
+          status: "success",
         },
       },
     ];
@@ -100,48 +100,48 @@ test("works with folder selection", async ({ page }) => {
       {
         status: "success",
         value: {
-          status: "success",
           response: [
             { id: "ID_DRIVE_1", name: "DRIVE 1" },
             { id: "ID_DRIVE_2", name: "DRIVE 2" },
           ],
+          status: "success",
         },
       },
       {
         status: "success",
         value: {
-          status: "success",
           response: [
             { id: "ID_DRIVE_1", name: "DRIVE 1" },
             { id: "ID_DRIVE_2", name: "DRIVE 2" },
           ],
+          status: "success",
         },
       },
       {
         status: "success",
         value: {
-          status: "success",
           response: [
             { id: "ID_DRIVE_1", name: "DRIVE 1" },
             { id: "ID_DRIVE_2", name: "DRIVE 2" },
           ],
+          status: "success",
         },
       },
       {
         status: "success",
         value: {
-          status: "success",
           response: [
             { id: "ID_DRIVE_1", name: "DRIVE 1" },
             { id: "ID_DRIVE_2", name: "DRIVE 2" },
           ],
+          status: "success",
         },
       },
     ];
     window._endpointStubs.move = [
       {
         status: "success",
-        value: { status: "success", response: { errors: [] } },
+        value: { response: { errors: [] }, status: "success" },
       },
     ];
   });

@@ -19,21 +19,21 @@ test("handles raw errors in source folder selection gracefully", async ({
       {
         status: "success",
         value: {
-          status: "success",
           response: [
             { id: "ID_DRIVE_1", name: "DRIVE 1" },
             { id: "ID_DRIVE_2", name: "DRIVE 2" },
           ],
+          status: "success",
         },
       },
       {
         status: "success",
         value: {
-          status: "success",
           response: [
             { id: "ID_DRIVE_1", name: "DRIVE 1" },
             { id: "ID_DRIVE_2", name: "DRIVE 2" },
           ],
+          status: "success",
         },
       },
     ];

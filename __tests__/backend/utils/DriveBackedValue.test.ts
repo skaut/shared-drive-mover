@@ -86,8 +86,8 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
     ...mockedDrive(),
     Files: {
       ...mockedFilesCollection(),
-      list,
       insert,
+      list,
       update,
     },
   };
@@ -173,8 +173,8 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
     ...mockedDrive(),
     Files: {
       ...mockedFilesCollection(),
-      list,
       insert,
+      list,
     },
   };
 
@@ -256,8 +256,8 @@ test("DriveBackedValue saves a value - the folder doesn't exists", () => {
     ...mockedDrive(),
     Files: {
       ...mockedFilesCollection(),
-      list,
       insert,
+      list,
     },
   };
 
@@ -358,8 +358,8 @@ test("DriveBackedValue loads a value - the folder exists, the value exists", () 
     ...mockedDrive(),
     Files: {
       ...mockedFilesCollection(),
-      list,
       get,
+      list,
     },
   };
 
@@ -428,8 +428,8 @@ test("DriveBackedValue loads a value - the folder exists, the value doesn't", ()
     ...mockedDrive(),
     Files: {
       ...mockedFilesCollection(),
-      list,
       get,
+      list,
     },
   };
 
@@ -485,8 +485,8 @@ test("DriveBackedValue loads a value - the folder doesn't exist", () => {
     ...mockedDrive(),
     Files: {
       ...mockedFilesCollection(),
-      list,
       get,
+      list,
     },
   };
 

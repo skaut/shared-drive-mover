@@ -12,11 +12,11 @@ test("works with an unhandled move error", async ({ page }) => {
     window._endpointStubs.listSharedDrives = [
       {
         status: "success",
-        value: { status: "success", response: [] },
+        value: { response: [], status: "success" },
       },
       {
         status: "success",
-        value: { status: "success", response: [] },
+        value: { response: [], status: "success" },
       },
     ];
     window._endpointStubs.move = [
@@ -30,7 +30,7 @@ test("works with an unhandled move error", async ({ page }) => {
       },
       {
         status: "success",
-        value: { status: "success", response: { errors: [] } },
+        value: { response: { errors: [] }, status: "success" },
       },
     ];
   });

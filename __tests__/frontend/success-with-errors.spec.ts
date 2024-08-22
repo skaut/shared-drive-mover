@@ -10,27 +10,27 @@ test("works and displays moving errors", async ({ page }) => {
     window._endpointStubs.listSharedDrives = [
       {
         status: "success",
-        value: { status: "success", response: [] },
+        value: { response: [], status: "success" },
       },
       {
         status: "success",
-        value: { status: "success", response: [] },
+        value: { response: [], status: "success" },
       },
     ];
     window._endpointStubs.move = [
       {
         status: "success",
         value: {
-          status: "success",
           response: {
             errors: [
-              { file: ["PATH", "TO", "FILE"], error: "ERROR MESSAGE 1" },
+              { error: "ERROR MESSAGE 1", file: ["PATH", "TO", "FILE"] },
               {
-                file: ["PATH", "TO", "SECOND", "FILE"],
                 error: "ERROR MESSAGE 2",
+                file: ["PATH", "TO", "SECOND", "FILE"],
               },
             ],
           },
+          status: "success",
         },
       },
     ];

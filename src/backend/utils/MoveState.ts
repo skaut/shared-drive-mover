@@ -19,10 +19,10 @@ export class MoveState_ {
   ) {
     this.driveBackedState = new DriveBackedValue_(
       JSON.stringify({
-        sourceID,
-        destinationID,
         copyComments,
+        destinationID,
         mergeFolders,
+        sourceID,
       }),
     );
     this.pathsToProcess = null;
@@ -50,7 +50,7 @@ export class MoveState_ {
     if (this.pathsToProcess === null) {
       this.pathsToProcess = [];
     }
-    this.pathsToProcess.push({ sourceID, destinationID, path });
+    this.pathsToProcess.push({ destinationID, path, sourceID });
   }
 
   public removePath(path: MoveContext): void {
@@ -71,7 +71,7 @@ export class MoveState_ {
   }
 
   public logError(file: Array<string>, error: string): void {
-    this.errors.push({ file, error });
+    this.errors.push({ error, file });
     this.saveState();
   }
 
@@ -95,9 +95,9 @@ export class MoveState_ {
   public saveState(): void {
     if (this.pathsToProcess !== null) {
       this.driveBackedState.saveValue({
-        pathsToProcess: this.pathsToProcess,
-        pathsToDelete: [],
         errors: this.errors,
+        pathsToDelete: [],
+        pathsToProcess: this.pathsToProcess,
       });
     }
   }

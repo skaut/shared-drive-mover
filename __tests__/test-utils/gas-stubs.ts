@@ -422,6 +422,10 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
         name?: string,
       ) => GoogleAppsScript.Base.Blob
     >(),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
+    jsonParse: jest.fn<(jsonString: string) => any>(),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
+    jsonStringify: jest.fn<(obj: any) => string>(),
     newBlob:
       jest.fn<
         (
@@ -453,10 +457,6 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
         name?: string,
       ) => GoogleAppsScript.Base.Blob
     >(),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
-    jsonParse: jest.fn<(jsonString: string) => any>(),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
-    jsonStringify: jest.fn<(obj: any) => string>(),
   };
 }
 

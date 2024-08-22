@@ -13,16 +13,16 @@ export function listFolders(parentID: google.script.Parameter): ListResponse {
     >(
       (pageToken) =>
         Drive.Files!.list({
+          fields:
+            "nextPageToken, items(id, title, mimeType, shortcutDetails(targetId))",
+          includeItemsFromAllDrives: true,
+          maxResults: 1000,
+          pageToken: pageToken,
           q:
             '"' +
             parentID +
             '" in parents and (mimeType = "application/vnd.google-apps.folder" or (mimeType = "application/vnd.google-apps.shortcut" and shortcutDetails.targetMimeType = "application/vnd.google-apps.folder")) and trashed = false',
-          includeItemsFromAllDrives: true,
           supportsAllDrives: true,
-          pageToken: pageToken,
-          maxResults: 1000,
-          fields:
-            "nextPageToken, items(id, title, mimeType, shortcutDetails(targetId))",
         }),
       (listResponse) =>
         listResponse
@@ -41,8 +41,8 @@ export function listFolders(parentID: google.script.Parameter): ListResponse {
           }),
     );
     return {
-      status: "success",
       response,
+      status: "success",
     };
   } catch (e) {
     return { status: "error", type: "DriveAPIError" };

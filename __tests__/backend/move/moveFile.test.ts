@@ -44,9 +44,9 @@ test("moveFile works correctly with a file that can be moved directly", () => {
     },
     state,
     {
-      sourceID: "SRC_PARENT_ID",
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
+      sourceID: "SRC_PARENT_ID",
     },
     false,
   );
@@ -111,9 +111,9 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
     },
     state,
     {
-      sourceID: "SRC_PARENT_ID",
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
+      sourceID: "SRC_PARENT_ID",
     },
     false,
   );
@@ -166,9 +166,9 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
     },
     state,
     {
-      sourceID: "SRC_PARENT_ID",
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
+      sourceID: "SRC_PARENT_ID",
     },
     false,
   );
@@ -217,9 +217,9 @@ test("moveFile works correctly with a file that can be moved directly with comme
     },
     state,
     {
-      sourceID: "SRC_PARENT_ID",
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
+      sourceID: "SRC_PARENT_ID",
     },
     true,
   );
@@ -266,9 +266,9 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
     },
     state,
     {
-      sourceID: "SRC_PARENT_ID",
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
+      sourceID: "SRC_PARENT_ID",
     },
     true,
   );
@@ -347,9 +347,9 @@ test("moveFile fails gracefully on error", () => {
     },
     state,
     {
-      sourceID: "SRC_PARENT_ID",
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
+      sourceID: "SRC_PARENT_ID",
     },
     false,
   );

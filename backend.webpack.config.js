@@ -1,8 +1,10 @@
 import GasPlugin from "gas-webpack-plugin";
 
 export default {
+  entry: {
+    doGet: "./src/backend/index.ts",
+  },
   mode: "production",
-  plugins: [new GasPlugin()],
   module: {
     rules: [
       {
@@ -17,13 +19,11 @@ export default {
       },
     ],
   },
-  resolve: {
-    extensions: [".ts", ".js"],
-  },
-  entry: {
-    doGet: "./src/backend/index.ts",
-  },
   output: {
     filename: "backend.gs",
+  },
+  plugins: [new GasPlugin()],
+  resolve: {
+    extensions: [".ts", ".js"],
   },
 };

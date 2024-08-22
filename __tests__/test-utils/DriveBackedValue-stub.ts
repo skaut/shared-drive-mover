@@ -12,9 +12,9 @@ export function mockedDriveBackedValue(): MockedObject<
   }>
 > {
   return {
-    saveValue: jest.fn(),
-    loadValue: jest.fn(),
     deleteValue: jest.fn(),
+    loadValue: jest.fn(),
+    saveValue: jest.fn(),
   } as unknown as MockedObject<
     DriveBackedValue_<{
       pathsToProcess: Array<MoveContext>;

@@ -23,9 +23,9 @@ test("moveFolder works correctly with an empty folder", () => {
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
 
   moveFolder_(state, context, false, false);
@@ -57,9 +57,9 @@ test("moveFolder moves files correctly", () => {
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
   moveFolder_(state, context, false, false);
 
@@ -99,9 +99,9 @@ test("moveFolder adds subfolders to the state correctly", () => {
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
   moveFolder_(state, context, false, false);
 
@@ -169,9 +169,9 @@ test("moveFolder moves files correctly, even when listing folders throws", () =>
     });
 
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
   moveFolder_(state, context, false, false);
 
@@ -219,9 +219,9 @@ test("moveFolder adds subfolders to the state correctly, even when listing files
     .mockImplementationOnce((_, fn) => fn());
 
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
 
   moveFolder_(state, context, false, false);
@@ -282,9 +282,9 @@ test("moveFolder passes copyComments correctly", () => {
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
 
   moveFolder_(state, context, true, false);
@@ -325,9 +325,9 @@ test("moveFolder passes mergeFolders correctly", () => {
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
 
   moveFolder_(state, context, false, true);
