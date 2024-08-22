@@ -6,7 +6,7 @@ export default {
   module: {
     rules: [
       {
-        test: /\.ts$/,
+        test: /\.ts$/u,
         use: {
           loader: "ts-loader",
           options: {

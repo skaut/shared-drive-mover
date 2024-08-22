@@ -14,7 +14,7 @@ export default (_, options) => ({
   module: {
     rules: [
       {
-        test: /\.svelte$/,
+        test: /\.svelte$/u,
         use: {
           loader: "svelte-loader",
           options: {
@@ -26,7 +26,7 @@ export default (_, options) => ({
         },
       },
       {
-        test: /\.ts$/,
+        test: /\.ts$/u,
         use: {
           loader: "ts-loader",
           options: {
@@ -35,11 +35,11 @@ export default (_, options) => ({
         },
       },
       {
-        test: /\.css$/,
+        test: /\.css$/u,
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(sa|sc)ss$/,
+        test: /\.(sa|sc)ss$/u,
         use: [
           "style-loader",
           "css-loader",

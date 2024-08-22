@@ -8,7 +8,7 @@ export default (env, options) =>
       module: {
         rules: [
           {
-            test: /src\/frontend\/.*\.(ts|svelte)$/,
+            test: /src\/frontend\/.*\.(ts|svelte)$/u,
             use: {
               loader: "webpack-plugin-istanbul/loader",
               options: {
