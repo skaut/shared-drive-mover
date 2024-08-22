@@ -1,4 +1,6 @@
 import js from "@eslint/js";
+import eslintComments from "@eslint-community/eslint-plugin-eslint-comments";
+import commentsConfig from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import jest from "eslint-plugin-jest";
 import playwright from "eslint-plugin-playwright";
 import preferArrowFunctions from "eslint-plugin-prefer-arrow-functions";
@@ -13,6 +15,7 @@ import tseslint from "typescript-eslint";
 export default tseslint.config(
   js.configs.recommended,
   prettierRecommended,
+  commentsConfig.recommended,
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
   ...svelte.configs["flat/recommended"],
@@ -28,6 +31,7 @@ export default tseslint.config(
       },
     },
     plugins: {
+      "eslint-comments": eslintComments,
       jest,
       playwright,
       "prefer-arrow-functions": preferArrowFunctions,
@@ -100,6 +104,13 @@ export default tseslint.config(
       "default-case": "error",
       "default-case-last": "error",
       eqeqeq: "error",
+      "eslint-comments/no-unused-disable": "error",
+      "eslint-comments/require-description": [
+        "error",
+        {
+          ignore: ["eslint-enable"],
+        },
+      ],
       "guard-for-in": "error",
       "logical-assignment-operators": "error",
       "new-cap": "error",
@@ -293,3 +304,5 @@ export default tseslint.config(
     },
   },
 );
+
+/* eslint-enable @typescript-eslint/naming-convention */

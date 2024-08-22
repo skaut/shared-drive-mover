@@ -7,18 +7,8 @@
     "deprecation",
     "@typescript-eslint"
   ],
-  "extends": [
-    "plugin:@eslint-community/eslint-comments/recommended"
-  ],
   "rules": {
     "deprecation/deprecation": "warn",
-    "@eslint-community/eslint-comments/no-unused-disable": "error",
-    "@eslint-community/eslint-comments/require-description": [
-      "error",
-      {
-        "ignore": ["eslint-enable", "eslint-env"]
-      }
-    ],
     "@typescript-eslint/sort-type-constituents": "error"
   },
   "overrides": [
