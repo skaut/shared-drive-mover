@@ -5,10 +5,14 @@ import { DriveBackedValue_ } from "../../../src/backend/utils/DriveBackedValue";
 import { MoveState_ } from "../../../src/backend/utils/MoveState";
 import { mockedDriveBackedValue } from "../../test-utils/DriveBackedValue-stub";
 
-jest.mock("../../../src/backend/utils/DriveBackedValue", () => ({
-  // eslint-disable-next-line @typescript-eslint/naming-convention -- Mocking a class
-  DriveBackedValue_: jest.fn(),
-}));
+// eslint-disable-next-line @typescript-eslint/naming-convention -- property is class name
+jest.mock<{ DriveBackedValue_: jest.Mock }>(
+  "../../../src/backend/utils/DriveBackedValue",
+  () => ({
+    // eslint-disable-next-line @typescript-eslint/naming-convention -- Mocking a class
+    DriveBackedValue_: jest.fn(),
+  }),
+);
 
 test("MoveState constructs correctly", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
@@ -31,6 +35,7 @@ test("MoveState constructs correctly", () => {
 
 test("MoveState correctly reports unitialized state", () => {
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+
   expect(state.isNull()).toBe(true);
   expect(state.getNextPath()).toBeNull();
 });
@@ -38,6 +43,7 @@ test("MoveState correctly reports unitialized state", () => {
 test("MoveState correctly reports itialized state", () => {
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
   state.addPath("SRC_ID", "DEST_ID", []);
+
   expect(state.isNull()).toBe(false);
   expect(state.getNextPath()).toStrictEqual({
     destinationID: "DEST_ID",
@@ -51,6 +57,7 @@ test("MoveState correctly reports last added path", () => {
   state.addPath("SRC_ID1", "DEST_ID1", []);
   state.addPath("SRC_ID2", "DEST_ID2", ["PATH", "TO", "FIRST", "FOLDER"]);
   state.addPath("SRC_ID3", "DEST_ID3", ["ANOTHER", "DIRECTORY"]);
+
   expect(state.getNextPath()).toStrictEqual({
     destinationID: "DEST_ID3",
     path: ["ANOTHER", "DIRECTORY"],
@@ -68,41 +75,49 @@ test("MoveState correctly removes paths", () => {
   state.addPath("SRC_ID1", "DEST_ID1", []);
   state.addPath("SRC_ID2", "DEST_ID2", ["PATH", "TO", "FIRST", "FOLDER"]);
   state.addPath("SRC_ID3", "DEST_ID3", ["ANOTHER", "DIRECTORY"]);
+
   expect(state.getNextPath()).toStrictEqual({
     destinationID: "DEST_ID3",
     path: ["ANOTHER", "DIRECTORY"],
     sourceID: "SRC_ID3",
   });
+
   state.removePath({
     destinationID: "DEST_ID2",
     path: ["PATH", "TO", "FIRST", "FOLDER"],
     sourceID: "SRC_ID2",
   });
+
   expect(state.getNextPath()).toStrictEqual({
     destinationID: "DEST_ID3",
     path: ["ANOTHER", "DIRECTORY"],
     sourceID: "SRC_ID3",
   });
+
   state.removePath({
     destinationID: "DEST_ID3",
     path: ["ANOTHER", "DIRECTORY"],
     sourceID: "SRC_ID3",
   });
+
   expect(state.getNextPath()).toStrictEqual({
     destinationID: "DEST_ID1",
     path: [],
     sourceID: "SRC_ID1",
   });
+
   state.removePath({
     destinationID: "DEST_ID1",
     path: [],
     sourceID: "SRC_ID1",
   });
+
   expect(state.getNextPath()).toBeNull();
 });
 
 test("MoveState doesn't fail on invalid path removal", () => {
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+
   expect(() => {
     state.removePath({
       destinationID: "DEST_ID1",
@@ -110,7 +125,9 @@ test("MoveState doesn't fail on invalid path removal", () => {
       sourceID: "SRC_ID1",
     });
   }).not.toThrow();
+
   state.addPath("SRC_ID1", "DEST_ID1", []);
+
   expect(() => {
     state.removePath({
       destinationID: "DEST_ID2",
@@ -118,11 +135,13 @@ test("MoveState doesn't fail on invalid path removal", () => {
       sourceID: "SRC_ID2",
     });
   }).not.toThrow();
+
   state.removePath({
     destinationID: "DEST_ID1",
     path: [],
     sourceID: "SRC_ID1",
   });
+
   expect(() => {
     state.removePath({
       destinationID: "DEST_ID1",

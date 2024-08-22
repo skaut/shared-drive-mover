@@ -94,6 +94,7 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.saveValue("VALUE");
+
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
@@ -180,6 +181,7 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.saveValue("VALUE");
+
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
@@ -263,6 +265,7 @@ test("DriveBackedValue saves a value - the folder doesn't exists", () => {
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.saveValue("VALUE");
+
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
@@ -364,6 +367,7 @@ test("DriveBackedValue loads a value - the folder exists, the value exists", () 
   };
 
   const driveBackedValue = new DriveBackedValue_(key);
+
   expect(driveBackedValue.loadValue()).toBe("VALUE");
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toBeDefined();
@@ -434,6 +438,7 @@ test("DriveBackedValue loads a value - the folder exists, the value doesn't", ()
   };
 
   const driveBackedValue = new DriveBackedValue_(key);
+
   expect(driveBackedValue.loadValue()).toBeNull();
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toBeDefined();
@@ -491,6 +496,7 @@ test("DriveBackedValue loads a value - the folder doesn't exist", () => {
   };
 
   const driveBackedValue = new DriveBackedValue_(key);
+
   expect(driveBackedValue.loadValue()).toBeNull();
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBeDefined();
@@ -561,6 +567,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.deleteValue();
+
   expect(list.mock.calls).toHaveLength(3);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
@@ -645,6 +652,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.deleteValue();
+
   expect(list.mock.calls).toHaveLength(3);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
@@ -720,6 +728,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.deleteValue();
+
   expect(list.mock.calls).toHaveLength(3);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
@@ -799,6 +808,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.deleteValue();
+
   expect(list.mock.calls).toHaveLength(3);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
@@ -859,6 +869,7 @@ test("DriveBackedValue deletes a value - the folder doesn't exist", () => {
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.deleteValue();
+
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(

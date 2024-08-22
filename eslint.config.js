@@ -1,4 +1,5 @@
 import js from "@eslint/js";
+import jest from "eslint-plugin-jest";
 import preferArrowFunctions from "eslint-plugin-prefer-arrow-functions";
 import prettierRecommended from "eslint-plugin-prettier/recommended";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
@@ -26,6 +27,7 @@ export default tseslint.config(
       },
     },
     plugins: {
+      jest,
       "prefer-arrow-functions": preferArrowFunctions,
       "simple-import-sort": simpleImportSort,
     },
@@ -213,6 +215,41 @@ export default tseslint.config(
       svelte: {
         ignoreWarnings: ["@typescript-eslint/explicit-function-return-type"],
       },
+    },
+  },
+  {
+    extends: [jest.recommended, jest.style],
+    files: ["__tests__/**/*.test.ts", "__tests__/test-utils/gas-stubs.ts"],
+    rules: {
+      "jest/consistent-test-it": ["error", { withinDescribe: "test" }],
+      "jest/no-conditional-in-test": "error",
+      "jest/no-confusing-set-timeout": "error",
+      "jest/no-duplicate-hooks": "error",
+      "jest/no-test-return-statement": "error",
+      "jest/no-untyped-mock-factory": "error",
+      "jest/padding-around-all": "error",
+      "jest/prefer-called-with": "error",
+      "jest/prefer-comparison-matcher": "error",
+      "jest/prefer-each": "error",
+      "jest/prefer-equality-matcher": "error",
+      "jest/prefer-expect-assertions": [
+        "error",
+        {
+          onlyFunctionsWithAsyncKeyword: true,
+          onlyFunctionsWithExpectInCallback: true,
+          onlyFunctionsWithExpectInLoop: true,
+        },
+      ],
+      "jest/prefer-expect-resolves": "error",
+      "jest/prefer-hooks-in-order": "error",
+      "jest/prefer-hooks-on-top": "error",
+      "jest/prefer-jest-mocked": "error",
+      "jest/prefer-mock-promise-shorthand": "error",
+      "jest/prefer-spy-on": "error",
+      "jest/prefer-strict-equal": "error",
+      "jest/require-hook": "error",
+      "jest/require-to-throw-message": "error",
+      "jest/unbound-method": "error",
     },
   },
   {

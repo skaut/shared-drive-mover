@@ -9,10 +9,14 @@ import { mockedMoveState } from "../test-utils/MoveState-stub";
 
 jest.mock("../../src/backend/move/folderManagement");
 jest.mock("../../src/backend/move/moveFolder");
-jest.mock("../../src/backend/utils/MoveState", () => ({
-  // eslint-disable-next-line @typescript-eslint/naming-convention -- Mocking a class
-  MoveState_: jest.fn(),
-}));
+// eslint-disable-next-line @typescript-eslint/naming-convention -- property is class name
+jest.mock<{ MoveState_: jest.Mock }>(
+  "../../src/backend/utils/MoveState",
+  () => ({
+    // eslint-disable-next-line @typescript-eslint/naming-convention -- Mocking a class
+    MoveState_: jest.fn(),
+  }),
+);
 
 test("move works correctly", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(true);

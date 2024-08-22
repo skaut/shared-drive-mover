@@ -291,6 +291,7 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
 
 test("moveFile fails gracefully on error", () => {
   expect.assertions(1);
+
   interface CopyFileOptions {
     supportsAllDrives?: boolean;
     fields?: string;
@@ -336,6 +337,7 @@ test("moveFile fails gracefully on error", () => {
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
   mocked(state).tryOrLog.mockImplementation((_, fn) => {
     expect(fn).toThrow("ERROR_MESAGE");
+
     return null;
   });
 
