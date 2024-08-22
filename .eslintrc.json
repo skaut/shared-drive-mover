@@ -11,16 +11,11 @@
     "@typescript-eslint"
   ],
   "extends": [
-    "eslint:recommended",
     "plugin:@eslint-community/eslint-comments/recommended",
     "plugin:prettier/recommended",
     "plugin:svelte/prettier"
   ],
   "rules": {
-    "arrow-body-style": ["error", "as-needed"],
-    "camelcase": "error",
-    "no-warning-comments": "warn",
-    "strict": ["error", "never"],
     "deprecation/deprecation": "warn",
     "@eslint-community/eslint-comments/no-unused-disable": "error",
     "@eslint-community/eslint-comments/require-description": [
