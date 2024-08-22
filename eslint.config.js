@@ -1,5 +1,6 @@
 import js from "@eslint/js";
 import jest from "eslint-plugin-jest";
+import playwright from "eslint-plugin-playwright";
 import preferArrowFunctions from "eslint-plugin-prefer-arrow-functions";
 import prettierRecommended from "eslint-plugin-prettier/recommended";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
@@ -28,6 +29,7 @@ export default tseslint.config(
     },
     plugins: {
       jest,
+      playwright,
       "prefer-arrow-functions": preferArrowFunctions,
       "simple-import-sort": simpleImportSort,
     },
@@ -250,6 +252,31 @@ export default tseslint.config(
       "jest/require-hook": "error",
       "jest/require-to-throw-message": "error",
       "jest/unbound-method": "error",
+    },
+  },
+  {
+    extends: [playwright.recommended],
+    files: [
+      "__tests__/frontend/*.ts",
+      "__tests__/test-utils/stub-endpoints.ts",
+    ],
+    rules: {
+      "playwright/no-commented-out-tests": "error",
+      "playwright/no-duplicate-hooks": "error",
+      "playwright/no-get-by-title": "error",
+      "playwright/no-nth-methods": "error",
+      "playwright/no-raw-locators": "error",
+      "playwright/prefer-comparison-matcher": "error",
+      "playwright/prefer-equality-matcher": "error",
+      "playwright/prefer-hooks-in-order": "error",
+      "playwright/prefer-hooks-on-top": "error",
+      "playwright/prefer-strict-equal": "error",
+      "playwright/prefer-to-be": "error",
+      "playwright/prefer-to-contain": "error",
+      "playwright/prefer-to-have-count": "error",
+      "playwright/prefer-to-have-length": "error",
+      "playwright/require-hook": "error",
+      "playwright/require-to-throw-message": "error",
     },
   },
   {

@@ -36,30 +36,6 @@
       "rules": {
         "deprecation/deprecation": "off"
       }
-    },
-    {
-      "files": [
-        "__tests__/frontend/*.ts",
-        "__tests__/test-utils/stub-endpoints.ts"
-      ],
-      "extends": ["plugin:playwright/recommended"],
-      "rules": {
-        "playwright/no-commented-out-tests": "error",
-        "playwright/no-duplicate-hooks": "error",
-        "playwright/no-nth-methods": "error",
-        "playwright/no-raw-locators": "error",
-        "playwright/prefer-comparison-matcher": "error",
-        "playwright/prefer-equality-matcher": "error",
-        "playwright/prefer-hooks-in-order": "error",
-        "playwright/prefer-hooks-on-top": "error",
-        "playwright/prefer-strict-equal": "error",
-        "playwright/prefer-to-be": "error",
-        "playwright/prefer-to-contain": "error",
-        "playwright/prefer-to-have-count": "error",
-        "playwright/prefer-to-have-length": "error",
-        "playwright/require-hook": "error",
-        "playwright/require-to-throw-message": "error"
-      }
     }
-  ],
+  ]
 }
