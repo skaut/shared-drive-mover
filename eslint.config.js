@@ -1,9 +1,10 @@
-import eslintPluginSvelte from "eslint-plugin-svelte";
-import tseslint from "typescript-eslint";
-import svelteParser from "svelte-eslint-parser";
 import js from "@eslint/js";
-import prettierRecommended from "eslint-plugin-prettier/recommended";
 import preferArrowFunctions from "eslint-plugin-prefer-arrow-functions";
+import prettierRecommended from "eslint-plugin-prettier/recommended";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
+import eslintPluginSvelte from "eslint-plugin-svelte";
+import svelteParser from "svelte-eslint-parser";
+import tseslint from "typescript-eslint";
 
 /* eslint-disable @typescript-eslint/naming-convention -- Not applicable to this file */
 
@@ -26,6 +27,7 @@ export default tseslint.config(
     },
     plugins: {
       "prefer-arrow-functions": preferArrowFunctions,
+      "simple-import-sort": simpleImportSort,
     },
     rules: {
       "@typescript-eslint/array-type": ["error", { default: "generic" }],
@@ -141,6 +143,8 @@ export default tseslint.config(
       radix: "error",
       "require-atomic-updates": "error",
       "require-unicode-regexp": "error",
+      "simple-import-sort/exports": "error",
+      "simple-import-sort/imports": "error",
       "sort-keys": "error",
       strict: ["error", "never"],
     },

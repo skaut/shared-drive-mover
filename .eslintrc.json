@@ -6,7 +6,6 @@
   "plugins": [
     "deprecation",
     "jest",
-    "simple-import-sort",
     "@typescript-eslint"
   ],
   "extends": [
@@ -22,8 +21,6 @@
         "ignore": ["eslint-enable", "eslint-env"]
       }
     ],
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
     "@typescript-eslint/sort-type-constituents": "error",
     "svelte/no-store-async": "error",
     "svelte/no-target-blank": "error",
