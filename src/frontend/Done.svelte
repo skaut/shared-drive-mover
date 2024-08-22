@@ -17,8 +17,7 @@
     <!-- eslint-disable-next-line svelte/no-at-html-tags -->
     {@html $_("steps.done.errors.introduction", {
       values: {
-        link:
-          `<a href="https://github.com/skaut/shared-drive-mover/issues" target="_blank">${$_("steps.done.errors.github")}</a>`,
+        link: `<a href="https://github.com/skaut/shared-drive-mover/issues" target="_blank">${$_("steps.done.errors.github")}</a>`,
       },
     })}
   </p>

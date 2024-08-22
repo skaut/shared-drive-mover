@@ -15,8 +15,7 @@ function listFolderContents_(
         includeItemsFromAllDrives: true,
         maxResults: 1000,
         pageToken,
-        q:
-          `"${folderID}" in parents and mimeType ${mimeTypeCondition} and trashed = false`,
+        q: `"${folderID}" in parents and mimeType ${mimeTypeCondition} and trashed = false`,
         supportsAllDrives: true,
       }),
     (response) => response.items!,

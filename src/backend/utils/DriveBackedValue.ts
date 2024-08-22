@@ -26,8 +26,7 @@ export class DriveBackedValue_<T> {
     const response = Drive.Files!.list({
       fields: "items(id)",
       maxResults: 1,
-      q:
-        `title = "${DriveBackedValue_.driveFolderName}" and "root" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false`,
+      q: `title = "${DriveBackedValue_.driveFolderName}" and "root" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false`,
     });
     if (
       response.items!.length === 1 &&
@@ -103,8 +102,7 @@ export class DriveBackedValue_<T> {
     const response = Drive.Files!.list({
       fields: "items(id)",
       maxResults: 1,
-      q:
-        `title = "${this.getFileName()}" and "${folderId}" in parents and trashed = false`,
+      q: `title = "${this.getFileName()}" and "${folderId}" in parents and trashed = false`,
     });
     if (
       response.items!.length === 1 &&

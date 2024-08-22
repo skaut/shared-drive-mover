@@ -1,5 +1,5 @@
-import eslintPluginSvelte from 'eslint-plugin-svelte';
-import tseslint from 'typescript-eslint';
+import eslintPluginSvelte from "eslint-plugin-svelte";
+import tseslint from "typescript-eslint";
 import svelteParser from "svelte-eslint-parser";
 import js from "@eslint/js";
 import prettierRecommended from "eslint-plugin-prettier/recommended";
@@ -11,12 +11,12 @@ export default tseslint.config(
   prettierRecommended,
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
-  ...eslintPluginSvelte.configs['flat/recommended'],
-  ...eslintPluginSvelte.configs['flat/prettier'],
+  ...eslintPluginSvelte.configs["flat/recommended"],
+  ...eslintPluginSvelte.configs["flat/prettier"],
   {
     languageOptions: {
       parserOptions: {
-        extraFileExtensions: ['.svelte'],
+        extraFileExtensions: [".svelte"],
         projectService: {
           allowDefaultProject: ["*.js"],
           defaultProject: "tsconfig.json",
@@ -24,7 +24,7 @@ export default tseslint.config(
       },
     },
     rules: {
-      "@typescript-eslint/array-type": ["error", { "default": "generic" }],
+      "@typescript-eslint/array-type": ["error", { default: "generic" }],
       "@typescript-eslint/class-methods-use-this": "error",
       "@typescript-eslint/consistent-type-exports": "error",
       "@typescript-eslint/consistent-type-imports": "error",
@@ -38,38 +38,39 @@ export default tseslint.config(
       "@typescript-eslint/naming-convention": [
         "error",
         {
-          "filter": {
-            "match": false,
-            "regex": "^(Comments|Drives|Files|Replies)$",
+          filter: {
+            match: false,
+            regex: "^(Comments|Drives|Files|Replies)$",
           },
-          "format": ["camelCase"],
-          "leadingUnderscore": "allow",
-          "selector": "default",
-          "trailingUnderscore": "allow",
+          format: ["camelCase"],
+          leadingUnderscore: "allow",
+          selector: "default",
+          trailingUnderscore: "allow",
         },
         {
-          "format": ["camelCase", "PascalCase"],
-          "selector": "import",
+          format: ["camelCase", "PascalCase"],
+          selector: "import",
         },
         {
-          "format": ["camelCase", "UPPER_CASE"],
-          "leadingUnderscore": "allow",
-          "selector": "variable",
-          "trailingUnderscore": "allow",
+          format: ["camelCase", "UPPER_CASE"],
+          leadingUnderscore: "allow",
+          selector: "variable",
+          trailingUnderscore: "allow",
         },
         {
-          "custom": {
-            "match": true,
-            "regex": "^(?:[A-Z][A-Za-z]*_?)?$",
+          custom: {
+            match: true,
+            regex: "^(?:[A-Z][A-Za-z]*_?)?$",
           },
-          "format": null,
-          "selector": "typeLike",
-        }
+          format: null,
+          selector: "typeLike",
+        },
       ],
       "@typescript-eslint/no-import-type-side-effects": "error",
       "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/no-shadow": "error",
-      "@typescript-eslint/no-unnecessary-parameter-property-assignment": "error",
+      "@typescript-eslint/no-unnecessary-parameter-property-assignment":
+        "error",
       "@typescript-eslint/no-unnecessary-qualifier": "error",
       "@typescript-eslint/no-unused-vars": ["error", { caughtErrors: "none" }],
       "@typescript-eslint/no-use-before-define": "error",
@@ -88,7 +89,7 @@ export default tseslint.config(
       "consistent-return": "error",
       "default-case": "error",
       "default-case-last": "error",
-      "eqeqeq": "error",
+      eqeqeq: "error",
       "guard-for-in": "error",
       "logical-assignment-operators": "error",
       "new-cap": "error",
@@ -127,12 +128,12 @@ export default tseslint.config(
       "prefer-object-spread": "error",
       "prefer-regex-literals": "error",
       "prefer-template": "error",
-      "radix": "error",
+      radix: "error",
       "require-atomic-updates": "error",
       "require-unicode-regexp": "error",
       "sort-keys": "error",
-      "strict": ["error", "never"],
-    }
+      strict: ["error", "never"],
+    },
   },
   {
     files: ["**/*.svelte", "*.svelte"],
@@ -150,10 +151,8 @@ export default tseslint.config(
     },
     settings: {
       svelte: {
-        ignoreWarnings: [
-          '@typescript-eslint/explicit-function-return-type',
-        ],
-      }
+        ignoreWarnings: ["@typescript-eslint/explicit-function-return-type"],
+      },
     },
   },
   {
@@ -167,6 +166,6 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-member-access": "off",
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "off",
-    }
-  }
+    },
+  },
 );
