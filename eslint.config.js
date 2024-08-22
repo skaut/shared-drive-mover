@@ -2,7 +2,7 @@ import js from "@eslint/js";
 import preferArrowFunctions from "eslint-plugin-prefer-arrow-functions";
 import prettierRecommended from "eslint-plugin-prettier/recommended";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
-import eslintPluginSvelte from "eslint-plugin-svelte";
+import svelte from "eslint-plugin-svelte";
 import svelteParser from "svelte-eslint-parser";
 import tseslint from "typescript-eslint";
 
@@ -13,8 +13,8 @@ export default tseslint.config(
   prettierRecommended,
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
-  ...eslintPluginSvelte.configs["flat/recommended"],
-  ...eslintPluginSvelte.configs["flat/prettier"],
+  ...svelte.configs["flat/recommended"],
+  ...svelte.configs["flat/prettier"],
   {
     languageOptions: {
       parserOptions: {
@@ -147,6 +147,52 @@ export default tseslint.config(
       "simple-import-sort/imports": "error",
       "sort-keys": "error",
       strict: ["error", "never"],
+      "svelte/block-lang": [
+        "error",
+        {
+          enforceScriptPresent: true,
+          script: "ts",
+          style: "scss",
+        },
+      ],
+      "svelte/button-has-type": "error",
+      "svelte/derived-has-same-inputs-outputs": "error",
+      "svelte/experimental-require-slot-types": "error",
+      "svelte/experimental-require-strict-events": "error",
+      "svelte/infinite-reactive-loop": "error",
+      "svelte/no-dom-manipulating": "error",
+      "svelte/no-dupe-on-directives": "error",
+      "svelte/no-dupe-use-directives": "error",
+      "svelte/no-extra-reactive-curlies": "error",
+      "svelte/no-ignored-unsubscribe": "error",
+      "svelte/no-immutable-reactive-statements": "error",
+      "svelte/no-inline-styles": "error",
+      "svelte/no-reactive-functions": "error",
+      "svelte/no-reactive-literals": "error",
+      "svelte/no-reactive-reassign": "error",
+      "svelte/no-store-async": "error",
+      "svelte/no-target-blank": "error",
+      "svelte/no-unused-class-name": [
+        "error",
+        {
+          allowedClassNames: ["mdc-typography--subtitle2"],
+        },
+      ],
+      "svelte/no-useless-mustaches": "error",
+      "svelte/prefer-class-directive": "error",
+      "svelte/prefer-destructured-store-props": "error",
+      "svelte/prefer-style-directive": "error",
+      "svelte/require-each-key": "error",
+      "svelte/require-event-dispatcher-types": "error",
+      "svelte/require-optimized-style-attribute": "error",
+      "svelte/require-store-callbacks-use-set-param": "error",
+      "svelte/require-store-reactive-access": "error",
+      "svelte/require-stores-init": "error",
+      "svelte/shorthand-attribute": "error",
+      "svelte/shorthand-directive": "error",
+      "svelte/sort-attributes": "error",
+      "svelte/spaced-html-comment": "error",
+      "svelte/valid-each-key": "error",
     },
   },
   {
