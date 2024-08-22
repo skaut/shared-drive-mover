@@ -56,6 +56,7 @@ export function move(
 
   const errors = state.getErrors();
   if (errors.length > 0) {
+    // eslint-disable-next-line no-console -- Intentional error printing
     console.error(errors);
   }
   state.destroyState();
