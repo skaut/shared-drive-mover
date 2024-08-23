@@ -9,9 +9,9 @@ import {
 
 test("copyFileComments works correctly", () => {
   interface ListCommentsOptions {
+    fields?: string;
     maxResults?: number;
     pageToken?: string;
-    fields?: string;
   }
 
   const rawResponse = {
@@ -81,9 +81,9 @@ test("copyFileComments works correctly", () => {
 
 test("copyFileComments works correctly with replies", () => {
   interface ListCommentsOptions {
+    fields?: string;
     maxResults?: number;
     pageToken?: string;
-    fields?: string;
   }
 
   const rawResponse = {

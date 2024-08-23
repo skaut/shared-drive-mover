@@ -9,12 +9,12 @@ import {
 
 test("listFolders works correctly", () => {
   interface ListFilesOptions {
-    q?: string;
-    includeItemsFromAllDrives?: boolean;
-    supportsAllDrives?: boolean;
-    pageToken?: string;
-    maxResults?: number;
     fields?: string;
+    includeItemsFromAllDrives?: boolean;
+    maxResults?: number;
+    pageToken?: string;
+    q?: string;
+    supportsAllDrives?: boolean;
   }
 
   const rawResponse = {
@@ -64,12 +64,12 @@ test("listFolders works correctly", () => {
 
 test("listFolders works correctly with shortcuts", () => {
   interface ListFilesOptions {
-    q?: string;
-    includeItemsFromAllDrives?: boolean;
-    supportsAllDrives?: boolean;
-    pageToken?: string;
-    maxResults?: number;
     fields?: string;
+    includeItemsFromAllDrives?: boolean;
+    maxResults?: number;
+    pageToken?: string;
+    q?: string;
+    supportsAllDrives?: boolean;
   }
 
   const rawResponse = {
@@ -126,12 +126,12 @@ test("listFolders works correctly with shortcuts", () => {
 
 test("listFolders handles invalid parameters gracefully", () => {
   interface ListFilesOptions {
-    q?: string;
-    includeItemsFromAllDrives?: boolean;
-    supportsAllDrives?: boolean;
-    pageToken?: string;
-    maxResults?: number;
     fields?: string;
+    includeItemsFromAllDrives?: boolean;
+    maxResults?: number;
+    pageToken?: string;
+    q?: string;
+    supportsAllDrives?: boolean;
   }
 
   const list = jest
@@ -165,12 +165,12 @@ test("listFolders handles invalid parameters gracefully", () => {
 
 test("listFolders handles errors in Google Drive API gracefully", () => {
   interface ListFilesOptions {
-    q?: string;
-    includeItemsFromAllDrives?: boolean;
-    supportsAllDrives?: boolean;
-    pageToken?: string;
-    maxResults?: number;
     fields?: string;
+    includeItemsFromAllDrives?: boolean;
+    maxResults?: number;
+    pageToken?: string;
+    q?: string;
+    supportsAllDrives?: boolean;
   }
 
   const list = jest

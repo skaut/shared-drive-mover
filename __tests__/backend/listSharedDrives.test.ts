@@ -5,10 +5,10 @@ import { mockedDrive, mockedDrivesCollection } from "../test-utils/gas-stubs";
 
 test("listSharedDrives works correctly", () => {
   interface ListDrivesOptions {
-    pageToken?: string;
+    fields?: string;
     maxResults?: number;
     orderBy?: string;
-    fields?: string;
+    pageToken?: string;
   }
 
   const response = [
@@ -46,10 +46,10 @@ test("listSharedDrives works correctly", () => {
 
 test("listSharedDrives handles Drive API error gracefully", () => {
   interface ListDrivesOptions {
-    pageToken?: string;
+    fields?: string;
     maxResults?: number;
     orderBy?: string;
-    fields?: string;
+    pageToken?: string;
   }
 
   const list = jest

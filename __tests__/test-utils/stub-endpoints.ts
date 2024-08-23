@@ -22,9 +22,9 @@ type SuccessHandlerType = (value?: any, object?: any) => void;
 type FailureHandlerType = (error: Error, object?: any) => void;
 
 type EndpointStub =
-  | { status: "failure"; delay?: number; value: Error }
+  | { delay?: number; status: "failure"; value: Error }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- The return value of the API can be anything
-  | { status: "success"; delay?: number; value: any };
+  | { delay?: number; status: "success"; value: any };
 
 export async function setup(
   page: Page,

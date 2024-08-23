@@ -14,6 +14,18 @@ export class DriveBackedValue_<T> {
       .join("");
   }
 
+  private static createDriveFolder(): string {
+    const response = Drive.Files!.insert({
+      mimeType: "application/vnd.google-apps.folder",
+      title: DriveBackedValue_.driveFolderName,
+    });
+    return response.id!;
+  }
+
+  private static deleteExistingDriveFile(fileId: string): void {
+    Drive.Files!.remove(fileId);
+  }
+
   private static getDriveFolderId(): string {
     const folderId = DriveBackedValue_.getExistingDriveFolderId();
     if (folderId !== null) {
@@ -37,18 +49,6 @@ export class DriveBackedValue_<T> {
     return null;
   }
 
-  private static createDriveFolder(): string {
-    const response = Drive.Files!.insert({
-      mimeType: "application/vnd.google-apps.folder",
-      title: DriveBackedValue_.driveFolderName,
-    });
-    return response.id!;
-  }
-
-  private static deleteExistingDriveFile(fileId: string): void {
-    Drive.Files!.remove(fileId);
-  }
-
   private static isExistingDriveFolderEmpty(folderId: string): boolean {
     const response = Drive.Files!.list({
       fields: "items(id)",
@@ -58,44 +58,11 @@ export class DriveBackedValue_<T> {
     return response.items!.length === 0;
   }
 
-  public saveValue(value: T): void {
-    this.saveDriveFile(DriveBackedValue_.getDriveFolderId(), value);
-  }
-
-  public loadValue(): T | null {
-    const folderId = DriveBackedValue_.getExistingDriveFolderId();
-    if (folderId === null) {
-      return null;
-    }
-    const fileId = this.getExistingDriveFileId(folderId);
-    if (fileId === null) {
-      return null;
-    }
-    return this.getExistingDriveFileContents(fileId);
-  }
-
-  public deleteValue(): void {
-    const folderId = DriveBackedValue_.getExistingDriveFolderId();
-    if (folderId === null) {
-      return;
-    }
-    const fileId = this.getExistingDriveFileId(folderId);
-    if (fileId !== null) {
-      DriveBackedValue_.deleteExistingDriveFile(fileId);
-    }
-    if (DriveBackedValue_.isExistingDriveFolderEmpty(folderId)) {
-      // This function works with folders as well
-      DriveBackedValue_.deleteExistingDriveFile(folderId);
-    }
-  }
-
-  private saveDriveFile(folderId: string, value: T): void {
-    const fileId = this.getExistingDriveFileId(folderId);
-    if (fileId !== null) {
-      this.updateExistingDriveFile(fileId, value);
-    } else {
-      this.saveAsNewDriveFile(folderId, value);
-    }
+  // eslint-disable-next-line @typescript-eslint/class-methods-use-this -- Static methods cannot access T
+  private getExistingDriveFileContents(fileId: string): T {
+    return JSON.parse(
+      Drive.Files!.get(fileId, { alt: "media" }) as string,
+    ) as T;
   }
 
   private getExistingDriveFileId(folderId: string): string | null {
@@ -113,13 +80,8 @@ export class DriveBackedValue_<T> {
     return null;
   }
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this -- Static methods cannot access T
-  private updateExistingDriveFile(fileId: string, value: T): void {
-    Drive.Files!.update(
-      {},
-      fileId,
-      Utilities.newBlob(JSON.stringify(value), "application/json"),
-    );
+  private getFileName(): string {
+    return `shared-drive-mover-state-${this.hash}.json`;
   }
 
   private saveAsNewDriveFile(folderId: string, value: T): void {
@@ -133,14 +95,52 @@ export class DriveBackedValue_<T> {
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this -- Static methods cannot access T
-  private getExistingDriveFileContents(fileId: string): T {
-    return JSON.parse(
-      Drive.Files!.get(fileId, { alt: "media" }) as string,
-    ) as T;
+  private saveDriveFile(folderId: string, value: T): void {
+    const fileId = this.getExistingDriveFileId(folderId);
+    if (fileId !== null) {
+      this.updateExistingDriveFile(fileId, value);
+    } else {
+      this.saveAsNewDriveFile(folderId, value);
+    }
   }
 
-  private getFileName(): string {
-    return `shared-drive-mover-state-${this.hash}.json`;
+  // eslint-disable-next-line @typescript-eslint/class-methods-use-this -- Static methods cannot access T
+  private updateExistingDriveFile(fileId: string, value: T): void {
+    Drive.Files!.update(
+      {},
+      fileId,
+      Utilities.newBlob(JSON.stringify(value), "application/json"),
+    );
+  }
+
+  public deleteValue(): void {
+    const folderId = DriveBackedValue_.getExistingDriveFolderId();
+    if (folderId === null) {
+      return;
+    }
+    const fileId = this.getExistingDriveFileId(folderId);
+    if (fileId !== null) {
+      DriveBackedValue_.deleteExistingDriveFile(fileId);
+    }
+    if (DriveBackedValue_.isExistingDriveFolderEmpty(folderId)) {
+      // This function works with folders as well
+      DriveBackedValue_.deleteExistingDriveFile(folderId);
+    }
+  }
+
+  public loadValue(): T | null {
+    const folderId = DriveBackedValue_.getExistingDriveFolderId();
+    if (folderId === null) {
+      return null;
+    }
+    const fileId = this.getExistingDriveFileId(folderId);
+    if (fileId === null) {
+      return null;
+    }
+    return this.getExistingDriveFileContents(fileId);
+  }
+
+  public saveValue(value: T): void {
+    this.saveDriveFile(DriveBackedValue_.getDriveFolderId(), value);
   }
 }

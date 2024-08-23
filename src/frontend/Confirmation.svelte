@@ -4,6 +4,7 @@
   import { _ } from "svelte-i18n";
 
   import type { NamedRecord } from "../interfaces/NamedRecord";
+
   import BackButton from "./BackButton.svelte";
   import StepHeader from "./StepHeader.svelte";
 

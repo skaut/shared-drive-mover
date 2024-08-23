@@ -1,5 +1,6 @@
-import { jest } from "@jest/globals";
 import type { MockedObject } from "jest-mock";
+
+import { jest } from "@jest/globals";
 
 import type { MoveState_ } from "../../src/backend/utils/MoveState";
 

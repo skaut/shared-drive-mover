@@ -35,9 +35,9 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -135,9 +135,9 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -225,9 +225,9 @@ test("DriveBackedValue saves a value - the folder doesn't exists", () => {
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -313,9 +313,9 @@ test("DriveBackedValue loads a value - the folder exists, the value exists", () 
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   interface GetFileOptions {
@@ -402,9 +402,9 @@ test("DriveBackedValue loads a value - the folder exists, the value doesn't", ()
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -468,9 +468,9 @@ test("DriveBackedValue loads a value - the folder doesn't exist", () => {
   ];
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -522,9 +522,9 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -603,9 +603,9 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -687,9 +687,9 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -763,9 +763,9 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -840,9 +840,9 @@ test("DriveBackedValue deletes a value - the folder doesn't exist", () => {
   ];
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();

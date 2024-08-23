@@ -11,8 +11,8 @@ jest.mock("../../../src/backend/move/folderManagement");
 
 test("resolveDestinationFolder corretly creates new folder", () => {
   interface InsertFileOptions {
-    supportsAllDrives?: boolean;
     fields?: string;
+    supportsAllDrives?: boolean;
   }
 
   const insert = jest
@@ -65,8 +65,8 @@ test("resolveDestinationFolder corretly creates new folder", () => {
 
 test("resolveDestinationFolder corretly creates new folder when set not to merge folders, even when a folder with the same name exists", () => {
   interface InsertFileOptions {
-    supportsAllDrives?: boolean;
     fields?: string;
+    supportsAllDrives?: boolean;
   }
 
   const insert = jest
@@ -123,8 +123,8 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
 
 test("resolveDestinationFolder corretly creates new folder when set to merge folders, but there is no existing folder the same name", () => {
   interface InsertFileOptions {
-    supportsAllDrives?: boolean;
     fields?: string;
+    supportsAllDrives?: boolean;
   }
 
   const insert = jest
@@ -179,8 +179,8 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
 
 test("resolveDestinationFolder corretly uses an existing folder when set to merge folders", () => {
   interface InsertFileOptions {
-    supportsAllDrives?: boolean;
     fields?: string;
+    supportsAllDrives?: boolean;
   }
 
   const insert = jest.fn<
@@ -225,8 +225,8 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
 
 test("resolveDestinationFolder fails gracefully on multiple existing folders with the same name", () => {
   interface InsertFileOptions {
-    supportsAllDrives?: boolean;
     fields?: string;
+    supportsAllDrives?: boolean;
   }
 
   const insert = jest

@@ -1,5 +1,6 @@
 import type { MoveContext } from "../../interfaces/MoveContext";
 import type { MoveState_ } from "../utils/MoveState";
+
 import { copyFileComments_ } from "./copyFileComments";
 
 function moveFileDirectly_(fileID: string, context: MoveContext): void {

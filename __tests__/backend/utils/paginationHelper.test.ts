@@ -4,8 +4,8 @@ import { paginationHelper_ } from "../../../src/backend/utils/paginationHelper";
 
 test("paginationHelper works correctly", () => {
   interface T {
-    nextPageToken?: string;
     a: string;
+    nextPageToken?: string;
   }
   const rawResponse = {
     a: "b",
@@ -31,8 +31,8 @@ test("paginationHelper works correctly", () => {
 
 test("paginationHelper works correctly with multiple pages", () => {
   interface T {
-    nextPageToken?: string;
     a: string;
+    nextPageToken?: string;
   }
   const rawResponse1 = {
     a: "b",

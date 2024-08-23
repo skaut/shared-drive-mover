@@ -3,6 +3,7 @@
   import { _ } from "svelte-i18n";
 
   import type { MoveError } from "../interfaces/MoveError";
+
   import StepHeader from "./StepHeader.svelte";
 
   export let errors: Array<MoveError> | null = [];
