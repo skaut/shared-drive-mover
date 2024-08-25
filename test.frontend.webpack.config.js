@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 import { merge } from "webpack-merge";
 
 import prod from "./frontend.webpack.config.js";

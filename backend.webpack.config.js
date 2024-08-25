@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 import GasPlugin from "gas-webpack-plugin";
 
 export default {

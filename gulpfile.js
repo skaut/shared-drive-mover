@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 import gulp from "gulp";
 import filter from "gulp-filter";
 import replace from "gulp-replace";
