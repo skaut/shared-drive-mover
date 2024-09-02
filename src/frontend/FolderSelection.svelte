@@ -6,6 +6,7 @@
 
   import type { ListResponse } from "../interfaces/ListResponse";
   import type { NamedRecord } from "../interfaces/NamedRecord";
+
   import StepHeader from "./StepHeader.svelte";
 
   export let step: string;
@@ -103,7 +104,7 @@
 
 <StepHeader {step} />
 <p>
-  {$_("steps." + step + ".introduction")}
+  {$_(`steps.${step}.introduction`)}
 </p>
 <div>
   <List singleSelection>

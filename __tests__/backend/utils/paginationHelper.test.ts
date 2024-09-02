@@ -4,12 +4,12 @@ import { paginationHelper_ } from "../../../src/backend/utils/paginationHelper";
 
 test("paginationHelper works correctly", () => {
   interface T {
-    nextPageToken?: string;
     a: string;
+    nextPageToken?: string;
   }
   const rawResponse = {
-    nextPageToken: undefined,
     a: "b",
+    nextPageToken: undefined,
   };
 
   const request = jest
@@ -31,20 +31,20 @@ test("paginationHelper works correctly", () => {
 
 test("paginationHelper works correctly with multiple pages", () => {
   interface T {
-    nextPageToken?: string;
     a: string;
+    nextPageToken?: string;
   }
   const rawResponse1 = {
-    nextPageToken: "token1",
     a: "b",
+    nextPageToken: "token1",
   };
   const rawResponse2 = {
-    nextPageToken: "token2",
     a: "c",
+    nextPageToken: "token2",
   };
   const rawResponse3 = {
-    nextPageToken: undefined,
     a: "c",
+    nextPageToken: undefined,
   };
 
   const request = jest

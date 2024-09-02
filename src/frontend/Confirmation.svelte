@@ -4,6 +4,7 @@
   import { _ } from "svelte-i18n";
 
   import type { NamedRecord } from "../interfaces/NamedRecord";
+
   import BackButton from "./BackButton.svelte";
   import StepHeader from "./StepHeader.svelte";
 
@@ -15,17 +16,17 @@
   const dispatch = createEventDispatcher<{ next: null; previous: null }>();
 
   $: sourceDisplay =
-    sourcePath.map((segment) => segment.name + "/").join("") +
+    sourcePath.map((segment) => `${segment.name}/`).join("") +
     (source?.name ?? "");
   $: destinationDisplay =
-    destinationPath.map((segment) => segment.name + "/").join("") +
+    destinationPath.map((segment) => `${segment.name}/`).join("") +
     (destination?.name ?? "");
 </script>
 
 <StepHeader step="confirmation" />
 <p>
   {$_("steps.confirmation.introduction", {
-    values: { source: sourceDisplay, destination: destinationDisplay },
+    values: { destination: destinationDisplay, source: sourceDisplay },
   })}
 </p>
 <BackButton on:previous={() => dispatch("previous")} />

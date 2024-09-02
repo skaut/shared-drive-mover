@@ -5,7 +5,7 @@
 </script>
 
 <h2>
-  {$_("steps." + step + ".header")}
+  {$_(`steps.${step}.header`)}
 </h2>
 
 <style lang="scss">

@@ -5,10 +5,10 @@ import { mockedDrive, mockedDrivesCollection } from "../test-utils/gas-stubs";
 
 test("listSharedDrives works correctly", () => {
   interface ListDrivesOptions {
-    pageToken?: string;
+    fields?: string;
     maxResults?: number;
     orderBy?: string;
-    fields?: string;
+    pageToken?: string;
   }
 
   const response = [
@@ -34,7 +34,7 @@ test("listSharedDrives works correctly", () => {
     },
   };
 
-  expect(listSharedDrives()).toStrictEqual({ status: "success", response });
+  expect(listSharedDrives()).toStrictEqual({ response, status: "success" });
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.pageToken).toBeUndefined();
@@ -46,10 +46,10 @@ test("listSharedDrives works correctly", () => {
 
 test("listSharedDrives handles Drive API error gracefully", () => {
   interface ListDrivesOptions {
-    pageToken?: string;
+    fields?: string;
     maxResults?: number;
     orderBy?: string;
-    fields?: string;
+    pageToken?: string;
   }
 
   const list = jest

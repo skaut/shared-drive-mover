@@ -3,6 +3,7 @@
   import { _ } from "svelte-i18n";
 
   import type { MoveError } from "../interfaces/MoveError";
+
   import StepHeader from "./StepHeader.svelte";
 
   export let errors: Array<MoveError> | null = [];
@@ -17,10 +18,7 @@
     <!-- eslint-disable-next-line svelte/no-at-html-tags -->
     {@html $_("steps.done.errors.introduction", {
       values: {
-        link:
-          '<a href="https://github.com/skaut/shared-drive-mover/issues" target="_blank">' +
-          $_("steps.done.errors.github") +
-          "</a>",
+        link: `<a href="https://github.com/skaut/shared-drive-mover/issues" target="_blank">${$_("steps.done.errors.github")}</a>`,
       },
     })}
   </p>

@@ -23,9 +23,9 @@ test("moveFolder works correctly with an empty folder", () => {
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
 
   moveFolder_(state, context, false, false);
@@ -57,9 +57,9 @@ test("moveFolder moves files correctly", () => {
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
   moveFolder_(state, context, false, false);
 
@@ -99,9 +99,9 @@ test("moveFolder adds subfolders to the state correctly", () => {
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
   moveFolder_(state, context, false, false);
 
@@ -146,6 +146,7 @@ test("moveFolder adds subfolders to the state correctly", () => {
 
 test("moveFolder moves files correctly, even when listing folders throws", () => {
   expect.assertions(18);
+
   const listFilesInFolder = mocked(
     folderManagement,
   ).listFilesInFolder_.mockReturnValueOnce([
@@ -165,13 +166,14 @@ test("moveFolder moves files correctly, even when listing folders throws", () =>
     .tryOrLog.mockImplementationOnce((_, fn) => fn())
     .mockImplementationOnce((_, fn) => {
       expect(fn).toThrow("ERROR_MESSAGE");
+
       return null;
     });
 
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
   moveFolder_(state, context, false, false);
 
@@ -196,6 +198,7 @@ test("moveFolder moves files correctly, even when listing folders throws", () =>
 
 test("moveFolder adds subfolders to the state correctly, even when listing files throws", () => {
   expect.assertions(24);
+
   const listFilesInFolder = mocked(
     folderManagement,
   ).listFilesInFolder_.mockImplementationOnce(() => {
@@ -214,14 +217,15 @@ test("moveFolder adds subfolders to the state correctly, even when listing files
   mocked(state)
     .tryOrLog.mockImplementationOnce((_, fn) => {
       expect(fn).toThrow("ERROR_MESSAGE");
+
       return null;
     })
     .mockImplementationOnce((_, fn) => fn());
 
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
 
   moveFolder_(state, context, false, false);
@@ -282,9 +286,9 @@ test("moveFolder passes copyComments correctly", () => {
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
 
   moveFolder_(state, context, true, false);
@@ -325,9 +329,9 @@ test("moveFolder passes mergeFolders correctly", () => {
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   const context = {
-    sourceID: "SRC_ID",
     destinationID: "DEST_ID",
     path: ["PATH", "TO", "FOLDER"],
+    sourceID: "SRC_ID",
   };
 
   moveFolder_(state, context, false, true);

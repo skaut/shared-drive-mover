@@ -10,18 +10,13 @@ function listFolderContents_(
   >(
     (pageToken) =>
       Drive.Files!.list({
-        q:
-          '"' +
-          folderID +
-          '" in parents and mimeType ' +
-          mimeTypeCondition +
-          " and trashed = false",
-        includeItemsFromAllDrives: true,
-        supportsAllDrives: true,
-        pageToken: pageToken,
-        maxResults: 1000,
         fields:
           "nextPageToken, items(id, title, capabilities(canMoveItemOutOfDrive))",
+        includeItemsFromAllDrives: true,
+        maxResults: 1000,
+        pageToken,
+        q: `"${folderID}" in parents and mimeType ${mimeTypeCondition} and trashed = false`,
+        supportsAllDrives: true,
       }),
     (response) => response.items!,
   );
@@ -47,11 +42,11 @@ export function listFoldersInFolder_(
 
 export function isFolderEmpty_(folderID: string): boolean {
   const response = Drive.Files!.list({
-    q: '"' + folderID + '" in parents and trashed = false',
-    includeItemsFromAllDrives: true,
-    supportsAllDrives: true,
-    maxResults: 1,
     fields: "items(id)",
+    includeItemsFromAllDrives: true,
+    maxResults: 1,
+    q: `"${folderID}" in parents and trashed = false`,
+    supportsAllDrives: true,
   });
   return response.items!.length === 0;
 }

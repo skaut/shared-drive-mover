@@ -1,4 +1,4 @@
 export interface MoveError {
-  file: Array<string>;
   error: string;
+  file: Array<string>;
 }

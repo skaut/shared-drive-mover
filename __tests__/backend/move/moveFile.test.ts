@@ -44,9 +44,9 @@ test("moveFile works correctly with a file that can be moved directly", () => {
     },
     state,
     {
-      sourceID: "SRC_PARENT_ID",
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
+      sourceID: "SRC_PARENT_ID",
     },
     false,
   );
@@ -61,8 +61,8 @@ test("moveFile works correctly with a file that can be moved directly", () => {
 
 test("moveFile works correctly with a file that can be moved out of drive, yet cannot be moved directly", () => {
   interface CopyFileOptions {
-    supportsAllDrives?: boolean;
     fields?: string;
+    supportsAllDrives?: boolean;
   }
   interface UpdateFileOptions {
     addParents?: string;
@@ -111,9 +111,9 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
     },
     state,
     {
-      sourceID: "SRC_PARENT_ID",
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
+      sourceID: "SRC_PARENT_ID",
     },
     false,
   );
@@ -135,8 +135,8 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
 
 test("moveFile works correctly with a file that cannot be moved out of drive", () => {
   interface CopyFileOptions {
-    supportsAllDrives?: boolean;
     fields?: string;
+    supportsAllDrives?: boolean;
   }
 
   const copy = jest
@@ -166,9 +166,9 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
     },
     state,
     {
-      sourceID: "SRC_PARENT_ID",
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
+      sourceID: "SRC_PARENT_ID",
     },
     false,
   );
@@ -217,9 +217,9 @@ test("moveFile works correctly with a file that can be moved directly with comme
     },
     state,
     {
-      sourceID: "SRC_PARENT_ID",
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
+      sourceID: "SRC_PARENT_ID",
     },
     true,
   );
@@ -234,8 +234,8 @@ test("moveFile works correctly with a file that can be moved directly with comme
 
 test("moveFile works correctly with a file that cannot be moved out of drive with comments", () => {
   interface CopyFileOptions {
-    supportsAllDrives?: boolean;
     fields?: string;
+    supportsAllDrives?: boolean;
   }
 
   const copy = jest
@@ -266,9 +266,9 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
     },
     state,
     {
-      sourceID: "SRC_PARENT_ID",
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
+      sourceID: "SRC_PARENT_ID",
     },
     true,
   );
@@ -291,9 +291,10 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
 
 test("moveFile fails gracefully on error", () => {
   expect.assertions(1);
+
   interface CopyFileOptions {
-    supportsAllDrives?: boolean;
     fields?: string;
+    supportsAllDrives?: boolean;
   }
   interface UpdateFileOptions {
     addParents?: string;
@@ -336,6 +337,7 @@ test("moveFile fails gracefully on error", () => {
   const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
   mocked(state).tryOrLog.mockImplementation((_, fn) => {
     expect(fn).toThrow("ERROR_MESAGE");
+
     return null;
   });
 
@@ -347,9 +349,9 @@ test("moveFile fails gracefully on error", () => {
     },
     state,
     {
-      sourceID: "SRC_PARENT_ID",
       destinationID: "DEST_PARENT_ID",
       path: ["PATH", "TO", "FILE"],
+      sourceID: "SRC_PARENT_ID",
     },
     false,
   );

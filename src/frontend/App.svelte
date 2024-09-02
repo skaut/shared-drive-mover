@@ -1,6 +1,4 @@
 <script lang="ts" strictEvents>
-  import "svelte-material-ui/bare.css";
-
   import Button, { Label } from "@smui/button";
   import Dialog, { Actions, Content, Title as DialogTitle } from "@smui/dialog";
   import LinearProgress from "@smui/linear-progress";
@@ -10,10 +8,12 @@
     Title as TopAppBarTitle,
   } from "@smui/top-app-bar";
   import { _, addMessages, init } from "svelte-i18n";
+  import "svelte-material-ui/bare.css";
 
   import type { MoveError } from "../interfaces/MoveError";
   import type { MoveResponse } from "../interfaces/MoveResponse";
   import type { NamedRecord } from "../interfaces/NamedRecord";
+
   import BackButton from "./BackButton.svelte";
   import Confirmation from "./Confirmation.svelte";
   import ContinueButton from "./ContinueButton.svelte";

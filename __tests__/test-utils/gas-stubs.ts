@@ -224,9 +224,6 @@ export function mockedHtmlOutput(): GoogleAppsScript.HTML.HtmlOutput {
 
 export function mockedHtmlService(): GoogleAppsScript.HTML.HtmlService {
   return {
-    SandboxMode: 0 as unknown as typeof GoogleAppsScript.HTML.SandboxMode,
-    XFrameOptionsMode:
-      0 as unknown as typeof GoogleAppsScript.HTML.XFrameOptionsMode,
     createHtmlOutput: jest.fn<() => GoogleAppsScript.HTML.HtmlOutput>(),
     createHtmlOutputFromFile:
       jest.fn<(filename: string) => GoogleAppsScript.HTML.HtmlOutput>(),
@@ -238,6 +235,9 @@ export function mockedHtmlService(): GoogleAppsScript.HTML.HtmlService {
       >(),
     createTemplateFromFile: jest.fn<() => GoogleAppsScript.HTML.HtmlTemplate>(),
     getUserAgent: jest.fn<() => string>(),
+    SandboxMode: 0 as unknown as typeof GoogleAppsScript.HTML.SandboxMode,
+    XFrameOptionsMode:
+      0 as unknown as typeof GoogleAppsScript.HTML.XFrameOptionsMode,
   };
 }
 
@@ -310,23 +310,6 @@ export function mockedSession(): GoogleAppsScript.Base.Session {
 
 export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
   return {
-    Charset: { US_ASCII: 0, UTF_8: 1 },
-    DigestAlgorithm: {
-      MD2: 0,
-      MD5: 1,
-      SHA_1: 2,
-      SHA_256: 3,
-      SHA_384: 4,
-      SHA_512: 5,
-    },
-    MacAlgorithm: {
-      HMAC_MD5: 0,
-      HMAC_SHA_1: 1,
-      HMAC_SHA_256: 2,
-      HMAC_SHA_384: 3,
-      HMAC_SHA_512: 4,
-    },
-    RsaAlgorithm: { RSA_SHA_1: 0, RSA_SHA_256: 1 },
     base64Decode:
       jest.fn<
         (
@@ -355,6 +338,7 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
           charset?: GoogleAppsScript.Utilities.Charset,
         ) => string
       >(),
+    Charset: { US_ASCII: 0, UTF_8: 1 },
     computeDigest:
       jest.fn<
         (
@@ -405,6 +389,14 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
           charset?: GoogleAppsScript.Utilities.Charset,
         ) => Array<GoogleAppsScript.Byte>
       >(),
+    DigestAlgorithm: {
+      MD2: 0,
+      MD5: 1,
+      SHA_1: 2,
+      SHA_256: 3,
+      SHA_384: 4,
+      SHA_512: 5,
+    },
     formatDate:
       jest.fn<
         (
@@ -422,6 +414,17 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
         name?: string,
       ) => GoogleAppsScript.Base.Blob
     >(),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
+    jsonParse: jest.fn<(jsonString: string) => any>(),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
+    jsonStringify: jest.fn<(obj: any) => string>(),
+    MacAlgorithm: {
+      HMAC_MD5: 0,
+      HMAC_SHA_1: 1,
+      HMAC_SHA_256: 2,
+      HMAC_SHA_384: 3,
+      HMAC_SHA_512: 4,
+    },
     newBlob:
       jest.fn<
         (
@@ -436,6 +439,7 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
       >(),
     parseDate:
       jest.fn<(date: string, timeZone: string, format: string) => Date>(),
+    RsaAlgorithm: { RSA_SHA_1: 0, RSA_SHA_256: 1 },
     sleep: jest.fn<(milliseconds: GoogleAppsScript.Integer) => void>(),
     ungzip:
       jest.fn<
@@ -453,10 +457,6 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
         name?: string,
       ) => GoogleAppsScript.Base.Blob
     >(),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
-    jsonParse: jest.fn<(jsonString: string) => any>(),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
-    jsonStringify: jest.fn<(obj: any) => string>(),
   };
 }
 

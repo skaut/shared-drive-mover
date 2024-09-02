@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 import { merge } from "webpack-merge";
 
 import prod from "./frontend.webpack.config.js";
@@ -10,7 +8,7 @@ export default (env, options) =>
       module: {
         rules: [
           {
-            test: /src\/frontend\/.*\.(ts|svelte)$/,
+            test: /src\/frontend\/.*\.(ts|svelte)$/u,
             use: {
               loader: "webpack-plugin-istanbul/loader",
               options: {

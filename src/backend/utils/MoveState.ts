@@ -1,15 +1,16 @@
 import type { MoveContext } from "../../interfaces/MoveContext";
 import type { MoveError } from "../../interfaces/MoveError";
+
 import { DriveBackedValue_ } from "./DriveBackedValue";
 
 export class MoveState_ {
   private readonly driveBackedState: DriveBackedValue_<{
-    pathsToProcess: Array<MoveContext>;
-    pathsToDelete: Array<MoveContext>; // Currently unused.
     errors: Array<MoveError>;
+    pathsToDelete: Array<MoveContext>; // Currently unused.
+    pathsToProcess: Array<MoveContext>;
   }>;
-  private pathsToProcess: Array<MoveContext> | null;
   private errors: Array<MoveError>;
+  private pathsToProcess: Array<MoveContext> | null;
 
   public constructor(
     sourceID: string,
@@ -19,27 +20,14 @@ export class MoveState_ {
   ) {
     this.driveBackedState = new DriveBackedValue_(
       JSON.stringify({
-        sourceID,
-        destinationID,
         copyComments,
+        destinationID,
         mergeFolders,
+        sourceID,
       }),
     );
     this.pathsToProcess = null;
     this.errors = [];
-  }
-
-  public isNull(): boolean {
-    return this.pathsToProcess === null;
-  }
-
-  // Path get/set
-
-  public getNextPath(): MoveContext | null {
-    if (this.isNull() || this.pathsToProcess!.length === 0) {
-      return null;
-    }
-    return this.pathsToProcess![this.pathsToProcess!.length - 1];
   }
 
   public addPath(
@@ -50,7 +38,44 @@ export class MoveState_ {
     if (this.pathsToProcess === null) {
       this.pathsToProcess = [];
     }
-    this.pathsToProcess.push({ sourceID, destinationID, path });
+    this.pathsToProcess.push({ destinationID, path, sourceID });
+  }
+
+  public destroyState(): void {
+    this.driveBackedState.deleteValue();
+    this.pathsToProcess = null;
+    this.errors = [];
+  }
+
+  public getErrors(): Array<MoveError> {
+    return this.errors;
+  }
+
+  public getNextPath(): MoveContext | null {
+    if (this.isNull() || this.pathsToProcess!.length === 0) {
+      return null;
+    }
+    return this.pathsToProcess![this.pathsToProcess!.length - 1];
+  }
+
+  public isNull(): boolean {
+    return this.pathsToProcess === null;
+  }
+
+  public loadState(): void {
+    const state = this.driveBackedState.loadValue();
+    if (state !== null) {
+      this.pathsToProcess = state.pathsToProcess;
+      this.errors = state.errors;
+    } else {
+      this.pathsToProcess = null;
+      this.errors = [];
+    }
+  }
+
+  public logError(file: Array<string>, error: string): void {
+    this.errors.push({ error, file });
+    this.saveState();
   }
 
   public removePath(path: MoveContext): void {
@@ -64,15 +89,14 @@ export class MoveState_ {
     );
   }
 
-  // Error get/set
-
-  public getErrors(): Array<MoveError> {
-    return this.errors;
-  }
-
-  public logError(file: Array<string>, error: string): void {
-    this.errors.push({ file, error });
-    this.saveState();
+  public saveState(): void {
+    if (this.pathsToProcess !== null) {
+      this.driveBackedState.saveValue({
+        errors: this.errors,
+        pathsToDelete: [],
+        pathsToProcess: this.pathsToProcess,
+      });
+    }
   }
 
   public tryOrLog<T>(
@@ -88,34 +112,5 @@ export class MoveState_ {
       this.logError(path, (e as Error).message);
     }
     return null;
-  }
-
-  // Save/load/destroy
-
-  public saveState(): void {
-    if (this.pathsToProcess !== null) {
-      this.driveBackedState.saveValue({
-        pathsToProcess: this.pathsToProcess,
-        pathsToDelete: [],
-        errors: this.errors,
-      });
-    }
-  }
-
-  public loadState(): void {
-    const state = this.driveBackedState.loadValue();
-    if (state !== null) {
-      this.pathsToProcess = state.pathsToProcess;
-      this.errors = state.errors;
-    } else {
-      this.pathsToProcess = null;
-      this.errors = [];
-    }
-  }
-
-  public destroyState(): void {
-    this.driveBackedState.deleteValue();
-    this.pathsToProcess = null;
-    this.errors = [];
   }
 }

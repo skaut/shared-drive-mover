@@ -10,31 +10,31 @@ test("works with non-empty destination folder", async ({ page }) => {
     window._endpointStubs.listSharedDrives = [
       {
         status: "success",
-        value: { status: "success", response: [] },
+        value: { response: [], status: "success" },
       },
       {
         status: "success",
-        value: { status: "success", response: [] },
+        value: { response: [], status: "success" },
       },
       {
         status: "success",
-        value: { status: "success", response: [] },
+        value: { response: [], status: "success" },
       },
     ];
     window._endpointStubs.move = [
       {
-        status: "success",
         delay: 500,
+        status: "success",
+        value: { status: "error", type: "notEmpty" },
+      },
+      {
+        delay: 500,
+        status: "success",
         value: { status: "error", type: "notEmpty" },
       },
       {
         status: "success",
-        delay: 500,
-        value: { status: "error", type: "notEmpty" },
-      },
-      {
-        status: "success",
-        value: { status: "success", response: { errors: [] } },
+        value: { response: { errors: [] }, status: "success" },
       },
     ];
   });

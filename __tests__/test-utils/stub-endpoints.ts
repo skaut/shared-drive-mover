@@ -22,9 +22,9 @@ type SuccessHandlerType = (value?: any, object?: any) => void;
 type FailureHandlerType = (error: Error, object?: any) => void;
 
 type EndpointStub =
-  | { status: "failure"; delay?: number; value: Error }
+  | { delay?: number; status: "failure"; value: Error }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- The return value of the API can be anything
-  | { status: "success"; delay?: number; value: any };
+  | { delay?: number; status: "success"; value: any };
 
 export async function setup(
   page: Page,
@@ -50,10 +50,12 @@ export async function setup(
     ): Record<string, () => void> {
       const stubbedEndpoints: Record<string, () => void> = {};
       for (const key in window._endpointStubs) {
+        if (!Object.prototype.hasOwnProperty.call(window._endpointStubs, key)) {
+          continue;
+        }
         stubbedEndpoints[key] = (
           ...args: Array<google.script.Parameter>
         ): void => {
-          // eslint-disable-next-line playwright/no-unsafe-references -- This isn't actually a reference to the function declared in the global scope (that's just a reference for TS), but a call to the exposed function
           _logEndpointCall(key, args);
           const stub = window._endpointStubs[key].shift()!;
           setTimeout(() => {
@@ -95,12 +97,12 @@ export async function setup(
         },
         host: {
           close: (): void => {},
-          setHeight: (): void => {},
-          setWidth: (): void => {},
-          origin: "",
           editor: {
             focus: (): void => {},
           },
+          origin: "",
+          setHeight: (): void => {},
+          setWidth: (): void => {},
         },
         run: run as Run,
         url: {

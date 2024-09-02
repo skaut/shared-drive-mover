@@ -35,9 +35,9 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -86,14 +86,15 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
     ...mockedDrive(),
     Files: {
       ...mockedFilesCollection(),
-      list,
       insert,
+      list,
       update,
     },
   };
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.saveValue("VALUE");
+
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
@@ -106,7 +107,7 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + keySha256 + '.json"',
+    `title = "shared-drive-mover-state-${keySha256}.json"`,
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -134,9 +135,9 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -173,13 +174,14 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
     ...mockedDrive(),
     Files: {
       ...mockedFilesCollection(),
-      list,
       insert,
+      list,
     },
   };
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.saveValue("VALUE");
+
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
@@ -192,7 +194,7 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + keySha256 + '.json"',
+    `title = "shared-drive-mover-state-${keySha256}.json"`,
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -200,7 +202,7 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
   expect(insert.mock.calls[0][0].mimeType).toBe("application/json");
   expect(insert.mock.calls[0][0].parents).toStrictEqual([{ id: "FOLDER_ID" }]);
   expect(insert.mock.calls[0][0].title).toBe(
-    "shared-drive-mover-state-" + keySha256 + ".json",
+    `shared-drive-mover-state-${keySha256}.json`,
   );
   expect(insert.mock.calls[0][1]).toBe("BLOB");
   expect(mocked(global.Utilities).newBlob.mock.calls).toHaveLength(1);
@@ -223,9 +225,9 @@ test("DriveBackedValue saves a value - the folder doesn't exists", () => {
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -256,13 +258,14 @@ test("DriveBackedValue saves a value - the folder doesn't exists", () => {
     ...mockedDrive(),
     Files: {
       ...mockedFilesCollection(),
-      list,
       insert,
+      list,
     },
   };
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.saveValue("VALUE");
+
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
@@ -275,7 +278,7 @@ test("DriveBackedValue saves a value - the folder doesn't exists", () => {
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + keySha256 + '.json"',
+    `title = "shared-drive-mover-state-${keySha256}.json"`,
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -287,7 +290,7 @@ test("DriveBackedValue saves a value - the folder doesn't exists", () => {
   expect(insert.mock.calls[1][0].mimeType).toBe("application/json");
   expect(insert.mock.calls[1][0].parents).toStrictEqual([{ id: "FOLDER_ID" }]);
   expect(insert.mock.calls[1][0].title).toBe(
-    "shared-drive-mover-state-" + keySha256 + ".json",
+    `shared-drive-mover-state-${keySha256}.json`,
   );
   expect(insert.mock.calls[1][1]).toBe("BLOB");
   expect(mocked(global.Utilities).newBlob.mock.calls).toHaveLength(1);
@@ -310,9 +313,9 @@ test("DriveBackedValue loads a value - the folder exists, the value exists", () 
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   interface GetFileOptions {
@@ -358,12 +361,13 @@ test("DriveBackedValue loads a value - the folder exists, the value exists", () 
     ...mockedDrive(),
     Files: {
       ...mockedFilesCollection(),
-      list,
       get,
+      list,
     },
   };
 
   const driveBackedValue = new DriveBackedValue_(key);
+
   expect(driveBackedValue.loadValue()).toBe("VALUE");
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toBeDefined();
@@ -377,7 +381,7 @@ test("DriveBackedValue loads a value - the folder exists, the value exists", () 
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + keySha256 + '.json"',
+    `title = "shared-drive-mover-state-${keySha256}.json"`,
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -398,9 +402,9 @@ test("DriveBackedValue loads a value - the folder exists, the value doesn't", ()
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -428,12 +432,13 @@ test("DriveBackedValue loads a value - the folder exists, the value doesn't", ()
     ...mockedDrive(),
     Files: {
       ...mockedFilesCollection(),
-      list,
       get,
+      list,
     },
   };
 
   const driveBackedValue = new DriveBackedValue_(key);
+
   expect(driveBackedValue.loadValue()).toBeNull();
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toBeDefined();
@@ -447,7 +452,7 @@ test("DriveBackedValue loads a value - the folder exists, the value doesn't", ()
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + keySha256 + '.json"',
+    `title = "shared-drive-mover-state-${keySha256}.json"`,
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -463,9 +468,9 @@ test("DriveBackedValue loads a value - the folder doesn't exist", () => {
   ];
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -485,12 +490,13 @@ test("DriveBackedValue loads a value - the folder doesn't exist", () => {
     ...mockedDrive(),
     Files: {
       ...mockedFilesCollection(),
-      list,
       get,
+      list,
     },
   };
 
   const driveBackedValue = new DriveBackedValue_(key);
+
   expect(driveBackedValue.loadValue()).toBeNull();
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBeDefined();
@@ -516,9 +522,9 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -561,6 +567,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.deleteValue();
+
   expect(list.mock.calls).toHaveLength(3);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
@@ -573,7 +580,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + keySha256 + '.json"',
+    `title = "shared-drive-mover-state-${keySha256}.json"`,
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -596,9 +603,9 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -645,6 +652,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.deleteValue();
+
   expect(list.mock.calls).toHaveLength(3);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
@@ -657,7 +665,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + keySha256 + '.json"',
+    `title = "shared-drive-mover-state-${keySha256}.json"`,
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -679,9 +687,9 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -720,6 +728,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.deleteValue();
+
   expect(list.mock.calls).toHaveLength(3);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
@@ -732,7 +741,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + keySha256 + '.json"',
+    `title = "shared-drive-mover-state-${keySha256}.json"`,
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -754,9 +763,9 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
     "b4cbb0ac37bd7e93d1cd87f020dab1ac2775a402719b4c517f5d6d68748d2510";
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -799,6 +808,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.deleteValue();
+
   expect(list.mock.calls).toHaveLength(3);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(
@@ -811,7 +821,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
   expect(list.mock.calls[0][0]!.q).toContain("trashed = false");
   expect(list.mock.calls[1][0]).toBeDefined();
   expect(list.mock.calls[1][0]!.q).toContain(
-    'title = "shared-drive-mover-state-' + keySha256 + '.json"',
+    `title = "shared-drive-mover-state-${keySha256}.json"`,
   );
   expect(list.mock.calls[1][0]!.q).toContain('"FOLDER_ID" in parents');
   expect(list.mock.calls[1][0]!.q).toContain("trashed = false");
@@ -830,9 +840,9 @@ test("DriveBackedValue deletes a value - the folder doesn't exist", () => {
   ];
 
   interface ListFilesOptions {
-    q?: string;
-    maxResults?: number;
     fields?: string;
+    maxResults?: number;
+    q?: string;
   }
 
   global.Utilities = mockedUtilities();
@@ -859,6 +869,7 @@ test("DriveBackedValue deletes a value - the folder doesn't exist", () => {
 
   const driveBackedValue = new DriveBackedValue_(key);
   driveBackedValue.deleteValue();
+
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBeDefined();
   expect(list.mock.calls[0][0]!.q).toContain(

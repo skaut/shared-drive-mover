@@ -1,34 +1,28 @@
-/* eslint-env node */
-
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
-import sveltePreprocess from "svelte-preprocess";
+import { sveltePreprocess } from "svelte-preprocess";
 
 export default (_, options) => ({
+  entry: {
+    index: "./src/frontend/index.ts",
+  },
   mode: "production",
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "src/frontend/index.html",
-      minify: false,
-      inject: false,
-    }),
-  ],
   module: {
     rules: [
       {
-        test: /\.svelte$/,
+        test: /\.svelte$/u,
         use: {
           loader: "svelte-loader",
           options: {
             preprocess: sveltePreprocess({
-              tsconfigFile: "./frontend.tsconfig.json",
               sourceMap: options.mode === "development",
+              tsconfigFile: "./frontend.tsconfig.json",
             }),
           },
         },
       },
       {
-        test: /\.ts$/,
+        test: /\.ts$/u,
         use: {
           loader: "ts-loader",
           options: {
@@ -37,11 +31,11 @@ export default (_, options) => ({
         },
       },
       {
-        test: /\.css$/,
+        test: /\.css$/u,
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(sa|sc)ss$/,
+        test: /\.(sa|sc)ss$/u,
         use: [
           "style-loader",
           "css-loader",
@@ -57,6 +51,20 @@ export default (_, options) => ({
       },
     ],
   },
+  output: {
+    filename: "[name].js",
+    publicPath: "",
+  },
+  performance: {
+    hints: false,
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      inject: false,
+      minify: false,
+      template: "src/frontend/index.html",
+    }),
+  ],
   resolve: {
     alias: {
       svelte: path.resolve("node_modules", "svelte/src/runtime"),
@@ -64,15 +72,5 @@ export default (_, options) => ({
     conditionNames: ["svelte", "require", "node"],
     extensions: [".ts", ".js", ".svelte"],
     mainFields: ["svelte", "browser", "module", "main"],
-  },
-  entry: {
-    index: "./src/frontend/index.ts",
-  },
-  output: {
-    filename: "[name].js",
-    publicPath: "",
-  },
-  performance: {
-    hints: false,
   },
 });

@@ -9,12 +9,12 @@ import {
 
 test("listFolders works correctly", () => {
   interface ListFilesOptions {
-    q?: string;
-    includeItemsFromAllDrives?: boolean;
-    supportsAllDrives?: boolean;
-    pageToken?: string;
-    maxResults?: number;
     fields?: string;
+    includeItemsFromAllDrives?: boolean;
+    maxResults?: number;
+    pageToken?: string;
+    q?: string;
+    supportsAllDrives?: boolean;
   }
 
   const rawResponse = {
@@ -45,11 +45,11 @@ test("listFolders works correctly", () => {
   };
 
   expect(listFolders("ID_PARENT")).toStrictEqual({
-    status: "success",
     response: [
       { id: "ID1", name: "FOLDER1" },
       { id: "ID2", name: "FOLDER2" },
     ],
+    status: "success",
   });
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBeDefined();
@@ -64,23 +64,23 @@ test("listFolders works correctly", () => {
 
 test("listFolders works correctly with shortcuts", () => {
   interface ListFilesOptions {
-    q?: string;
-    includeItemsFromAllDrives?: boolean;
-    supportsAllDrives?: boolean;
-    pageToken?: string;
-    maxResults?: number;
     fields?: string;
+    includeItemsFromAllDrives?: boolean;
+    maxResults?: number;
+    pageToken?: string;
+    q?: string;
+    supportsAllDrives?: boolean;
   }
 
   const rawResponse = {
     items: [
       {
         id: "ID1",
-        title: "FOLDER1",
         mimeType: "application/vnd.google-apps.shortcut",
         shortcutDetails: {
           targetId: "TRUE_ID1",
         },
+        title: "FOLDER1",
       },
       { id: "ID2", title: "FOLDER2" },
     ],
@@ -107,11 +107,11 @@ test("listFolders works correctly with shortcuts", () => {
   };
 
   expect(listFolders("ID_PARENT")).toStrictEqual({
-    status: "success",
     response: [
       { id: "TRUE_ID1", name: "FOLDER1" },
       { id: "ID2", name: "FOLDER2" },
     ],
+    status: "success",
   });
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBeDefined();
@@ -126,12 +126,12 @@ test("listFolders works correctly with shortcuts", () => {
 
 test("listFolders handles invalid parameters gracefully", () => {
   interface ListFilesOptions {
-    q?: string;
-    includeItemsFromAllDrives?: boolean;
-    supportsAllDrives?: boolean;
-    pageToken?: string;
-    maxResults?: number;
     fields?: string;
+    includeItemsFromAllDrives?: boolean;
+    maxResults?: number;
+    pageToken?: string;
+    q?: string;
+    supportsAllDrives?: boolean;
   }
 
   const list = jest
@@ -165,12 +165,12 @@ test("listFolders handles invalid parameters gracefully", () => {
 
 test("listFolders handles errors in Google Drive API gracefully", () => {
   interface ListFilesOptions {
-    q?: string;
-    includeItemsFromAllDrives?: boolean;
-    supportsAllDrives?: boolean;
-    pageToken?: string;
-    maxResults?: number;
     fields?: string;
+    includeItemsFromAllDrives?: boolean;
+    maxResults?: number;
+    pageToken?: string;
+    q?: string;
+    supportsAllDrives?: boolean;
   }
 
   const list = jest

@@ -1,5 +1,6 @@
 import type { ListResponse } from "../interfaces/ListResponse";
 import type { NamedRecord } from "../interfaces/NamedRecord";
+
 import { paginationHelper_ } from "./utils/paginationHelper";
 
 export function listSharedDrives(): ListResponse {
@@ -10,17 +11,17 @@ export function listSharedDrives(): ListResponse {
     >(
       (pageToken) =>
         Drive.Drives!.list({
-          pageToken: pageToken,
+          fields: "nextPageToken, items(id, name)",
           maxResults: 100,
           orderBy: "name",
-          fields: "nextPageToken, items(id, name)",
+          pageToken,
         }),
       (listRepsonse) =>
         listRepsonse.items!.map((item) => ({ id: item.id!, name: item.name! })),
     );
     return {
-      status: "success",
       response,
+      status: "success",
     };
   } catch (e) {
     return { status: "error", type: "DriveAPIError" };

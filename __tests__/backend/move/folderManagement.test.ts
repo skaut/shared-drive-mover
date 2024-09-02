@@ -10,24 +10,24 @@ import { mockedDrive, mockedFilesCollection } from "../../test-utils/gas-stubs";
 
 test("listFilesInFolder works correctly", () => {
   interface ListFilesOptions {
-    q?: string;
-    includeItemsFromAllDrives?: boolean;
-    supportsAllDrives?: boolean;
-    pageToken?: string;
-    maxResults?: number;
     fields?: string;
+    includeItemsFromAllDrives?: boolean;
+    maxResults?: number;
+    pageToken?: string;
+    q?: string;
+    supportsAllDrives?: boolean;
   }
 
   const items = [
     {
+      capabilities: { canMoveItemOutOfDrive: true },
       id: "FILE1_ID",
       title: "FILE1_TITLE",
-      capabilities: { canMoveItemOutOfDrive: true },
     },
     {
+      capabilities: { canMoveItemOutOfDrive: false },
       id: "FILE2_ID",
       title: "FILE2_TITLE",
-      capabilities: { canMoveItemOutOfDrive: false },
     },
   ];
   const rawResponse = {
@@ -67,24 +67,24 @@ test("listFilesInFolder works correctly", () => {
 
 test("listFoldersInFolder works correctly", () => {
   interface ListFilesOptions {
-    q?: string;
-    includeItemsFromAllDrives?: boolean;
-    supportsAllDrives?: boolean;
-    pageToken?: string;
-    maxResults?: number;
     fields?: string;
+    includeItemsFromAllDrives?: boolean;
+    maxResults?: number;
+    pageToken?: string;
+    q?: string;
+    supportsAllDrives?: boolean;
   }
 
   const items = [
     {
+      capabilities: { canMoveItemOutOfDrive: true },
       id: "FILE1_ID",
       title: "FILE1_TITLE",
-      capabilities: { canMoveItemOutOfDrive: true },
     },
     {
+      capabilities: { canMoveItemOutOfDrive: false },
       id: "FILE2_ID",
       title: "FILE2_TITLE",
-      capabilities: { canMoveItemOutOfDrive: false },
     },
   ];
   const rawResponse = {
@@ -124,11 +124,11 @@ test("listFoldersInFolder works correctly", () => {
 
 test("isFolderEmpty works correctly with an empty folder", () => {
   interface ListFilesOptions {
-    q?: string;
-    includeItemsFromAllDrives?: boolean;
-    supportsAllDrives?: boolean;
-    maxResults?: number;
     fields?: string;
+    includeItemsFromAllDrives?: boolean;
+    maxResults?: number;
+    q?: string;
+    supportsAllDrives?: boolean;
   }
 
   const rawResponse = {
@@ -159,11 +159,11 @@ test("isFolderEmpty works correctly with an empty folder", () => {
 
 test("isFolderEmpty works correctly with a non-empty folder", () => {
   interface ListFilesOptions {
-    q?: string;
-    includeItemsFromAllDrives?: boolean;
-    supportsAllDrives?: boolean;
-    maxResults?: number;
     fields?: string;
+    includeItemsFromAllDrives?: boolean;
+    maxResults?: number;
+    q?: string;
+    supportsAllDrives?: boolean;
   }
 
   const rawResponse = {
@@ -201,12 +201,12 @@ test.each(["owner", "organizer"] as Array<
       fields?: string;
     }
     interface ListFilesOptions {
-      q?: string;
-      includeItemsFromAllDrives?: boolean;
-      supportsAllDrives?: boolean;
-      pageToken?: string;
-      maxResults?: number;
       fields?: string;
+      includeItemsFromAllDrives?: boolean;
+      maxResults?: number;
+      pageToken?: string;
+      q?: string;
+      supportsAllDrives?: boolean;
     }
 
     const getResponse = {
@@ -263,12 +263,12 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
     fields?: string;
   }
   interface ListFilesOptions {
-    q?: string;
-    includeItemsFromAllDrives?: boolean;
-    supportsAllDrives?: boolean;
-    pageToken?: string;
-    maxResults?: number;
     fields?: string;
+    includeItemsFromAllDrives?: boolean;
+    maxResults?: number;
+    pageToken?: string;
+    q?: string;
+    supportsAllDrives?: boolean;
   }
 
   const get =
@@ -320,12 +320,12 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
       fields?: string;
     }
     interface ListFilesOptions {
-      q?: string;
-      includeItemsFromAllDrives?: boolean;
-      supportsAllDrives?: boolean;
-      pageToken?: string;
-      maxResults?: number;
       fields?: string;
+      includeItemsFromAllDrives?: boolean;
+      maxResults?: number;
+      pageToken?: string;
+      q?: string;
+      supportsAllDrives?: boolean;
     }
 
     const getResponse = {

@@ -1,4 +1,5 @@
 import type { MoveResponse } from "../interfaces/MoveResponse";
+
 import { isFolderEmpty_ } from "./move/folderManagement";
 import { moveFolder_ } from "./move/moveFolder";
 import { MoveState_ } from "./utils/MoveState";
@@ -56,8 +57,9 @@ export function move(
 
   const errors = state.getErrors();
   if (errors.length > 0) {
+    // eslint-disable-next-line no-console -- Intentional error printing
     console.error(errors);
   }
   state.destroyState();
-  return { status: "success", response: { errors: errors } };
+  return { response: { errors }, status: "success" };
 }

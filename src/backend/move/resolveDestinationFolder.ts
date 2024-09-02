@@ -1,5 +1,6 @@
 import type { MoveContext } from "../../interfaces/MoveContext";
 import type { MoveState_ } from "../utils/MoveState";
+
 import { listFoldersInFolder_ } from "./folderManagement";
 
 export function resolveDestinationFolder_(
@@ -24,11 +25,11 @@ export function resolveDestinationFolder_(
   }
   return Drive.Files!.insert(
     {
+      mimeType: "application/vnd.google-apps.folder",
       parents: [{ id: context.destinationID }],
       title: sourceFolder.title!,
-      mimeType: "application/vnd.google-apps.folder",
     },
     undefined,
-    { supportsAllDrives: true, fields: "id" },
+    { fields: "id", supportsAllDrives: true },
   );
 }

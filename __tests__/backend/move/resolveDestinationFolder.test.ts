@@ -11,8 +11,8 @@ jest.mock("../../../src/backend/move/folderManagement");
 
 test("resolveDestinationFolder corretly creates new folder", () => {
   interface InsertFileOptions {
-    supportsAllDrives?: boolean;
     fields?: string;
+    supportsAllDrives?: boolean;
   }
 
   const insert = jest
@@ -42,9 +42,9 @@ test("resolveDestinationFolder corretly creates new folder", () => {
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
       state,
       {
-        sourceID: "SRC_PARENT_ID",
         destinationID: "DEST_PARENT_ID",
         path: ["PATH", "TO", "FOLDER"],
+        sourceID: "SRC_PARENT_ID",
       },
       false,
     ),
@@ -65,8 +65,8 @@ test("resolveDestinationFolder corretly creates new folder", () => {
 
 test("resolveDestinationFolder corretly creates new folder when set not to merge folders, even when a folder with the same name exists", () => {
   interface InsertFileOptions {
-    supportsAllDrives?: boolean;
     fields?: string;
+    supportsAllDrives?: boolean;
   }
 
   const insert = jest
@@ -100,9 +100,9 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
       state,
       {
-        sourceID: "SRC_PARENT_ID",
         destinationID: "DEST_PARENT_ID",
         path: ["PATH", "TO", "FOLDER"],
+        sourceID: "SRC_PARENT_ID",
       },
       false,
     ),
@@ -123,8 +123,8 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
 
 test("resolveDestinationFolder corretly creates new folder when set to merge folders, but there is no existing folder the same name", () => {
   interface InsertFileOptions {
-    supportsAllDrives?: boolean;
     fields?: string;
+    supportsAllDrives?: boolean;
   }
 
   const insert = jest
@@ -156,9 +156,9 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
       state,
       {
-        sourceID: "SRC_PARENT_ID",
         destinationID: "DEST_PARENT_ID",
         path: ["PATH", "TO", "FOLDER"],
+        sourceID: "SRC_PARENT_ID",
       },
       true,
     ),
@@ -179,8 +179,8 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
 
 test("resolveDestinationFolder corretly uses an existing folder when set to merge folders", () => {
   interface InsertFileOptions {
-    supportsAllDrives?: boolean;
     fields?: string;
+    supportsAllDrives?: boolean;
   }
 
   const insert = jest.fn<
@@ -211,9 +211,9 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
       state,
       {
-        sourceID: "SRC_PARENT_ID",
         destinationID: "DEST_PARENT_ID",
         path: ["PATH", "TO", "FOLDER"],
+        sourceID: "SRC_PARENT_ID",
       },
       true,
     ),
@@ -225,8 +225,8 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
 
 test("resolveDestinationFolder fails gracefully on multiple existing folders with the same name", () => {
   interface InsertFileOptions {
-    supportsAllDrives?: boolean;
     fields?: string;
+    supportsAllDrives?: boolean;
   }
 
   const insert = jest
@@ -263,9 +263,9 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
       { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
       state,
       {
-        sourceID: "SRC_PARENT_ID",
         destinationID: "DEST_PARENT_ID",
         path: ["PATH", "TO", "FOLDER"],
+        sourceID: "SRC_PARENT_ID",
       },
       true,
     ),
