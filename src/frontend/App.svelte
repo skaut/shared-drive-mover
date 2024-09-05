@@ -111,14 +111,18 @@
   }
 
   function move(forceNonEmpty = false): void {
+    if (source === null || destination === null) {
+      moveErrorHandler(new Error("No source or destination specified"));
+      return;
+    }
     currentTab = "moving";
     moving = true;
     google.script.run
       .withSuccessHandler(moveSuccessHandler)
       .withFailureHandler(moveErrorHandler)
       .move(
-        source!.id,
-        destination!.id,
+        source.id,
+        destination.id,
         copyComments,
         mergeFolders,
         forceNonEmpty,
