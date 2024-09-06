@@ -4,6 +4,7 @@ import { mocked } from "jest-mock";
 import * as folderManagement from "../../../src/backend/move/folderManagement";
 import { resolveDestinationFolder_ } from "../../../src/backend/move/resolveDestinationFolder";
 import { MoveState_ } from "../../../src/backend/utils/MoveState";
+import { mockedDriveService } from "../../test-utils/DriveService-stub";
 import { mockedDrive, mockedFilesCollection } from "../../test-utils/gas-stubs";
 
 jest.mock("../../../src/backend/utils/MoveState");
@@ -35,7 +36,14 @@ test("resolveDestinationFolder corretly creates new folder", () => {
       insert,
     },
   };
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
 
   expect(
     resolveDestinationFolder_(
@@ -93,7 +101,14 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
   mocked(folderManagement).listFoldersInFolder_.mockReturnValueOnce([
     { id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" },
   ]);
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
 
   expect(
     resolveDestinationFolder_(
@@ -149,7 +164,14 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
   };
 
   mocked(folderManagement).listFoldersInFolder_.mockReturnValueOnce([]);
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, true);
+  const driveServiceMock = mockedDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    true,
+    driveServiceMock,
+  );
 
   expect(
     resolveDestinationFolder_(
@@ -204,7 +226,14 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
     { id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" },
     { id: "EXISTING_WRONG_FOLDER2_ID", title: "DIFFERENT_FOLDER_NAME2" },
   ]);
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, true);
+  const driveServiceMock = mockedDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    true,
+    driveServiceMock,
+  );
 
   expect(
     resolveDestinationFolder_(
@@ -256,7 +285,14 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
     { id: "EXISTING_FOLDER_ID2", title: "FOLDER_NAME" },
     { id: "EXISTING_WRONG_FOLDER2_ID", title: "DIFFERENT_FOLDER_NAME2" },
   ]);
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, true);
+  const driveServiceMock = mockedDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    true,
+    driveServiceMock,
+  );
 
   expect(
     resolveDestinationFolder_(

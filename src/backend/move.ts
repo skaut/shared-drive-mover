@@ -2,6 +2,7 @@ import type { MoveResponse } from "../interfaces/MoveResponse";
 
 import { isFolderEmpty_ } from "./move/folderManagement";
 import { moveFolder_ } from "./move/moveFolder";
+import { DriveService_ } from "./utils/DriveService";
 import { MoveState_ } from "./utils/MoveState";
 
 export function move(
@@ -27,11 +28,14 @@ export function move(
   try {
     const isEmpty = isFolderEmpty_(destinationID);
 
+    const driveService = new DriveService_();
+
     const state = new MoveState_(
       sourceID,
       destinationID,
       copyComments,
       mergeFolders,
+      driveService,
     );
     state.loadState();
 

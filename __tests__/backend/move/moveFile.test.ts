@@ -4,6 +4,7 @@ import { mocked } from "jest-mock";
 import * as copyFileComments from "../../../src/backend/move/copyFileComments";
 import { moveFile_ } from "../../../src/backend/move/moveFile";
 import { MoveState_ } from "../../../src/backend/utils/MoveState";
+import { mockedDriveService } from "../../test-utils/DriveService-stub";
 import { mockedDrive, mockedFilesCollection } from "../../test-utils/gas-stubs";
 
 jest.mock("../../../src/backend/utils/MoveState");
@@ -34,7 +35,14 @@ test("moveFile works correctly with a file that can be moved directly", () => {
       update,
     },
   };
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
 
   moveFile_(
     {
@@ -100,7 +108,14 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
       update,
     },
   };
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   moveFile_(
@@ -155,7 +170,14 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
       copy,
     },
   };
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   moveFile_(
@@ -207,7 +229,14 @@ test("moveFile works correctly with a file that can be moved directly with comme
       update,
     },
   };
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", true, false);
+  const driveServiceMock = mockedDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    true,
+    false,
+    driveServiceMock,
+  );
 
   moveFile_(
     {
@@ -255,7 +284,14 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
     },
   };
   mocked(copyFileComments).copyFileComments_.mockReturnValueOnce();
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", true, false);
+  const driveServiceMock = mockedDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    true,
+    false,
+    driveServiceMock,
+  );
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   moveFile_(
@@ -334,7 +370,14 @@ test("moveFile fails gracefully on error", () => {
       update,
     },
   };
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   mocked(state).tryOrLog.mockImplementation((_, fn) => {
     expect(fn).toThrow("ERROR_MESAGE");
 
