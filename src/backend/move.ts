@@ -53,7 +53,7 @@ export function move(
       if (nextPath === null) {
         break;
       }
-      moveFolder_(state, nextPath, copyComments, mergeFolders);
+      moveFolder_(state, nextPath, copyComments, mergeFolders, driveService);
     }
 
     const errors = state.getErrors();

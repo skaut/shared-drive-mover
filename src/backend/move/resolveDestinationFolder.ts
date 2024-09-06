@@ -1,4 +1,5 @@
 import type { MoveContext } from "../../interfaces/MoveContext";
+import type { DriveService_ } from "../utils/DriveService";
 import type { MoveState_ } from "../utils/MoveState";
 
 import { listFoldersInFolder_ } from "./folderManagement";
@@ -8,6 +9,7 @@ export function resolveDestinationFolder_(
   state: MoveState_,
   context: MoveContext,
   mergeFolders: boolean,
+  driveService: DriveService_,
 ): GoogleAppsScript.Drive.Schema.File {
   if (mergeFolders) {
     const existingFoldersWithSameName = listFoldersInFolder_(
@@ -23,7 +25,7 @@ export function resolveDestinationFolder_(
       );
     }
   }
-  return Drive.Files!.insert(
+  return driveService.Files.insert(
     {
       mimeType: "application/vnd.google-apps.folder",
       parents: [{ id: context.destinationID }],

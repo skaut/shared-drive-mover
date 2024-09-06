@@ -36,7 +36,7 @@ test("moveFolder works correctly with an empty folder", () => {
     sourceID: "SRC_ID",
   };
 
-  moveFolder_(state, context, false, false);
+  moveFolder_(state, context, false, false, driveServiceMock);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -76,7 +76,7 @@ test("moveFolder moves files correctly", () => {
     path: ["PATH", "TO", "FOLDER"],
     sourceID: "SRC_ID",
   };
-  moveFolder_(state, context, false, false);
+  moveFolder_(state, context, false, false, driveServiceMock);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -125,7 +125,7 @@ test("moveFolder adds subfolders to the state correctly", () => {
     path: ["PATH", "TO", "FOLDER"],
     sourceID: "SRC_ID",
   };
-  moveFolder_(state, context, false, false);
+  moveFolder_(state, context, false, false, driveServiceMock);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -204,7 +204,7 @@ test("moveFolder moves files correctly, even when listing folders throws", () =>
     path: ["PATH", "TO", "FOLDER"],
     sourceID: "SRC_ID",
   };
-  moveFolder_(state, context, false, false);
+  moveFolder_(state, context, false, false, driveServiceMock);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -264,7 +264,7 @@ test("moveFolder adds subfolders to the state correctly, even when listing files
     sourceID: "SRC_ID",
   };
 
-  moveFolder_(state, context, false, false);
+  moveFolder_(state, context, false, false, driveServiceMock);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -334,7 +334,7 @@ test("moveFolder passes copyComments correctly", () => {
     sourceID: "SRC_ID",
   };
 
-  moveFolder_(state, context, true, false);
+  moveFolder_(state, context, true, false, driveServiceMock);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -384,7 +384,7 @@ test("moveFolder passes mergeFolders correctly", () => {
     sourceID: "SRC_ID",
   };
 
-  moveFolder_(state, context, false, true);
+  moveFolder_(state, context, false, true, driveServiceMock);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");

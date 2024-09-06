@@ -1,4 +1,5 @@
 import type { MoveContext } from "../../interfaces/MoveContext";
+import type { DriveService_ } from "../utils/DriveService";
 import type { MoveState_ } from "../utils/MoveState";
 
 import { listFilesInFolder_, listFoldersInFolder_ } from "./folderManagement";
@@ -26,6 +27,7 @@ export function moveFolder_(
   context: MoveContext,
   copyComments: boolean,
   mergeFolders: boolean,
+  driveService: DriveService_,
 ): void {
   moveFolderContentsFiles_(state, context, copyComments);
   const subFolders = state.tryOrLog(context, () =>
@@ -38,6 +40,7 @@ export function moveFolder_(
         state,
         context,
         mergeFolders,
+        driveService,
       );
       state.addPath(
         folder.id!,
