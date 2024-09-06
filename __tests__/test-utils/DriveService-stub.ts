@@ -4,6 +4,7 @@ import type { DriveService_ } from "../../src/backend/utils/DriveService";
 
 import {
   mockedCommentsCollection,
+  mockedDrivesCollection,
   mockedFilesCollection,
   mockedRepliesCollection,
 } from "./gas-stubs";
@@ -11,6 +12,7 @@ import {
 export function mockedDriveService(): MockedObject<DriveService_> {
   return {
     Comments: mockedCommentsCollection(),
+    Drives: mockedDrivesCollection(),
     Files: mockedFilesCollection(),
     Replies: mockedRepliesCollection(),
   } as MockedObject<DriveService_>;
