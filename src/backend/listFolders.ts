@@ -1,6 +1,7 @@
 import type { ListResponse } from "../interfaces/ListResponse";
 import type { NamedRecord } from "../interfaces/NamedRecord";
 
+import { DriveService_ } from "./utils/DriveService";
 import { paginationHelper_ } from "./utils/paginationHelper";
 
 export function listFolders(parentID: google.script.Parameter): ListResponse {
@@ -8,12 +9,14 @@ export function listFolders(parentID: google.script.Parameter): ListResponse {
     return { status: "error", type: "invalidParameter" };
   }
   try {
+    const driveService = new DriveService_();
+
     const response = paginationHelper_<
       GoogleAppsScript.Drive.Schema.FileList,
       NamedRecord
     >(
       (pageToken) =>
-        Drive.Files!.list({
+        driveService.Files.list({
           fields:
             "nextPageToken, items(id, title, mimeType, shortcutDetails(targetId))",
           includeItemsFromAllDrives: true,
