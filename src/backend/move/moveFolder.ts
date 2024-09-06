@@ -10,6 +10,7 @@ function moveFolderContentsFiles_(
   state: MoveState_,
   context: MoveContext,
   copyComments: boolean,
+  driveService: DriveService_,
 ): void {
   const files = state.tryOrLog(context, () =>
     listFilesInFolder_(context.sourceID),
@@ -18,7 +19,7 @@ function moveFolderContentsFiles_(
     return;
   }
   for (const file of files) {
-    moveFile_(file, state, context, copyComments);
+    moveFile_(file, state, context, copyComments, driveService);
   }
 }
 
@@ -29,7 +30,7 @@ export function moveFolder_(
   mergeFolders: boolean,
   driveService: DriveService_,
 ): void {
-  moveFolderContentsFiles_(state, context, copyComments);
+  moveFolderContentsFiles_(state, context, copyComments, driveService);
   const subFolders = state.tryOrLog(context, () =>
     listFoldersInFolder_(context.sourceID),
   );

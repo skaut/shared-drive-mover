@@ -1,10 +1,15 @@
 import type { MoveContext } from "../../interfaces/MoveContext";
+import type { DriveService_ } from "../utils/DriveService";
 import type { MoveState_ } from "../utils/MoveState";
 
 import { copyFileComments_ } from "./copyFileComments";
 
-function moveFileDirectly_(fileID: string, context: MoveContext): void {
-  Drive.Files!.update({}, fileID, null, {
+function moveFileDirectly_(
+  fileID: string,
+  context: MoveContext,
+  driveService: DriveService_,
+): void {
+  driveService.Files.update({}, fileID, null, {
     addParents: context.destinationID,
     fields: "",
     removeParents: context.sourceID,
@@ -18,11 +23,12 @@ function moveFileByCopy_(
   state: MoveState_,
   context: MoveContext,
   copyComments: boolean,
+  driveService: DriveService_,
 ): void {
   state.tryOrLog(
     context,
     () => {
-      const copy = Drive.Files!.copy(
+      const copy = driveService.Files.copy(
         {
           parents: [{ id: context.destinationID }],
           title: name,
@@ -43,12 +49,20 @@ export function moveFile_(
   state: MoveState_,
   context: MoveContext,
   copyComments: boolean,
+  driveService: DriveService_,
 ): void {
   if (file.capabilities!.canMoveItemOutOfDrive!) {
     try {
-      moveFileDirectly_(file.id!, context);
+      moveFileDirectly_(file.id!, context, driveService);
       return;
     } catch (e) {} // eslint-disable-line no-empty -- Handled by moving by copying
   }
-  moveFileByCopy_(file.id!, file.title!, state, context, copyComments);
+  moveFileByCopy_(
+    file.id!,
+    file.title!,
+    state,
+    context,
+    copyComments,
+    driveService,
+  );
 }

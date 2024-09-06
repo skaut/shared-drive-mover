@@ -5,7 +5,6 @@ import * as copyFileComments from "../../../src/backend/move/copyFileComments";
 import { moveFile_ } from "../../../src/backend/move/moveFile";
 import { MoveState_ } from "../../../src/backend/utils/MoveState";
 import { mockedDriveService } from "../../test-utils/DriveService-stub";
-import { mockedDrive, mockedFilesCollection } from "../../test-utils/gas-stubs";
 
 jest.mock("../../../src/backend/utils/MoveState");
 jest.mock("../../../src/backend/move/copyFileComments");
@@ -17,25 +16,8 @@ test("moveFile works correctly with a file that can be moved directly", () => {
     supportsAllDrives?: boolean;
   }
 
-  const update = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
-        mediaData?: any,
-        optionalArgs?: UpdateFileOptions,
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce({});
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      update,
-    },
-  };
   const driveServiceMock = mockedDriveService();
+  driveServiceMock.Files.update.mockReturnValueOnce({});
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -57,14 +39,26 @@ test("moveFile works correctly with a file that can be moved directly", () => {
       sourceID: "SRC_PARENT_ID",
     },
     false,
+    driveServiceMock,
   );
 
-  expect(update.mock.calls).toHaveLength(1);
-  expect(update.mock.calls[0][1]).toContain("SRC_FILE_ID");
-  expect(update.mock.calls[0][3]).toBeDefined();
-  expect(update.mock.calls[0][3]!.addParents).toContain("DEST_PARENT_ID");
-  expect(update.mock.calls[0][3]!.removeParents).toContain("SRC_PARENT_ID");
-  expect(update.mock.calls[0][3]!.supportsAllDrives).toBe(true);
+  expect(driveServiceMock.Files.update.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.update.mock.calls[0][1]).toContain(
+    "SRC_FILE_ID",
+  );
+  expect(driveServiceMock.Files.update.mock.calls[0][3]).toBeDefined();
+  expect(
+    (driveServiceMock.Files.update.mock.calls[0][3] as UpdateFileOptions)
+      .addParents,
+  ).toContain("DEST_PARENT_ID");
+  expect(
+    (driveServiceMock.Files.update.mock.calls[0][3] as UpdateFileOptions)
+      .removeParents,
+  ).toContain("SRC_PARENT_ID");
+  expect(
+    (driveServiceMock.Files.update.mock.calls[0][3] as UpdateFileOptions)
+      .supportsAllDrives,
+  ).toBe(true);
 });
 
 test("moveFile works correctly with a file that can be moved out of drive, yet cannot be moved directly", () => {
@@ -78,37 +72,11 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
     supportsAllDrives?: boolean;
   }
 
-  const copy = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        optionalArgs?: CopyFileOptions,
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce({});
-  const update = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
-        mediaData?: any,
-        optionalArgs?: UpdateFileOptions,
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockImplementation(() => {
-      throw new Error();
-    });
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      copy,
-      update,
-    },
-  };
   const driveServiceMock = mockedDriveService();
+  driveServiceMock.Files.copy.mockReturnValueOnce({});
+  driveServiceMock.Files.update.mockImplementation(() => {
+    throw new Error();
+  });
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -131,21 +99,38 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
       sourceID: "SRC_PARENT_ID",
     },
     false,
+    driveServiceMock,
   );
 
-  expect(update.mock.calls).toHaveLength(1);
-  expect(update.mock.calls[0][1]).toContain("SRC_FILE_ID");
-  expect(update.mock.calls[0][3]).toBeDefined();
-  expect(update.mock.calls[0][3]!.addParents).toContain("DEST_PARENT_ID");
-  expect(update.mock.calls[0][3]!.removeParents).toContain("SRC_PARENT_ID");
-  expect(update.mock.calls[0][3]!.supportsAllDrives).toBe(true);
-  expect(copy.mock.calls).toHaveLength(1);
-  expect(copy.mock.calls[0][0].parents!).toHaveLength(1);
-  expect(copy.mock.calls[0][0].parents![0].id).toBe("DEST_PARENT_ID");
-  expect(copy.mock.calls[0][0].title).toBe("FILE_NAME");
-  expect(copy.mock.calls[0][1]).toBe("SRC_FILE_ID");
-  expect(copy.mock.calls[0][2]).toBeDefined();
-  expect(copy.mock.calls[0][2]!.supportsAllDrives).toBe(true);
+  expect(driveServiceMock.Files.update.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.update.mock.calls[0][1]).toContain(
+    "SRC_FILE_ID",
+  );
+  expect(driveServiceMock.Files.update.mock.calls[0][3]).toBeDefined();
+  expect(
+    (driveServiceMock.Files.update.mock.calls[0][3] as UpdateFileOptions)
+      .addParents,
+  ).toContain("DEST_PARENT_ID");
+  expect(
+    (driveServiceMock.Files.update.mock.calls[0][3] as UpdateFileOptions)
+      .removeParents,
+  ).toContain("SRC_PARENT_ID");
+  expect(
+    (driveServiceMock.Files.update.mock.calls[0][3] as UpdateFileOptions)
+      .supportsAllDrives,
+  ).toBe(true);
+  expect(driveServiceMock.Files.copy.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents!).toHaveLength(1);
+  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents![0].id).toBe(
+    "DEST_PARENT_ID",
+  );
+  expect(driveServiceMock.Files.copy.mock.calls[0][0].title).toBe("FILE_NAME");
+  expect(driveServiceMock.Files.copy.mock.calls[0][1]).toBe("SRC_FILE_ID");
+  expect(driveServiceMock.Files.copy.mock.calls[0][2]).toBeDefined();
+  expect(
+    (driveServiceMock.Files.copy.mock.calls[0][2] as CopyFileOptions)
+      .supportsAllDrives,
+  ).toBe(true);
 });
 
 test("moveFile works correctly with a file that cannot be moved out of drive", () => {
@@ -154,23 +139,8 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
     supportsAllDrives?: boolean;
   }
 
-  const copy = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        optionalArgs?: CopyFileOptions,
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce({});
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      copy,
-    },
-  };
   const driveServiceMock = mockedDriveService();
+  driveServiceMock.Files.copy.mockReturnValueOnce({});
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -193,15 +163,21 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
       sourceID: "SRC_PARENT_ID",
     },
     false,
+    driveServiceMock,
   );
 
-  expect(copy.mock.calls).toHaveLength(1);
-  expect(copy.mock.calls[0][0].parents!).toHaveLength(1);
-  expect(copy.mock.calls[0][0].parents![0].id).toBe("DEST_PARENT_ID");
-  expect(copy.mock.calls[0][0].title).toBe("FILE_NAME");
-  expect(copy.mock.calls[0][1]).toBe("SRC_FILE_ID");
-  expect(copy.mock.calls[0][2]).toBeDefined();
-  expect(copy.mock.calls[0][2]!.supportsAllDrives).toBe(true);
+  expect(driveServiceMock.Files.copy.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents!).toHaveLength(1);
+  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents![0].id).toBe(
+    "DEST_PARENT_ID",
+  );
+  expect(driveServiceMock.Files.copy.mock.calls[0][0].title).toBe("FILE_NAME");
+  expect(driveServiceMock.Files.copy.mock.calls[0][1]).toBe("SRC_FILE_ID");
+  expect(driveServiceMock.Files.copy.mock.calls[0][2]).toBeDefined();
+  expect(
+    (driveServiceMock.Files.copy.mock.calls[0][2] as CopyFileOptions)
+      .supportsAllDrives,
+  ).toBe(true);
 });
 
 test("moveFile works correctly with a file that can be moved directly with comments", () => {
@@ -211,25 +187,8 @@ test("moveFile works correctly with a file that can be moved directly with comme
     supportsAllDrives?: boolean;
   }
 
-  const update = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
-        mediaData?: any,
-        optionalArgs?: UpdateFileOptions,
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce({});
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      update,
-    },
-  };
   const driveServiceMock = mockedDriveService();
+  driveServiceMock.Files.update.mockReturnValueOnce({});
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -251,14 +210,26 @@ test("moveFile works correctly with a file that can be moved directly with comme
       sourceID: "SRC_PARENT_ID",
     },
     true,
+    driveServiceMock,
   );
 
-  expect(update.mock.calls).toHaveLength(1);
-  expect(update.mock.calls[0][1]).toContain("SRC_FILE_ID");
-  expect(update.mock.calls[0][3]).toBeDefined();
-  expect(update.mock.calls[0][3]!.addParents).toContain("DEST_PARENT_ID");
-  expect(update.mock.calls[0][3]!.removeParents).toContain("SRC_PARENT_ID");
-  expect(update.mock.calls[0][3]!.supportsAllDrives).toBe(true);
+  expect(driveServiceMock.Files.update.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.update.mock.calls[0][1]).toContain(
+    "SRC_FILE_ID",
+  );
+  expect(driveServiceMock.Files.update.mock.calls[0][3]).toBeDefined();
+  expect(
+    (driveServiceMock.Files.update.mock.calls[0][3] as UpdateFileOptions)
+      .addParents,
+  ).toContain("DEST_PARENT_ID");
+  expect(
+    (driveServiceMock.Files.update.mock.calls[0][3] as UpdateFileOptions)
+      .removeParents,
+  ).toContain("SRC_PARENT_ID");
+  expect(
+    (driveServiceMock.Files.update.mock.calls[0][3] as UpdateFileOptions)
+      .supportsAllDrives,
+  ).toBe(true);
 });
 
 test("moveFile works correctly with a file that cannot be moved out of drive with comments", () => {
@@ -267,24 +238,9 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
     supportsAllDrives?: boolean;
   }
 
-  const copy = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        optionalArgs?: CopyFileOptions,
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce({ id: "DEST_FILE_ID" });
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      copy,
-    },
-  };
   mocked(copyFileComments).copyFileComments_.mockReturnValueOnce();
   const driveServiceMock = mockedDriveService();
+  driveServiceMock.Files.copy.mockReturnValueOnce({ id: "DEST_FILE_ID" });
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -307,15 +263,21 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
       sourceID: "SRC_PARENT_ID",
     },
     true,
+    driveServiceMock,
   );
 
-  expect(copy.mock.calls).toHaveLength(1);
-  expect(copy.mock.calls[0][0].parents!).toHaveLength(1);
-  expect(copy.mock.calls[0][0].parents![0].id).toBe("DEST_PARENT_ID");
-  expect(copy.mock.calls[0][0].title).toBe("FILE_NAME");
-  expect(copy.mock.calls[0][1]).toBe("SRC_FILE_ID");
-  expect(copy.mock.calls[0][2]).toBeDefined();
-  expect(copy.mock.calls[0][2]!.supportsAllDrives).toBe(true);
+  expect(driveServiceMock.Files.copy.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents!).toHaveLength(1);
+  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents![0].id).toBe(
+    "DEST_PARENT_ID",
+  );
+  expect(driveServiceMock.Files.copy.mock.calls[0][0].title).toBe("FILE_NAME");
+  expect(driveServiceMock.Files.copy.mock.calls[0][1]).toBe("SRC_FILE_ID");
+  expect(driveServiceMock.Files.copy.mock.calls[0][2]).toBeDefined();
+  expect(
+    (driveServiceMock.Files.copy.mock.calls[0][2] as CopyFileOptions)
+      .supportsAllDrives,
+  ).toBe(true);
   expect(mocked(copyFileComments).copyFileComments_.mock.calls).toHaveLength(1);
   expect(mocked(copyFileComments).copyFileComments_.mock.calls[0][0]).toBe(
     "SRC_FILE_ID",
@@ -328,49 +290,13 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
 test("moveFile fails gracefully on error", () => {
   expect.assertions(1);
 
-  interface CopyFileOptions {
-    fields?: string;
-    supportsAllDrives?: boolean;
-  }
-  interface UpdateFileOptions {
-    addParents?: string;
-    removeParents?: string;
-    supportsAllDrives?: boolean;
-  }
-
-  const copy = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        optionalArgs?: CopyFileOptions,
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockImplementation(() => {
-      throw new Error("ERROR_MESAGE");
-    });
-  const update = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
-        mediaData?: any,
-        optionalArgs?: UpdateFileOptions,
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockImplementation(() => {
-      throw new Error("ERROR_MESAGE");
-    });
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      copy,
-      update,
-    },
-  };
   const driveServiceMock = mockedDriveService();
+  driveServiceMock.Files.copy.mockImplementation(() => {
+    throw new Error("ERROR_MESAGE");
+  });
+  driveServiceMock.Files.update.mockImplementation(() => {
+    throw new Error("ERROR_MESAGE");
+  });
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -397,5 +323,6 @@ test("moveFile fails gracefully on error", () => {
       sourceID: "SRC_PARENT_ID",
     },
     false,
+    driveServiceMock,
   );
 });
