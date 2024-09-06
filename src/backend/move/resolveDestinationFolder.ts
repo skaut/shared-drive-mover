@@ -14,6 +14,7 @@ export function resolveDestinationFolder_(
   if (mergeFolders) {
     const existingFoldersWithSameName = listFoldersInFolder_(
       context.destinationID,
+      driveService,
     ).filter((folder) => folder.title === sourceFolder.title);
     if (existingFoldersWithSameName.length === 1) {
       return existingFoldersWithSameName[0];

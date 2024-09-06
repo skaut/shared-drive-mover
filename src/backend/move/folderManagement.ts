@@ -1,15 +1,18 @@
+import type { DriveService_ } from "../utils/DriveService";
+
 import { paginationHelper_ } from "../utils/paginationHelper";
 
 function listFolderContents_(
   folderID: string,
   mimeTypeCondition: string,
+  driveService: DriveService_,
 ): Array<GoogleAppsScript.Drive.Schema.File> {
   return paginationHelper_<
     GoogleAppsScript.Drive.Schema.FileList,
     GoogleAppsScript.Drive.Schema.File
   >(
     (pageToken) =>
-      Drive.Files!.list({
+      driveService.Files.list({
         fields:
           "nextPageToken, items(id, title, capabilities(canMoveItemOutOfDrive))",
         includeItemsFromAllDrives: true,
@@ -24,24 +27,31 @@ function listFolderContents_(
 
 export function listFilesInFolder_(
   folderID: string,
+  driveService: DriveService_,
 ): Array<GoogleAppsScript.Drive.Schema.File> {
   return listFolderContents_(
     folderID,
     '!= "application/vnd.google-apps.folder"',
+    driveService,
   );
 }
 
 export function listFoldersInFolder_(
   folderID: string,
+  driveService: DriveService_,
 ): Array<GoogleAppsScript.Drive.Schema.File> {
   return listFolderContents_(
     folderID,
     '= "application/vnd.google-apps.folder"',
+    driveService,
   );
 }
 
-export function isFolderEmpty_(folderID: string): boolean {
-  const response = Drive.Files!.list({
+export function isFolderEmpty_(
+  folderID: string,
+  driveService: DriveService_,
+): boolean {
+  const response = driveService.Files.list({
     fields: "items(id)",
     includeItemsFromAllDrives: true,
     maxResults: 1,
@@ -51,17 +61,20 @@ export function isFolderEmpty_(folderID: string): boolean {
   return response.items!.length === 0;
 }
 
-export function deleteFolderIfEmpty_(folderID: string): void {
-  if (!isFolderEmpty_(folderID)) {
+export function deleteFolderIfEmpty_(
+  folderID: string,
+  driveService: DriveService_,
+): void {
+  if (!isFolderEmpty_(folderID, driveService)) {
     return;
   }
-  const response = Drive.Files!.get(folderID, {
+  const response = driveService.Files.get(folderID, {
     fields: "userPermission(role)",
   });
   if (
     response.userPermission!.role === "owner" ||
     response.userPermission!.role === "organizer"
   ) {
-    Drive.Files!.remove(folderID);
+    driveService.Files.remove(folderID);
   }
 }

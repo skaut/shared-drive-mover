@@ -323,7 +323,7 @@ test("move fails gracefully on error when checking folder emptiness", () => {
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID",
   );
-  expect(mocked(DriveService_).mock.calls).toHaveLength(0);
+  expect(mocked(DriveService_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls).toHaveLength(0);
   expect(mocked(moveFolder).moveFolder_.mock.calls).toHaveLength(0);
 });

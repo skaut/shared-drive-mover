@@ -26,9 +26,9 @@ export function move(
   }
 
   try {
-    const isEmpty = isFolderEmpty_(destinationID);
-
     const driveService = new DriveService_();
+
+    const isEmpty = isFolderEmpty_(destinationID, driveService);
 
     const state = new MoveState_(
       sourceID,

@@ -1,4 +1,4 @@
-import { expect, jest, test } from "@jest/globals";
+import { expect, test } from "@jest/globals";
 
 import {
   deleteFolderIfEmpty_,
@@ -6,7 +6,7 @@ import {
   listFilesInFolder_,
   listFoldersInFolder_,
 } from "../../../src/backend/move/folderManagement";
-import { mockedDrive, mockedFilesCollection } from "../../test-utils/gas-stubs";
+import { mockedDriveService } from "../../test-utils/DriveService-stub";
 
 test("listFilesInFolder works correctly", () => {
   interface ListFilesOptions {
@@ -34,35 +34,42 @@ test("listFilesInFolder works correctly", () => {
     items,
     nextPageToken: undefined,
   };
-  const list = jest
-    .fn<
-      (
-        optionalArgs?: ListFilesOptions,
-      ) => GoogleAppsScript.Drive.Schema.FileList
-    >()
-    .mockReturnValueOnce(rawResponse);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      list,
-    },
-  };
+  const driveServiceMock = mockedDriveService();
+  driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
 
-  expect(listFilesInFolder_("FOLDER_ID")).toStrictEqual(items);
-
-  expect(list.mock.calls).toHaveLength(1);
-  expect(list.mock.calls[0][0]).toBeDefined();
-  expect(list.mock.calls[0][0]!.q).toContain('"FOLDER_ID" in parents');
-  expect(list.mock.calls[0][0]!.q).toContain(
-    'mimeType != "application/vnd.google-apps.folder"',
+  expect(listFilesInFolder_("FOLDER_ID", driveServiceMock)).toStrictEqual(
+    items,
   );
-  expect(list.mock.calls[0][0]!.includeItemsFromAllDrives).toBe(true);
-  expect(list.mock.calls[0][0]!.supportsAllDrives).toBe(true);
-  expect(list.mock.calls[0][0]!.pageToken).toBeUndefined();
-  expect(list.mock.calls[0][0]!.fields).toContain("id");
-  expect(list.mock.calls[0][0]!.fields).toContain("title");
-  expect(list.mock.calls[0][0]!.fields).toContain("canMoveItemOutOfDrive");
+
+  expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+  ).toContain('"FOLDER_ID" in parents');
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+  ).toContain('mimeType != "application/vnd.google-apps.folder"');
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      .includeItemsFromAllDrives,
+  ).toBe(true);
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      .supportsAllDrives,
+  ).toBe(true);
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      .pageToken,
+  ).toBeUndefined();
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).fields,
+  ).toContain("id");
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).fields,
+  ).toContain("title");
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).fields,
+  ).toContain("canMoveItemOutOfDrive");
 });
 
 test("listFoldersInFolder works correctly", () => {
@@ -91,35 +98,42 @@ test("listFoldersInFolder works correctly", () => {
     items,
     nextPageToken: undefined,
   };
-  const list = jest
-    .fn<
-      (
-        optionalArgs?: ListFilesOptions,
-      ) => GoogleAppsScript.Drive.Schema.FileList
-    >()
-    .mockReturnValueOnce(rawResponse);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      list,
-    },
-  };
+  const driveServiceMock = mockedDriveService();
+  driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
 
-  expect(listFoldersInFolder_("FOLDER_ID")).toStrictEqual(items);
-
-  expect(list.mock.calls).toHaveLength(1);
-  expect(list.mock.calls[0][0]).toBeDefined();
-  expect(list.mock.calls[0][0]!.q).toContain('"FOLDER_ID" in parents');
-  expect(list.mock.calls[0][0]!.q).toContain(
-    'mimeType = "application/vnd.google-apps.folder"',
+  expect(listFoldersInFolder_("FOLDER_ID", driveServiceMock)).toStrictEqual(
+    items,
   );
-  expect(list.mock.calls[0][0]!.includeItemsFromAllDrives).toBe(true);
-  expect(list.mock.calls[0][0]!.supportsAllDrives).toBe(true);
-  expect(list.mock.calls[0][0]!.pageToken).toBeUndefined();
-  expect(list.mock.calls[0][0]!.fields).toContain("id");
-  expect(list.mock.calls[0][0]!.fields).toContain("title");
-  expect(list.mock.calls[0][0]!.fields).toContain("canMoveItemOutOfDrive");
+
+  expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+  ).toContain('"FOLDER_ID" in parents');
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+  ).toContain('mimeType = "application/vnd.google-apps.folder"');
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      .includeItemsFromAllDrives,
+  ).toBe(true);
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      .supportsAllDrives,
+  ).toBe(true);
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      .pageToken,
+  ).toBeUndefined();
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).fields,
+  ).toContain("id");
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).fields,
+  ).toContain("title");
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).fields,
+  ).toContain("canMoveItemOutOfDrive");
 });
 
 test("isFolderEmpty works correctly with an empty folder", () => {
@@ -134,27 +148,23 @@ test("isFolderEmpty works correctly with an empty folder", () => {
   const rawResponse = {
     items: [],
   };
-  const list = jest
-    .fn<
-      (
-        optionalArgs?: ListFilesOptions,
-      ) => GoogleAppsScript.Drive.Schema.FileList
-    >()
-    .mockReturnValueOnce(rawResponse);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      list,
-    },
-  };
+  const driveServiceMock = mockedDriveService();
+  driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
 
-  expect(isFolderEmpty_("ID_FOLDER")).toBe(true);
-  expect(list.mock.calls).toHaveLength(1);
-  expect(list.mock.calls[0][0]).toBeDefined();
-  expect(list.mock.calls[0][0]!.q).toContain("ID_FOLDER");
-  expect(list.mock.calls[0][0]!.includeItemsFromAllDrives).toBe(true);
-  expect(list.mock.calls[0][0]!.supportsAllDrives).toBe(true);
+  expect(isFolderEmpty_("ID_FOLDER", driveServiceMock)).toBe(true);
+  expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+  ).toContain("ID_FOLDER");
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      .includeItemsFromAllDrives,
+  ).toBe(true);
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      .supportsAllDrives,
+  ).toBe(true);
 });
 
 test("isFolderEmpty works correctly with a non-empty folder", () => {
@@ -169,27 +179,23 @@ test("isFolderEmpty works correctly with a non-empty folder", () => {
   const rawResponse = {
     items: [{ id: "ID_FILE" }],
   };
-  const list = jest
-    .fn<
-      (
-        optionalArgs?: ListFilesOptions,
-      ) => GoogleAppsScript.Drive.Schema.FileList
-    >()
-    .mockReturnValueOnce(rawResponse);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      list,
-    },
-  };
+  const driveServiceMock = mockedDriveService();
+  driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
 
-  expect(isFolderEmpty_("ID_FOLDER")).toBe(false);
-  expect(list.mock.calls).toHaveLength(1);
-  expect(list.mock.calls[0][0]).toBeDefined();
-  expect(list.mock.calls[0][0]!.q).toContain("ID_FOLDER");
-  expect(list.mock.calls[0][0]!.includeItemsFromAllDrives).toBe(true);
-  expect(list.mock.calls[0][0]!.supportsAllDrives).toBe(true);
+  expect(isFolderEmpty_("ID_FOLDER", driveServiceMock)).toBe(false);
+  expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+  ).toContain("ID_FOLDER");
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      .includeItemsFromAllDrives,
+  ).toBe(true);
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      .supportsAllDrives,
+  ).toBe(true);
 });
 
 test.each(["owner", "organizer"] as Array<
@@ -212,56 +218,41 @@ test.each(["owner", "organizer"] as Array<
     const getResponse = {
       userPermission: { role },
     };
-    const get = jest
-      .fn<
-        (
-          fileId: string,
-          optionalArgs?: GetFileOptions,
-        ) => GoogleAppsScript.Drive.Schema.File
-      >()
-      .mockReturnValueOnce(getResponse);
     const listResponse = {
       items: [],
       nextPageToken: undefined,
     };
-    const list = jest
-      .fn<
-        (
-          optionalArgs?: ListFilesOptions,
-        ) => GoogleAppsScript.Drive.Schema.FileList
-      >()
-      .mockReturnValueOnce(listResponse);
-    const remove = jest.fn<(fileId: string) => void>().mockReturnValueOnce();
-    global.Drive = {
-      ...mockedDrive(),
-      Files: {
-        ...mockedFilesCollection(),
-        get,
-        list,
-        remove,
-      },
-    };
+    const driveServiceMock = mockedDriveService();
+    driveServiceMock.Files.get.mockReturnValueOnce(getResponse);
+    driveServiceMock.Files.list.mockReturnValueOnce(listResponse);
 
-    deleteFolderIfEmpty_("FOLDER_ID");
+    deleteFolderIfEmpty_("FOLDER_ID", driveServiceMock);
 
-    expect(list.mock.calls).toHaveLength(1);
-    expect(list.mock.calls[0][0]).toBeDefined();
-    expect(list.mock.calls[0][0]!.q).toContain('"FOLDER_ID" in parents');
-    expect(list.mock.calls[0][0]!.includeItemsFromAllDrives).toBe(true);
-    expect(list.mock.calls[0][0]!.supportsAllDrives).toBe(true);
-    expect(get.mock.calls).toHaveLength(1);
-    expect(get.mock.calls[0][0]).toBe("FOLDER_ID");
-    expect(get.mock.calls[0][1]).toBeDefined();
-    expect(get.mock.calls[0][1]!.fields).toContain("role");
-    expect(remove.mock.calls).toHaveLength(1);
-    expect(remove.mock.calls[0][0]).toBe("FOLDER_ID");
+    expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
+    expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
+    expect(
+      (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+    ).toContain('"FOLDER_ID" in parents');
+    expect(
+      (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+        .includeItemsFromAllDrives,
+    ).toBe(true);
+    expect(
+      (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+        .supportsAllDrives,
+    ).toBe(true);
+    expect(driveServiceMock.Files.get.mock.calls).toHaveLength(1);
+    expect(driveServiceMock.Files.get.mock.calls[0][0]).toBe("FOLDER_ID");
+    expect(driveServiceMock.Files.get.mock.calls[0][1]).toBeDefined();
+    expect(
+      (driveServiceMock.Files.get.mock.calls[0][1] as GetFileOptions).fields,
+    ).toContain("role");
+    expect(driveServiceMock.Files.remove.mock.calls).toHaveLength(1);
+    expect(driveServiceMock.Files.remove.mock.calls[0][0]).toBe("FOLDER_ID");
   },
 );
 
 test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
-  interface GetFileOptions {
-    fields?: string;
-  }
   interface ListFilesOptions {
     fields?: string;
     includeItemsFromAllDrives?: boolean;
@@ -271,44 +262,30 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
     supportsAllDrives?: boolean;
   }
 
-  const get =
-    jest.fn<
-      (
-        fileId: string,
-        optionalArgs?: GetFileOptions,
-      ) => GoogleAppsScript.Drive.Schema.File
-    >();
   const listResponse: GoogleAppsScript.Drive.Schema.FileList = {
     items: [{ userPermission: { role: "reader" } }],
     nextPageToken: undefined,
   };
-  const list = jest
-    .fn<
-      (
-        optionalArgs?: ListFilesOptions,
-      ) => GoogleAppsScript.Drive.Schema.FileList
-    >()
-    .mockReturnValueOnce(listResponse);
-  const remove = jest.fn<(fileId: string) => void>();
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      get,
-      list,
-      remove,
-    },
-  };
+  const driveServiceMock = mockedDriveService();
+  driveServiceMock.Files.list.mockReturnValueOnce(listResponse);
 
-  deleteFolderIfEmpty_("FOLDER_ID");
+  deleteFolderIfEmpty_("FOLDER_ID", driveServiceMock);
 
-  expect(list.mock.calls).toHaveLength(1);
-  expect(list.mock.calls[0][0]).toBeDefined();
-  expect(list.mock.calls[0][0]!.q).toContain('"FOLDER_ID" in parents');
-  expect(list.mock.calls[0][0]!.includeItemsFromAllDrives).toBe(true);
-  expect(list.mock.calls[0][0]!.supportsAllDrives).toBe(true);
-  expect(get.mock.calls).toHaveLength(0);
-  expect(remove.mock.calls).toHaveLength(0);
+  expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+  ).toContain('"FOLDER_ID" in parents');
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      .includeItemsFromAllDrives,
+  ).toBe(true);
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      .supportsAllDrives,
+  ).toBe(true);
+  expect(driveServiceMock.Files.get.mock.calls).toHaveLength(0);
+  expect(driveServiceMock.Files.remove.mock.calls).toHaveLength(0);
 });
 
 test.each(["fileOrganizer", "reader", "writer"] as Array<
@@ -331,47 +308,35 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
     const getResponse = {
       userPermission: { role },
     };
-    const get = jest
-      .fn<
-        (
-          fileId: string,
-          optionalArgs?: GetFileOptions,
-        ) => GoogleAppsScript.Drive.Schema.File
-      >()
-      .mockReturnValueOnce(getResponse);
     const listResponse = {
       items: [],
       nextPageToken: undefined,
     };
-    const list = jest
-      .fn<
-        (
-          optionalArgs?: ListFilesOptions,
-        ) => GoogleAppsScript.Drive.Schema.FileList
-      >()
-      .mockReturnValueOnce(listResponse);
-    const remove = jest.fn<(fileId: string) => void>();
-    global.Drive = {
-      ...mockedDrive(),
-      Files: {
-        ...mockedFilesCollection(),
-        get,
-        list,
-        remove,
-      },
-    };
+    const driveServiceMock = mockedDriveService();
+    driveServiceMock.Files.get.mockReturnValueOnce(getResponse);
+    driveServiceMock.Files.list.mockReturnValueOnce(listResponse);
 
-    deleteFolderIfEmpty_("FOLDER_ID");
+    deleteFolderIfEmpty_("FOLDER_ID", driveServiceMock);
 
-    expect(list.mock.calls).toHaveLength(1);
-    expect(list.mock.calls[0][0]).toBeDefined();
-    expect(list.mock.calls[0][0]!.q).toContain('"FOLDER_ID" in parents');
-    expect(list.mock.calls[0][0]!.includeItemsFromAllDrives).toBe(true);
-    expect(list.mock.calls[0][0]!.supportsAllDrives).toBe(true);
-    expect(get.mock.calls).toHaveLength(1);
-    expect(get.mock.calls[0][0]).toBe("FOLDER_ID");
-    expect(get.mock.calls[0][1]).toBeDefined();
-    expect(get.mock.calls[0][1]!.fields).toContain("role");
-    expect(remove.mock.calls).toHaveLength(0);
+    expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
+    expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
+    expect(
+      (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+    ).toContain('"FOLDER_ID" in parents');
+    expect(
+      (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+        .includeItemsFromAllDrives,
+    ).toBe(true);
+    expect(
+      (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+        .supportsAllDrives,
+    ).toBe(true);
+    expect(driveServiceMock.Files.get.mock.calls).toHaveLength(1);
+    expect(driveServiceMock.Files.get.mock.calls[0][0]).toBe("FOLDER_ID");
+    expect(driveServiceMock.Files.get.mock.calls[0][1]).toBeDefined();
+    expect(
+      (driveServiceMock.Files.get.mock.calls[0][1] as GetFileOptions).fields,
+    ).toContain("role");
+    expect(driveServiceMock.Files.remove.mock.calls).toHaveLength(0);
   },
 );
