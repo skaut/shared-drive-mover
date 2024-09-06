@@ -37,7 +37,7 @@ function moveFileByCopy_(
         { fields: "id", supportsAllDrives: true },
       );
       if (copyComments) {
-        copyFileComments_(fileID, copy.id!);
+        copyFileComments_(fileID, copy.id!, driveService);
       }
     },
     name,

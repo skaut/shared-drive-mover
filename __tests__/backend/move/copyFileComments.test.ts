@@ -1,11 +1,7 @@
-import { expect, jest, test } from "@jest/globals";
+import { expect, test } from "@jest/globals";
 
 import { copyFileComments_ } from "../../../src/backend/move/copyFileComments";
-import {
-  mockedCommentsCollection,
-  mockedDrive,
-  mockedRepliesCollection,
-} from "../../test-utils/gas-stubs";
+import { mockedDriveService } from "../../test-utils/DriveService-stub";
 
 test("copyFileComments works correctly", () => {
   interface ListCommentsOptions {
@@ -31,52 +27,49 @@ test("copyFileComments works correctly", () => {
     ],
     nextPageToken: undefined,
   };
-  const list = jest
-    .fn<
-      (
-        fileId: string,
-        optionalArgs?: ListCommentsOptions,
-      ) => GoogleAppsScript.Drive.Schema.CommentList
-    >()
-    .mockReturnValueOnce(rawResponse);
-  const insert = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.Comment,
-        fileId: string,
-      ) => GoogleAppsScript.Drive.Schema.Comment
-    >()
+  const driveServiceMock = mockedDriveService();
+  driveServiceMock.Comments.insert
     .mockReturnValueOnce({
       commentId: "DEST_COM1_ID",
     })
     .mockReturnValueOnce({
       commentId: "DEST_COM2_ID",
     });
-  global.Drive = {
-    ...mockedDrive(),
-    Comments: {
-      ...mockedCommentsCollection(),
-      insert,
-      list,
-    },
-  };
+  driveServiceMock.Comments.list.mockReturnValueOnce(rawResponse);
 
-  copyFileComments_("SRC_FILE_ID", "DEST_FILE_ID");
+  copyFileComments_("SRC_FILE_ID", "DEST_FILE_ID", driveServiceMock);
 
-  expect(list.mock.calls).toHaveLength(1);
-  expect(list.mock.calls[0][0]).toBe("SRC_FILE_ID");
-  expect(list.mock.calls[0][1]).toBeDefined();
-  expect(list.mock.calls[0][1]!.pageToken).toBeUndefined();
+  expect(driveServiceMock.Comments.list.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Comments.list.mock.calls[0][0]).toBe("SRC_FILE_ID");
+  expect(driveServiceMock.Comments.list.mock.calls[0][1]).toBeDefined();
   expect(
-    list.mock.calls[0][1]!.fields!.split(",").map((s) => s.trim()),
+    (driveServiceMock.Comments.list.mock.calls[0][1] as ListCommentsOptions)
+      .pageToken,
+  ).toBeUndefined();
+  expect(
+    (driveServiceMock.Comments.list.mock.calls[0][1] as ListCommentsOptions)
+      .fields!.split(",")
+      .map((s) => s.trim()),
   ).toContain("nextPageToken");
-  expect(insert.mock.calls).toHaveLength(2);
-  expect(insert.mock.calls[0][0].content).toBe("*COM1_AUTH:*\nCOM1_CONTENT");
-  expect(insert.mock.calls[0][0].replies).toBeUndefined();
-  expect(insert.mock.calls[0][1]).toBe("DEST_FILE_ID");
-  expect(insert.mock.calls[1][0].content).toBe("COM2_CONTENT");
-  expect(insert.mock.calls[1][0].replies).toBeUndefined();
-  expect(insert.mock.calls[1][1]).toBe("DEST_FILE_ID");
+  expect(driveServiceMock.Comments.insert.mock.calls).toHaveLength(2);
+  expect(driveServiceMock.Comments.insert.mock.calls[0][0].content).toBe(
+    "*COM1_AUTH:*\nCOM1_CONTENT",
+  );
+  expect(
+    driveServiceMock.Comments.insert.mock.calls[0][0].replies,
+  ).toBeUndefined();
+  expect(driveServiceMock.Comments.insert.mock.calls[0][1]).toBe(
+    "DEST_FILE_ID",
+  );
+  expect(driveServiceMock.Comments.insert.mock.calls[1][0].content).toBe(
+    "COM2_CONTENT",
+  );
+  expect(
+    driveServiceMock.Comments.insert.mock.calls[1][0].replies,
+  ).toBeUndefined();
+  expect(driveServiceMock.Comments.insert.mock.calls[1][1]).toBe(
+    "DEST_FILE_ID",
+  );
 });
 
 test("copyFileComments works correctly with replies", () => {
@@ -106,66 +99,46 @@ test("copyFileComments works correctly with replies", () => {
     ],
     nextPageToken: undefined,
   };
-  const list = jest
-    .fn<
-      (
-        fileId: string,
-        optionalArgs?: ListCommentsOptions,
-      ) => GoogleAppsScript.Drive.Schema.CommentList
-    >()
-    .mockReturnValueOnce(rawResponse);
-  const insertComment = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.Comment,
-        fileId: string,
-      ) => GoogleAppsScript.Drive.Schema.Comment
-    >()
-    .mockReturnValueOnce({
-      commentId: "DEST_COM_ID",
-    });
-  const insertReply = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.CommentReply,
-        fileId: string,
-        commentId: string,
-      ) => GoogleAppsScript.Drive.Schema.CommentReply
-    >()
-    .mockReturnValueOnce({});
-  global.Drive = {
-    ...mockedDrive(),
-    Comments: {
-      ...mockedCommentsCollection(),
-      insert: insertComment,
-      list,
-    },
-    Replies: {
-      ...mockedRepliesCollection(),
-      insert: insertReply,
-    },
-  };
+  const driveServiceMock = mockedDriveService();
+  driveServiceMock.Comments.insert.mockReturnValueOnce({
+    commentId: "DEST_COM_ID",
+  });
+  driveServiceMock.Comments.list.mockReturnValueOnce(rawResponse);
+  driveServiceMock.Replies.insert.mockReturnValueOnce({});
 
-  copyFileComments_("SRC_FILE_ID", "DEST_FILE_ID");
+  copyFileComments_("SRC_FILE_ID", "DEST_FILE_ID", driveServiceMock);
 
-  expect(list.mock.calls).toHaveLength(1);
-  expect(list.mock.calls[0][0]).toBe("SRC_FILE_ID");
-  expect(list.mock.calls[0][1]).toBeDefined();
-  expect(list.mock.calls[0][1]!.pageToken).toBeUndefined();
+  expect(driveServiceMock.Comments.list.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Comments.list.mock.calls[0][0]).toBe("SRC_FILE_ID");
+  expect(driveServiceMock.Comments.list.mock.calls[0][1]).toBeDefined();
   expect(
-    list.mock.calls[0][1]!.fields!.split(",").map((s) => s.trim()),
+    (driveServiceMock.Comments.list.mock.calls[0][1] as ListCommentsOptions)
+      .pageToken,
+  ).toBeUndefined();
+  expect(
+    (driveServiceMock.Comments.list.mock.calls[0][1] as ListCommentsOptions)
+      .fields!.split(",")
+      .map((s) => s.trim()),
   ).toContain("nextPageToken");
-  expect(insertComment.mock.calls).toHaveLength(1);
-  expect(insertComment.mock.calls[0][0].content).toBe("COM_CONTENT");
-  expect(insertComment.mock.calls[0][0].replies).toBeUndefined();
-  expect(insertComment.mock.calls[0][1]).toBe("DEST_FILE_ID");
-  expect(insertReply.mock.calls).toHaveLength(2);
-  expect(insertReply.mock.calls[0][0].content).toBe(
+  expect(driveServiceMock.Comments.insert.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Comments.insert.mock.calls[0][0].content).toBe(
+    "COM_CONTENT",
+  );
+  expect(
+    driveServiceMock.Comments.insert.mock.calls[0][0].replies,
+  ).toBeUndefined();
+  expect(driveServiceMock.Comments.insert.mock.calls[0][1]).toBe(
+    "DEST_FILE_ID",
+  );
+  expect(driveServiceMock.Replies.insert.mock.calls).toHaveLength(2);
+  expect(driveServiceMock.Replies.insert.mock.calls[0][0].content).toBe(
     "*REPLY1_AUTH:*\nREPLY1_CONTENT",
   );
-  expect(insertReply.mock.calls[0][1]).toBe("DEST_FILE_ID");
-  expect(insertReply.mock.calls[0][2]).toBe("DEST_COM_ID");
-  expect(insertReply.mock.calls[1][0].content).toBe("REPLY2_CONTENT");
-  expect(insertReply.mock.calls[1][1]).toBe("DEST_FILE_ID");
-  expect(insertReply.mock.calls[1][2]).toBe("DEST_COM_ID");
+  expect(driveServiceMock.Replies.insert.mock.calls[0][1]).toBe("DEST_FILE_ID");
+  expect(driveServiceMock.Replies.insert.mock.calls[0][2]).toBe("DEST_COM_ID");
+  expect(driveServiceMock.Replies.insert.mock.calls[1][0].content).toBe(
+    "REPLY2_CONTENT",
+  );
+  expect(driveServiceMock.Replies.insert.mock.calls[1][1]).toBe("DEST_FILE_ID");
+  expect(driveServiceMock.Replies.insert.mock.calls[1][2]).toBe("DEST_COM_ID");
 });
