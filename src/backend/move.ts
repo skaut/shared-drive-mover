@@ -23,43 +23,43 @@ export function move(
   if (sourceID === destinationID) {
     return { status: "error", type: "sourceEqualsDestination" };
   }
-  let isEmpty = false;
+
   try {
-    isEmpty = isFolderEmpty_(destinationID);
+    const isEmpty = isFolderEmpty_(destinationID);
+
+    const state = new MoveState_(
+      sourceID,
+      destinationID,
+      copyComments,
+      mergeFolders,
+    );
+    state.loadState();
+
+    if (!notEmptyOverride && !isEmpty && state.isNull()) {
+      return { status: "error", type: "notEmpty" };
+    }
+
+    if (state.isNull()) {
+      state.addPath(sourceID, destinationID, []);
+    }
+    state.saveState();
+
+    for (;;) {
+      const nextPath = state.getNextPath();
+      if (nextPath === null) {
+        break;
+      }
+      moveFolder_(state, nextPath, copyComments, mergeFolders);
+    }
+
+    const errors = state.getErrors();
+    if (errors.length > 0) {
+      // eslint-disable-next-line no-console -- Intentional error printing
+      console.error(errors);
+    }
+    state.destroyState();
+    return { response: { errors }, status: "success" };
   } catch (e) {
     return { status: "error", type: "DriveAPIError" };
   }
-
-  const state = new MoveState_(
-    sourceID,
-    destinationID,
-    copyComments,
-    mergeFolders,
-  );
-  state.loadState();
-
-  if (!notEmptyOverride && !isEmpty && state.isNull()) {
-    return { status: "error", type: "notEmpty" };
-  }
-
-  if (state.isNull()) {
-    state.addPath(sourceID, destinationID, []);
-  }
-  state.saveState();
-
-  for (;;) {
-    const nextPath = state.getNextPath();
-    if (nextPath === null) {
-      break;
-    }
-    moveFolder_(state, nextPath, copyComments, mergeFolders);
-  }
-
-  const errors = state.getErrors();
-  if (errors.length > 0) {
-    // eslint-disable-next-line no-console -- Intentional error printing
-    console.error(errors);
-  }
-  state.destroyState();
-  return { response: { errors }, status: "success" };
 }
