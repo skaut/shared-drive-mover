@@ -30,10 +30,16 @@ test("copyFileComments works correctly", () => {
   const driveServiceMock = mockedDriveService();
   driveServiceMock.Comments.insert
     .mockReturnValueOnce({
+      author: { displayName: "COM2_AUTH", isAuthenticatedUser: true },
       commentId: "DEST_COM1_ID",
+      content: "*COM1_AUTH:*\nCOM1_CONTENT",
+      replies: [],
     })
     .mockReturnValueOnce({
+      author: { displayName: "COM2_AUTH", isAuthenticatedUser: true },
       commentId: "DEST_COM2_ID",
+      content: "COM2_CONTENT",
+      replies: [],
     });
   driveServiceMock.Comments.list.mockReturnValueOnce(rawResponse);
 
@@ -57,7 +63,7 @@ test("copyFileComments works correctly", () => {
   );
   expect(
     driveServiceMock.Comments.insert.mock.calls[0][0].replies,
-  ).toBeUndefined();
+  ).toStrictEqual([]);
   expect(driveServiceMock.Comments.insert.mock.calls[0][1]).toBe(
     "DEST_FILE_ID",
   );
@@ -66,7 +72,7 @@ test("copyFileComments works correctly", () => {
   );
   expect(
     driveServiceMock.Comments.insert.mock.calls[1][0].replies,
-  ).toBeUndefined();
+  ).toStrictEqual([]);
   expect(driveServiceMock.Comments.insert.mock.calls[1][1]).toBe(
     "DEST_FILE_ID",
   );
@@ -101,7 +107,10 @@ test("copyFileComments works correctly with replies", () => {
   };
   const driveServiceMock = mockedDriveService();
   driveServiceMock.Comments.insert.mockReturnValueOnce({
+    author: { displayName: "COM_AUTH", isAuthenticatedUser: true },
     commentId: "DEST_COM_ID",
+    content: "COM_CONTENT",
+    replies: [],
   });
   driveServiceMock.Comments.list.mockReturnValueOnce(rawResponse);
   driveServiceMock.Replies.insert.mockReturnValueOnce({});
@@ -126,7 +135,7 @@ test("copyFileComments works correctly with replies", () => {
   );
   expect(
     driveServiceMock.Comments.insert.mock.calls[0][0].replies,
-  ).toBeUndefined();
+  ).toStrictEqual([]);
   expect(driveServiceMock.Comments.insert.mock.calls[0][1]).toBe(
     "DEST_FILE_ID",
   );

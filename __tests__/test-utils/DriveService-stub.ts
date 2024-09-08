@@ -1,9 +1,14 @@
 import type { MockedObject } from "jest-mock";
 
-import type { DriveService_ } from "../../src/backend/utils/DriveService";
+import { jest } from "@jest/globals";
+
+import type {
+  DriveService_,
+  SafeComment,
+  SafeCommentList,
+} from "../../src/backend/utils/DriveService";
 
 import {
-  mockedCommentsCollection,
   mockedDrivesCollection,
   mockedFilesCollection,
   mockedRepliesCollection,
@@ -11,9 +16,20 @@ import {
 
 export function mockedDriveService(): MockedObject<DriveService_> {
   return {
-    Comments: mockedCommentsCollection(),
+    Comments: {
+      insert:
+        jest.fn<
+          (
+            resource: GoogleAppsScript.Drive.Schema.Comment,
+            fileId: string,
+          ) => SafeComment
+        >(),
+      list: jest.fn<
+        (fileId: string, optionalArgs: Record<never, never>) => SafeCommentList
+      >(),
+    },
     Drives: mockedDrivesCollection(),
     Files: mockedFilesCollection(),
     Replies: mockedRepliesCollection(),
-  } as MockedObject<DriveService_>;
+  } as unknown as MockedObject<DriveService_>;
 }

@@ -1,15 +1,16 @@
-import type { DriveService_ } from "../utils/DriveService";
+import type {
+  DriveService_,
+  SafeComment,
+  SafeCommentList,
+} from "../utils/DriveService";
 
 import { paginationHelper_ } from "../utils/paginationHelper";
 
 function listFileComments_(
   fileID: string,
   driveService: DriveService_,
-): Array<GoogleAppsScript.Drive.Schema.Comment> {
-  return paginationHelper_<
-    GoogleAppsScript.Drive.Schema.CommentList,
-    GoogleAppsScript.Drive.Schema.Comment
-  >(
+): Array<SafeComment> {
+  return paginationHelper_<SafeCommentList, SafeComment>(
     (pageToken) =>
       driveService.Comments.list(fileID, {
         fields:
@@ -17,7 +18,7 @@ function listFileComments_(
         maxResults: 100,
         pageToken,
       }),
-    (response) => response.items!,
+    (response) => response.items,
   );
 }
 
@@ -28,18 +29,18 @@ export function copyFileComments_(
 ): void {
   const comments = listFileComments_(sourceID, driveService);
   for (const comment of comments) {
-    if (comment.author?.isAuthenticatedUser !== true) {
-      comment.content = `*${comment.author!.displayName!}:*\n${comment.content!}`;
+    if (!comment.author.isAuthenticatedUser) {
+      comment.content = `*${comment.author.displayName}:*\n${comment.content}`;
     }
-    const replies = comment.replies!;
-    delete comment.replies;
+    const replies = comment.replies;
+    comment.replies = [];
     const commentId = driveService.Comments.insert(
       comment,
       destinationID,
-    ).commentId!;
+    ).commentId;
     for (const reply of replies) {
-      if (reply.author?.isAuthenticatedUser !== true) {
-        reply.content = `*${reply.author!.displayName!}:*\n${reply.content!}`;
+      if (!reply.author.isAuthenticatedUser) {
+        reply.content = `*${reply.author.displayName}:*\n${reply.content}`;
       }
       driveService.Replies.insert(reply, destinationID, commentId);
     }
