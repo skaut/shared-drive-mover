@@ -3,10 +3,10 @@ import type { MockedObject } from "jest-mock";
 import { jest } from "@jest/globals";
 
 import type {
-  DriveService_,
   SafeComment,
   SafeCommentList,
-} from "../../src/backend/utils/DriveService";
+  SafeDriveService_,
+} from "../../src/backend/utils/SafeDriveService";
 
 import {
   mockedDrivesCollection,
@@ -14,7 +14,7 @@ import {
   mockedRepliesCollection,
 } from "./gas-stubs";
 
-export function mockedDriveService(): MockedObject<DriveService_> {
+export function mockedSafeDriveService(): MockedObject<SafeDriveService_> {
   return {
     Comments: {
       insert:
@@ -31,5 +31,5 @@ export function mockedDriveService(): MockedObject<DriveService_> {
     Drives: mockedDrivesCollection(),
     Files: mockedFilesCollection(),
     Replies: mockedRepliesCollection(),
-  } as unknown as MockedObject<DriveService_>;
+  } as unknown as MockedObject<SafeDriveService_>;
 }

@@ -1,7 +1,7 @@
 import { expect, test } from "@jest/globals";
 
 import { copyFileComments_ } from "../../../src/backend/move/copyFileComments";
-import { mockedDriveService } from "../../test-utils/DriveService-stub";
+import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
 
 test("copyFileComments works correctly", () => {
   interface ListCommentsOptions {
@@ -27,7 +27,7 @@ test("copyFileComments works correctly", () => {
     ],
     nextPageToken: undefined,
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Comments.insert
     .mockReturnValueOnce({
       author: { displayName: "COM2_AUTH", isAuthenticatedUser: true },
@@ -105,7 +105,7 @@ test("copyFileComments works correctly with replies", () => {
     ],
     nextPageToken: undefined,
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Comments.insert.mockReturnValueOnce({
     author: { displayName: "COM_AUTH", isAuthenticatedUser: true },
     commentId: "DEST_COM_ID",

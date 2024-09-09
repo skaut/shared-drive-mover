@@ -1,12 +1,12 @@
-import type { DriveService_ } from "./DriveService";
+import type { SafeDriveService_ } from "./SafeDriveService";
 
 export class DriveBackedValue_<T> {
   private static readonly driveFolderName = "Shared drive mover cache";
 
-  private readonly driveService: DriveService_;
+  private readonly driveService: SafeDriveService_;
   private readonly hash: string;
 
-  public constructor(key: string, driveService: DriveService_) {
+  public constructor(key: string, driveService: SafeDriveService_) {
     this.driveService = driveService;
     this.hash = Utilities.computeDigest(
       Utilities.DigestAlgorithm.SHA_256,

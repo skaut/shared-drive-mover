@@ -1,6 +1,6 @@
 import type { MoveContext } from "../../interfaces/MoveContext";
-import type { DriveService_ } from "../utils/DriveService";
 import type { MoveState_ } from "../utils/MoveState";
+import type { SafeDriveService_ } from "../utils/SafeDriveService";
 
 import { listFoldersInFolder_ } from "./folderManagement";
 
@@ -9,7 +9,7 @@ export function resolveDestinationFolder_(
   state: MoveState_,
   context: MoveContext,
   mergeFolders: boolean,
-  driveService: DriveService_,
+  driveService: SafeDriveService_,
 ): GoogleAppsScript.Drive.Schema.File {
   if (mergeFolders) {
     const existingFoldersWithSameName = listFoldersInFolder_(

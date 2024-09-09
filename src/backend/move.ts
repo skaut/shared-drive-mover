@@ -2,8 +2,8 @@ import type { MoveResponse } from "../interfaces/MoveResponse";
 
 import { isFolderEmpty_ } from "./move/folderManagement";
 import { moveFolder_ } from "./move/moveFolder";
-import { DriveService_ } from "./utils/DriveService";
 import { MoveState_ } from "./utils/MoveState";
+import { SafeDriveService_ } from "./utils/SafeDriveService";
 
 export function move(
   sourceID: google.script.Parameter,
@@ -26,7 +26,7 @@ export function move(
   }
 
   try {
-    const driveService = new DriveService_();
+    const driveService = new SafeDriveService_();
 
     const isEmpty = isFolderEmpty_(destinationID, driveService);
 

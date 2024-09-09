@@ -1,11 +1,11 @@
-import type { DriveService_ } from "../utils/DriveService";
+import type { SafeDriveService_ } from "../utils/SafeDriveService";
 
 import { paginationHelper_ } from "../utils/paginationHelper";
 
 function listFolderContents_(
   folderID: string,
   mimeTypeCondition: string,
-  driveService: DriveService_,
+  driveService: SafeDriveService_,
 ): Array<GoogleAppsScript.Drive.Schema.File> {
   return paginationHelper_<
     GoogleAppsScript.Drive.Schema.FileList,
@@ -27,7 +27,7 @@ function listFolderContents_(
 
 export function listFilesInFolder_(
   folderID: string,
-  driveService: DriveService_,
+  driveService: SafeDriveService_,
 ): Array<GoogleAppsScript.Drive.Schema.File> {
   return listFolderContents_(
     folderID,
@@ -38,7 +38,7 @@ export function listFilesInFolder_(
 
 export function listFoldersInFolder_(
   folderID: string,
-  driveService: DriveService_,
+  driveService: SafeDriveService_,
 ): Array<GoogleAppsScript.Drive.Schema.File> {
   return listFolderContents_(
     folderID,
@@ -49,7 +49,7 @@ export function listFoldersInFolder_(
 
 export function isFolderEmpty_(
   folderID: string,
-  driveService: DriveService_,
+  driveService: SafeDriveService_,
 ): boolean {
   const response = driveService.Files.list({
     fields: "items(id)",
@@ -63,7 +63,7 @@ export function isFolderEmpty_(
 
 export function deleteFolderIfEmpty_(
   folderID: string,
-  driveService: DriveService_,
+  driveService: SafeDriveService_,
 ): void {
   if (!isFolderEmpty_(folderID, driveService)) {
     return;

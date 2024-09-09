@@ -1,14 +1,14 @@
 import type {
-  DriveService_,
   SafeComment,
   SafeCommentList,
-} from "../utils/DriveService";
+  SafeDriveService_,
+} from "../utils/SafeDriveService";
 
 import { paginationHelper_ } from "../utils/paginationHelper";
 
 function listFileComments_(
   fileID: string,
-  driveService: DriveService_,
+  driveService: SafeDriveService_,
 ): Array<SafeComment> {
   return paginationHelper_<SafeCommentList, SafeComment>(
     (pageToken) =>
@@ -25,7 +25,7 @@ function listFileComments_(
 export function copyFileComments_(
   sourceID: string,
   destinationID: string,
-  driveService: DriveService_,
+  driveService: SafeDriveService_,
 ): void {
   const comments = listFileComments_(sourceID, driveService);
   for (const comment of comments) {

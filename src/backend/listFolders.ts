@@ -1,15 +1,15 @@
 import type { ListResponse } from "../interfaces/ListResponse";
 import type { NamedRecord } from "../interfaces/NamedRecord";
 
-import { DriveService_ } from "./utils/DriveService";
 import { paginationHelper_ } from "./utils/paginationHelper";
+import { SafeDriveService_ } from "./utils/SafeDriveService";
 
 export function listFolders(parentID: google.script.Parameter): ListResponse {
   if (typeof parentID !== "string") {
     return { status: "error", type: "invalidParameter" };
   }
   try {
-    const driveService = new DriveService_();
+    const driveService = new SafeDriveService_();
 
     const response = paginationHelper_<
       GoogleAppsScript.Drive.Schema.FileList,

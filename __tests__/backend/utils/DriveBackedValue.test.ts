@@ -2,8 +2,8 @@ import { expect, test } from "@jest/globals";
 import { mocked } from "jest-mock";
 
 import { DriveBackedValue_ } from "../../../src/backend/utils/DriveBackedValue";
-import { mockedDriveService } from "../../test-utils/DriveService-stub";
 import { mockedUtilities } from "../../test-utils/gas-stubs";
+import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
 
 test("DriveBackedValue constructs correctly", () => {
   const key = "SAVE_KEY";
@@ -15,7 +15,7 @@ test("DriveBackedValue constructs correctly", () => {
 
   global.Utilities = mockedUtilities();
   mocked(global.Utilities).computeDigest.mockReturnValueOnce(keyEncoded);
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
 
   expect(() => {
     new DriveBackedValue_(key, driveServiceMock);
@@ -57,7 +57,7 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
       },
     ],
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2);
@@ -133,7 +133,7 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
   const response2 = {
     items: [],
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2);
@@ -209,7 +209,7 @@ test("DriveBackedValue saves a value - the folder doesn't exists", () => {
   const response = {
     items: [],
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.insert.mockReturnValueOnce({ id: "FOLDER_ID" });
   driveServiceMock.Files.list
     .mockReturnValueOnce(response)
@@ -304,7 +304,7 @@ test("DriveBackedValue loads a value - the folder exists, the value exists", () 
       },
     ],
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.get.mockReturnValueOnce(
     // Incorrect upstream typings, string is actually permissible
     JSON.stringify("VALUE") as unknown as GoogleAppsScript.Drive.Schema.File,
@@ -376,7 +376,7 @@ test("DriveBackedValue loads a value - the folder exists, the value doesn't", ()
   const response2 = {
     items: [],
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2);
@@ -430,7 +430,7 @@ test("DriveBackedValue loads a value - the folder doesn't exist", () => {
   const response1 = {
     items: [],
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list.mockReturnValueOnce(response1);
 
   const driveBackedValue = new DriveBackedValue_(key, driveServiceMock);
@@ -488,7 +488,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
   const response3 = {
     items: [],
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2)
@@ -572,7 +572,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value exists, th
       },
     ],
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2)
@@ -647,7 +647,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
   const response3 = {
     items: [],
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2)
@@ -726,7 +726,7 @@ test("DriveBackedValue deletes a value - the folder exists, the value doesn't, t
       },
     ],
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2)
@@ -788,7 +788,7 @@ test("DriveBackedValue deletes a value - the folder doesn't exist", () => {
   const response = {
     items: [],
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list.mockReturnValueOnce(response);
 
   const driveBackedValue = new DriveBackedValue_(key, driveServiceMock);

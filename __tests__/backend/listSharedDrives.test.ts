@@ -2,14 +2,14 @@ import { expect, jest, test } from "@jest/globals";
 import { mocked } from "jest-mock";
 
 import { listSharedDrives } from "../../src/backend/listSharedDrives";
-import { DriveService_ } from "../../src/backend/utils/DriveService";
-import { mockedDriveService } from "../test-utils/DriveService-stub";
+import { SafeDriveService_ } from "../../src/backend/utils/SafeDriveService";
+import { mockedSafeDriveService } from "../test-utils/SafeDriveService-stub";
 
 /* eslint-disable @typescript-eslint/naming-convention -- Properties are mock classes */
-jest.mock<{ DriveService_: jest.Mock }>(
-  "../../src/backend/utils/DriveService",
+jest.mock<{ SafeDriveService_: jest.Mock }>(
+  "../../src/backend/utils/SafeDriveService",
   () => ({
-    DriveService_: jest.fn(),
+    SafeDriveService_: jest.fn(),
   }),
 );
 /* eslint-enable */
@@ -30,13 +30,13 @@ test("listSharedDrives works correctly", () => {
     items: response,
     nextPageToken: undefined,
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Drives.list.mockReturnValueOnce(rawResponse);
-  mocked(DriveService_).mockReturnValueOnce(driveServiceMock);
+  mocked(SafeDriveService_).mockReturnValueOnce(driveServiceMock);
 
   expect(listSharedDrives()).toStrictEqual({ response, status: "success" });
 
-  expect(mocked(DriveService_).mock.calls).toHaveLength(1);
+  expect(mocked(SafeDriveService_).mock.calls).toHaveLength(1);
   expect(driveServiceMock.Drives.list.mock.calls).toHaveLength(1);
   expect(driveServiceMock.Drives.list.mock.calls[0][0]).toBeDefined();
   expect(
@@ -62,18 +62,18 @@ test("listSharedDrives handles Drive API error gracefully", () => {
     pageToken?: string;
   }
 
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Drives.list.mockImplementationOnce(() => {
     throw new Error();
   });
-  mocked(DriveService_).mockReturnValueOnce(driveServiceMock);
+  mocked(SafeDriveService_).mockReturnValueOnce(driveServiceMock);
 
   expect(listSharedDrives()).toStrictEqual({
     status: "error",
     type: "DriveAPIError",
   });
 
-  expect(mocked(DriveService_).mock.calls).toHaveLength(1);
+  expect(mocked(SafeDriveService_).mock.calls).toHaveLength(1);
   expect(driveServiceMock.Drives.list.mock.calls).toHaveLength(1);
   expect(driveServiceMock.Drives.list.mock.calls[0][0]).toBeDefined();
   expect(

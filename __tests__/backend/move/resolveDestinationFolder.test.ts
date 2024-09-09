@@ -4,7 +4,7 @@ import { mocked } from "jest-mock";
 import * as folderManagement from "../../../src/backend/move/folderManagement";
 import { resolveDestinationFolder_ } from "../../../src/backend/move/resolveDestinationFolder";
 import { MoveState_ } from "../../../src/backend/utils/MoveState";
-import { mockedDriveService } from "../../test-utils/DriveService-stub";
+import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
 
 jest.mock("../../../src/backend/utils/MoveState");
 jest.mock("../../../src/backend/move/folderManagement");
@@ -15,7 +15,7 @@ test("resolveDestinationFolder corretly creates new folder", () => {
     supportsAllDrives?: boolean;
   }
 
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.insert.mockReturnValueOnce({
     id: "NEWLY_CREATED_FOLDER_ID",
     title: "FOLDER_NAME",
@@ -70,7 +70,7 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
   mocked(folderManagement).listFoldersInFolder_.mockReturnValueOnce([
     { id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" },
   ]);
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.insert.mockReturnValueOnce({
     id: "NEWLY_CREATED_FOLDER_ID",
     title: "FOLDER_NAME",
@@ -123,7 +123,7 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
   }
 
   mocked(folderManagement).listFoldersInFolder_.mockReturnValueOnce([]);
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.insert.mockReturnValueOnce({
     id: "NEWLY_CREATED_FOLDER_ID",
     title: "FOLDER_NAME",
@@ -175,7 +175,7 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
     { id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" },
     { id: "EXISTING_WRONG_FOLDER2_ID", title: "DIFFERENT_FOLDER_NAME2" },
   ]);
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
 
   const state = new MoveState_(
     "SRC_BASE_ID",
@@ -215,7 +215,7 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
     { id: "EXISTING_FOLDER_ID2", title: "FOLDER_NAME" },
     { id: "EXISTING_WRONG_FOLDER2_ID", title: "DIFFERENT_FOLDER_NAME2" },
   ]);
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.insert.mockReturnValueOnce({
     id: "NEWLY_CREATED_FOLDER_ID",
     title: "FOLDER_NAME",

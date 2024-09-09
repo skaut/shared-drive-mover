@@ -6,7 +6,7 @@ import {
   listFilesInFolder_,
   listFoldersInFolder_,
 } from "../../../src/backend/move/folderManagement";
-import { mockedDriveService } from "../../test-utils/DriveService-stub";
+import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
 
 test("listFilesInFolder works correctly", () => {
   interface ListFilesOptions {
@@ -34,7 +34,7 @@ test("listFilesInFolder works correctly", () => {
     items,
     nextPageToken: undefined,
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
 
   expect(listFilesInFolder_("FOLDER_ID", driveServiceMock)).toStrictEqual(
@@ -98,7 +98,7 @@ test("listFoldersInFolder works correctly", () => {
     items,
     nextPageToken: undefined,
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
 
   expect(listFoldersInFolder_("FOLDER_ID", driveServiceMock)).toStrictEqual(
@@ -148,7 +148,7 @@ test("isFolderEmpty works correctly with an empty folder", () => {
   const rawResponse = {
     items: [],
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
 
   expect(isFolderEmpty_("ID_FOLDER", driveServiceMock)).toBe(true);
@@ -179,7 +179,7 @@ test("isFolderEmpty works correctly with a non-empty folder", () => {
   const rawResponse = {
     items: [{ id: "ID_FILE" }],
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
 
   expect(isFolderEmpty_("ID_FOLDER", driveServiceMock)).toBe(false);
@@ -222,7 +222,7 @@ test.each(["owner", "organizer"] as Array<
       items: [],
       nextPageToken: undefined,
     };
-    const driveServiceMock = mockedDriveService();
+    const driveServiceMock = mockedSafeDriveService();
     driveServiceMock.Files.get.mockReturnValueOnce(getResponse);
     driveServiceMock.Files.list.mockReturnValueOnce(listResponse);
 
@@ -266,7 +266,7 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
     items: [{ userPermission: { role: "reader" } }],
     nextPageToken: undefined,
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list.mockReturnValueOnce(listResponse);
 
   deleteFolderIfEmpty_("FOLDER_ID", driveServiceMock);
@@ -312,7 +312,7 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
       items: [],
       nextPageToken: undefined,
     };
-    const driveServiceMock = mockedDriveService();
+    const driveServiceMock = mockedSafeDriveService();
     driveServiceMock.Files.get.mockReturnValueOnce(getResponse);
     driveServiceMock.Files.list.mockReturnValueOnce(listResponse);
 

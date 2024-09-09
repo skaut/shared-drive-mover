@@ -2,15 +2,15 @@ import { expect, jest, test } from "@jest/globals";
 import { mocked } from "jest-mock";
 
 import { listFolders } from "../../src/backend/listFolders";
-import { DriveService_ } from "../../src/backend/utils/DriveService";
-import { mockedDriveService } from "../test-utils/DriveService-stub";
+import { SafeDriveService_ } from "../../src/backend/utils/SafeDriveService";
 import { mockedSession } from "../test-utils/gas-stubs";
+import { mockedSafeDriveService } from "../test-utils/SafeDriveService-stub";
 
 /* eslint-disable @typescript-eslint/naming-convention -- Properties are mock classes */
-jest.mock<{ DriveService_: jest.Mock }>(
-  "../../src/backend/utils/DriveService",
+jest.mock<{ SafeDriveService_: jest.Mock }>(
+  "../../src/backend/utils/SafeDriveService",
   () => ({
-    DriveService_: jest.fn(),
+    SafeDriveService_: jest.fn(),
   }),
 );
 /* eslint-enable */
@@ -32,9 +32,9 @@ test("listFolders works correctly", () => {
     ],
     nextPageToken: undefined,
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
-  mocked(DriveService_).mockReturnValueOnce(driveServiceMock);
+  mocked(SafeDriveService_).mockReturnValueOnce(driveServiceMock);
 
   global.Session = {
     ...mockedSession(),
@@ -96,9 +96,9 @@ test("listFolders works correctly with shortcuts", () => {
     ],
     nextPageToken: undefined,
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
-  mocked(DriveService_).mockReturnValueOnce(driveServiceMock);
+  mocked(SafeDriveService_).mockReturnValueOnce(driveServiceMock);
 
   global.Session = {
     ...mockedSession(),
@@ -137,11 +137,11 @@ test("listFolders works correctly with shortcuts", () => {
 });
 
 test("listFolders handles invalid parameters gracefully", () => {
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list.mockImplementationOnce(() => {
     throw new Error();
   });
-  mocked(DriveService_).mockReturnValueOnce(driveServiceMock);
+  mocked(SafeDriveService_).mockReturnValueOnce(driveServiceMock);
 
   global.Session = {
     ...mockedSession(),
@@ -165,11 +165,11 @@ test("listFolders handles errors in Google Drive API gracefully", () => {
     supportsAllDrives?: boolean;
   }
 
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list.mockImplementationOnce(() => {
     throw new Error();
   });
-  mocked(DriveService_).mockReturnValueOnce(driveServiceMock);
+  mocked(SafeDriveService_).mockReturnValueOnce(driveServiceMock);
 
   global.Session = {
     ...mockedSession(),

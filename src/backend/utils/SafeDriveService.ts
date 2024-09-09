@@ -34,7 +34,7 @@ interface SafeCommentsCollection {
   list(fileId: string, optionalArgs: CommentsListOptions): SafeCommentList;
 }
 
-export class DriveService_ {
+export class SafeDriveService_ {
   private readonly unsafeComments: GoogleAppsScript.Drive.Collection.CommentsCollection;
   public readonly Comments: SafeCommentsCollection;
   public readonly Drives: GoogleAppsScript.Drive.Collection.DrivesCollection;
@@ -62,11 +62,11 @@ export class DriveService_ {
   ): comment is SafeComment {
     return (
       comment.author !== undefined &&
-      DriveService_.userIsSafe(comment.author) &&
+      SafeDriveService_.userIsSafe(comment.author) &&
       comment.commentId !== undefined &&
       comment.content !== undefined &&
       comment.replies?.every((reply) =>
-        DriveService_.commentReplyIsSafe(reply),
+        SafeDriveService_.commentReplyIsSafe(reply),
       ) === true
     );
   }
@@ -82,7 +82,7 @@ export class DriveService_ {
   ): commentReply is SafeCommentReply {
     return (
       commentReply.author !== undefined &&
-      DriveService_.userIsSafe(commentReply.author) &&
+      SafeDriveService_.userIsSafe(commentReply.author) &&
       commentReply.content !== undefined
     );
   }
@@ -102,7 +102,7 @@ export class DriveService_ {
         fileId: string,
       ): SafeComment => {
         const ret = this.unsafeComments.insert(resource, fileId);
-        if (!DriveService_.commentIsSafe(ret)) {
+        if (!SafeDriveService_.commentIsSafe(ret)) {
           throw new Error("");
         }
         return ret;
@@ -112,7 +112,7 @@ export class DriveService_ {
         optionalArgs: CommentsListOptions,
       ): SafeCommentList => {
         const ret = this.unsafeComments.list(fileId, optionalArgs);
-        if (!DriveService_.commentListIsSafe(ret)) {
+        if (!SafeDriveService_.commentListIsSafe(ret)) {
           throw new Error("");
         }
         return ret;

@@ -1,6 +1,6 @@
 import type { MoveContext } from "../../interfaces/MoveContext";
 import type { MoveError } from "../../interfaces/MoveError";
-import type { DriveService_ } from "./DriveService";
+import type { SafeDriveService_ } from "./SafeDriveService";
 
 import { DriveBackedValue_ } from "./DriveBackedValue";
 
@@ -19,7 +19,7 @@ export class MoveState_ {
     destinationID: string,
     copyComments: boolean,
     mergeFolders: boolean,
-    driveService: DriveService_,
+    driveService: SafeDriveService_,
   ) {
     this.driveBackedState = new DriveBackedValue_(
       JSON.stringify({

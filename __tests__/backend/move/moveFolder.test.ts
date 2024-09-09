@@ -6,7 +6,7 @@ import * as moveFile from "../../../src/backend/move/moveFile";
 import { moveFolder_ } from "../../../src/backend/move/moveFolder";
 import * as resolveDestinationFolder from "../../../src/backend/move/resolveDestinationFolder";
 import { MoveState_ } from "../../../src/backend/utils/MoveState";
-import { mockedDriveService } from "../../test-utils/DriveService-stub";
+import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
 
 jest.mock("../../../src/backend/move/folderManagement");
 jest.mock("../../../src/backend/move/moveFile");
@@ -20,7 +20,7 @@ test("moveFolder works correctly with an empty folder", () => {
   const listFoldersInFolder = mocked(
     folderManagement,
   ).listFoldersInFolder_.mockReturnValueOnce([]);
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -61,7 +61,7 @@ test("moveFolder moves files correctly", () => {
   const moveFileFn = mocked(moveFile)
     .moveFile_.mockReturnValueOnce()
     .mockReturnValueOnce();
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -110,7 +110,7 @@ test("moveFolder adds subfolders to the state correctly", () => {
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
     .resolveDestinationFolder_.mockReturnValueOnce({ id: "DEST_SUBFOLDER1_ID" })
     .mockReturnValueOnce({ id: "DEST_SUBFOLDER2_ID" });
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -183,7 +183,7 @@ test("moveFolder moves files correctly, even when listing folders throws", () =>
   const moveFileFn = mocked(moveFile)
     .moveFile_.mockReturnValueOnce()
     .mockReturnValueOnce();
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -242,7 +242,7 @@ test("moveFolder adds subfolders to the state correctly, even when listing files
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
     .resolveDestinationFolder_.mockReturnValueOnce({ id: "DEST_SUBFOLDER1_ID" })
     .mockReturnValueOnce({ id: "DEST_SUBFOLDER2_ID" });
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -318,7 +318,7 @@ test("moveFolder passes copyComments correctly", () => {
   const moveFileFn = mocked(moveFile)
     .moveFile_.mockReturnValueOnce()
     .mockReturnValueOnce();
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -368,7 +368,7 @@ test("moveFolder passes mergeFolders correctly", () => {
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
     .resolveDestinationFolder_.mockReturnValueOnce({ id: "DEST_SUBFOLDER1_ID" })
     .mockReturnValueOnce({ id: "DEST_SUBFOLDER2_ID" });
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",

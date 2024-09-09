@@ -1,13 +1,13 @@
 import type { MoveContext } from "../../interfaces/MoveContext";
-import type { DriveService_ } from "../utils/DriveService";
 import type { MoveState_ } from "../utils/MoveState";
+import type { SafeDriveService_ } from "../utils/SafeDriveService";
 
 import { copyFileComments_ } from "./copyFileComments";
 
 function moveFileDirectly_(
   fileID: string,
   context: MoveContext,
-  driveService: DriveService_,
+  driveService: SafeDriveService_,
 ): void {
   driveService.Files.update({}, fileID, null, {
     addParents: context.destinationID,
@@ -23,7 +23,7 @@ function moveFileByCopy_(
   state: MoveState_,
   context: MoveContext,
   copyComments: boolean,
-  driveService: DriveService_,
+  driveService: SafeDriveService_,
 ): void {
   state.tryOrLog(
     context,
@@ -49,7 +49,7 @@ export function moveFile_(
   state: MoveState_,
   context: MoveContext,
   copyComments: boolean,
-  driveService: DriveService_,
+  driveService: SafeDriveService_,
 ): void {
   if (file.capabilities!.canMoveItemOutOfDrive!) {
     try {

@@ -1,6 +1,6 @@
 import { expect, test } from "@jest/globals";
 
-import { DriveService_ } from "../../../src/backend/utils/DriveService";
+import { SafeDriveService_ } from "../../../src/backend/utils/SafeDriveService";
 import {
   mockedCommentsCollection,
   mockedDrive,
@@ -9,7 +9,7 @@ import {
   mockedRepliesCollection,
 } from "../../test-utils/gas-stubs";
 
-test("DriveService constructs correctly", () => {
+test("SafeDriveService constructs correctly", () => {
   global.Drive = {
     ...mockedDrive(),
     Comments: mockedCommentsCollection(),
@@ -19,11 +19,11 @@ test("DriveService constructs correctly", () => {
   };
 
   expect(() => {
-    new DriveService_();
+    new SafeDriveService_();
   }).not.toThrow();
 });
 
-test("DriveService throws an error without the Comments collection", () => {
+test("SafeDriveService throws an error without the Comments collection", () => {
   global.Drive = {
     ...mockedDrive(),
     Drives: mockedDrivesCollection(),
@@ -32,11 +32,11 @@ test("DriveService throws an error without the Comments collection", () => {
   };
 
   expect(() => {
-    new DriveService_();
+    new SafeDriveService_();
   }).toThrow("");
 });
 
-test("DriveService throws an error without the Drives collection", () => {
+test("SafeDriveService throws an error without the Drives collection", () => {
   global.Drive = {
     ...mockedDrive(),
     Comments: mockedCommentsCollection(),
@@ -45,11 +45,11 @@ test("DriveService throws an error without the Drives collection", () => {
   };
 
   expect(() => {
-    new DriveService_();
+    new SafeDriveService_();
   }).toThrow("");
 });
 
-test("DriveService throws an error without the Files collection", () => {
+test("SafeDriveService throws an error without the Files collection", () => {
   global.Drive = {
     ...mockedDrive(),
     Comments: mockedCommentsCollection(),
@@ -58,11 +58,11 @@ test("DriveService throws an error without the Files collection", () => {
   };
 
   expect(() => {
-    new DriveService_();
+    new SafeDriveService_();
   }).toThrow("");
 });
 
-test("DriveService throws an error without the Replies collection", () => {
+test("SafeDriveService throws an error without the Replies collection", () => {
   global.Drive = {
     ...mockedDrive(),
     Comments: mockedCommentsCollection(),
@@ -71,6 +71,6 @@ test("DriveService throws an error without the Replies collection", () => {
   };
 
   expect(() => {
-    new DriveService_();
+    new SafeDriveService_();
   }).toThrow("");
 });

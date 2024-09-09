@@ -4,7 +4,7 @@ import { mocked } from "jest-mock";
 import { DriveBackedValue_ } from "../../../src/backend/utils/DriveBackedValue";
 import { MoveState_ } from "../../../src/backend/utils/MoveState";
 import { mockedDriveBackedValue } from "../../test-utils/DriveBackedValue-stub";
-import { mockedDriveService } from "../../test-utils/DriveService-stub";
+import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention -- property is class name
 jest.mock<{ DriveBackedValue_: jest.Mock }>(
@@ -17,7 +17,7 @@ jest.mock<{ DriveBackedValue_: jest.Mock }>(
 
 test("MoveState constructs correctly", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
   const state = new MoveState_(
@@ -42,7 +42,7 @@ test("MoveState constructs correctly", () => {
 });
 
 test("MoveState correctly reports unitialized state", () => {
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -56,7 +56,7 @@ test("MoveState correctly reports unitialized state", () => {
 });
 
 test("MoveState correctly reports itialized state", () => {
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -75,7 +75,7 @@ test("MoveState correctly reports itialized state", () => {
 });
 
 test("MoveState correctly reports last added path", () => {
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -100,7 +100,7 @@ test("MoveState correctly reports last added path", () => {
 });
 
 test("MoveState correctly removes paths", () => {
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -152,7 +152,7 @@ test("MoveState correctly removes paths", () => {
 });
 
 test("MoveState doesn't fail on invalid path removal", () => {
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -195,7 +195,7 @@ test("MoveState doesn't fail on invalid path removal", () => {
 });
 
 test("MoveState logs errors", () => {
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -223,7 +223,7 @@ test("MoveState.tryOrLog works correctly", () => {
     path: ["PATH", "TO", "FOLDER"],
     sourceID: "SRC_ID",
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -246,7 +246,7 @@ test("MoveState.tryOrLog returns values correctly", () => {
     path: ["PATH", "TO", "FOLDER"],
     sourceID: "SRC_ID",
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -268,7 +268,7 @@ test("MoveState.tryOrLog handles errors gracefully", () => {
     path: ["PATH", "TO", "FOLDER"],
     sourceID: "SRC_ID",
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -297,7 +297,7 @@ test("MoveState.tryOrLog handles errors gracefully with a filename", () => {
     path: ["PATH", "TO", "FOLDER"],
     sourceID: "SRC_ID",
   };
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -322,7 +322,7 @@ test("MoveState.tryOrLog handles errors gracefully with a filename", () => {
 
 test("MoveState saves the state correctly", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
   const state = new MoveState_(
@@ -381,7 +381,7 @@ test("MoveState saves the state correctly", () => {
 
 test("MoveState doesn't save empty state", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
   const state = new MoveState_(
@@ -415,7 +415,7 @@ test("MoveState loads the state correctly", () => {
     errors: [error1, error2],
     pathsToProcess: [path],
   });
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
   const state = new MoveState_(
@@ -436,7 +436,7 @@ test("MoveState loads the state correctly", () => {
 test("MoveState handles empty state load correctly", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
   driveBackedValueMock.loadValue.mockReturnValueOnce(null);
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
   const state = new MoveState_(
@@ -454,7 +454,7 @@ test("MoveState handles empty state load correctly", () => {
 
 test("MoveState destroys state correctly", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
-  const driveServiceMock = mockedDriveService();
+  const driveServiceMock = mockedSafeDriveService();
   mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
   const state = new MoveState_(
