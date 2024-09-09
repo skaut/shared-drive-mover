@@ -34,10 +34,11 @@ function moveFileByCopy_(
           title: name,
         },
         fileID,
-        { fields: "id", supportsAllDrives: true },
+        { id: true },
+        { supportsAllDrives: true },
       );
       if (copyComments) {
-        copyFileComments_(fileID, copy.id!, driveService);
+        copyFileComments_(fileID, copy.id, driveService);
       }
     },
     name,

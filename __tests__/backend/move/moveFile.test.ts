@@ -73,7 +73,9 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
   }
 
   const driveServiceMock = mockedSafeDriveService();
-  driveServiceMock.Files.copy.mockReturnValueOnce({});
+  driveServiceMock.Files.copy.mockReturnValueOnce({
+    id: "DEST_FILE_ID",
+  });
   driveServiceMock.Files.update.mockImplementation(() => {
     throw new Error();
   });
@@ -128,7 +130,7 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
   expect(driveServiceMock.Files.copy.mock.calls[0][1]).toBe("SRC_FILE_ID");
   expect(driveServiceMock.Files.copy.mock.calls[0][2]).toBeDefined();
   expect(
-    (driveServiceMock.Files.copy.mock.calls[0][2] as CopyFileOptions)
+    (driveServiceMock.Files.copy.mock.calls[0][3] as CopyFileOptions)
       .supportsAllDrives,
   ).toBe(true);
 });
@@ -140,7 +142,9 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
   }
 
   const driveServiceMock = mockedSafeDriveService();
-  driveServiceMock.Files.copy.mockReturnValueOnce({});
+  driveServiceMock.Files.copy.mockReturnValueOnce({
+    id: "DEST_FILE_ID",
+  });
   const state = new MoveState_(
     "SRC_BASE_ID",
     "DEST_BASE_ID",
@@ -175,7 +179,7 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
   expect(driveServiceMock.Files.copy.mock.calls[0][1]).toBe("SRC_FILE_ID");
   expect(driveServiceMock.Files.copy.mock.calls[0][2]).toBeDefined();
   expect(
-    (driveServiceMock.Files.copy.mock.calls[0][2] as CopyFileOptions)
+    (driveServiceMock.Files.copy.mock.calls[0][3] as CopyFileOptions)
       .supportsAllDrives,
   ).toBe(true);
 });
@@ -275,7 +279,7 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
   expect(driveServiceMock.Files.copy.mock.calls[0][1]).toBe("SRC_FILE_ID");
   expect(driveServiceMock.Files.copy.mock.calls[0][2]).toBeDefined();
   expect(
-    (driveServiceMock.Files.copy.mock.calls[0][2] as CopyFileOptions)
+    (driveServiceMock.Files.copy.mock.calls[0][3] as CopyFileOptions)
       .supportsAllDrives,
   ).toBe(true);
   expect(mocked(copyFileComments).copyFileComments_.mock.calls).toHaveLength(1);
