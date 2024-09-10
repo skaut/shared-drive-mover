@@ -7,11 +7,11 @@ export interface SafeFile {
     canMoveItemOutOfDrive: boolean;
   };
   id: string;
-  imageMediaMetadata: {
+  imageMediaMetadata?: {
     aperture: number;
   };
   mimeType: string;
-  shortcutDetails: {
+  shortcutDetails?: {
     targetId: string;
   };
   title: string;
@@ -19,6 +19,8 @@ export interface SafeFile {
     role: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer";
   };
 }
+
+const safeFileOptionalKeys = ["imageMediaMetadata", "shortcutDetails"];
 
 const safeFileKeys: DeepKeyof<SafeFile> = {
   capabilities: {
@@ -61,7 +63,10 @@ export class SafeFilesCollection_ {
       return SafeFilesCollection_.fileIsSafe(file, safeFileKeys);
     }
     for (const key in keys) {
-      if (!Object.prototype.hasOwnProperty.call(keys, key)) {
+      if (
+        !Object.prototype.hasOwnProperty.call(keys, key) ||
+        safeFileOptionalKeys.indexOf(key) > -1
+      ) {
         continue;
       }
       if (file[key as keyof DeepKeyof<SafeFile>] === undefined) {

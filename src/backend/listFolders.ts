@@ -47,7 +47,7 @@ export function listFolders(parentID: google.script.Parameter): ListResponse {
           .map((item) => {
             const id =
               item.mimeType === "application/vnd.google-apps.shortcut"
-                ? item.shortcutDetails.targetId
+                ? (item.shortcutDetails?.targetId ?? item.id)
                 : item.id;
             return { id, name: item.title };
           }),
