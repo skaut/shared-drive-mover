@@ -57,7 +57,10 @@ export async function setup(
           ...args: Array<google.script.Parameter>
         ): void => {
           _logEndpointCall(key, args);
-          const stub = window._endpointStubs[key].shift()!;
+          const stub = window._endpointStubs[key].shift();
+          if (stub === undefined) {
+            return;
+          }
           setTimeout(() => {
             if (stub.status === "success") {
               successHandler(stub.value);

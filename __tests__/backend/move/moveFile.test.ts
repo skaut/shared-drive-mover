@@ -122,8 +122,8 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
       .supportsAllDrives,
   ).toBe(true);
   expect(driveServiceMock.Files.copy.mock.calls).toHaveLength(1);
-  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents!).toHaveLength(1);
-  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents![0].id).toBe(
+  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents).toHaveLength(1);
+  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents?.[0].id).toBe(
     "DEST_PARENT_ID",
   );
   expect(driveServiceMock.Files.copy.mock.calls[0][0].title).toBe("FILE_NAME");
@@ -171,8 +171,8 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
   );
 
   expect(driveServiceMock.Files.copy.mock.calls).toHaveLength(1);
-  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents!).toHaveLength(1);
-  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents![0].id).toBe(
+  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents).toHaveLength(1);
+  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents?.[0].id).toBe(
     "DEST_PARENT_ID",
   );
   expect(driveServiceMock.Files.copy.mock.calls[0][0].title).toBe("FILE_NAME");
@@ -271,8 +271,8 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
   );
 
   expect(driveServiceMock.Files.copy.mock.calls).toHaveLength(1);
-  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents!).toHaveLength(1);
-  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents![0].id).toBe(
+  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents).toHaveLength(1);
+  expect(driveServiceMock.Files.copy.mock.calls[0][0].parents?.[0].id).toBe(
     "DEST_PARENT_ID",
   );
   expect(driveServiceMock.Files.copy.mock.calls[0][0].title).toBe("FILE_NAME");

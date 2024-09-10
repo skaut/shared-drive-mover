@@ -54,7 +54,13 @@ test("copyFileComments works correctly", () => {
   ).toBeUndefined();
   expect(
     (driveServiceMock.Comments.list.mock.calls[0][1] as ListCommentsOptions)
-      .fields!.split(",")
+      .fields,
+  ).toBeDefined();
+  expect(
+    (
+      driveServiceMock.Comments.list.mock.calls[0][1] as ListCommentsOptions
+    ).fields
+      ?.split(",")
       .map((s) => s.trim()),
   ).toContain("nextPageToken");
   expect(driveServiceMock.Comments.insert.mock.calls).toHaveLength(2);
@@ -126,7 +132,13 @@ test("copyFileComments works correctly with replies", () => {
   ).toBeUndefined();
   expect(
     (driveServiceMock.Comments.list.mock.calls[0][1] as ListCommentsOptions)
-      .fields!.split(",")
+      .fields,
+  ).toBeDefined();
+  expect(
+    (
+      driveServiceMock.Comments.list.mock.calls[0][1] as ListCommentsOptions
+    ).fields
+      ?.split(",")
       .map((s) => s.trim()),
   ).toContain("nextPageToken");
   expect(driveServiceMock.Comments.insert.mock.calls).toHaveLength(1);
