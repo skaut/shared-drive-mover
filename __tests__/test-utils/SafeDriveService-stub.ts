@@ -46,17 +46,16 @@ export function mockedSafeDriveService<
           optionalArgs?: { alt?: string },
         ) => DeepPick<SafeFile, F>
       >(),
-      // TODO: Not safe
       insert: jest.fn<
         (
           resource: GoogleAppsScript.Drive.Schema.File,
+          fields: F | null,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API
           mediaData?: any,
           optionalArgs?: {
-            fields?: string;
             supportsAllDrives?: boolean;
           },
-        ) => GoogleAppsScript.Drive.Schema.File
+        ) => DeepPick<SafeFile, F>
       >(),
       // TODO: Not safe
       list: jest.fn<

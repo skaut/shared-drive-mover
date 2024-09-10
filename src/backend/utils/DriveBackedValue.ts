@@ -19,11 +19,16 @@ export class DriveBackedValue_<T> {
   }
 
   private createDriveFolder(): string {
-    const response = this.driveService.Files.insert({
-      mimeType: "application/vnd.google-apps.folder",
-      title: DriveBackedValue_.driveFolderName,
-    });
-    return response.id!;
+    const response = this.driveService.Files.insert(
+      {
+        mimeType: "application/vnd.google-apps.folder",
+        title: DriveBackedValue_.driveFolderName,
+      },
+      {
+        id: true,
+      },
+    );
+    return response.id;
   }
 
   private deleteExistingDriveFile(fileId: string): void {
@@ -94,6 +99,7 @@ export class DriveBackedValue_<T> {
         parents: [{ id: folderId }],
         title: this.getFileName(),
       },
+      {},
       Utilities.newBlob(JSON.stringify(value), "application/json"),
     );
   }

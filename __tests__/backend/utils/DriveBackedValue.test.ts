@@ -175,7 +175,7 @@ test("DriveBackedValue saves a value - the folder exists, the value doesn't", ()
   expect(driveServiceMock.Files.insert.mock.calls[0][0].title).toBe(
     `shared-drive-mover-state-${keySha256}.json`,
   );
-  expect(driveServiceMock.Files.insert.mock.calls[0][1]).toBe("BLOB");
+  expect(driveServiceMock.Files.insert.mock.calls[0][2]).toBe("BLOB");
   expect(mocked(global.Utilities).newBlob.mock.calls).toHaveLength(1);
   expect(mocked(global.Utilities).newBlob.mock.calls[0][0]).toBe(
     JSON.stringify("VALUE"),
@@ -258,7 +258,7 @@ test("DriveBackedValue saves a value - the folder doesn't exists", () => {
   expect(driveServiceMock.Files.insert.mock.calls[1][0].title).toBe(
     `shared-drive-mover-state-${keySha256}.json`,
   );
-  expect(driveServiceMock.Files.insert.mock.calls[1][1]).toBe("BLOB");
+  expect(driveServiceMock.Files.insert.mock.calls[1][2]).toBe("BLOB");
   expect(mocked(global.Utilities).newBlob.mock.calls).toHaveLength(1);
   expect(mocked(global.Utilities).newBlob.mock.calls[0][0]).toBe(
     JSON.stringify("VALUE"),

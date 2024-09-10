@@ -32,7 +32,8 @@ export function resolveDestinationFolder_(
       parents: [{ id: context.destinationID }],
       title: sourceFolder.title!,
     },
+    { id: true },
     undefined,
-    { fields: "id", supportsAllDrives: true },
+    { supportsAllDrives: true },
   );
 }

@@ -116,17 +116,25 @@ export class SafeFilesCollection_ {
     return ret;
   }
 
-  // TODO: Not safe
-  public insert(
+  public insert<F extends DeepKeyof<SafeFile>>(
     resource: GoogleAppsScript.Drive.Schema.File,
+    fields: F | null,
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any -- Required by the Drive API
     mediaData?: any,
     optionalArgs: {
-      fields?: string;
       supportsAllDrives?: boolean;
     } = {},
-  ): GoogleAppsScript.Drive.Schema.File {
-    return this.unsafeFiles.insert(resource, mediaData, optionalArgs);
+  ): DeepPick<SafeFile, F> {
+    const ret = this.unsafeFiles.insert(resource, mediaData, {
+      ...optionalArgs,
+      ...(fields !== null && {
+        fields: SafeFilesCollection_.transformFields(fields),
+      }),
+    });
+    if (!SafeFilesCollection_.fileIsSafe<F>(ret, fields)) {
+      throw new Error("");
+    }
+    return ret;
   }
 
   // TODO: Not safe

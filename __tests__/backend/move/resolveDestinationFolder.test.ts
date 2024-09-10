@@ -11,7 +11,6 @@ jest.mock("../../../src/backend/move/folderManagement");
 
 test("resolveDestinationFolder corretly creates new folder", () => {
   interface InsertFileOptions {
-    fields?: string;
     supportsAllDrives?: boolean;
   }
 
@@ -53,9 +52,9 @@ test("resolveDestinationFolder corretly creates new folder", () => {
   expect(driveServiceMock.Files.insert.mock.calls[0][0].title).toBe(
     "FOLDER_NAME",
   );
-  expect(driveServiceMock.Files.insert.mock.calls[0][2]).toBeDefined();
+  expect(driveServiceMock.Files.insert.mock.calls[0][3]).toBeDefined();
   expect(
-    (driveServiceMock.Files.insert.mock.calls[0][2] as InsertFileOptions)
+    (driveServiceMock.Files.insert.mock.calls[0][3] as InsertFileOptions)
       .supportsAllDrives,
   ).toBe(true);
   expect(mocked(state).logError.mock.calls).toHaveLength(0);
@@ -63,7 +62,6 @@ test("resolveDestinationFolder corretly creates new folder", () => {
 
 test("resolveDestinationFolder corretly creates new folder when set not to merge folders, even when a folder with the same name exists", () => {
   interface InsertFileOptions {
-    fields?: string;
     supportsAllDrives?: boolean;
   }
 
@@ -108,9 +106,9 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
   expect(driveServiceMock.Files.insert.mock.calls[0][0].title).toBe(
     "FOLDER_NAME",
   );
-  expect(driveServiceMock.Files.insert.mock.calls[0][2]).toBeDefined();
+  expect(driveServiceMock.Files.insert.mock.calls[0][3]).toBeDefined();
   expect(
-    (driveServiceMock.Files.insert.mock.calls[0][2] as InsertFileOptions)
+    (driveServiceMock.Files.insert.mock.calls[0][3] as InsertFileOptions)
       .supportsAllDrives,
   ).toBe(true);
   expect(mocked(state).logError.mock.calls).toHaveLength(0);
@@ -118,7 +116,6 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
 
 test("resolveDestinationFolder corretly creates new folder when set to merge folders, but there is no existing folder the same name", () => {
   interface InsertFileOptions {
-    fields?: string;
     supportsAllDrives?: boolean;
   }
 
@@ -161,9 +158,9 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
   expect(driveServiceMock.Files.insert.mock.calls[0][0].title).toBe(
     "FOLDER_NAME",
   );
-  expect(driveServiceMock.Files.insert.mock.calls[0][2]).toBeDefined();
+  expect(driveServiceMock.Files.insert.mock.calls[0][3]).toBeDefined();
   expect(
-    (driveServiceMock.Files.insert.mock.calls[0][2] as InsertFileOptions)
+    (driveServiceMock.Files.insert.mock.calls[0][3] as InsertFileOptions)
       .supportsAllDrives,
   ).toBe(true);
   expect(mocked(state).logError.mock.calls).toHaveLength(0);
@@ -205,7 +202,6 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
 
 test("resolveDestinationFolder fails gracefully on multiple existing folders with the same name", () => {
   interface InsertFileOptions {
-    fields?: string;
     supportsAllDrives?: boolean;
   }
 
@@ -256,9 +252,9 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
   expect(driveServiceMock.Files.insert.mock.calls[0][0].title).toBe(
     "FOLDER_NAME",
   );
-  expect(driveServiceMock.Files.insert.mock.calls[0][2]).toBeDefined();
+  expect(driveServiceMock.Files.insert.mock.calls[0][3]).toBeDefined();
   expect(
-    (driveServiceMock.Files.insert.mock.calls[0][2] as InsertFileOptions)
+    (driveServiceMock.Files.insert.mock.calls[0][3] as InsertFileOptions)
       .supportsAllDrives,
   ).toBe(true);
   expect(mocked(state).logError.mock.calls).toHaveLength(1);
