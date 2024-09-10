@@ -52,8 +52,16 @@ test("moveFolder moves files correctly", () => {
   const listFilesInFolder = mocked(
     folderManagement,
   ).listFilesInFolder_.mockReturnValueOnce([
-    { id: "FILE1_ID" },
-    { id: "FILE2_ID" },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "FILE1_ID",
+      title: "FILE1_TITLE",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "FILE2_ID",
+      title: "FILE2_TITLE",
+    },
   ]);
   const listFoldersInFolder = mocked(
     folderManagement,
@@ -104,8 +112,16 @@ test("moveFolder adds subfolders to the state correctly", () => {
   const listFoldersInFolder = mocked(
     folderManagement,
   ).listFoldersInFolder_.mockReturnValueOnce([
-    { id: "SRC_SUBFOLDER1_ID", title: "SUBFOLDER1_NAME" },
-    { id: "SRC_SUBFOLDER2_ID", title: "SUBFOLDER2_NAME" },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "SRC_SUBFOLDER1_ID",
+      title: "SUBFOLDER1_NAME",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "SRC_SUBFOLDER2_ID",
+      title: "SUBFOLDER2_NAME",
+    },
   ]);
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
     .resolveDestinationFolder_.mockReturnValueOnce({ id: "DEST_SUBFOLDER1_ID" })
@@ -172,8 +188,16 @@ test("moveFolder moves files correctly, even when listing folders throws", () =>
   const listFilesInFolder = mocked(
     folderManagement,
   ).listFilesInFolder_.mockReturnValueOnce([
-    { id: "FILE1_ID" },
-    { id: "FILE2_ID" },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "FILE1_ID",
+      title: "FILE1_TITLE",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "FILE2_ID",
+      title: "FILE2_TITLE",
+    },
   ]);
   const listFoldersInFolder = mocked(
     folderManagement,
@@ -236,8 +260,16 @@ test("moveFolder adds subfolders to the state correctly, even when listing files
   const listFoldersInFolder = mocked(
     folderManagement,
   ).listFoldersInFolder_.mockReturnValueOnce([
-    { id: "SRC_SUBFOLDER1_ID", title: "SUBFOLDER1_NAME" },
-    { id: "SRC_SUBFOLDER2_ID", title: "SUBFOLDER2_NAME" },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "SRC_SUBFOLDER1_ID",
+      title: "SUBFOLDER1_NAME",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "SRC_SUBFOLDER2_ID",
+      title: "SUBFOLDER2_NAME",
+    },
   ]);
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
     .resolveDestinationFolder_.mockReturnValueOnce({ id: "DEST_SUBFOLDER1_ID" })
@@ -309,8 +341,16 @@ test("moveFolder passes copyComments correctly", () => {
   const listFilesInFolder = mocked(
     folderManagement,
   ).listFilesInFolder_.mockReturnValueOnce([
-    { id: "FILE1_ID" },
-    { id: "FILE2_ID" },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "FILE1_ID",
+      title: "FILE1_TITLE",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "FILE2_ID",
+      title: "FILE2_TITLE",
+    },
   ]);
   const listFoldersInFolder = mocked(
     folderManagement,
@@ -362,8 +402,16 @@ test("moveFolder passes mergeFolders correctly", () => {
   const listFoldersInFolder = mocked(
     folderManagement,
   ).listFoldersInFolder_.mockReturnValueOnce([
-    { id: "SRC_SUBFOLDER1_ID", title: "SUBFOLDER1_NAME" },
-    { id: "SRC_SUBFOLDER2_ID", title: "SUBFOLDER2_NAME" },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "SRC_SUBFOLDER1_ID",
+      title: "SUBFOLDER1_NAME",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "SRC_SUBFOLDER2_ID",
+      title: "SUBFOLDER2_NAME",
+    },
   ]);
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
     .resolveDestinationFolder_.mockReturnValueOnce({ id: "DEST_SUBFOLDER1_ID" })

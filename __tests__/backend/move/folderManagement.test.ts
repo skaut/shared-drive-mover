@@ -10,7 +10,6 @@ import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
 
 test("listFilesInFolder works correctly", () => {
   interface ListFilesOptions {
-    fields?: string;
     includeItemsFromAllDrives?: boolean;
     maxResults?: number;
     pageToken?: string;
@@ -44,37 +43,32 @@ test("listFilesInFolder works correctly", () => {
   expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
   expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
   ).toContain('"FOLDER_ID" in parents');
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
   ).toContain('mimeType != "application/vnd.google-apps.folder"');
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .includeItemsFromAllDrives,
   ).toBe(true);
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .supportsAllDrives,
   ).toBe(true);
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .pageToken,
   ).toBeUndefined();
-  expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).fields,
-  ).toContain("id");
-  expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).fields,
-  ).toContain("title");
-  expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).fields,
-  ).toContain("canMoveItemOutOfDrive");
+  expect(driveServiceMock.Files.list.mock.calls[0][0]).toStrictEqual({
+    capabilities: { canMoveItemOutOfDrive: true },
+    id: true,
+    title: true,
+  });
 });
 
 test("listFoldersInFolder works correctly", () => {
   interface ListFilesOptions {
-    fields?: string;
     includeItemsFromAllDrives?: boolean;
     maxResults?: number;
     pageToken?: string;
@@ -108,37 +102,32 @@ test("listFoldersInFolder works correctly", () => {
   expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
   expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
   ).toContain('"FOLDER_ID" in parents');
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
   ).toContain('mimeType = "application/vnd.google-apps.folder"');
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .includeItemsFromAllDrives,
   ).toBe(true);
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .supportsAllDrives,
   ).toBe(true);
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .pageToken,
   ).toBeUndefined();
-  expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).fields,
-  ).toContain("id");
-  expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).fields,
-  ).toContain("title");
-  expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).fields,
-  ).toContain("canMoveItemOutOfDrive");
+  expect(driveServiceMock.Files.list.mock.calls[0][0]).toStrictEqual({
+    capabilities: { canMoveItemOutOfDrive: true },
+    id: true,
+    title: true,
+  });
 });
 
 test("isFolderEmpty works correctly with an empty folder", () => {
   interface ListFilesOptions {
-    fields?: string;
     includeItemsFromAllDrives?: boolean;
     maxResults?: number;
     q?: string;
@@ -155,21 +144,20 @@ test("isFolderEmpty works correctly with an empty folder", () => {
   expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
   expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
   ).toContain("ID_FOLDER");
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .includeItemsFromAllDrives,
   ).toBe(true);
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .supportsAllDrives,
   ).toBe(true);
 });
 
 test("isFolderEmpty works correctly with a non-empty folder", () => {
   interface ListFilesOptions {
-    fields?: string;
     includeItemsFromAllDrives?: boolean;
     maxResults?: number;
     q?: string;
@@ -186,14 +174,14 @@ test("isFolderEmpty works correctly with a non-empty folder", () => {
   expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
   expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
   ).toContain("ID_FOLDER");
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .includeItemsFromAllDrives,
   ).toBe(true);
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .supportsAllDrives,
   ).toBe(true);
 });
@@ -204,7 +192,6 @@ test.each(["owner", "organizer"] as Array<
   "deleteFolderIfEmpty works correctly",
   (role: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer") => {
     interface ListFilesOptions {
-      fields?: string;
       includeItemsFromAllDrives?: boolean;
       maxResults?: number;
       pageToken?: string;
@@ -228,14 +215,14 @@ test.each(["owner", "organizer"] as Array<
     expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
     expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
     expect(
-      (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+      (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
     ).toContain('"FOLDER_ID" in parents');
     expect(
-      (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
         .includeItemsFromAllDrives,
     ).toBe(true);
     expect(
-      (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
         .supportsAllDrives,
     ).toBe(true);
     expect(driveServiceMock.Files.get.mock.calls).toHaveLength(1);
@@ -251,7 +238,6 @@ test.each(["owner", "organizer"] as Array<
 
 test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
   interface ListFilesOptions {
-    fields?: string;
     includeItemsFromAllDrives?: boolean;
     maxResults?: number;
     pageToken?: string;
@@ -259,7 +245,7 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
     supportsAllDrives?: boolean;
   }
 
-  const listResponse: GoogleAppsScript.Drive.Schema.FileList = {
+  const listResponse = {
     items: [{ userPermission: { role: "reader" } }],
     nextPageToken: undefined,
   };
@@ -271,14 +257,14 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
   expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
   expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
   ).toContain('"FOLDER_ID" in parents');
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .includeItemsFromAllDrives,
   ).toBe(true);
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .supportsAllDrives,
   ).toBe(true);
   expect(driveServiceMock.Files.get.mock.calls).toHaveLength(0);
@@ -291,7 +277,6 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
   "deleteFolderIfEmpty doesn't try to delete a folder without permissions",
   (role: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer") => {
     interface ListFilesOptions {
-      fields?: string;
       includeItemsFromAllDrives?: boolean;
       maxResults?: number;
       pageToken?: string;
@@ -315,14 +300,14 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
     expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
     expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
     expect(
-      (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+      (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
     ).toContain('"FOLDER_ID" in parents');
     expect(
-      (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
         .includeItemsFromAllDrives,
     ).toBe(true);
     expect(
-      (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+      (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
         .supportsAllDrives,
     ).toBe(true);
     expect(driveServiceMock.Files.get.mock.calls).toHaveLength(1);

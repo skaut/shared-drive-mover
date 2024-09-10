@@ -6,7 +6,10 @@ export type {
   SafeCommentList,
 } from "./SafeDriveService/SafeCommentsCollection";
 
-export type { SafeFile } from "./SafeDriveService/SafeFilesCollection";
+export type {
+  SafeFile,
+  SafeFileList,
+} from "./SafeDriveService/SafeFilesCollection";
 
 export class SafeDriveService_ {
   public readonly Comments: SafeCommentsCollection_;

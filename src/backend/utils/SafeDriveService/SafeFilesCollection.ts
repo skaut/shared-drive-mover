@@ -1,24 +1,45 @@
 import type { DeepKeyof, DeepPick } from "../DeepPick";
 
 export interface SafeFile {
+  capabilities: {
+    canMoveItemOutOfDrive: boolean;
+  };
   id: string;
   imageMediaMetadata: {
     aperture: number;
   };
+  mimeType: string;
+  shortcutDetails: {
+    targetId: string;
+  };
+  title: string;
   userPermission: {
     role: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer";
   };
 }
 
 const safeFileKeys: DeepKeyof<SafeFile> = {
+  capabilities: {
+    canMoveItemOutOfDrive: true,
+  },
   id: true,
   imageMediaMetadata: {
     aperture: true,
   },
+  mimeType: true,
+  shortcutDetails: {
+    targetId: true,
+  },
+  title: true,
   userPermission: {
     role: true,
   },
 };
+
+export interface SafeFileList<F extends DeepKeyof<SafeFile>> {
+  items: Array<DeepPick<SafeFile, F>>;
+  nextPageToken?: string | undefined;
+}
 
 export class SafeFilesCollection_ {
   private readonly unsafeFiles: GoogleAppsScript.Drive.Collection.FilesCollection;
@@ -58,6 +79,18 @@ export class SafeFilesCollection_ {
       }
     }
     return true;
+  }
+
+  private static fileListIsSafe<F extends DeepKeyof<SafeFile>>(
+    fileList: GoogleAppsScript.Drive.Schema.FileList,
+    keys: F | null,
+  ): fileList is SafeFileList<F> {
+    if (fileList.items === undefined) {
+      return false;
+    }
+    return fileList.items.every((file) =>
+      SafeFilesCollection_.fileIsSafe(file, keys),
+    );
   }
 
   private static transformFields(
@@ -137,18 +170,26 @@ export class SafeFilesCollection_ {
     return ret;
   }
 
-  // TODO: Not safe
-  public list(
+  public list<F extends DeepKeyof<SafeFile>>(
+    fields: F | null,
     optionalArgs: {
-      fields?: string;
       includeItemsFromAllDrives?: boolean;
       maxResults?: number;
       pageToken?: string | undefined;
       q?: string;
       supportsAllDrives?: boolean;
     } = {},
-  ): GoogleAppsScript.Drive.Schema.FileList {
-    return this.unsafeFiles.list(optionalArgs);
+  ): SafeFileList<F> {
+    const ret = this.unsafeFiles.list({
+      ...optionalArgs,
+      ...(fields !== null && {
+        fields: `nextPageToken, items(${SafeFilesCollection_.transformFields(fields)})`,
+      }),
+    });
+    if (!SafeFilesCollection_.fileListIsSafe<F>(ret, fields)) {
+      throw new Error("");
+    }
+    return ret;
   }
 
   public remove(fileId: string): void {

@@ -8,6 +8,7 @@ import type {
   SafeCommentList,
   SafeDriveService_,
   SafeFile,
+  SafeFileList,
 } from "../../src/backend/utils/SafeDriveService";
 
 import { mockedDrivesCollection, mockedRepliesCollection } from "./gas-stubs";
@@ -57,16 +58,17 @@ export function mockedSafeDriveService<
           },
         ) => DeepPick<SafeFile, F>
       >(),
-      // TODO: Not safe
       list: jest.fn<
-        (optionalArgs?: {
-          fields?: string;
-          includeItemsFromAllDrives?: boolean;
-          maxResults?: number;
-          pageToken?: string | undefined;
-          q?: string;
-          supportsAllDrives?: boolean;
-        }) => GoogleAppsScript.Drive.Schema.FileList
+        (
+          fields: F | null,
+          optionalArgs?: {
+            includeItemsFromAllDrives?: boolean;
+            maxResults?: number;
+            pageToken?: string | undefined;
+            q?: string;
+            supportsAllDrives?: boolean;
+          },
+        ) => SafeFileList<F>
       >(),
       remove: jest.fn<(fileId: string) => void>(),
       update: jest.fn<

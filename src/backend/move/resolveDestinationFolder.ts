@@ -1,16 +1,20 @@
 import type { MoveContext } from "../../interfaces/MoveContext";
+import type { DeepPick } from "../utils/DeepPick";
 import type { MoveState_ } from "../utils/MoveState";
-import type { SafeDriveService_ } from "../utils/SafeDriveService";
+import type { SafeDriveService_, SafeFile } from "../utils/SafeDriveService";
 
-import { listFoldersInFolder_ } from "./folderManagement";
+import {
+  type ListFolderContentsFields,
+  listFoldersInFolder_,
+} from "./folderManagement";
 
 export function resolveDestinationFolder_(
-  sourceFolder: GoogleAppsScript.Drive.Schema.File,
+  sourceFolder: DeepPick<SafeFile, ListFolderContentsFields>,
   state: MoveState_,
   context: MoveContext,
   mergeFolders: boolean,
   driveService: SafeDriveService_,
-): GoogleAppsScript.Drive.Schema.File {
+): DeepPick<SafeFile, { id: true }> {
   if (mergeFolders) {
     const existingFoldersWithSameName = listFoldersInFolder_(
       context.destinationID,
@@ -21,7 +25,7 @@ export function resolveDestinationFolder_(
     }
     if (existingFoldersWithSameName.length > 1) {
       state.logError(
-        context.path.concat([sourceFolder.title!]),
+        context.path.concat([sourceFolder.title]),
         "Coudn't merge with existing folder as there are multiple existing directories with the same name",
       );
     }
@@ -30,7 +34,7 @@ export function resolveDestinationFolder_(
     {
       mimeType: "application/vnd.google-apps.folder",
       parents: [{ id: context.destinationID }],
-      title: sourceFolder.title!,
+      title: sourceFolder.title,
     },
     { id: true },
     undefined,

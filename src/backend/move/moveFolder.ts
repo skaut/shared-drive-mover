@@ -44,9 +44,9 @@ export function moveFolder_(
         driveService,
       );
       state.addPath(
-        folder.id!,
-        destinationFolder.id!,
-        context.path.concat([folder.title!]),
+        folder.id,
+        destinationFolder.id,
+        context.path.concat([folder.title]),
       );
     }
   }

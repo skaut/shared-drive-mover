@@ -1,34 +1,50 @@
-import type { SafeDriveService_ } from "../utils/SafeDriveService";
+import type { DeepPick } from "../utils/DeepPick";
+import type {
+  SafeDriveService_,
+  SafeFile,
+  SafeFileList,
+} from "../utils/SafeDriveService";
 
 import { paginationHelper_ } from "../utils/paginationHelper";
+
+export interface ListFolderContentsFields {
+  capabilities: { canMoveItemOutOfDrive: true };
+  id: true;
+  title: true;
+}
 
 function listFolderContents_(
   folderID: string,
   mimeTypeCondition: string,
   driveService: SafeDriveService_,
-): Array<GoogleAppsScript.Drive.Schema.File> {
+): Array<DeepPick<SafeFile, ListFolderContentsFields>> {
   return paginationHelper_<
-    GoogleAppsScript.Drive.Schema.FileList,
-    GoogleAppsScript.Drive.Schema.File
+    SafeFileList<ListFolderContentsFields>,
+    DeepPick<SafeFile, ListFolderContentsFields>
   >(
     (pageToken) =>
-      driveService.Files.list({
-        fields:
-          "nextPageToken, items(id, title, capabilities(canMoveItemOutOfDrive))",
-        includeItemsFromAllDrives: true,
-        maxResults: 1000,
-        pageToken,
-        q: `"${folderID}" in parents and mimeType ${mimeTypeCondition} and trashed = false`,
-        supportsAllDrives: true,
-      }),
-    (response) => response.items!,
+      driveService.Files.list(
+        {
+          capabilities: { canMoveItemOutOfDrive: true },
+          id: true,
+          title: true,
+        },
+        {
+          includeItemsFromAllDrives: true,
+          maxResults: 1000,
+          pageToken,
+          q: `"${folderID}" in parents and mimeType ${mimeTypeCondition} and trashed = false`,
+          supportsAllDrives: true,
+        },
+      ),
+    (response) => response.items,
   );
 }
 
 export function listFilesInFolder_(
   folderID: string,
   driveService: SafeDriveService_,
-): Array<GoogleAppsScript.Drive.Schema.File> {
+): Array<DeepPick<SafeFile, ListFolderContentsFields>> {
   return listFolderContents_(
     folderID,
     '!= "application/vnd.google-apps.folder"',
@@ -39,7 +55,7 @@ export function listFilesInFolder_(
 export function listFoldersInFolder_(
   folderID: string,
   driveService: SafeDriveService_,
-): Array<GoogleAppsScript.Drive.Schema.File> {
+): Array<DeepPick<SafeFile, ListFolderContentsFields>> {
   return listFolderContents_(
     folderID,
     '= "application/vnd.google-apps.folder"',
@@ -51,14 +67,16 @@ export function isFolderEmpty_(
   folderID: string,
   driveService: SafeDriveService_,
 ): boolean {
-  const response = driveService.Files.list({
-    fields: "items(id)",
-    includeItemsFromAllDrives: true,
-    maxResults: 1,
-    q: `"${folderID}" in parents and trashed = false`,
-    supportsAllDrives: true,
-  });
-  return response.items!.length === 0;
+  const response = driveService.Files.list(
+    { id: true },
+    {
+      includeItemsFromAllDrives: true,
+      maxResults: 1,
+      q: `"${folderID}" in parents and trashed = false`,
+      supportsAllDrives: true,
+    },
+  );
+  return response.items.length === 0;
 }
 
 export function deleteFolderIfEmpty_(

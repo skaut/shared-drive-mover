@@ -30,7 +30,11 @@ test("resolveDestinationFolder corretly creates new folder", () => {
 
   expect(
     resolveDestinationFolder_(
-      { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
+      {
+        capabilities: { canMoveItemOutOfDrive: true },
+        id: "SRC_FOLDER_ID",
+        title: "FOLDER_NAME",
+      },
       state,
       {
         destinationID: "DEST_PARENT_ID",
@@ -66,7 +70,11 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
   }
 
   mocked(folderManagement).listFoldersInFolder_.mockReturnValueOnce([
-    { id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "EXISTING_FOLDER_ID",
+      title: "FOLDER_NAME",
+    },
   ]);
   const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.insert.mockReturnValueOnce({
@@ -84,7 +92,11 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
 
   expect(
     resolveDestinationFolder_(
-      { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
+      {
+        capabilities: { canMoveItemOutOfDrive: true },
+        id: "SRC_FOLDER_ID",
+        title: "FOLDER_NAME",
+      },
       state,
       {
         destinationID: "DEST_PARENT_ID",
@@ -136,7 +148,11 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
 
   expect(
     resolveDestinationFolder_(
-      { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
+      {
+        capabilities: { canMoveItemOutOfDrive: true },
+        id: "SRC_FOLDER_ID",
+        title: "FOLDER_NAME",
+      },
       state,
       {
         destinationID: "DEST_PARENT_ID",
@@ -168,9 +184,21 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
 
 test("resolveDestinationFolder corretly uses an existing folder when set to merge folders", () => {
   mocked(folderManagement).listFoldersInFolder_.mockReturnValueOnce([
-    { id: "EXISTING_WRONG_FOLDER1_ID", title: "DIFFERENT_FOLDER_NAME1" },
-    { id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" },
-    { id: "EXISTING_WRONG_FOLDER2_ID", title: "DIFFERENT_FOLDER_NAME2" },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "EXISTING_WRONG_FOLDER1_ID",
+      title: "DIFFERENT_FOLDER_NAME1",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "EXISTING_FOLDER_ID",
+      title: "FOLDER_NAME",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "EXISTING_WRONG_FOLDER2_ID",
+      title: "DIFFERENT_FOLDER_NAME2",
+    },
   ]);
   const driveServiceMock = mockedSafeDriveService();
 
@@ -184,7 +212,11 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
 
   expect(
     resolveDestinationFolder_(
-      { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
+      {
+        capabilities: { canMoveItemOutOfDrive: true },
+        id: "SRC_FOLDER_ID",
+        title: "FOLDER_NAME",
+      },
       state,
       {
         destinationID: "DEST_PARENT_ID",
@@ -194,7 +226,11 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
       true,
       driveServiceMock,
     ),
-  ).toStrictEqual({ id: "EXISTING_FOLDER_ID", title: "FOLDER_NAME" });
+  ).toStrictEqual({
+    capabilities: { canMoveItemOutOfDrive: true },
+    id: "EXISTING_FOLDER_ID",
+    title: "FOLDER_NAME",
+  });
 
   expect(driveServiceMock.Files.insert.mock.calls).toHaveLength(0);
   expect(mocked(state).logError.mock.calls).toHaveLength(0);
@@ -206,10 +242,26 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
   }
 
   mocked(folderManagement).listFoldersInFolder_.mockReturnValueOnce([
-    { id: "EXISTING_WRONG_FOLDER1_ID", title: "DIFFERENT_FOLDER_NAME1" },
-    { id: "EXISTING_FOLDER_ID1", title: "FOLDER_NAME" },
-    { id: "EXISTING_FOLDER_ID2", title: "FOLDER_NAME" },
-    { id: "EXISTING_WRONG_FOLDER2_ID", title: "DIFFERENT_FOLDER_NAME2" },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "EXISTING_WRONG_FOLDER1_ID",
+      title: "DIFFERENT_FOLDER_NAME1",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "EXISTING_FOLDER_ID1",
+      title: "FOLDER_NAME",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "EXISTING_FOLDER_ID2",
+      title: "FOLDER_NAME",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "EXISTING_WRONG_FOLDER2_ID",
+      title: "DIFFERENT_FOLDER_NAME2",
+    },
   ]);
   const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.insert.mockReturnValueOnce({
@@ -227,7 +279,11 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
 
   expect(
     resolveDestinationFolder_(
-      { id: "SRC_FOLDER_ID", title: "FOLDER_NAME" },
+      {
+        capabilities: { canMoveItemOutOfDrive: true },
+        id: "SRC_FOLDER_ID",
+        title: "FOLDER_NAME",
+      },
       state,
       {
         destinationID: "DEST_PARENT_ID",

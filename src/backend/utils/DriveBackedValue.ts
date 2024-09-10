@@ -50,31 +50,35 @@ export class DriveBackedValue_<T> {
   }
 
   private getExistingDriveFileId(folderId: string): string | null {
-    const response = this.driveService.Files.list({
-      fields: "items(id)",
-      maxResults: 1,
-      q: `title = "${this.getFileName()}" and "${folderId}" in parents and trashed = false`,
-    });
+    const response = this.driveService.Files.list(
+      { id: true },
+      {
+        maxResults: 1,
+        q: `title = "${this.getFileName()}" and "${folderId}" in parents and trashed = false`,
+      },
+    );
     if (
-      response.items!.length === 1 &&
-      typeof response.items![0].id === "string"
+      response.items.length === 1 &&
+      typeof response.items[0].id === "string"
     ) {
-      return response.items![0].id;
+      return response.items[0].id;
     }
     return null;
   }
 
   private getExistingDriveFolderId(): string | null {
-    const response = this.driveService.Files.list({
-      fields: "items(id)",
-      maxResults: 1,
-      q: `title = "${DriveBackedValue_.driveFolderName}" and "root" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false`,
-    });
+    const response = this.driveService.Files.list(
+      { id: true },
+      {
+        maxResults: 1,
+        q: `title = "${DriveBackedValue_.driveFolderName}" and "root" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false`,
+      },
+    );
     if (
-      response.items!.length === 1 &&
-      typeof response.items![0].id === "string"
+      response.items.length === 1 &&
+      typeof response.items[0].id === "string"
     ) {
-      return response.items![0].id;
+      return response.items[0].id;
     }
     return null;
   }
@@ -84,12 +88,14 @@ export class DriveBackedValue_<T> {
   }
 
   private isExistingDriveFolderEmpty(folderId: string): boolean {
-    const response = this.driveService.Files.list({
-      fields: "items(id)",
-      maxResults: 1,
-      q: `"${folderId}" in parents and trashed = false`,
-    });
-    return response.items!.length === 0;
+    const response = this.driveService.Files.list(
+      { id: true },
+      {
+        maxResults: 1,
+        q: `"${folderId}" in parents and trashed = false`,
+      },
+    );
+    return response.items.length === 0;
   }
 
   private saveAsNewDriveFile(folderId: string, value: T): void {

@@ -1,6 +1,8 @@
 import type { MoveContext } from "../../interfaces/MoveContext";
+import type { DeepPick } from "../utils/DeepPick";
 import type { MoveState_ } from "../utils/MoveState";
-import type { SafeDriveService_ } from "../utils/SafeDriveService";
+import type { SafeDriveService_, SafeFile } from "../utils/SafeDriveService";
+import type { ListFolderContentsFields } from "./folderManagement";
 
 import { copyFileComments_ } from "./copyFileComments";
 
@@ -46,21 +48,21 @@ function moveFileByCopy_(
 }
 
 export function moveFile_(
-  file: GoogleAppsScript.Drive.Schema.File,
+  file: DeepPick<SafeFile, ListFolderContentsFields>,
   state: MoveState_,
   context: MoveContext,
   copyComments: boolean,
   driveService: SafeDriveService_,
 ): void {
-  if (file.capabilities!.canMoveItemOutOfDrive!) {
+  if (file.capabilities.canMoveItemOutOfDrive) {
     try {
-      moveFileDirectly_(file.id!, context, driveService);
+      moveFileDirectly_(file.id, context, driveService);
       return;
     } catch (e) {} // eslint-disable-line no-empty -- Handled by moving by copying
   }
   moveFileByCopy_(
-    file.id!,
-    file.title!,
+    file.id,
+    file.title,
     state,
     context,
     copyComments,

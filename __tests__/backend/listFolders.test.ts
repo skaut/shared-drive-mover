@@ -17,7 +17,6 @@ jest.mock<{ SafeDriveService_: jest.Mock }>(
 
 test("listFolders works correctly", () => {
   interface ListFilesOptions {
-    fields?: string;
     includeItemsFromAllDrives?: boolean;
     maxResults?: number;
     pageToken?: string;
@@ -49,32 +48,26 @@ test("listFolders works correctly", () => {
     status: "success",
   });
   expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
-  expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
+  expect(driveServiceMock.Files.list.mock.calls[0][1]).toBeDefined();
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
   ).toContain("ID_PARENT");
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .includeItemsFromAllDrives,
   ).toBe(true);
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .supportsAllDrives,
   ).toBe(true);
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .pageToken,
   ).toBeUndefined();
-  expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
-      .fields!.split(",")
-      .map((s) => s.trim()),
-  ).toContain("nextPageToken");
 });
 
 test("listFolders works correctly with shortcuts", () => {
   interface ListFilesOptions {
-    fields?: string;
     includeItemsFromAllDrives?: boolean;
     maxResults?: number;
     pageToken?: string;
@@ -113,27 +106,22 @@ test("listFolders works correctly with shortcuts", () => {
     status: "success",
   });
   expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
-  expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
+  expect(driveServiceMock.Files.list.mock.calls[0][1]).toBeDefined();
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
   ).toContain("ID_PARENT");
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .includeItemsFromAllDrives,
   ).toBe(true);
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .supportsAllDrives,
   ).toBe(true);
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .pageToken,
   ).toBeUndefined();
-  expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
-      .fields!.split(",")
-      .map((s) => s.trim()),
-  ).toContain("nextPageToken");
 });
 
 test("listFolders handles invalid parameters gracefully", () => {
@@ -157,7 +145,6 @@ test("listFolders handles invalid parameters gracefully", () => {
 
 test("listFolders handles errors in Google Drive API gracefully", () => {
   interface ListFilesOptions {
-    fields?: string;
     includeItemsFromAllDrives?: boolean;
     maxResults?: number;
     pageToken?: string;
@@ -181,25 +168,20 @@ test("listFolders handles errors in Google Drive API gracefully", () => {
     type: "DriveAPIError",
   });
   expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
-  expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
+  expect(driveServiceMock.Files.list.mock.calls[0][1]).toBeDefined();
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions).q,
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
   ).toContain("ID_PARENT");
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .includeItemsFromAllDrives,
   ).toBe(true);
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .supportsAllDrives,
   ).toBe(true);
   expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
       .pageToken,
   ).toBeUndefined();
-  expect(
-    (driveServiceMock.Files.list.mock.calls[0][0] as ListFilesOptions)
-      .fields!.split(",")
-      .map((s) => s.trim()),
-  ).toContain("nextPageToken");
 });
