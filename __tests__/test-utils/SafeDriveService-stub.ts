@@ -68,7 +68,6 @@ export function mockedSafeDriveService<
           supportsAllDrives?: boolean;
         }) => GoogleAppsScript.Drive.Schema.FileList
       >(),
-      // TODO: Not safe
       remove: jest.fn<(fileId: string) => void>(),
       // TODO: Not safe
       update: jest.fn<

@@ -150,7 +150,7 @@ export class SafeFilesCollection_ {
   ): GoogleAppsScript.Drive.Schema.FileList {
     return this.unsafeFiles.list(optionalArgs);
   }
-  // TODO: Not safe
+
   public remove(fileId: string): void {
     this.unsafeFiles.remove(fileId);
   }
