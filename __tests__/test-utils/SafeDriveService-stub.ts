@@ -69,20 +69,19 @@ export function mockedSafeDriveService<
         }) => GoogleAppsScript.Drive.Schema.FileList
       >(),
       remove: jest.fn<(fileId: string) => void>(),
-      // TODO: Not safe
       update: jest.fn<
         (
           resource: GoogleAppsScript.Drive.Schema.File,
           fileId: string,
+          fields: F | null,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API
           mediaData?: any,
           optionalArgs?: {
             addParents?: string;
-            fields?: string;
             removeParents?: string;
             supportsAllDrives?: boolean;
           },
-        ) => GoogleAppsScript.Drive.Schema.File
+        ) => DeepPick<SafeFile, F>
       >(),
     },
     Replies: mockedRepliesCollection(),

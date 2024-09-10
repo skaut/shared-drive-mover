@@ -117,6 +117,7 @@ export class DriveBackedValue_<T> {
     this.driveService.Files.update(
       {},
       fileId,
+      {},
       Utilities.newBlob(JSON.stringify(value), "application/json"),
     );
   }

@@ -92,7 +92,7 @@ test("DriveBackedValue saves a value - the folder exists, the value exists", () 
   expect(driveServiceMock.Files.insert.mock.calls).toHaveLength(0);
   expect(driveServiceMock.Files.update.mock.calls).toHaveLength(1);
   expect(driveServiceMock.Files.update.mock.calls[0][1]).toBe("FILE_ID");
-  expect(driveServiceMock.Files.update.mock.calls[0][2]).toBe("BLOB");
+  expect(driveServiceMock.Files.update.mock.calls[0][3]).toBe("BLOB");
   expect(mocked(global.Utilities).newBlob.mock.calls).toHaveLength(1);
   expect(mocked(global.Utilities).newBlob.mock.calls[0][0]).toBe(
     JSON.stringify("VALUE"),
