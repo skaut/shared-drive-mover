@@ -203,9 +203,6 @@ test.each(["owner", "organizer"] as Array<
 >)(
   "deleteFolderIfEmpty works correctly",
   (role: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer") => {
-    interface GetFileOptions {
-      fields?: string;
-    }
     interface ListFilesOptions {
       fields?: string;
       includeItemsFromAllDrives?: boolean;
@@ -244,9 +241,9 @@ test.each(["owner", "organizer"] as Array<
     expect(driveServiceMock.Files.get.mock.calls).toHaveLength(1);
     expect(driveServiceMock.Files.get.mock.calls[0][0]).toBe("FOLDER_ID");
     expect(driveServiceMock.Files.get.mock.calls[0][1]).toBeDefined();
-    expect(
-      (driveServiceMock.Files.get.mock.calls[0][1] as GetFileOptions).fields,
-    ).toContain("role");
+    expect(driveServiceMock.Files.get.mock.calls[0][1]).toStrictEqual({
+      userPermission: { role: true },
+    });
     expect(driveServiceMock.Files.remove.mock.calls).toHaveLength(1);
     expect(driveServiceMock.Files.remove.mock.calls[0][0]).toBe("FOLDER_ID");
   },
@@ -293,9 +290,6 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
 >)(
   "deleteFolderIfEmpty doesn't try to delete a folder without permissions",
   (role: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer") => {
-    interface GetFileOptions {
-      fields?: string;
-    }
     interface ListFilesOptions {
       fields?: string;
       includeItemsFromAllDrives?: boolean;
@@ -334,9 +328,9 @@ test.each(["fileOrganizer", "reader", "writer"] as Array<
     expect(driveServiceMock.Files.get.mock.calls).toHaveLength(1);
     expect(driveServiceMock.Files.get.mock.calls[0][0]).toBe("FOLDER_ID");
     expect(driveServiceMock.Files.get.mock.calls[0][1]).toBeDefined();
-    expect(
-      (driveServiceMock.Files.get.mock.calls[0][1] as GetFileOptions).fields,
-    ).toContain("role");
+    expect(driveServiceMock.Files.get.mock.calls[0][1]).toStrictEqual({
+      userPermission: { role: true },
+    });
     expect(driveServiceMock.Files.remove.mock.calls).toHaveLength(0);
   },
 );

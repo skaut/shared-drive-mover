@@ -69,11 +69,11 @@ export function deleteFolderIfEmpty_(
     return;
   }
   const response = driveService.Files.get(folderID, {
-    fields: "userPermission(role)",
+    userPermission: { role: true },
   });
   if (
-    response.userPermission!.role === "owner" ||
-    response.userPermission!.role === "organizer"
+    response.userPermission.role === "owner" ||
+    response.userPermission.role === "organizer"
   ) {
     driveService.Files.remove(folderID);
   }

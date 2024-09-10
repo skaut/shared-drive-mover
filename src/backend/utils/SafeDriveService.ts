@@ -6,6 +6,8 @@ export type {
   SafeCommentList,
 } from "./SafeDriveService/SafeCommentsCollection";
 
+export type { SafeFile } from "./SafeDriveService/SafeFilesCollection";
+
 export class SafeDriveService_ {
   public readonly Comments: SafeCommentsCollection_;
   public readonly Drives: GoogleAppsScript.Drive.Collection.DrivesCollection;

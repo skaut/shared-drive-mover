@@ -344,7 +344,7 @@ test("DriveBackedValue loads a value - the folder exists, the value exists", () 
   expect(driveServiceMock.Files.get.mock.calls[0][0]).toBe("FILE_ID");
   expect(driveServiceMock.Files.get.mock.calls[0][1]).toBeDefined();
   expect(
-    (driveServiceMock.Files.get.mock.calls[0][1] as GetFileOptions).alt,
+    (driveServiceMock.Files.get.mock.calls[0][2] as GetFileOptions).alt,
   ).toBe("media");
 });
 
