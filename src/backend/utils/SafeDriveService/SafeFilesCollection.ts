@@ -1,5 +1,7 @@
 import type { DeepKeyof, DeepPick } from "../DeepPick";
 
+import { transformFields_ } from "./utils";
+
 export interface SafeFile {
   capabilities: {
     canMoveItemOutOfDrive: boolean;
@@ -93,25 +95,6 @@ export class SafeFilesCollection_ {
     );
   }
 
-  private static transformFields(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- On purpose, we want to support arbitrary objects
-    fields: DeepKeyof<Record<string, any>>,
-  ): string {
-    const ret: Array<string> = [];
-    for (const key in fields) {
-      if (!Object.prototype.hasOwnProperty.call(fields, key)) {
-        continue;
-      }
-      const val = fields[key];
-      if (typeof val === "object") {
-        ret.push(`key(${this.transformFields(val)})`);
-      } else if (val === true) {
-        ret.push("key");
-      }
-    }
-    return ret.join(", ");
-  }
-
   public copy<F extends DeepKeyof<SafeFile>>(
     resource: GoogleAppsScript.Drive.Schema.File,
     fileId: string,
@@ -123,7 +106,7 @@ export class SafeFilesCollection_ {
     const ret = this.unsafeFiles.copy(resource, fileId, {
       ...optionalArgs,
       ...(fields !== null && {
-        fields: SafeFilesCollection_.transformFields(fields),
+        fields: transformFields_(fields),
       }),
     });
     if (!SafeFilesCollection_.fileIsSafe<F>(ret, fields)) {
@@ -140,7 +123,7 @@ export class SafeFilesCollection_ {
     const ret = this.unsafeFiles.get(fileId, {
       ...optionalArgs,
       ...(fields !== null && {
-        fields: SafeFilesCollection_.transformFields(fields),
+        fields: transformFields_(fields),
       }),
     });
     if (!SafeFilesCollection_.fileIsSafe<F>(ret, fields)) {
@@ -161,7 +144,7 @@ export class SafeFilesCollection_ {
     const ret = this.unsafeFiles.insert(resource, mediaData, {
       ...optionalArgs,
       ...(fields !== null && {
-        fields: SafeFilesCollection_.transformFields(fields),
+        fields: transformFields_(fields),
       }),
     });
     if (!SafeFilesCollection_.fileIsSafe<F>(ret, fields)) {
@@ -183,7 +166,7 @@ export class SafeFilesCollection_ {
     const ret = this.unsafeFiles.list({
       ...optionalArgs,
       ...(fields !== null && {
-        fields: `nextPageToken, items(${SafeFilesCollection_.transformFields(fields)})`,
+        fields: `nextPageToken, items(${transformFields_(fields)})`,
       }),
     });
     if (!SafeFilesCollection_.fileListIsSafe<F>(ret, fields)) {
@@ -211,7 +194,7 @@ export class SafeFilesCollection_ {
     const ret = this.unsafeFiles.update(resource, fileId, mediaData, {
       ...optionalArgs,
       ...(fields !== null && {
-        fields: SafeFilesCollection_.transformFields(fields),
+        fields: transformFields_(fields),
       }),
     });
     if (!SafeFilesCollection_.fileIsSafe<F>(ret, fields)) {

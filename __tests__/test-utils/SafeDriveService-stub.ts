@@ -6,12 +6,13 @@ import type { DeepKeyof, DeepPick } from "../../src/backend/utils/DeepPick";
 import type {
   SafeComment,
   SafeCommentList,
+  SafeDriveList,
   SafeDriveService_,
   SafeFile,
   SafeFileList,
 } from "../../src/backend/utils/SafeDriveService";
 
-import { mockedDrivesCollection, mockedRepliesCollection } from "./gas-stubs";
+import { mockedRepliesCollection } from "./gas-stubs";
 
 export function mockedSafeDriveService<
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters -- No other way to pass F to jest.fn()
@@ -30,7 +31,18 @@ export function mockedSafeDriveService<
         (fileId: string, optionalArgs: Record<never, never>) => SafeCommentList
       >(),
     },
-    Drives: mockedDrivesCollection(),
+    Drives: {
+      list: jest.fn<
+        (
+          fields: F | null,
+          optionalArgs?: {
+            maxResults?: number;
+            orderBy?: string;
+            pageToken?: string;
+          },
+        ) => SafeDriveList<F>
+      >(),
+    },
     Files: {
       copy: jest.fn<
         (

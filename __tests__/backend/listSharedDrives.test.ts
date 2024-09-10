@@ -16,7 +16,6 @@ jest.mock<{ SafeDriveService_: jest.Mock }>(
 
 test("listSharedDrives works correctly", () => {
   interface ListDrivesOptions {
-    fields?: string;
     maxResults?: number;
     orderBy?: string;
     pageToken?: string;
@@ -38,25 +37,19 @@ test("listSharedDrives works correctly", () => {
 
   expect(mocked(SafeDriveService_).mock.calls).toHaveLength(1);
   expect(driveServiceMock.Drives.list.mock.calls).toHaveLength(1);
-  expect(driveServiceMock.Drives.list.mock.calls[0][0]).toBeDefined();
+  expect(driveServiceMock.Drives.list.mock.calls[0][1]).toBeDefined();
   expect(
-    (driveServiceMock.Drives.list.mock.calls[0][0] as ListDrivesOptions)
+    (driveServiceMock.Drives.list.mock.calls[0][1] as ListDrivesOptions)
       .pageToken,
   ).toBeUndefined();
   expect(
-    (driveServiceMock.Drives.list.mock.calls[0][0] as ListDrivesOptions)
+    (driveServiceMock.Drives.list.mock.calls[0][1] as ListDrivesOptions)
       .orderBy,
   ).toBe("name");
-  expect(
-    (driveServiceMock.Drives.list.mock.calls[0][0] as ListDrivesOptions)
-      .fields!.split(",")
-      .map((s) => s.trim()),
-  ).toContain("nextPageToken");
 });
 
 test("listSharedDrives handles Drive API error gracefully", () => {
   interface ListDrivesOptions {
-    fields?: string;
     maxResults?: number;
     orderBy?: string;
     pageToken?: string;
@@ -75,18 +68,13 @@ test("listSharedDrives handles Drive API error gracefully", () => {
 
   expect(mocked(SafeDriveService_).mock.calls).toHaveLength(1);
   expect(driveServiceMock.Drives.list.mock.calls).toHaveLength(1);
-  expect(driveServiceMock.Drives.list.mock.calls[0][0]).toBeDefined();
+  expect(driveServiceMock.Drives.list.mock.calls[0][1]).toBeDefined();
   expect(
-    (driveServiceMock.Drives.list.mock.calls[0][0] as ListDrivesOptions)
+    (driveServiceMock.Drives.list.mock.calls[0][1] as ListDrivesOptions)
       .pageToken,
   ).toBeUndefined();
   expect(
-    (driveServiceMock.Drives.list.mock.calls[0][0] as ListDrivesOptions)
+    (driveServiceMock.Drives.list.mock.calls[0][1] as ListDrivesOptions)
       .orderBy,
   ).toBe("name");
-  expect(
-    (driveServiceMock.Drives.list.mock.calls[0][0] as ListDrivesOptions)
-      .fields!.split(",")
-      .map((s) => s.trim()),
-  ).toContain("nextPageToken");
 });
