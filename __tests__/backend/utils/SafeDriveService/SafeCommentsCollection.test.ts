@@ -1,4 +1,5 @@
-import { expect, jest, test } from "@jest/globals";
+import { expect, test } from "@jest/globals";
+import { mocked } from "jest-mock";
 
 import { SafeCommentsCollection_ } from "../../../../src/backend/utils/SafeDriveService/SafeCommentsCollection";
 import {
@@ -46,21 +47,10 @@ test("insert works", () => {
     ],
   };
 
-  const insert = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.Comment,
-        fileId: string,
-      ) => GoogleAppsScript.Drive.Schema.Comment
-    >()
-    .mockReturnValueOnce(comment);
-  global.Drive = {
-    ...mockedDrive(),
-    Comments: {
-      ...mockedCommentsCollection(),
-      insert,
-    },
-  };
+  global.Drive.Comments = mockedCommentsCollection();
+  const insert = mocked(global.Drive.Comments).insert.mockReturnValueOnce(
+    comment,
+  );
 
   const commentsCollection = new SafeCommentsCollection_();
 
@@ -89,21 +79,10 @@ test("insert throws an error on an invalid comment", () => {
     ],
   };
 
-  const insert = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.Comment,
-        fileId: string,
-      ) => GoogleAppsScript.Drive.Schema.Comment
-    >()
-    .mockReturnValueOnce(comment);
-  global.Drive = {
-    ...mockedDrive(),
-    Comments: {
-      ...mockedCommentsCollection(),
-      insert,
-    },
-  };
+  global.Drive.Comments = mockedCommentsCollection();
+  const insert = mocked(global.Drive.Comments).insert.mockReturnValueOnce(
+    comment,
+  );
 
   const commentsCollection = new SafeCommentsCollection_();
 
@@ -154,25 +133,10 @@ test("list works", () => {
     ],
   };
 
-  const list = jest
-    .fn<
-      (
-        fileId: string,
-        optionalArgs?: {
-          fields?: string;
-          maxResults?: number;
-          pageToken?: string;
-        },
-      ) => GoogleAppsScript.Drive.Schema.CommentList
-    >()
-    .mockReturnValueOnce(commentList);
-  global.Drive = {
-    ...mockedDrive(),
-    Comments: {
-      ...mockedCommentsCollection(),
-      list,
-    },
-  };
+  global.Drive.Comments = mockedCommentsCollection();
+  const list = mocked(global.Drive.Comments).list.mockReturnValueOnce(
+    commentList,
+  );
 
   const commentsCollection = new SafeCommentsCollection_();
 
@@ -223,25 +187,10 @@ test("list works with optional arguments", () => {
     ],
   };
 
-  const list = jest
-    .fn<
-      (
-        fileId: string,
-        optionalArgs?: {
-          fields?: string;
-          maxResults?: number;
-          pageToken?: string;
-        },
-      ) => GoogleAppsScript.Drive.Schema.CommentList
-    >()
-    .mockReturnValueOnce(commentList);
-  global.Drive = {
-    ...mockedDrive(),
-    Comments: {
-      ...mockedCommentsCollection(),
-      list,
-    },
-  };
+  global.Drive.Comments = mockedCommentsCollection();
+  const list = mocked(global.Drive.Comments).list.mockReturnValueOnce(
+    commentList,
+  );
 
   const commentsCollection = new SafeCommentsCollection_();
 
@@ -299,25 +248,10 @@ test("list throws an error on an invalid comment", () => {
     ],
   };
 
-  const list = jest
-    .fn<
-      (
-        fileId: string,
-        optionalArgs?: {
-          fields?: string;
-          maxResults?: number;
-          pageToken?: string;
-        },
-      ) => GoogleAppsScript.Drive.Schema.CommentList
-    >()
-    .mockReturnValueOnce(commentList);
-  global.Drive = {
-    ...mockedDrive(),
-    Comments: {
-      ...mockedCommentsCollection(),
-      list,
-    },
-  };
+  global.Drive.Comments = mockedCommentsCollection();
+  const list = mocked(global.Drive.Comments).list.mockReturnValueOnce(
+    commentList,
+  );
 
   const commentsCollection = new SafeCommentsCollection_();
 
@@ -333,25 +267,10 @@ test("list throws an error on an invalid comment list", () => {
     nextPageToken: "TOKEN",
   };
 
-  const list = jest
-    .fn<
-      (
-        fileId: string,
-        optionalArgs?: {
-          fields?: string;
-          maxResults?: number;
-          pageToken?: string;
-        },
-      ) => GoogleAppsScript.Drive.Schema.CommentList
-    >()
-    .mockReturnValueOnce(commentList);
-  global.Drive = {
-    ...mockedDrive(),
-    Comments: {
-      ...mockedCommentsCollection(),
-      list,
-    },
-  };
+  global.Drive.Comments = mockedCommentsCollection();
+  const list = mocked(global.Drive.Comments).list.mockReturnValueOnce(
+    commentList,
+  );
 
   const commentsCollection = new SafeCommentsCollection_();
 
@@ -393,25 +312,10 @@ test("list throws an error on missing replies", () => {
     ],
   };
 
-  const list = jest
-    .fn<
-      (
-        fileId: string,
-        optionalArgs?: {
-          fields?: string;
-          maxResults?: number;
-          pageToken?: string;
-        },
-      ) => GoogleAppsScript.Drive.Schema.CommentList
-    >()
-    .mockReturnValueOnce(commentList);
-  global.Drive = {
-    ...mockedDrive(),
-    Comments: {
-      ...mockedCommentsCollection(),
-      list,
-    },
-  };
+  global.Drive.Comments = mockedCommentsCollection();
+  const list = mocked(global.Drive.Comments).list.mockReturnValueOnce(
+    commentList,
+  );
 
   const commentsCollection = new SafeCommentsCollection_();
 
@@ -461,25 +365,10 @@ test("list throws an error on an invalid reply", () => {
     ],
   };
 
-  const list = jest
-    .fn<
-      (
-        fileId: string,
-        optionalArgs?: {
-          fields?: string;
-          maxResults?: number;
-          pageToken?: string;
-        },
-      ) => GoogleAppsScript.Drive.Schema.CommentList
-    >()
-    .mockReturnValueOnce(commentList);
-  global.Drive = {
-    ...mockedDrive(),
-    Comments: {
-      ...mockedCommentsCollection(),
-      list,
-    },
-  };
+  global.Drive.Comments = mockedCommentsCollection();
+  const list = mocked(global.Drive.Comments).list.mockReturnValueOnce(
+    commentList,
+  );
 
   const commentsCollection = new SafeCommentsCollection_();
 

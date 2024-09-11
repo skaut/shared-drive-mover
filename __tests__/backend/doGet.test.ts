@@ -1,4 +1,5 @@
-import { expect, jest, test } from "@jest/globals";
+import { expect, test } from "@jest/globals";
+import { mocked } from "jest-mock";
 
 import { doGet } from "../../src/backend/doGet";
 import {
@@ -9,25 +10,15 @@ import {
 
 test("doGet works correctly", () => {
   const outputWithTitle = mockedHtmlOutput();
-  const setTitle = jest
-    .fn<(title: string) => GoogleAppsScript.HTML.HtmlOutput>()
-    .mockReturnValueOnce(outputWithTitle);
-  const outputWithoutTitle = {
-    ...mockedHtmlOutput(),
-    setTitle,
-  };
-  const createTemplateFromFile = jest
-    .fn<(filename: string) => GoogleAppsScript.HTML.HtmlTemplate>()
-    .mockReturnValueOnce({
-      ...mockedHtmlTemplate(),
-      evaluate: jest
-        .fn<() => GoogleAppsScript.HTML.HtmlOutput>()
-        .mockReturnValueOnce(outputWithoutTitle),
-    });
-  global.HtmlService = {
-    ...mockedHtmlService(),
-    createTemplateFromFile,
-  };
+  const outputWithoutTitle = mockedHtmlOutput();
+  const setTitle =
+    mocked(outputWithoutTitle).setTitle.mockReturnValueOnce(outputWithTitle);
+  global.HtmlService = mockedHtmlService();
+  const htmlTemplate = mockedHtmlTemplate();
+  mocked(htmlTemplate).evaluate.mockReturnValueOnce(outputWithoutTitle);
+  const createTemplateFromFile = mocked(
+    global.HtmlService,
+  ).createTemplateFromFile.mockReturnValueOnce(htmlTemplate);
 
   expect(doGet()).toBe(outputWithTitle);
   expect(createTemplateFromFile.mock.calls).toHaveLength(1);

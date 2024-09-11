@@ -1,4 +1,5 @@
-import { expect, jest, test } from "@jest/globals";
+import { expect, test } from "@jest/globals";
+import { mocked } from "jest-mock";
 
 import { SafeFilesCollection_ } from "../../../../src/backend/utils/SafeDriveService/SafeFilesCollection";
 import {
@@ -40,25 +41,8 @@ test("copy works", () => {
     },
   };
 
-  const copy = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        optionalArgs?: {
-          fields?: string;
-          supportsAllDrives?: boolean;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      copy,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const copy = mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -83,25 +67,8 @@ test("copy works with optional arguments", () => {
     },
   };
 
-  const copy = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        optionalArgs?: {
-          fields?: string;
-          supportsAllDrives?: boolean;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      copy,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const copy = mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -123,25 +90,8 @@ test("copy works with selective fields", () => {
     mimeType: "text/plain",
   };
 
-  const copy = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        optionalArgs?: {
-          fields?: string;
-          supportsAllDrives?: boolean;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      copy,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const copy = mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -173,25 +123,8 @@ test("copy throws and error on invalid file", () => {
     },
   };
 
-  const copy = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        optionalArgs?: {
-          fields?: string;
-          supportsAllDrives?: boolean;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      copy,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const copy = mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -216,24 +149,8 @@ test("get works", () => {
     },
   };
 
-  const get = jest
-    .fn<
-      (
-        fileId: string,
-        optionalArgs?: {
-          alt?: string;
-          fields?: string;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      get,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const get = mocked(global.Drive.Files).get.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -257,24 +174,8 @@ test("get works with optional arguments", () => {
     },
   };
 
-  const get = jest
-    .fn<
-      (
-        fileId: string,
-        optionalArgs?: {
-          alt?: string;
-          fields?: string;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      get,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const get = mocked(global.Drive.Files).get.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -291,24 +192,8 @@ test("get works with selective fields", () => {
     title: "FILE_TITLE",
   };
 
-  const get = jest
-    .fn<
-      (
-        fileId: string,
-        optionalArgs?: {
-          alt?: string;
-          fields?: string;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      get,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const get = mocked(global.Drive.Files).get.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -331,24 +216,8 @@ test("get throws an error on invalid file", () => {
     },
   };
 
-  const get = jest
-    .fn<
-      (
-        fileId: string,
-        optionalArgs?: {
-          alt?: string;
-          fields?: string;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      get,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const get = mocked(global.Drive.Files).get.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -372,26 +241,8 @@ test("insert works", () => {
     },
   };
 
-  const insert = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API
-        mediaData?: any,
-        optionalArgs?: {
-          fields?: string;
-          supportsAllDrives?: boolean;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      insert,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const insert = mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -416,26 +267,8 @@ test("insert works with optional arguments", () => {
     },
   };
 
-  const insert = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API
-        mediaData?: any,
-        optionalArgs?: {
-          fields?: string;
-          supportsAllDrives?: boolean;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      insert,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const insert = mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -457,26 +290,8 @@ test("insert works with selective fields", () => {
     },
   };
 
-  const insert = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API
-        mediaData?: any,
-        optionalArgs?: {
-          fields?: string;
-          supportsAllDrives?: boolean;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      insert,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const insert = mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -506,26 +321,8 @@ test("insert throws an error on invalid file", () => {
     userPermission: {},
   };
 
-  const insert = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API
-        mediaData?: any,
-        optionalArgs?: {
-          fields?: string;
-          supportsAllDrives?: boolean;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      insert,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const insert = mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -565,25 +362,8 @@ test("list works", () => {
     ],
   };
 
-  const list = jest
-    .fn<
-      (optionalArgs?: {
-        fields?: string;
-        includeItemsFromAllDrives?: boolean;
-        maxResults?: number;
-        pageToken?: string;
-        q?: string;
-        supportsAllDrives?: boolean;
-      }) => GoogleAppsScript.Drive.Schema.FileList
-    >()
-    .mockReturnValueOnce(fileList);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      list,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const list = mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -621,25 +401,8 @@ test("list works with optional arguments", () => {
     ],
   };
 
-  const list = jest
-    .fn<
-      (optionalArgs?: {
-        fields?: string;
-        includeItemsFromAllDrives?: boolean;
-        maxResults?: number;
-        pageToken?: string;
-        q?: string;
-        supportsAllDrives?: boolean;
-      }) => GoogleAppsScript.Drive.Schema.FileList
-    >()
-    .mockReturnValueOnce(fileList);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      list,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const list = mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -675,25 +438,8 @@ test("list works with selective fields", () => {
     ],
   };
 
-  const list = jest
-    .fn<
-      (optionalArgs?: {
-        fields?: string;
-        includeItemsFromAllDrives?: boolean;
-        maxResults?: number;
-        pageToken?: string;
-        q?: string;
-        supportsAllDrives?: boolean;
-      }) => GoogleAppsScript.Drive.Schema.FileList
-    >()
-    .mockReturnValueOnce(fileList);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      list,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const list = mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -733,25 +479,8 @@ test("list throws an error on invalid file", () => {
     ],
   };
 
-  const list = jest
-    .fn<
-      (optionalArgs?: {
-        fields?: string;
-        includeItemsFromAllDrives?: boolean;
-        maxResults?: number;
-        pageToken?: string;
-        q?: string;
-        supportsAllDrives?: boolean;
-      }) => GoogleAppsScript.Drive.Schema.FileList
-    >()
-    .mockReturnValueOnce(fileList);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      list,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const list = mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -764,25 +493,8 @@ test("list throws an error on invalid file", () => {
 test("list throws an error on invalid file list", () => {
   const fileList = {};
 
-  const list = jest
-    .fn<
-      (optionalArgs?: {
-        fields?: string;
-        includeItemsFromAllDrives?: boolean;
-        maxResults?: number;
-        pageToken?: string;
-        q?: string;
-        supportsAllDrives?: boolean;
-      }) => GoogleAppsScript.Drive.Schema.FileList
-    >()
-    .mockReturnValueOnce(fileList);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      list,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const list = mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -793,14 +505,11 @@ test("list throws an error on invalid file list", () => {
 });
 
 test("remove works", () => {
-  const remove = jest.fn<(fileId: string) => void>();
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      remove,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const remove = mocked(global.Drive.Files).remove.mockImplementationOnce(
+    // eslint-disable-next-line @typescript-eslint/no-empty-function -- Implementation needed so the function is bound to local this
+    () => {},
+  );
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -823,29 +532,8 @@ test("update works", () => {
     },
   };
 
-  const update = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API
-        mediaData?: any,
-        optionalArgs?: {
-          addParents?: string;
-          fields?: string;
-          removeParents?: string;
-          supportsAllDrives?: boolean;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      update,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const update = mocked(global.Drive.Files).update.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -871,29 +559,8 @@ test("update works with optional arguments", () => {
     },
   };
 
-  const update = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API
-        mediaData?: any,
-        optionalArgs?: {
-          addParents?: string;
-          fields?: string;
-          removeParents?: string;
-          supportsAllDrives?: boolean;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      update,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const update = mocked(global.Drive.Files).update.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -921,29 +588,8 @@ test("update works with selective fields", () => {
     },
   };
 
-  const update = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API
-        mediaData?: any,
-        optionalArgs?: {
-          addParents?: string;
-          fields?: string;
-          removeParents?: string;
-          supportsAllDrives?: boolean;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      update,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const update = mocked(global.Drive.Files).update.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -967,29 +613,8 @@ test("update throws an error on invalid file", () => {
     id: "FILE_ID",
   };
 
-  const update = jest
-    .fn<
-      (
-        resource: GoogleAppsScript.Drive.Schema.File,
-        fileId: string,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API
-        mediaData?: any,
-        optionalArgs?: {
-          addParents?: string;
-          fields?: string;
-          removeParents?: string;
-          supportsAllDrives?: boolean;
-        },
-      ) => GoogleAppsScript.Drive.Schema.File
-    >()
-    .mockReturnValueOnce(file);
-  global.Drive = {
-    ...mockedDrive(),
-    Files: {
-      ...mockedFilesCollection(),
-      update,
-    },
-  };
+  global.Drive.Files = mockedFilesCollection();
+  const update = mocked(global.Drive.Files).update.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
