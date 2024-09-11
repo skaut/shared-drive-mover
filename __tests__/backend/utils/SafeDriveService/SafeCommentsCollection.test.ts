@@ -161,7 +161,7 @@ test("list works", () => {
         optionalArgs?: {
           fields?: string;
           maxResults?: number;
-          pageToken?: string | undefined;
+          pageToken?: string;
         },
       ) => GoogleAppsScript.Drive.Schema.CommentList
     >()
@@ -230,7 +230,7 @@ test("list works with optional arguments", () => {
         optionalArgs?: {
           fields?: string;
           maxResults?: number;
-          pageToken?: string | undefined;
+          pageToken?: string;
         },
       ) => GoogleAppsScript.Drive.Schema.CommentList
     >()
@@ -306,7 +306,7 @@ test("list throws an error on an invalid comment", () => {
         optionalArgs?: {
           fields?: string;
           maxResults?: number;
-          pageToken?: string | undefined;
+          pageToken?: string;
         },
       ) => GoogleAppsScript.Drive.Schema.CommentList
     >()
@@ -340,7 +340,7 @@ test("list throws an error on an invalid comment list", () => {
         optionalArgs?: {
           fields?: string;
           maxResults?: number;
-          pageToken?: string | undefined;
+          pageToken?: string;
         },
       ) => GoogleAppsScript.Drive.Schema.CommentList
     >()
@@ -400,7 +400,7 @@ test("list throws an error on missing replies", () => {
         optionalArgs?: {
           fields?: string;
           maxResults?: number;
-          pageToken?: string | undefined;
+          pageToken?: string;
         },
       ) => GoogleAppsScript.Drive.Schema.CommentList
     >()
@@ -468,7 +468,7 @@ test("list throws an error on an invalid reply", () => {
         optionalArgs?: {
           fields?: string;
           maxResults?: number;
-          pageToken?: string | undefined;
+          pageToken?: string;
         },
       ) => GoogleAppsScript.Drive.Schema.CommentList
     >()

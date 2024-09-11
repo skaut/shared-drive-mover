@@ -77,7 +77,7 @@ export function mockedSafeDriveService<
           optionalArgs?: {
             includeItemsFromAllDrives?: boolean;
             maxResults?: number;
-            pageToken?: string | undefined;
+            pageToken?: string;
             q?: string;
             supportsAllDrives?: boolean;
           },

@@ -10,7 +10,7 @@ export interface SafeDrive {
 
 export interface SafeDriveList<F extends DeepKeyof<SafeDrive>> {
   items: Array<DeepPick<SafeDrive, F>>;
-  nextPageToken?: string | undefined;
+  nextPageToken?: string;
 }
 
 const safeDriveKeys: DeepKeyof<SafeDrive> = {
@@ -63,7 +63,7 @@ export class SafeDrivesCollection_ {
     optionalArgs: {
       maxResults?: number;
       orderBy?: string;
-      pageToken?: string;
+      pageToken?: string | undefined;
     } = {},
   ): SafeDriveList<F> {
     const ret = this.unsafeDrives.list({

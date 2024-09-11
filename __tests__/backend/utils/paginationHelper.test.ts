@@ -9,7 +9,6 @@ test("paginationHelper works correctly", () => {
   }
   const rawResponse = {
     a: "b",
-    nextPageToken: undefined,
   };
 
   const request = jest
@@ -44,7 +43,6 @@ test("paginationHelper works correctly with multiple pages", () => {
   };
   const rawResponse3 = {
     a: "c",
-    nextPageToken: undefined,
   };
 
   const request = jest
