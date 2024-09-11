@@ -1,4 +1,5 @@
-import type { DeepKeyof, DeepPick } from "../DeepPick";
+import type { DeepKeyof } from "../DeepKeyof";
+import type { DeepPick } from "../DeepPick";
 
 import { transformFields_ } from "./utils";
 

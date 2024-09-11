@@ -1,4 +1,4 @@
-import type { DeepKeyof } from "../DeepPick";
+import type { DeepKeyof } from "../DeepKeyof";
 
 export function transformFields_(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- On purpose, we want to support arbitrary objects

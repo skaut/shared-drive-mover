@@ -2,7 +2,8 @@ import type { MockedObject } from "jest-mock";
 
 import { jest } from "@jest/globals";
 
-import type { DeepKeyof, DeepPick } from "../../src/backend/utils/DeepPick";
+import type { DeepKeyof } from "../../src/backend/utils/DeepKeyof";
+import type { DeepPick } from "../../src/backend/utils/DeepPick";
 import type {
   SafeComment,
   SafeCommentList,
