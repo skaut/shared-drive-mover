@@ -1,7 +1,7 @@
 import type { DeepKeyof } from "../DeepKeyof";
 import type { DeepPick } from "../DeepPick";
 
-import { transformFields_ } from "./utils";
+import { stringifyFields_ } from "./stringifyFields";
 
 export interface SafeFile {
   capabilities: {
@@ -112,7 +112,7 @@ export class SafeFilesCollection_ {
     const ret = this.unsafeFiles.copy(resource, fileId, {
       ...optionalArgs,
       ...(fields !== null && {
-        fields: transformFields_(fields),
+        fields: stringifyFields_(fields),
       }),
     });
     if (!SafeFilesCollection_.fileIsSafe<F>(ret, fields)) {
@@ -129,7 +129,7 @@ export class SafeFilesCollection_ {
     const ret = this.unsafeFiles.get(fileId, {
       ...optionalArgs,
       ...(fields !== null && {
-        fields: transformFields_(fields),
+        fields: stringifyFields_(fields),
       }),
     });
     if (!SafeFilesCollection_.fileIsSafe<F>(ret, fields)) {
@@ -150,7 +150,7 @@ export class SafeFilesCollection_ {
     const ret = this.unsafeFiles.insert(resource, mediaData, {
       ...optionalArgs,
       ...(fields !== null && {
-        fields: transformFields_(fields),
+        fields: stringifyFields_(fields),
       }),
     });
     if (!SafeFilesCollection_.fileIsSafe<F>(ret, fields)) {
@@ -172,7 +172,7 @@ export class SafeFilesCollection_ {
     const ret = this.unsafeFiles.list({
       ...optionalArgs,
       ...(fields !== null && {
-        fields: `nextPageToken, items(${transformFields_(fields)})`,
+        fields: `nextPageToken, items(${stringifyFields_(fields)})`,
       }),
     });
     if (!SafeFilesCollection_.fileListIsSafe<F>(ret, fields)) {
@@ -200,7 +200,7 @@ export class SafeFilesCollection_ {
     const ret = this.unsafeFiles.update(resource, fileId, mediaData, {
       ...optionalArgs,
       ...(fields !== null && {
-        fields: transformFields_(fields),
+        fields: stringifyFields_(fields),
       }),
     });
     if (!SafeFilesCollection_.fileIsSafe<F>(ret, fields)) {

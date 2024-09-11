@@ -1,6 +1,6 @@
 import type { DeepKeyof } from "../DeepKeyof";
 
-export function transformFields_(
+export function stringifyFields_(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- On purpose, we want to support arbitrary objects
   fields: DeepKeyof<Record<string, any>>,
 ): string {
@@ -11,7 +11,7 @@ export function transformFields_(
     }
     const val = fields[key];
     if (typeof val === "object") {
-      ret.push(`${key}(${transformFields_(val)})`);
+      ret.push(`${key}(${stringifyFields_(val)})`);
     } else if (val === true) {
       ret.push(key);
     }

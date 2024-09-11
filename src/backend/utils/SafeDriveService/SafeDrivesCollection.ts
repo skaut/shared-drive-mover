@@ -1,7 +1,7 @@
 import type { DeepKeyof } from "../DeepKeyof";
 import type { DeepPick } from "../DeepPick";
 
-import { transformFields_ } from "./utils";
+import { stringifyFields_ } from "./stringifyFields";
 
 interface SafeDrive {
   id: string;
@@ -69,7 +69,7 @@ export class SafeDrivesCollection_ {
     const ret = this.unsafeDrives.list({
       ...optionalArgs,
       ...(fields !== null && {
-        fields: `nextPageToken, items(${transformFields_(fields)})`,
+        fields: `nextPageToken, items(${stringifyFields_(fields)})`,
       }),
     });
     if (!SafeDrivesCollection_.driveListIsSafe<F>(ret, fields)) {
