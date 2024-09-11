@@ -72,7 +72,7 @@ export class SafeDrivesCollection_ {
         fields: `nextPageToken, items(${stringifyFields_(fields)})`,
       }),
     });
-    if (!SafeDrivesCollection_.driveListIsSafe<F>(ret, fields)) {
+    if (!SafeDrivesCollection_.driveListIsSafe(ret, fields)) {
       throw new Error("");
     }
     return ret;

@@ -115,7 +115,7 @@ export class SafeFilesCollection_ {
         fields: stringifyFields_(fields),
       }),
     });
-    if (!SafeFilesCollection_.fileIsSafe<F>(ret, fields)) {
+    if (!SafeFilesCollection_.fileIsSafe(ret, fields)) {
       throw new Error("");
     }
     return ret;
@@ -132,7 +132,7 @@ export class SafeFilesCollection_ {
         fields: stringifyFields_(fields),
       }),
     });
-    if (!SafeFilesCollection_.fileIsSafe<F>(ret, fields)) {
+    if (!SafeFilesCollection_.fileIsSafe(ret, fields)) {
       throw new Error("");
     }
     return ret;
@@ -153,7 +153,7 @@ export class SafeFilesCollection_ {
         fields: stringifyFields_(fields),
       }),
     });
-    if (!SafeFilesCollection_.fileIsSafe<F>(ret, fields)) {
+    if (!SafeFilesCollection_.fileIsSafe(ret, fields)) {
       throw new Error("");
     }
     return ret;
@@ -175,7 +175,7 @@ export class SafeFilesCollection_ {
         fields: `nextPageToken, items(${stringifyFields_(fields)})`,
       }),
     });
-    if (!SafeFilesCollection_.fileListIsSafe<F>(ret, fields)) {
+    if (!SafeFilesCollection_.fileListIsSafe(ret, fields)) {
       throw new Error("");
     }
     return ret;
@@ -203,7 +203,7 @@ export class SafeFilesCollection_ {
         fields: stringifyFields_(fields),
       }),
     });
-    if (!SafeFilesCollection_.fileIsSafe<F>(ret, fields)) {
+    if (!SafeFilesCollection_.fileIsSafe(ret, fields)) {
       throw new Error("");
     }
     return ret;
