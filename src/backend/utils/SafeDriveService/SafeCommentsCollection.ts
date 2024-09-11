@@ -47,7 +47,11 @@ export class SafeCommentsCollection_ {
   private static commentListIsSafe(
     commentList: GoogleAppsScript.Drive.Schema.CommentList,
   ): commentList is SafeCommentList {
-    return commentList.items !== undefined;
+    return (
+      commentList.items?.every((comment) =>
+        SafeCommentsCollection_.commentIsSafe(comment),
+      ) === true
+    );
   }
 
   private static commentReplyIsSafe(
@@ -82,10 +86,10 @@ export class SafeCommentsCollection_ {
   public list(
     fileId: string,
     optionalArgs: {
-      fields: string;
-      maxResults: number;
-      pageToken: string | undefined;
-    },
+      fields?: string;
+      maxResults?: number;
+      pageToken?: string | undefined;
+    } = {},
   ): SafeCommentList {
     const ret = this.unsafeComments.list(fileId, optionalArgs);
     if (!SafeCommentsCollection_.commentListIsSafe(ret)) {
