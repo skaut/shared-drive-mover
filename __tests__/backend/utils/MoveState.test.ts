@@ -4,6 +4,7 @@ import { mocked } from "jest-mock";
 import { DriveBackedValue_ } from "../../../src/backend/utils/DriveBackedValue";
 import { MoveState_ } from "../../../src/backend/utils/MoveState";
 import { mockedDriveBackedValue } from "../../test-utils/DriveBackedValue-stub";
+import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention -- property is class name
 jest.mock<{ DriveBackedValue_: jest.Mock }>(
@@ -16,9 +17,16 @@ jest.mock<{ DriveBackedValue_: jest.Mock }>(
 
 test("MoveState constructs correctly", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
+  const driveServiceMock = mockedSafeDriveService();
   mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
 
   expect(mocked(DriveBackedValue_).mock.calls).toHaveLength(1);
   expect(mocked(DriveBackedValue_).mock.calls[0][0]).toBe(
@@ -34,14 +42,28 @@ test("MoveState constructs correctly", () => {
 });
 
 test("MoveState correctly reports unitialized state", () => {
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
 
   expect(state.isNull()).toBe(true);
   expect(state.getNextPath()).toBeNull();
 });
 
 test("MoveState correctly reports itialized state", () => {
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   state.addPath("SRC_ID", "DEST_ID", []);
 
   expect(state.isNull()).toBe(false);
@@ -53,7 +75,14 @@ test("MoveState correctly reports itialized state", () => {
 });
 
 test("MoveState correctly reports last added path", () => {
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   state.addPath("SRC_ID1", "DEST_ID1", []);
   state.addPath("SRC_ID2", "DEST_ID2", ["PATH", "TO", "FIRST", "FOLDER"]);
   state.addPath("SRC_ID3", "DEST_ID3", ["ANOTHER", "DIRECTORY"]);
@@ -71,7 +100,14 @@ test("MoveState correctly reports last added path", () => {
 });
 
 test("MoveState correctly removes paths", () => {
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   state.addPath("SRC_ID1", "DEST_ID1", []);
   state.addPath("SRC_ID2", "DEST_ID2", ["PATH", "TO", "FIRST", "FOLDER"]);
   state.addPath("SRC_ID3", "DEST_ID3", ["ANOTHER", "DIRECTORY"]);
@@ -116,7 +152,14 @@ test("MoveState correctly removes paths", () => {
 });
 
 test("MoveState doesn't fail on invalid path removal", () => {
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
 
   expect(() => {
     state.removePath({
@@ -152,7 +195,14 @@ test("MoveState doesn't fail on invalid path removal", () => {
 });
 
 test("MoveState logs errors", () => {
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   const error1 = {
     error: "ERROR_MESSAGE1",
     file: ["PATH", "TO", "FILE1"],
@@ -173,7 +223,14 @@ test("MoveState.tryOrLog works correctly", () => {
     path: ["PATH", "TO", "FOLDER"],
     sourceID: "SRC_ID",
   };
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
 
   const fn = jest.fn<() => void>().mockReturnValueOnce();
 
@@ -189,7 +246,14 @@ test("MoveState.tryOrLog returns values correctly", () => {
     path: ["PATH", "TO", "FOLDER"],
     sourceID: "SRC_ID",
   };
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
 
   const returnValue = { complex: { return: "object" } };
 
@@ -204,7 +268,14 @@ test("MoveState.tryOrLog handles errors gracefully", () => {
     path: ["PATH", "TO", "FOLDER"],
     sourceID: "SRC_ID",
   };
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
 
   const fn = jest.fn<() => void>().mockImplementationOnce(() => {
     throw new Error("ERROR_MESSAGE");
@@ -226,7 +297,14 @@ test("MoveState.tryOrLog handles errors gracefully with a filename", () => {
     path: ["PATH", "TO", "FOLDER"],
     sourceID: "SRC_ID",
   };
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
 
   const fn = jest.fn<() => void>().mockImplementationOnce(() => {
     throw new Error("ERROR_MESSAGE");
@@ -244,9 +322,16 @@ test("MoveState.tryOrLog handles errors gracefully with a filename", () => {
 
 test("MoveState saves the state correctly", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
+  const driveServiceMock = mockedSafeDriveService();
   mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   state.addPath("SRC_ID1", "DEST_ID1", []);
   state.addPath("SRC_ID2", "DEST_ID2", ["PATH", "TO", "FIRST", "FOLDER"]);
   state.addPath("SRC_ID3", "DEST_ID3", ["ANOTHER", "DIRECTORY"]);
@@ -296,9 +381,16 @@ test("MoveState saves the state correctly", () => {
 
 test("MoveState doesn't save empty state", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
+  const driveServiceMock = mockedSafeDriveService();
   mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   state.saveState();
 
   expect(driveBackedValueMock.saveValue.mock.calls).toHaveLength(0);
@@ -323,9 +415,16 @@ test("MoveState loads the state correctly", () => {
     errors: [error1, error2],
     pathsToProcess: [path],
   });
+  const driveServiceMock = mockedSafeDriveService();
   mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   state.loadState();
 
   expect(state.getNextPath()).not.toBeNull();
@@ -337,9 +436,16 @@ test("MoveState loads the state correctly", () => {
 test("MoveState handles empty state load correctly", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
   driveBackedValueMock.loadValue.mockReturnValueOnce(null);
+  const driveServiceMock = mockedSafeDriveService();
   mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   state.loadState();
 
   expect(state.getNextPath()).toBeNull();
@@ -348,9 +454,16 @@ test("MoveState handles empty state load correctly", () => {
 
 test("MoveState destroys state correctly", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
+  const driveServiceMock = mockedSafeDriveService();
   mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   state.addPath("SRC_ID1", "DEST_ID1", []);
   state.addPath("SRC_ID2", "DEST_ID2", ["PATH", "TO", "FIRST", "FOLDER"]);
   state.addPath("SRC_ID3", "DEST_ID3", ["ANOTHER", "DIRECTORY"]);

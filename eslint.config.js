@@ -80,7 +80,6 @@ export default tseslint.config(
         },
       ],
       "@typescript-eslint/no-import-type-side-effects": "error",
-      "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/no-shadow": "error",
       "@typescript-eslint/no-unnecessary-parameter-property-assignment":
         "error",
@@ -90,6 +89,7 @@ export default tseslint.config(
       "@typescript-eslint/no-useless-empty-export": "error",
       "@typescript-eslint/parameter-properties": "error",
       "@typescript-eslint/prefer-enum-initializers": "error",
+      "@typescript-eslint/prefer-includes": "off", // Requires newer ES
       "@typescript-eslint/prefer-readonly": "error",
       "@typescript-eslint/promise-function-async": "error",
       "@typescript-eslint/require-array-sort-compare": "error",

@@ -1,9 +1,13 @@
+import type { SafeDriveService_ } from "./SafeDriveService";
+
 export class DriveBackedValue_<T> {
   private static readonly driveFolderName = "Shared drive mover cache";
 
+  private readonly driveService: SafeDriveService_;
   private readonly hash: string;
 
-  public constructor(key: string) {
+  public constructor(key: string, driveService: SafeDriveService_) {
+    this.driveService = driveService;
     this.hash = Utilities.computeDigest(
       Utilities.DigestAlgorithm.SHA_256,
       key,
@@ -14,68 +18,67 @@ export class DriveBackedValue_<T> {
       .join("");
   }
 
-  private static createDriveFolder(): string {
-    const response = Drive.Files!.insert({
-      mimeType: "application/vnd.google-apps.folder",
-      title: DriveBackedValue_.driveFolderName,
-    });
-    return response.id!;
+  private createDriveFolder(): string {
+    const response = this.driveService.Files.insert(
+      {
+        mimeType: "application/vnd.google-apps.folder",
+        title: DriveBackedValue_.driveFolderName,
+      },
+      {
+        id: true,
+      },
+    );
+    return response.id;
   }
 
-  private static deleteExistingDriveFile(fileId: string): void {
-    Drive.Files!.remove(fileId);
+  private deleteExistingDriveFile(fileId: string): void {
+    this.driveService.Files.remove(fileId);
   }
 
-  private static getDriveFolderId(): string {
-    const folderId = DriveBackedValue_.getExistingDriveFolderId();
+  private getDriveFolderId(): string {
+    const folderId = this.getExistingDriveFolderId();
     if (folderId !== null) {
       return folderId;
     }
-    return DriveBackedValue_.createDriveFolder();
+    return this.createDriveFolder();
   }
 
-  private static getExistingDriveFolderId(): string | null {
-    const response = Drive.Files!.list({
-      fields: "items(id)",
-      maxResults: 1,
-      q: `title = "${DriveBackedValue_.driveFolderName}" and "root" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false`,
-    });
-    if (
-      response.items!.length === 1 &&
-      typeof response.items![0].id === "string"
-    ) {
-      return response.items![0].id;
-    }
-    return null;
-  }
-
-  private static isExistingDriveFolderEmpty(folderId: string): boolean {
-    const response = Drive.Files!.list({
-      fields: "items(id)",
-      maxResults: 1,
-      q: `"${folderId}" in parents and trashed = false`,
-    });
-    return response.items!.length === 0;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this -- Static methods cannot access T
   private getExistingDriveFileContents(fileId: string): T {
     return JSON.parse(
-      Drive.Files!.get(fileId, { alt: "media" }) as string,
+      this.driveService.Files.get(fileId, null, { alt: "media" }) as string,
     ) as T;
   }
 
   private getExistingDriveFileId(folderId: string): string | null {
-    const response = Drive.Files!.list({
-      fields: "items(id)",
-      maxResults: 1,
-      q: `title = "${this.getFileName()}" and "${folderId}" in parents and trashed = false`,
-    });
+    const response = this.driveService.Files.list(
+      { id: true },
+      {
+        maxResults: 1,
+        q: `title = "${this.getFileName()}" and "${folderId}" in parents and trashed = false`,
+      },
+    );
     if (
-      response.items!.length === 1 &&
-      typeof response.items![0].id === "string"
+      response.items.length === 1 &&
+      typeof response.items[0].id === "string"
     ) {
-      return response.items![0].id;
+      return response.items[0].id;
+    }
+    return null;
+  }
+
+  private getExistingDriveFolderId(): string | null {
+    const response = this.driveService.Files.list(
+      { id: true },
+      {
+        maxResults: 1,
+        q: `title = "${DriveBackedValue_.driveFolderName}" and "root" in parents and mimeType = "application/vnd.google-apps.folder" and trashed = false`,
+      },
+    );
+    if (
+      response.items.length === 1 &&
+      typeof response.items[0].id === "string"
+    ) {
+      return response.items[0].id;
     }
     return null;
   }
@@ -84,13 +87,25 @@ export class DriveBackedValue_<T> {
     return `shared-drive-mover-state-${this.hash}.json`;
   }
 
+  private isExistingDriveFolderEmpty(folderId: string): boolean {
+    const response = this.driveService.Files.list(
+      { id: true },
+      {
+        maxResults: 1,
+        q: `"${folderId}" in parents and trashed = false`,
+      },
+    );
+    return response.items.length === 0;
+  }
+
   private saveAsNewDriveFile(folderId: string, value: T): void {
-    Drive.Files!.insert(
+    this.driveService.Files.insert(
       {
         mimeType: "application/json",
         parents: [{ id: folderId }],
         title: this.getFileName(),
       },
+      {},
       Utilities.newBlob(JSON.stringify(value), "application/json"),
     );
   }
@@ -104,32 +119,32 @@ export class DriveBackedValue_<T> {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this -- Static methods cannot access T
   private updateExistingDriveFile(fileId: string, value: T): void {
-    Drive.Files!.update(
+    this.driveService.Files.update(
       {},
       fileId,
+      {},
       Utilities.newBlob(JSON.stringify(value), "application/json"),
     );
   }
 
   public deleteValue(): void {
-    const folderId = DriveBackedValue_.getExistingDriveFolderId();
+    const folderId = this.getExistingDriveFolderId();
     if (folderId === null) {
       return;
     }
     const fileId = this.getExistingDriveFileId(folderId);
     if (fileId !== null) {
-      DriveBackedValue_.deleteExistingDriveFile(fileId);
+      this.deleteExistingDriveFile(fileId);
     }
-    if (DriveBackedValue_.isExistingDriveFolderEmpty(folderId)) {
+    if (this.isExistingDriveFolderEmpty(folderId)) {
       // This function works with folders as well
-      DriveBackedValue_.deleteExistingDriveFile(folderId);
+      this.deleteExistingDriveFile(folderId);
     }
   }
 
   public loadValue(): T | null {
-    const folderId = DriveBackedValue_.getExistingDriveFolderId();
+    const folderId = this.getExistingDriveFolderId();
     if (folderId === null) {
       return null;
     }
@@ -141,6 +156,6 @@ export class DriveBackedValue_<T> {
   }
 
   public saveValue(value: T): void {
-    this.saveDriveFile(DriveBackedValue_.getDriveFolderId(), value);
+    this.saveDriveFile(this.getDriveFolderId(), value);
   }
 }

@@ -1,10 +1,17 @@
 import type { MoveContext } from "../../interfaces/MoveContext";
+import type { DeepPick } from "../utils/DeepPick";
 import type { MoveState_ } from "../utils/MoveState";
+import type { SafeDriveService_, SafeFile } from "../utils/SafeDriveService";
+import type { ListFolderContentsFields } from "./folderManagement";
 
 import { copyFileComments_ } from "./copyFileComments";
 
-function moveFileDirectly_(fileID: string, context: MoveContext): void {
-  Drive.Files!.update({}, fileID, null, {
+function moveFileDirectly_(
+  fileID: string,
+  context: MoveContext,
+  driveService: SafeDriveService_,
+): void {
+  driveService.Files.update({}, fileID, null, {
     addParents: context.destinationID,
     fields: "",
     removeParents: context.sourceID,
@@ -18,20 +25,22 @@ function moveFileByCopy_(
   state: MoveState_,
   context: MoveContext,
   copyComments: boolean,
+  driveService: SafeDriveService_,
 ): void {
   state.tryOrLog(
     context,
     () => {
-      const copy = Drive.Files!.copy(
+      const copy = driveService.Files.copy(
         {
           parents: [{ id: context.destinationID }],
           title: name,
         },
         fileID,
-        { fields: "id", supportsAllDrives: true },
+        { id: true },
+        { supportsAllDrives: true },
       );
       if (copyComments) {
-        copyFileComments_(fileID, copy.id!);
+        copyFileComments_(fileID, copy.id, driveService);
       }
     },
     name,
@@ -39,16 +48,24 @@ function moveFileByCopy_(
 }
 
 export function moveFile_(
-  file: GoogleAppsScript.Drive.Schema.File,
+  file: DeepPick<SafeFile, ListFolderContentsFields>,
   state: MoveState_,
   context: MoveContext,
   copyComments: boolean,
+  driveService: SafeDriveService_,
 ): void {
-  if (file.capabilities!.canMoveItemOutOfDrive!) {
+  if (file.capabilities.canMoveItemOutOfDrive) {
     try {
-      moveFileDirectly_(file.id!, context);
+      moveFileDirectly_(file.id, context, driveService);
       return;
     } catch (e) {} // eslint-disable-line no-empty -- Handled by moving by copying
   }
-  moveFileByCopy_(file.id!, file.title!, state, context, copyComments);
+  moveFileByCopy_(
+    file.id,
+    file.title,
+    state,
+    context,
+    copyComments,
+    driveService,
+  );
 }

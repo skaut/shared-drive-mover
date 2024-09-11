@@ -1,5 +1,6 @@
 import type { MoveContext } from "../../interfaces/MoveContext";
 import type { MoveError } from "../../interfaces/MoveError";
+import type { SafeDriveService_ } from "./SafeDriveService";
 
 import { DriveBackedValue_ } from "./DriveBackedValue";
 
@@ -10,13 +11,15 @@ export class MoveState_ {
     pathsToProcess: Array<MoveContext>;
   }>;
   private errors: Array<MoveError>;
-  private pathsToProcess: Array<MoveContext> | null;
+  private isNullFlag: boolean;
+  private pathsToProcess: Array<MoveContext>;
 
   public constructor(
     sourceID: string,
     destinationID: string,
     copyComments: boolean,
     mergeFolders: boolean,
+    driveService: SafeDriveService_,
   ) {
     this.driveBackedState = new DriveBackedValue_(
       JSON.stringify({
@@ -25,9 +28,11 @@ export class MoveState_ {
         mergeFolders,
         sourceID,
       }),
+      driveService,
     );
-    this.pathsToProcess = null;
     this.errors = [];
+    this.isNullFlag = true;
+    this.pathsToProcess = [];
   }
 
   public addPath(
@@ -35,15 +40,14 @@ export class MoveState_ {
     destinationID: string,
     path: Array<string>,
   ): void {
-    if (this.pathsToProcess === null) {
-      this.pathsToProcess = [];
-    }
+    this.isNullFlag = false;
     this.pathsToProcess.push({ destinationID, path, sourceID });
   }
 
   public destroyState(): void {
     this.driveBackedState.deleteValue();
-    this.pathsToProcess = null;
+    this.pathsToProcess = [];
+    this.isNullFlag = true;
     this.errors = [];
   }
 
@@ -52,14 +56,14 @@ export class MoveState_ {
   }
 
   public getNextPath(): MoveContext | null {
-    if (this.isNull() || this.pathsToProcess!.length === 0) {
+    if (this.isNull() || this.pathsToProcess.length === 0) {
       return null;
     }
-    return this.pathsToProcess![this.pathsToProcess!.length - 1];
+    return this.pathsToProcess[this.pathsToProcess.length - 1];
   }
 
   public isNull(): boolean {
-    return this.pathsToProcess === null;
+    return this.isNullFlag;
   }
 
   public loadState(): void {
@@ -67,9 +71,11 @@ export class MoveState_ {
     if (state !== null) {
       this.pathsToProcess = state.pathsToProcess;
       this.errors = state.errors;
+      this.isNullFlag = false;
     } else {
-      this.pathsToProcess = null;
+      this.pathsToProcess = [];
       this.errors = [];
+      this.isNullFlag = true;
     }
   }
 
@@ -79,9 +85,6 @@ export class MoveState_ {
   }
 
   public removePath(path: MoveContext): void {
-    if (this.pathsToProcess === null) {
-      return;
-    }
     this.pathsToProcess = this.pathsToProcess.filter(
       (value) =>
         value.sourceID !== path.sourceID ||
@@ -90,7 +93,7 @@ export class MoveState_ {
   }
 
   public saveState(): void {
-    if (this.pathsToProcess !== null) {
+    if (!this.isNullFlag) {
       this.driveBackedState.saveValue({
         errors: this.errors,
         pathsToDelete: [],

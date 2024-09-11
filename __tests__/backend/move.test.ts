@@ -5,18 +5,25 @@ import { move } from "../../src/backend/move";
 import * as folderManagement from "../../src/backend/move/folderManagement";
 import * as moveFolder from "../../src/backend/move/moveFolder";
 import { MoveState_ } from "../../src/backend/utils/MoveState";
+import { SafeDriveService_ } from "../../src/backend/utils/SafeDriveService";
 import { mockedMoveState } from "../test-utils/MoveState-stub";
 
 jest.mock("../../src/backend/move/folderManagement");
 jest.mock("../../src/backend/move/moveFolder");
-// eslint-disable-next-line @typescript-eslint/naming-convention -- property is class name
+/* eslint-disable @typescript-eslint/naming-convention -- Properties are mock classes */
+jest.mock<{ SafeDriveService_: jest.Mock }>(
+  "../../src/backend/utils/SafeDriveService",
+  () => ({
+    SafeDriveService_: jest.fn(),
+  }),
+);
 jest.mock<{ MoveState_: jest.Mock }>(
   "../../src/backend/utils/MoveState",
   () => ({
-    // eslint-disable-next-line @typescript-eslint/naming-convention -- Mocking a class
     MoveState_: jest.fn(),
   }),
 );
+/* eslint-enable */
 
 test("move works correctly", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(true);
@@ -43,6 +50,7 @@ test("move works correctly", () => {
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID",
   );
+  expect(mocked(SafeDriveService_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls[0][0]).toBe("SRC_ID");
   expect(mocked(MoveState_).mock.calls[0][1]).toBe("DEST_ID");
@@ -112,6 +120,7 @@ test("move works correctly with subfolders", () => {
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID",
   );
+  expect(mocked(SafeDriveService_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls[0][0]).toBe("SRC_ID");
   expect(mocked(MoveState_).mock.calls[0][1]).toBe("DEST_ID");
@@ -203,6 +212,7 @@ test("move passes copyComments correctly", () => {
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID",
   );
+  expect(mocked(SafeDriveService_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls[0][0]).toBe("SRC_ID");
   expect(mocked(MoveState_).mock.calls[0][1]).toBe("DEST_ID");
@@ -257,6 +267,7 @@ test("move passes mergeFolders correctly", () => {
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID",
   );
+  expect(mocked(SafeDriveService_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls[0][0]).toBe("SRC_ID");
   expect(mocked(MoveState_).mock.calls[0][1]).toBe("DEST_ID");
@@ -293,6 +304,7 @@ test("move detects and reports source matching destination", () => {
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(0);
+  expect(mocked(SafeDriveService_).mock.calls).toHaveLength(0);
   expect(mocked(MoveState_).mock.calls).toHaveLength(0);
   expect(mocked(moveFolder).moveFolder_.mock.calls).toHaveLength(0);
 });
@@ -311,6 +323,7 @@ test("move fails gracefully on error when checking folder emptiness", () => {
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID",
   );
+  expect(mocked(SafeDriveService_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls).toHaveLength(0);
   expect(mocked(moveFolder).moveFolder_.mock.calls).toHaveLength(0);
 });
@@ -330,6 +343,7 @@ test("move fails gracefully on non-empty destination directory", () => {
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID",
   );
+  expect(mocked(SafeDriveService_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls[0][0]).toBe("SRC_ID");
   expect(mocked(MoveState_).mock.calls[0][1]).toBe("DEST_ID");
@@ -370,6 +384,7 @@ test("move doesn't care about non-empty destination directory when resuming from
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID",
   );
+  expect(mocked(SafeDriveService_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls[0][0]).toBe("SRC_ID");
   expect(mocked(MoveState_).mock.calls[0][1]).toBe("DEST_ID");
@@ -421,6 +436,7 @@ test("move works correctly with non-empty override", () => {
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
     "DEST_ID",
   );
+  expect(mocked(SafeDriveService_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls[0][0]).toBe("SRC_ID");
   expect(mocked(MoveState_).mock.calls[0][1]).toBe("DEST_ID");
@@ -462,6 +478,7 @@ test("move fails gracefully on invalid parameter types", () => {
   });
 
   expect(mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(0);
+  expect(mocked(SafeDriveService_).mock.calls).toHaveLength(0);
   expect(mocked(MoveState_).mock.calls).toHaveLength(0);
   expect(mocked(moveStateMock).loadState.mock.calls).toHaveLength(0);
   expect(mocked(moveStateMock).isNull.mock.calls).toHaveLength(0);
@@ -521,6 +538,7 @@ test("move fails gracefully on error while moving", () => {
   );
   expect(mocked(moveFolder).moveFolder_.mock.calls[0][2]).toBe(false);
   expect(mocked(moveFolder).moveFolder_.mock.calls[0][3]).toBe(false);
+  expect(mocked(SafeDriveService_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls).toHaveLength(1);
   expect(mocked(MoveState_).mock.calls[0][0]).toBe("SRC_ID");
   expect(mocked(MoveState_).mock.calls[0][1]).toBe("DEST_ID");

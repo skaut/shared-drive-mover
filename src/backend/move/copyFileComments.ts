@@ -1,40 +1,48 @@
+import type {
+  SafeComment,
+  SafeCommentList,
+  SafeDriveService_,
+} from "../utils/SafeDriveService";
+
 import { paginationHelper_ } from "../utils/paginationHelper";
 
 function listFileComments_(
   fileID: string,
-): Array<GoogleAppsScript.Drive.Schema.Comment> {
-  return paginationHelper_<
-    GoogleAppsScript.Drive.Schema.CommentList,
-    GoogleAppsScript.Drive.Schema.Comment
-  >(
+  driveService: SafeDriveService_,
+): Array<SafeComment> {
+  return paginationHelper_<SafeCommentList, SafeComment>(
     (pageToken) =>
-      Drive.Comments!.list(fileID, {
+      driveService.Comments.list(fileID, {
         fields:
           "nextPageToken, items(author(isAuthenticatedUser, displayName), content, status, context, anchor, replies(author(isAuthenticatedUser, displayName), content, verb))",
         maxResults: 100,
         pageToken,
       }),
-    (response) => response.items!,
+    (response) => response.items,
   );
 }
 
 export function copyFileComments_(
   sourceID: string,
   destinationID: string,
+  driveService: SafeDriveService_,
 ): void {
-  const comments = listFileComments_(sourceID);
+  const comments = listFileComments_(sourceID, driveService);
   for (const comment of comments) {
-    if (comment.author?.isAuthenticatedUser !== true) {
-      comment.content = `*${comment.author!.displayName!}:*\n${comment.content!}`;
+    if (!comment.author.isAuthenticatedUser) {
+      comment.content = `*${comment.author.displayName}:*\n${comment.content}`;
     }
-    const replies = comment.replies!;
-    delete comment.replies;
-    const commentId = Drive.Comments!.insert(comment, destinationID).commentId!;
+    const replies = comment.replies;
+    comment.replies = [];
+    const commentId = driveService.Comments.insert(
+      comment,
+      destinationID,
+    ).commentId;
     for (const reply of replies) {
-      if (reply.author?.isAuthenticatedUser !== true) {
-        reply.content = `*${reply.author!.displayName!}:*\n${reply.content!}`;
+      if (!reply.author.isAuthenticatedUser) {
+        reply.content = `*${reply.author.displayName}:*\n${reply.content}`;
       }
-      Drive.Replies!.insert(reply, destinationID, commentId);
+      driveService.Replies.insert(reply, destinationID, commentId);
     }
   }
 }

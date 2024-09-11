@@ -1,11 +1,21 @@
 import { expect, jest, test } from "@jest/globals";
+import { mocked } from "jest-mock";
 
 import { listSharedDrives } from "../../src/backend/listSharedDrives";
-import { mockedDrive, mockedDrivesCollection } from "../test-utils/gas-stubs";
+import { SafeDriveService_ } from "../../src/backend/utils/SafeDriveService";
+import { mockedSafeDriveService } from "../test-utils/SafeDriveService-stub";
+
+/* eslint-disable @typescript-eslint/naming-convention -- Properties are mock classes */
+jest.mock<{ SafeDriveService_: jest.Mock }>(
+  "../../src/backend/utils/SafeDriveService",
+  () => ({
+    SafeDriveService_: jest.fn(),
+  }),
+);
+/* eslint-enable */
 
 test("listSharedDrives works correctly", () => {
   interface ListDrivesOptions {
-    fields?: string;
     maxResults?: number;
     orderBy?: string;
     pageToken?: string;
@@ -19,65 +29,52 @@ test("listSharedDrives works correctly", () => {
     items: response,
     nextPageToken: undefined,
   };
-  const list = jest
-    .fn<
-      (
-        optionalArgs?: ListDrivesOptions,
-      ) => GoogleAppsScript.Drive.Schema.DriveList
-    >()
-    .mockReturnValueOnce(rawResponse);
-  global.Drive = {
-    ...mockedDrive(),
-    Drives: {
-      ...mockedDrivesCollection(),
-      list,
-    },
-  };
+  const driveServiceMock = mockedSafeDriveService();
+  driveServiceMock.Drives.list.mockReturnValueOnce(rawResponse);
+  mocked(SafeDriveService_).mockReturnValueOnce(driveServiceMock);
 
   expect(listSharedDrives()).toStrictEqual({ response, status: "success" });
-  expect(list.mock.calls).toHaveLength(1);
-  expect(list.mock.calls[0][0]).toBeDefined();
-  expect(list.mock.calls[0][0]!.pageToken).toBeUndefined();
-  expect(list.mock.calls[0][0]!.orderBy).toBe("name");
+
+  expect(mocked(SafeDriveService_).mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Drives.list.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Drives.list.mock.calls[0][1]).toBeDefined();
   expect(
-    list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim()),
-  ).toContain("nextPageToken");
+    (driveServiceMock.Drives.list.mock.calls[0][1] as ListDrivesOptions)
+      .pageToken,
+  ).toBeUndefined();
+  expect(
+    (driveServiceMock.Drives.list.mock.calls[0][1] as ListDrivesOptions)
+      .orderBy,
+  ).toBe("name");
 });
 
 test("listSharedDrives handles Drive API error gracefully", () => {
   interface ListDrivesOptions {
-    fields?: string;
     maxResults?: number;
     orderBy?: string;
     pageToken?: string;
   }
 
-  const list = jest
-    .fn<
-      (
-        optionalArgs?: ListDrivesOptions,
-      ) => GoogleAppsScript.Drive.Schema.DriveList
-    >()
-    .mockImplementationOnce(() => {
-      throw new Error();
-    });
-  global.Drive = {
-    ...mockedDrive(),
-    Drives: {
-      ...mockedDrivesCollection(),
-      list,
-    },
-  };
+  const driveServiceMock = mockedSafeDriveService();
+  driveServiceMock.Drives.list.mockImplementationOnce(() => {
+    throw new Error();
+  });
+  mocked(SafeDriveService_).mockReturnValueOnce(driveServiceMock);
 
   expect(listSharedDrives()).toStrictEqual({
     status: "error",
     type: "DriveAPIError",
   });
-  expect(list.mock.calls).toHaveLength(1);
-  expect(list.mock.calls[0][0]).toBeDefined();
-  expect(list.mock.calls[0][0]!.pageToken).toBeUndefined();
-  expect(list.mock.calls[0][0]!.orderBy).toBe("name");
+
+  expect(mocked(SafeDriveService_).mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Drives.list.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Drives.list.mock.calls[0][1]).toBeDefined();
   expect(
-    list.mock.calls[0][0]!.fields!.split(",").map((s) => s.trim()),
-  ).toContain("nextPageToken");
+    (driveServiceMock.Drives.list.mock.calls[0][1] as ListDrivesOptions)
+      .pageToken,
+  ).toBeUndefined();
+  expect(
+    (driveServiceMock.Drives.list.mock.calls[0][1] as ListDrivesOptions)
+      .orderBy,
+  ).toBe("name");
 });

@@ -6,6 +6,7 @@ import * as moveFile from "../../../src/backend/move/moveFile";
 import { moveFolder_ } from "../../../src/backend/move/moveFolder";
 import * as resolveDestinationFolder from "../../../src/backend/move/resolveDestinationFolder";
 import { MoveState_ } from "../../../src/backend/utils/MoveState";
+import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
 
 jest.mock("../../../src/backend/move/folderManagement");
 jest.mock("../../../src/backend/move/moveFile");
@@ -19,7 +20,14 @@ test("moveFolder works correctly with an empty folder", () => {
   const listFoldersInFolder = mocked(
     folderManagement,
   ).listFoldersInFolder_.mockReturnValueOnce([]);
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   const context = {
@@ -28,7 +36,7 @@ test("moveFolder works correctly with an empty folder", () => {
     sourceID: "SRC_ID",
   };
 
-  moveFolder_(state, context, false, false);
+  moveFolder_(state, context, false, false, driveServiceMock);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -44,8 +52,16 @@ test("moveFolder moves files correctly", () => {
   const listFilesInFolder = mocked(
     folderManagement,
   ).listFilesInFolder_.mockReturnValueOnce([
-    { id: "FILE1_ID" },
-    { id: "FILE2_ID" },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "FILE1_ID",
+      title: "FILE1_TITLE",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "FILE2_ID",
+      title: "FILE2_TITLE",
+    },
   ]);
   const listFoldersInFolder = mocked(
     folderManagement,
@@ -53,7 +69,14 @@ test("moveFolder moves files correctly", () => {
   const moveFileFn = mocked(moveFile)
     .moveFile_.mockReturnValueOnce()
     .mockReturnValueOnce();
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   const context = {
@@ -61,7 +84,7 @@ test("moveFolder moves files correctly", () => {
     path: ["PATH", "TO", "FOLDER"],
     sourceID: "SRC_ID",
   };
-  moveFolder_(state, context, false, false);
+  moveFolder_(state, context, false, false, driveServiceMock);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -89,13 +112,28 @@ test("moveFolder adds subfolders to the state correctly", () => {
   const listFoldersInFolder = mocked(
     folderManagement,
   ).listFoldersInFolder_.mockReturnValueOnce([
-    { id: "SRC_SUBFOLDER1_ID", title: "SUBFOLDER1_NAME" },
-    { id: "SRC_SUBFOLDER2_ID", title: "SUBFOLDER2_NAME" },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "SRC_SUBFOLDER1_ID",
+      title: "SUBFOLDER1_NAME",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "SRC_SUBFOLDER2_ID",
+      title: "SUBFOLDER2_NAME",
+    },
   ]);
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
     .resolveDestinationFolder_.mockReturnValueOnce({ id: "DEST_SUBFOLDER1_ID" })
     .mockReturnValueOnce({ id: "DEST_SUBFOLDER2_ID" });
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   const context = {
@@ -103,7 +141,7 @@ test("moveFolder adds subfolders to the state correctly", () => {
     path: ["PATH", "TO", "FOLDER"],
     sourceID: "SRC_ID",
   };
-  moveFolder_(state, context, false, false);
+  moveFolder_(state, context, false, false, driveServiceMock);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -150,8 +188,16 @@ test("moveFolder moves files correctly, even when listing folders throws", () =>
   const listFilesInFolder = mocked(
     folderManagement,
   ).listFilesInFolder_.mockReturnValueOnce([
-    { id: "FILE1_ID" },
-    { id: "FILE2_ID" },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "FILE1_ID",
+      title: "FILE1_TITLE",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "FILE2_ID",
+      title: "FILE2_TITLE",
+    },
   ]);
   const listFoldersInFolder = mocked(
     folderManagement,
@@ -161,7 +207,14 @@ test("moveFolder moves files correctly, even when listing folders throws", () =>
   const moveFileFn = mocked(moveFile)
     .moveFile_.mockReturnValueOnce()
     .mockReturnValueOnce();
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   mocked(state)
     .tryOrLog.mockImplementationOnce((_, fn) => fn())
     .mockImplementationOnce((_, fn) => {
@@ -175,7 +228,7 @@ test("moveFolder moves files correctly, even when listing folders throws", () =>
     path: ["PATH", "TO", "FOLDER"],
     sourceID: "SRC_ID",
   };
-  moveFolder_(state, context, false, false);
+  moveFolder_(state, context, false, false, driveServiceMock);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -207,13 +260,28 @@ test("moveFolder adds subfolders to the state correctly, even when listing files
   const listFoldersInFolder = mocked(
     folderManagement,
   ).listFoldersInFolder_.mockReturnValueOnce([
-    { id: "SRC_SUBFOLDER1_ID", title: "SUBFOLDER1_NAME" },
-    { id: "SRC_SUBFOLDER2_ID", title: "SUBFOLDER2_NAME" },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "SRC_SUBFOLDER1_ID",
+      title: "SUBFOLDER1_NAME",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "SRC_SUBFOLDER2_ID",
+      title: "SUBFOLDER2_NAME",
+    },
   ]);
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
     .resolveDestinationFolder_.mockReturnValueOnce({ id: "DEST_SUBFOLDER1_ID" })
     .mockReturnValueOnce({ id: "DEST_SUBFOLDER2_ID" });
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   mocked(state)
     .tryOrLog.mockImplementationOnce((_, fn) => {
       expect(fn).toThrow("ERROR_MESSAGE");
@@ -228,7 +296,7 @@ test("moveFolder adds subfolders to the state correctly, even when listing files
     sourceID: "SRC_ID",
   };
 
-  moveFolder_(state, context, false, false);
+  moveFolder_(state, context, false, false, driveServiceMock);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -273,8 +341,16 @@ test("moveFolder passes copyComments correctly", () => {
   const listFilesInFolder = mocked(
     folderManagement,
   ).listFilesInFolder_.mockReturnValueOnce([
-    { id: "FILE1_ID" },
-    { id: "FILE2_ID" },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "FILE1_ID",
+      title: "FILE1_TITLE",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "FILE2_ID",
+      title: "FILE2_TITLE",
+    },
   ]);
   const listFoldersInFolder = mocked(
     folderManagement,
@@ -282,7 +358,14 @@ test("moveFolder passes copyComments correctly", () => {
   const moveFileFn = mocked(moveFile)
     .moveFile_.mockReturnValueOnce()
     .mockReturnValueOnce();
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   const context = {
@@ -291,7 +374,7 @@ test("moveFolder passes copyComments correctly", () => {
     sourceID: "SRC_ID",
   };
 
-  moveFolder_(state, context, true, false);
+  moveFolder_(state, context, true, false, driveServiceMock);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
@@ -319,13 +402,28 @@ test("moveFolder passes mergeFolders correctly", () => {
   const listFoldersInFolder = mocked(
     folderManagement,
   ).listFoldersInFolder_.mockReturnValueOnce([
-    { id: "SRC_SUBFOLDER1_ID", title: "SUBFOLDER1_NAME" },
-    { id: "SRC_SUBFOLDER2_ID", title: "SUBFOLDER2_NAME" },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "SRC_SUBFOLDER1_ID",
+      title: "SUBFOLDER1_NAME",
+    },
+    {
+      capabilities: { canMoveItemOutOfDrive: true },
+      id: "SRC_SUBFOLDER2_ID",
+      title: "SUBFOLDER2_NAME",
+    },
   ]);
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
     .resolveDestinationFolder_.mockReturnValueOnce({ id: "DEST_SUBFOLDER1_ID" })
     .mockReturnValueOnce({ id: "DEST_SUBFOLDER2_ID" });
-  const state = new MoveState_("SRC_BASE_ID", "DEST_BASE_ID", false, false);
+  const driveServiceMock = mockedSafeDriveService();
+  const state = new MoveState_(
+    "SRC_BASE_ID",
+    "DEST_BASE_ID",
+    false,
+    false,
+    driveServiceMock,
+  );
   mocked(state).tryOrLog.mockImplementation((_, fn) => fn());
 
   const context = {
@@ -334,7 +432,7 @@ test("moveFolder passes mergeFolders correctly", () => {
     sourceID: "SRC_ID",
   };
 
-  moveFolder_(state, context, false, true);
+  moveFolder_(state, context, false, true, driveServiceMock);
 
   expect(listFilesInFolder.mock.calls).toHaveLength(1);
   expect(listFilesInFolder.mock.calls[0][0]).toBe("SRC_ID");
