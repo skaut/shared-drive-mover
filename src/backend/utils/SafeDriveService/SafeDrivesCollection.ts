@@ -3,7 +3,7 @@ import type { DeepPick } from "../DeepPick";
 
 import { stringifyFields_ } from "./stringifyFields";
 
-interface SafeDrive {
+export interface SafeDrive {
   id: string;
   name: string;
 }

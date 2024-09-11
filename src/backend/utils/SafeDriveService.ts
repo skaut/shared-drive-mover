@@ -6,7 +6,10 @@ export type {
   SafeComment,
   SafeCommentList,
 } from "./SafeDriveService/SafeCommentsCollection";
-export type { SafeDriveList } from "./SafeDriveService/SafeDrivesCollection";
+export type {
+  SafeDrive,
+  SafeDriveList,
+} from "./SafeDriveService/SafeDrivesCollection";
 export type {
   SafeFile,
   SafeFileList,
