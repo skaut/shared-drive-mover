@@ -27,7 +27,6 @@ test("listSharedDrives works correctly", () => {
   ];
   const rawResponse = {
     items: response,
-    nextPageToken: undefined,
   };
   const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Drives.list.mockReturnValueOnce(rawResponse);

@@ -35,10 +35,8 @@ test("listFolders works correctly", () => {
   driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
   mocked(SafeDriveService_).mockReturnValueOnce(driveServiceMock);
 
-  global.Session = {
-    ...mockedSession(),
-    getActiveUserLocale: jest.fn<() => string>().mockReturnValueOnce("en"),
-  };
+  global.Session = mockedSession();
+  mocked(global.Session).getActiveUserLocale.mockReturnValueOnce("en");
 
   expect(listFolders("ID_PARENT")).toStrictEqual({
     response: [
@@ -93,10 +91,8 @@ test("listFolders works correctly with shortcuts", () => {
   driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
   mocked(SafeDriveService_).mockReturnValueOnce(driveServiceMock);
 
-  global.Session = {
-    ...mockedSession(),
-    getActiveUserLocale: jest.fn<() => string>().mockReturnValueOnce("en"),
-  };
+  global.Session = mockedSession();
+  mocked(global.Session).getActiveUserLocale.mockReturnValueOnce("en");
 
   expect(listFolders("ID_PARENT")).toStrictEqual({
     response: [
@@ -131,10 +127,8 @@ test("listFolders handles invalid parameters gracefully", () => {
   });
   mocked(SafeDriveService_).mockReturnValueOnce(driveServiceMock);
 
-  global.Session = {
-    ...mockedSession(),
-    getActiveUserLocale: jest.fn<() => string>().mockReturnValueOnce("en"),
-  };
+  global.Session = mockedSession();
+  mocked(global.Session).getActiveUserLocale.mockReturnValueOnce("en");
 
   expect(listFolders(42)).toStrictEqual({
     status: "error",
@@ -158,10 +152,8 @@ test("listFolders handles errors in Google Drive API gracefully", () => {
   });
   mocked(SafeDriveService_).mockReturnValueOnce(driveServiceMock);
 
-  global.Session = {
-    ...mockedSession(),
-    getActiveUserLocale: jest.fn<() => string>().mockReturnValueOnce("en"),
-  };
+  global.Session = mockedSession();
+  mocked(global.Session).getActiveUserLocale.mockReturnValueOnce("en");
 
   expect(listFolders("ID_PARENT")).toStrictEqual({
     status: "error",

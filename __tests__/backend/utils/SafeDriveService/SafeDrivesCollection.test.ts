@@ -1,4 +1,5 @@
-import { expect, jest, test } from "@jest/globals";
+import { expect, test } from "@jest/globals";
+import { mocked } from "jest-mock";
 
 import { SafeDrivesCollection_ } from "../../../../src/backend/utils/SafeDriveService/SafeDrivesCollection";
 import {
@@ -41,23 +42,8 @@ test("list works", () => {
     ],
   };
 
-  const list = jest
-    .fn<
-      (optionalArgs?: {
-        fields?: string;
-        maxResults?: number;
-        orderBy?: string;
-        pageToken?: string;
-      }) => GoogleAppsScript.Drive.Schema.DriveList
-    >()
-    .mockReturnValueOnce(driveList);
-  global.Drive = {
-    ...mockedDrive(),
-    Drives: {
-      ...mockedDrivesCollection(),
-      list,
-    },
-  };
+  global.Drive.Drives = mockedDrivesCollection();
+  const list = mocked(global.Drive.Drives).list.mockReturnValueOnce(driveList);
 
   const drivesCollection = new SafeDrivesCollection_();
 
@@ -81,23 +67,8 @@ test("list works with optional parameters", () => {
     ],
   };
 
-  const list = jest
-    .fn<
-      (optionalArgs?: {
-        fields?: string;
-        maxResults?: number;
-        orderBy?: string;
-        pageToken?: string;
-      }) => GoogleAppsScript.Drive.Schema.DriveList
-    >()
-    .mockReturnValueOnce(driveList);
-  global.Drive = {
-    ...mockedDrive(),
-    Drives: {
-      ...mockedDrivesCollection(),
-      list,
-    },
-  };
+  global.Drive.Drives = mockedDrivesCollection();
+  const list = mocked(global.Drive.Drives).list.mockReturnValueOnce(driveList);
 
   const drivesCollection = new SafeDrivesCollection_();
 
@@ -137,24 +108,10 @@ test("list works with selective fields", () => {
     ],
   };
 
-  const list = jest
-    .fn<
-      (optionalArgs?: {
-        fields?: string;
-        maxResults?: number;
-        orderBy?: string;
-        pageToken?: string;
-      }) => GoogleAppsScript.Drive.Schema.DriveList
-    >()
-    .mockReturnValueOnce(driveList1)
+  global.Drive.Drives = mockedDrivesCollection();
+  const list = mocked(global.Drive.Drives)
+    .list.mockReturnValueOnce(driveList1)
     .mockReturnValueOnce(driveList2);
-  global.Drive = {
-    ...mockedDrive(),
-    Drives: {
-      ...mockedDrivesCollection(),
-      list,
-    },
-  };
 
   const drivesCollection = new SafeDrivesCollection_();
 
@@ -184,23 +141,8 @@ test("list throws an error on an invalid drive", () => {
     ],
   };
 
-  const list = jest
-    .fn<
-      (optionalArgs?: {
-        fields?: string;
-        maxResults?: number;
-        orderBy?: string;
-        pageToken?: string;
-      }) => GoogleAppsScript.Drive.Schema.DriveList
-    >()
-    .mockReturnValueOnce(driveList);
-  global.Drive = {
-    ...mockedDrive(),
-    Drives: {
-      ...mockedDrivesCollection(),
-      list,
-    },
-  };
+  global.Drive.Drives = mockedDrivesCollection();
+  const list = mocked(global.Drive.Drives).list.mockReturnValueOnce(driveList);
 
   const drivesCollection = new SafeDrivesCollection_();
 
@@ -211,23 +153,8 @@ test("list throws an error on an invalid drive", () => {
 });
 
 test("list throws an error on an invalid drive list", () => {
-  const list = jest
-    .fn<
-      (optionalArgs?: {
-        fields?: string;
-        maxResults?: number;
-        orderBy?: string;
-        pageToken?: string;
-      }) => GoogleAppsScript.Drive.Schema.DriveList
-    >()
-    .mockReturnValueOnce({});
-  global.Drive = {
-    ...mockedDrive(),
-    Drives: {
-      ...mockedDrivesCollection(),
-      list,
-    },
-  };
+  global.Drive.Drives = mockedDrivesCollection();
+  const list = mocked(global.Drive.Drives).list.mockReturnValueOnce({});
 
   const drivesCollection = new SafeDrivesCollection_();
 
