@@ -7,7 +7,7 @@ test("works with an API error", async ({ page }) => {
   await setup(page);
 
   await page.evaluate(() => {
-    window._endpointStubs.listSharedDrives = [
+    window._endpointStubs["listSharedDrives"] = [
       {
         status: "success",
         value: { response: [], status: "success" },
@@ -17,7 +17,7 @@ test("works with an API error", async ({ page }) => {
         value: { response: [], status: "success" },
       },
     ];
-    window._endpointStubs.move = [
+    window._endpointStubs["move"] = [
       {
         status: "success",
         value: { status: "error", type: "DriveAPIError" },
