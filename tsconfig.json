@@ -1,16 +1,22 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
     "module": "es6",
     "moduleResolution": "node",
-    "verbatimModuleSyntax": true,
-    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "exactOptionalPropertyTypes": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
     "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "skipLibCheck": true,
     "strict": true
   }
 }
