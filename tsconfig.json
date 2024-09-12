@@ -5,7 +5,6 @@
     "module": "es6",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "skipLibCheck": true,
     "verbatimModuleSyntax": true,
 
     "allowUnreachableCode": false,
