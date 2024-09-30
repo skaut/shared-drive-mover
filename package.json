@@ -30,7 +30,7 @@
     "@types/google-apps-script": "^1.0.83",
     "@types/google.script.client-side": "^0.1.5",
     "@types/jest": "^29.5.13",
-    "@types/node": "^22.5.5",
+    "@types/node": "^22.7.4",
     "css-loader": "^7.1.2",
     "eslint": "^9.11.0",
     "eslint-config-prettier": "^9.1.0",
