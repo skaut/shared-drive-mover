@@ -1,6 +1,6 @@
 {
   "name": "shared-drive-mover",
-  "version": "21.0.0",
+  "version": "22.0.0",
   "description": "Move files from regular Google Drive to a Shared Drive",
   "keywords": [
     "google",
