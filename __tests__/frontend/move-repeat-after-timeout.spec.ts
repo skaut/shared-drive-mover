@@ -9,7 +9,7 @@ test("works with an unhandled move error", async ({ page }) => {
   await page.evaluate(() => {
     const e = new Error();
     e.name = "ScriptError";
-    window._endpointStubs.listSharedDrives = [
+    window._endpointStubs["listSharedDrives"] = [
       {
         status: "success",
         value: { response: [], status: "success" },
@@ -19,7 +19,7 @@ test("works with an unhandled move error", async ({ page }) => {
         value: { response: [], status: "success" },
       },
     ];
-    window._endpointStubs.move = [
+    window._endpointStubs["move"] = [
       {
         status: "failure",
         value: e,
