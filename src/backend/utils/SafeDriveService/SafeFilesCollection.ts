@@ -41,6 +41,15 @@ const safeFileKeys: DeepKeyof<SafeFile> = {
   },
 };
 
+interface GetArg {
+  alt?: string;
+}
+type GetReturn<F extends DeepKeyof<SafeFile>, A extends GetArg> = A extends {
+  alt: "media";
+}
+  ? string
+  : DeepPick<SafeFile, F>;
+
 export interface SafeFileList<F extends DeepKeyof<SafeFile>> {
   items: Array<DeepPick<SafeFile, F>>;
   nextPageToken?: string | undefined;
@@ -121,21 +130,24 @@ export class SafeFilesCollection_ {
     return ret;
   }
 
-  public get<F extends DeepKeyof<SafeFile>>(
+  public get<F extends DeepKeyof<SafeFile>, A extends GetArg>(
     fileId: string,
     fields: F | null,
-    optionalArgs: { alt?: string } = {},
-  ): DeepPick<SafeFile, F> {
+    optionalArgs: A = {} as A,
+  ): GetReturn<F, A> {
     const ret = this.unsafeFiles.get(fileId, {
       ...optionalArgs,
       ...(fields !== null && {
         fields: stringifyFields_(fields),
       }),
     });
-    if (!SafeFilesCollection_.fileIsSafe(ret, fields)) {
+    if (
+      typeof ret !== "string" &&
+      !SafeFilesCollection_.fileIsSafe(ret, fields)
+    ) {
       throw new Error("");
     }
-    return ret;
+    return ret as unknown as GetReturn<F, A>;
   }
 
   public insert<F extends DeepKeyof<SafeFile>>(
