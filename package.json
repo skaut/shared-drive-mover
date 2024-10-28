@@ -18,7 +18,7 @@
     "@eslint/js": "^9.10.0",
     "@google/clasp": "^2.4.2",
     "@material/theme": "^14.0.0",
-    "@playwright/test": "^1.47.2",
+    "@playwright/test": "^1.48.2",
     "@smui/button": "^7.0.0",
     "@smui/checkbox": "^7.0.0",
     "@smui/data-table": "^7.0.0",
