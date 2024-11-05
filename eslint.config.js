@@ -34,7 +34,6 @@ export default tseslint.config(
     plugins: {
       "eslint-comments": eslintComments,
       jest,
-      playwright,
       "prefer-arrow-functions": preferArrowFunctions,
     },
     rules: {
@@ -283,12 +282,13 @@ export default tseslint.config(
     },
   },
   {
-    extends: [playwright.recommended],
+    ...playwright.configs["flat/recommended"],
     files: [
       "__tests__/frontend/*.ts",
       "__tests__/test-utils/stub-endpoints.ts",
     ],
     rules: {
+      ...playwright.configs["flat/recommended"].rules,
       "playwright/no-commented-out-tests": "error",
       "playwright/no-duplicate-hooks": "error",
       "playwright/no-get-by-title": "error",
