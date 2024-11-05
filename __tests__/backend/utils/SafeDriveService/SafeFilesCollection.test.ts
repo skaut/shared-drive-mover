@@ -250,7 +250,7 @@ test("insert works", () => {
 
   expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0]).toBe(file);
-  expect(insert.mock.calls[0][1]).toBe(undefined);
+  expect(insert.mock.calls[0][1]).toBeUndefined();
   expect(insert.mock.calls[0][2]).toStrictEqual({});
 });
 
@@ -278,7 +278,7 @@ test("insert works with optional arguments", () => {
 
   expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0]).toBe(file);
-  expect(insert.mock.calls[0][1]).toBe(undefined);
+  expect(insert.mock.calls[0][1]).toBeUndefined();
   expect(insert.mock.calls[0][2]).toStrictEqual({ supportsAllDrives: true });
 });
 
@@ -304,7 +304,7 @@ test("insert works with selective fields", () => {
 
   expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0]).toBe(file);
-  expect(insert.mock.calls[0][1]).toBe(undefined);
+  expect(insert.mock.calls[0][1]).toBeUndefined();
   expect(insert.mock.calls[0][2]).toStrictEqual({
     fields: "title, userPermission(role)",
   });
@@ -330,7 +330,7 @@ test("insert throws an error on invalid file", () => {
 
   expect(insert.mock.calls).toHaveLength(1);
   expect(insert.mock.calls[0][0]).toBe(file);
-  expect(insert.mock.calls[0][1]).toBe(undefined);
+  expect(insert.mock.calls[0][1]).toBeUndefined();
   expect(insert.mock.calls[0][2]).toStrictEqual({});
 });
 
