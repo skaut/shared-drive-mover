@@ -56,6 +56,7 @@ export async function setup(
         stubbedEndpoints[key] = (
           ...args: Array<google.script.Parameter>
         ): void => {
+          // eslint-disable-next-line playwright/no-unsafe-references -- Exposed function
           _logEndpointCall(key, args);
           const stub = window._endpointStubs[key].shift();
           if (stub === undefined) {

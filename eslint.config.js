@@ -34,7 +34,6 @@ export default tseslint.config(
     plugins: {
       "eslint-comments": eslintComments,
       jest,
-      playwright,
       "prefer-arrow-functions": preferArrowFunctions,
     },
     rules: {
@@ -248,9 +247,12 @@ export default tseslint.config(
     },
   },
   {
-    extends: [jest.recommended, jest.style],
+    ...jest.configs["flat/recommended"],
+    ...jest.configs["flat/style"],
     files: ["__tests__/**/*.test.ts", "__tests__/test-utils/gas-stubs.ts"],
     rules: {
+      ...jest.configs["flat/recommended"].rules,
+      ...jest.configs["flat/style"].rules,
       "jest/consistent-test-it": ["error", { withinDescribe: "test" }],
       "jest/no-conditional-in-test": "error",
       "jest/no-confusing-set-timeout": "error",
@@ -283,12 +285,13 @@ export default tseslint.config(
     },
   },
   {
-    extends: [playwright.recommended],
+    ...playwright.configs["flat/recommended"],
     files: [
       "__tests__/frontend/*.ts",
       "__tests__/test-utils/stub-endpoints.ts",
     ],
     rules: {
+      ...playwright.configs["flat/recommended"].rules,
       "playwright/no-commented-out-tests": "error",
       "playwright/no-duplicate-hooks": "error",
       "playwright/no-get-by-title": "error",
