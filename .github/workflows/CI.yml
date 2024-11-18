@@ -84,7 +84,7 @@ jobs:
           npm run test:backend
 
       - name: "Upload coverage results"
-        uses: codecov/codecov-action@v4.6.0
+        uses: codecov/codecov-action@v5.0.2
         with:
           flags: backend
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -135,7 +135,7 @@ jobs:
           HOME: /root
 
       - name: "Upload coverage results"
-        uses: codecov/codecov-action@v4.6.0
+        uses: codecov/codecov-action@v5.0.2
         with:
           flags: frontend
           token: ${{ secrets.CODECOV_TOKEN }}
