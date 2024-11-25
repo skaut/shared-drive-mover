@@ -57,7 +57,7 @@
     "sass-loader": "^16.0.3",
     "style-loader": "^4.0.0",
     "svelte": "^4.2.19",
-    "svelte-check": "^4.0.9",
+    "svelte-check": "^4.1.0",
     "svelte-eslint-parser": "^0.41.0",
     "svelte-i18n": "^4.0.1",
     "svelte-loader": "^3.2.3",
