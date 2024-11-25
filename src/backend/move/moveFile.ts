@@ -6,17 +6,27 @@ import type { ListFolderContentsFields } from "./folderManagement";
 
 import { copyFileComments_ } from "./copyFileComments";
 
-function moveFileDirectly_(
-  fileID: string,
+export function moveFile_(
+  file: DeepPick<SafeFile, ListFolderContentsFields>,
+  state: MoveState_,
   context: MoveContext,
+  copyComments: boolean,
   driveService: SafeDriveService_,
 ): void {
-  driveService.Files.update({}, fileID, null, {
-    addParents: context.destinationID,
-    fields: "",
-    removeParents: context.sourceID,
-    supportsAllDrives: true,
-  });
+  if (file.capabilities.canMoveItemOutOfDrive) {
+    try {
+      moveFileDirectly_(file.id, context, driveService);
+      return;
+    } catch (e) {} // eslint-disable-line no-empty -- Handled by moving by copying
+  }
+  moveFileByCopy_(
+    file.id,
+    file.title,
+    state,
+    context,
+    copyComments,
+    driveService,
+  );
 }
 
 function moveFileByCopy_(
@@ -47,25 +57,15 @@ function moveFileByCopy_(
   );
 }
 
-export function moveFile_(
-  file: DeepPick<SafeFile, ListFolderContentsFields>,
-  state: MoveState_,
+function moveFileDirectly_(
+  fileID: string,
   context: MoveContext,
-  copyComments: boolean,
   driveService: SafeDriveService_,
 ): void {
-  if (file.capabilities.canMoveItemOutOfDrive) {
-    try {
-      moveFileDirectly_(file.id, context, driveService);
-      return;
-    } catch (e) {} // eslint-disable-line no-empty -- Handled by moving by copying
-  }
-  moveFileByCopy_(
-    file.id,
-    file.title,
-    state,
-    context,
-    copyComments,
-    driveService,
-  );
+  driveService.Files.update({}, fileID, null, {
+    addParents: context.destinationID,
+    fields: "",
+    removeParents: context.sourceID,
+    supportsAllDrives: true,
+  });
 }

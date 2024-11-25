@@ -6,22 +6,6 @@ import type {
 
 import { paginationHelper_ } from "../utils/paginationHelper";
 
-function listFileComments_(
-  fileID: string,
-  driveService: SafeDriveService_,
-): Array<SafeComment> {
-  return paginationHelper_<SafeCommentList, SafeComment>(
-    (pageToken) =>
-      driveService.Comments.list(fileID, {
-        fields:
-          "nextPageToken, items(author(isAuthenticatedUser, displayName), content, status, context, anchor, replies(author(isAuthenticatedUser, displayName), content, verb))",
-        maxResults: 100,
-        pageToken,
-      }),
-    (response) => response.items,
-  );
-}
-
 export function copyFileComments_(
   sourceID: string,
   destinationID: string,
@@ -45,4 +29,20 @@ export function copyFileComments_(
       driveService.Replies.insert(reply, destinationID, commentId);
     }
   }
+}
+
+function listFileComments_(
+  fileID: string,
+  driveService: SafeDriveService_,
+): Array<SafeComment> {
+  return paginationHelper_<SafeCommentList, SafeComment>(
+    (pageToken) =>
+      driveService.Comments.list(fileID, {
+        fields:
+          "nextPageToken, items(author(isAuthenticatedUser, displayName), content, status, context, anchor, replies(author(isAuthenticatedUser, displayName), content, verb))",
+        maxResults: 100,
+        pageToken,
+      }),
+    (response) => response.items,
+  );
 }
