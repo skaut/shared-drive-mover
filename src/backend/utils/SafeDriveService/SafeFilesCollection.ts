@@ -41,19 +41,19 @@ const safeFileKeys: DeepKeyof<SafeFile> = {
   },
 };
 
+export interface SafeFileList<F extends DeepKeyof<SafeFile>> {
+  items: Array<DeepPick<SafeFile, F>>;
+  nextPageToken?: string | undefined;
+}
 interface GetArg {
   alt?: string;
 }
+
 type GetReturn<F extends DeepKeyof<SafeFile>, A extends GetArg> = A extends {
   alt: "media";
 }
   ? string
   : DeepPick<SafeFile, F>;
-
-export interface SafeFileList<F extends DeepKeyof<SafeFile>> {
-  items: Array<DeepPick<SafeFile, F>>;
-  nextPageToken?: string | undefined;
-}
 
 export class SafeFilesCollection_ {
   private readonly unsafeFiles: GoogleAppsScript.Drive.Collection.FilesCollection;

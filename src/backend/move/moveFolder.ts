@@ -6,23 +6,6 @@ import { listFilesInFolder_, listFoldersInFolder_ } from "./folderManagement";
 import { moveFile_ } from "./moveFile";
 import { resolveDestinationFolder_ } from "./resolveDestinationFolder";
 
-function moveFolderContentsFiles_(
-  state: MoveState_,
-  context: MoveContext,
-  copyComments: boolean,
-  driveService: SafeDriveService_,
-): void {
-  const files = state.tryOrLog(context, () =>
-    listFilesInFolder_(context.sourceID, driveService),
-  );
-  if (files === null) {
-    return;
-  }
-  for (const file of files) {
-    moveFile_(file, state, context, copyComments, driveService);
-  }
-}
-
 export function moveFolder_(
   state: MoveState_,
   context: MoveContext,
@@ -52,4 +35,21 @@ export function moveFolder_(
   }
   state.removePath(context);
   state.saveState();
+}
+
+function moveFolderContentsFiles_(
+  state: MoveState_,
+  context: MoveContext,
+  copyComments: boolean,
+  driveService: SafeDriveService_,
+): void {
+  const files = state.tryOrLog(context, () =>
+    listFilesInFolder_(context.sourceID, driveService),
+  );
+  if (files === null) {
+    return;
+  }
+  for (const file of files) {
+    moveFile_(file, state, context, copyComments, driveService);
+  }
 }

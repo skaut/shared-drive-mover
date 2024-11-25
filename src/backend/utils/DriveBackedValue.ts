@@ -18,6 +18,37 @@ export class DriveBackedValue_<T> {
       .join("");
   }
 
+  public deleteValue(): void {
+    const folderId = this.getExistingDriveFolderId();
+    if (folderId === null) {
+      return;
+    }
+    const fileId = this.getExistingDriveFileId(folderId);
+    if (fileId !== null) {
+      this.deleteExistingDriveFile(fileId);
+    }
+    if (this.isExistingDriveFolderEmpty(folderId)) {
+      // This function works with folders as well
+      this.deleteExistingDriveFile(folderId);
+    }
+  }
+
+  public loadValue(): T | null {
+    const folderId = this.getExistingDriveFolderId();
+    if (folderId === null) {
+      return null;
+    }
+    const fileId = this.getExistingDriveFileId(folderId);
+    if (fileId === null) {
+      return null;
+    }
+    return this.getExistingDriveFileContents(fileId);
+  }
+
+  public saveValue(value: T): void {
+    this.saveDriveFile(this.getDriveFolderId(), value);
+  }
+
   private createDriveFolder(): string {
     const response = this.driveService.Files.insert(
       {
@@ -126,36 +157,5 @@ export class DriveBackedValue_<T> {
       {},
       Utilities.newBlob(JSON.stringify(value), "application/json"),
     );
-  }
-
-  public deleteValue(): void {
-    const folderId = this.getExistingDriveFolderId();
-    if (folderId === null) {
-      return;
-    }
-    const fileId = this.getExistingDriveFileId(folderId);
-    if (fileId !== null) {
-      this.deleteExistingDriveFile(fileId);
-    }
-    if (this.isExistingDriveFolderEmpty(folderId)) {
-      // This function works with folders as well
-      this.deleteExistingDriveFile(folderId);
-    }
-  }
-
-  public loadValue(): T | null {
-    const folderId = this.getExistingDriveFolderId();
-    if (folderId === null) {
-      return null;
-    }
-    const fileId = this.getExistingDriveFileId(folderId);
-    if (fileId === null) {
-      return null;
-    }
-    return this.getExistingDriveFileContents(fileId);
-  }
-
-  public saveValue(value: T): void {
-    this.saveDriveFile(this.getDriveFolderId(), value);
   }
 }

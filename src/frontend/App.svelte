@@ -99,7 +99,6 @@
 
   function moveErrorHandler(response: Error): void {
     if (response.name === "ScriptError") {
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define -- Cyclical dependency
       move();
       return;
     }

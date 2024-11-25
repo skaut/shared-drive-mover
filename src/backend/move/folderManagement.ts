@@ -13,6 +13,62 @@ export interface ListFolderContentsFields {
   title: true;
 }
 
+export function deleteFolderIfEmpty_(
+  folderID: string,
+  driveService: SafeDriveService_,
+): void {
+  if (!isFolderEmpty_(folderID, driveService)) {
+    return;
+  }
+  const response = driveService.Files.get(folderID, {
+    userPermission: { role: true },
+  });
+  if (
+    response.userPermission.role === "owner" ||
+    response.userPermission.role === "organizer"
+  ) {
+    driveService.Files.remove(folderID);
+  }
+}
+
+export function isFolderEmpty_(
+  folderID: string,
+  driveService: SafeDriveService_,
+): boolean {
+  const response = driveService.Files.list(
+    { id: true },
+    {
+      includeItemsFromAllDrives: true,
+      maxResults: 1,
+      q: `"${folderID}" in parents and trashed = false`,
+      supportsAllDrives: true,
+    },
+  );
+  return response.items.length === 0;
+}
+
+export function listFilesInFolder_(
+  folderID: string,
+  driveService: SafeDriveService_,
+): Array<DeepPick<SafeFile, ListFolderContentsFields>> {
+  return listFolderContents_(
+    folderID,
+    '!= "application/vnd.google-apps.folder"',
+    driveService,
+  );
+}
+
+export function listFoldersInFolder_(
+  folderID: string,
+  driveService: SafeDriveService_,
+): Array<DeepPick<SafeFile, ListFolderContentsFields>> {
+  return listFolderContents_(
+    folderID,
+    '= "application/vnd.google-apps.folder"',
+    driveService,
+  );
+}
+
 function listFolderContents_(
   folderID: string,
   mimeTypeCondition: string,
@@ -39,60 +95,4 @@ function listFolderContents_(
       ),
     (response) => response.items,
   );
-}
-
-export function listFilesInFolder_(
-  folderID: string,
-  driveService: SafeDriveService_,
-): Array<DeepPick<SafeFile, ListFolderContentsFields>> {
-  return listFolderContents_(
-    folderID,
-    '!= "application/vnd.google-apps.folder"',
-    driveService,
-  );
-}
-
-export function listFoldersInFolder_(
-  folderID: string,
-  driveService: SafeDriveService_,
-): Array<DeepPick<SafeFile, ListFolderContentsFields>> {
-  return listFolderContents_(
-    folderID,
-    '= "application/vnd.google-apps.folder"',
-    driveService,
-  );
-}
-
-export function isFolderEmpty_(
-  folderID: string,
-  driveService: SafeDriveService_,
-): boolean {
-  const response = driveService.Files.list(
-    { id: true },
-    {
-      includeItemsFromAllDrives: true,
-      maxResults: 1,
-      q: `"${folderID}" in parents and trashed = false`,
-      supportsAllDrives: true,
-    },
-  );
-  return response.items.length === 0;
-}
-
-export function deleteFolderIfEmpty_(
-  folderID: string,
-  driveService: SafeDriveService_,
-): void {
-  if (!isFolderEmpty_(folderID, driveService)) {
-    return;
-  }
-  const response = driveService.Files.get(folderID, {
-    userPermission: { role: true },
-  });
-  if (
-    response.userPermission.role === "owner" ||
-    response.userPermission.role === "organizer"
-  ) {
-    driveService.Files.remove(folderID);
-  }
 }

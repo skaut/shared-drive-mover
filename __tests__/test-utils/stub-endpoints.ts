@@ -8,23 +8,23 @@ declare global {
   }
 }
 
-declare function _logEndpointCall(
-  name: string,
-  params: Array<google.script.Parameter>,
-): void;
+type EndpointStub =
+  | { delay?: number; status: "failure"; value: Error }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- The return value of the API can be anything
+  | { delay?: number; status: "success"; value: any };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- From google.script types
+type FailureHandlerType = (error: Error, object?: any) => void;
 
 type Run = google.script.PublicEndpoints & google.script.RunnerFunctions;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From google.script types
 type SuccessHandlerType = (value?: any, object?: any) => void;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- From google.script types
-type FailureHandlerType = (error: Error, object?: any) => void;
-
-type EndpointStub =
-  | { delay?: number; status: "failure"; value: Error }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- The return value of the API can be anything
-  | { delay?: number; status: "success"; value: any };
+declare function _logEndpointCall(
+  name: string,
+  params: Array<google.script.Parameter>,
+): void;
 
 export async function setup(
   page: Page,
