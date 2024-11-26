@@ -7,7 +7,7 @@ test("works with non-empty destination folder", async ({ page }) => {
   const getCalls = await setup(page);
 
   await page.evaluate(() => {
-    window._endpointStubs.listSharedDrives = [
+    window._endpointStubs["listSharedDrives"] = [
       {
         status: "success",
         value: { response: [], status: "success" },
@@ -21,7 +21,7 @@ test("works with non-empty destination folder", async ({ page }) => {
         value: { response: [], status: "success" },
       },
     ];
-    window._endpointStubs.move = [
+    window._endpointStubs["move"] = [
       {
         delay: 500,
         status: "success",
