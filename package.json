@@ -54,7 +54,7 @@
     "prettier-plugin-svelte": "^3.3.2",
     "rimraf": "^6.0.1",
     "sass": "^1.82.0",
-    "sass-loader": "^16.0.3",
+    "sass-loader": "^16.0.4",
     "style-loader": "^4.0.0",
     "svelte": "^4.2.19",
     "svelte-check": "^4.1.1",
