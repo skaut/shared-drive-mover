@@ -3,7 +3,10 @@
   "compilerOptions": {
     "target": "es6",
     "lib": ["es6"],
-    "types": ["google-apps-script"],
+    "types": ["google-apps-script", "google.script.client-side"],
     "verbatimModuleSyntax": false
-  }
+  },
+  "include": [
+    "src/backend/Drive-shim.d.ts"
+  ]
 }
