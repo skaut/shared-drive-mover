@@ -40,7 +40,7 @@ export function mockedCommentsCollection(): GoogleAppsScript.Drive.Collection.Co
   };
 }
 
-export function mockedDrive(): GoogleAppsScript.Drive {
+export function mockedDrive(): GoogleAppsScript.Drive_v2 {
   return {
     newChannel: jest.fn<() => GoogleAppsScript.Drive.Schema.Channel>(),
     newChildReference:
