@@ -1,138 +1,138 @@
 import { jest } from "@jest/globals";
 
-export function mockedCommentsCollection(): GoogleAppsScript.Drive.Collection.CommentsCollection {
+export function mockedCommentsCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.CommentsCollection {
   return {
     get: jest.fn<
       (
         fileId: string,
         commentId: string,
-      ) => GoogleAppsScript.Drive.Schema.Comment
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment
     >(),
     insert:
       jest.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.Comment,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment,
           fileId: string,
-        ) => GoogleAppsScript.Drive.Schema.Comment
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment
       >(),
     list: jest.fn<
-      (fileId: string) => GoogleAppsScript.Drive.Schema.CommentList
+      (fileId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentList
     >(),
     patch:
       jest.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.Comment,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment,
           fileId: string,
           commentId: string,
-        ) => GoogleAppsScript.Drive.Schema.Comment
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment
       >(),
     remove: jest.fn<(fileId: string, commentId: string) => void>(),
     update:
       jest.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.Comment,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment,
           fileId: string,
           commentId: string,
-        ) => GoogleAppsScript.Drive.Schema.Comment
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment
       >(),
   };
 }
 
-export function mockedDrive(): GoogleAppsScript.Drive_v2 {
+export function mockedDrive(): GoogleAppsScript.Drive {
   return {
-    newChannel: jest.fn<() => GoogleAppsScript.Drive.Schema.Channel>(),
+    newChannel: jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Channel>(),
     newChildReference:
-      jest.fn<() => GoogleAppsScript.Drive.Schema.ChildReference>(),
-    newComment: jest.fn<() => GoogleAppsScript.Drive.Schema.Comment>(),
+      jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.ChildReference>(),
+    newComment: jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment>(),
     newCommentContext:
-      jest.fn<() => GoogleAppsScript.Drive.Schema.CommentContext>(),
+      jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentContext>(),
     newCommentReply:
-      jest.fn<() => GoogleAppsScript.Drive.Schema.CommentReply>(),
-    newDrive: jest.fn<() => GoogleAppsScript.Drive.Schema.Drive>(),
+      jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply>(),
+    newDrive: jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive>(),
     newDriveBackgroundImageFile:
-      jest.fn<() => GoogleAppsScript.Drive.Schema.DriveBackgroundImageFile>(),
+      jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.DriveBackgroundImageFile>(),
     newDriveCapabilities:
-      jest.fn<() => GoogleAppsScript.Drive.Schema.DriveCapabilities>(),
+      jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.DriveCapabilities>(),
     newDriveRestrictions:
-      jest.fn<() => GoogleAppsScript.Drive.Schema.DriveRestrictions>(),
-    newFile: jest.fn<() => GoogleAppsScript.Drive.Schema.File>(),
+      jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.DriveRestrictions>(),
+    newFile: jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File>(),
     newFileCapabilities:
-      jest.fn<() => GoogleAppsScript.Drive.Schema.FileCapabilities>(),
+      jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileCapabilities>(),
     newFileImageMediaMetadata:
-      jest.fn<() => GoogleAppsScript.Drive.Schema.FileImageMediaMetadata>(),
+      jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileImageMediaMetadata>(),
     newFileImageMediaMetadataLocation:
       jest.fn<
-        () => GoogleAppsScript.Drive.Schema.FileImageMediaMetadataLocation
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileImageMediaMetadataLocation
       >(),
     newFileIndexableText:
-      jest.fn<() => GoogleAppsScript.Drive.Schema.FileIndexableText>(),
-    newFileLabels: jest.fn<() => GoogleAppsScript.Drive.Schema.FileLabels>(),
+      jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileIndexableText>(),
+    newFileLabels: jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileLabels>(),
     newFileThumbnail:
-      jest.fn<() => GoogleAppsScript.Drive.Schema.FileThumbnail>(),
+      jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileThumbnail>(),
     newFileVideoMediaMetadata:
-      jest.fn<() => GoogleAppsScript.Drive.Schema.FileVideoMediaMetadata>(),
+      jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileVideoMediaMetadata>(),
     newParentReference:
-      jest.fn<() => GoogleAppsScript.Drive.Schema.ParentReference>(),
-    newPermission: jest.fn<() => GoogleAppsScript.Drive.Schema.Permission>(),
+      jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.ParentReference>(),
+    newPermission: jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Permission>(),
     newPermissionPermissionDetails:
       jest.fn<
-        () => GoogleAppsScript.Drive.Schema.PermissionPermissionDetails
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.PermissionPermissionDetails
       >(),
     newPermissionTeamDrivePermissionDetails:
       jest.fn<
-        () => GoogleAppsScript.Drive.Schema.PermissionTeamDrivePermissionDetails
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.PermissionTeamDrivePermissionDetails
       >(),
-    newProperty: jest.fn<() => GoogleAppsScript.Drive.Schema.Property>(),
-    newRevision: jest.fn<() => GoogleAppsScript.Drive.Schema.Revision>(),
-    newTeamDrive: jest.fn<() => GoogleAppsScript.Drive.Schema.TeamDrive>(),
+    newProperty: jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Property>(),
+    newRevision: jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Revision>(),
+    newTeamDrive: jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDrive>(),
     newTeamDriveBackgroundImageFile:
       jest.fn<
-        () => GoogleAppsScript.Drive.Schema.TeamDriveBackgroundImageFile
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDriveBackgroundImageFile
       >(),
     newTeamDriveCapabilities:
-      jest.fn<() => GoogleAppsScript.Drive.Schema.TeamDriveCapabilities>(),
+      jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDriveCapabilities>(),
     newTeamDriveRestrictions:
-      jest.fn<() => GoogleAppsScript.Drive.Schema.TeamDriveRestrictions>(),
-    newUser: jest.fn<() => GoogleAppsScript.Drive.Schema.User>(),
-    newUserPicture: jest.fn<() => GoogleAppsScript.Drive.Schema.UserPicture>(),
+      jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDriveRestrictions>(),
+    newUser: jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.User>(),
+    newUserPicture: jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.UserPicture>(),
   };
 }
 
-export function mockedDrivesCollection(): GoogleAppsScript.Drive.Collection.DrivesCollection {
+export function mockedDrivesCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.DrivesCollection {
   return {
-    get: jest.fn<(driveId: string) => GoogleAppsScript.Drive.Schema.Drive>(),
-    hide: jest.fn<(driveId: string) => GoogleAppsScript.Drive.Schema.Drive>(),
+    get: jest.fn<(driveId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive>(),
+    hide: jest.fn<(driveId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive>(),
     insert:
       jest.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.Drive,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive,
           requestId: string,
-        ) => GoogleAppsScript.Drive.Schema.Drive
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive
       >(),
-    list: jest.fn<() => GoogleAppsScript.Drive.Schema.DriveList>(),
+    list: jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.DriveList>(),
     remove: jest.fn<(driveId: string) => void>(),
-    unhide: jest.fn<(driveId: string) => GoogleAppsScript.Drive.Schema.Drive>(),
+    unhide: jest.fn<(driveId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive>(),
     update:
       jest.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.Drive,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive,
           driveId: string,
-        ) => GoogleAppsScript.Drive.Schema.Drive
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive
       >(),
   };
 }
 
-export function mockedFilesCollection(): GoogleAppsScript.Drive.Collection.FilesCollection {
+export function mockedFilesCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.FilesCollection {
   return {
     copy: jest.fn<
       (
-        resource: GoogleAppsScript.Drive.Schema.File,
+        resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
         fileId: string,
-      ) => GoogleAppsScript.Drive.Schema.File
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File
     >(),
     emptyTrash: jest.fn<() => void>(),
     export: jest.fn<(fileId: string, mimeType: string) => void>(),
-    generateIds: jest.fn<() => GoogleAppsScript.Drive.Schema.GeneratedIds>(),
+    generateIds: jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.GeneratedIds>(),
     get: jest.fn() as {
       (
         fileId: string,
@@ -143,41 +143,41 @@ export function mockedFilesCollection(): GoogleAppsScript.Drive.Collection.Files
         fileId: string,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From upstream types
         optionalArgs?: Record<string, any>,
-      ): GoogleAppsScript.Drive.Schema.File;
+      ): GoogleAppsScript.Drive_v3.Drive.V3.Schema.File;
     },
     insert:
       jest.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.File,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
           mediaData?: Blob,
-        ) => GoogleAppsScript.Drive.Schema.File
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File
       >(),
-    list: jest.fn<() => GoogleAppsScript.Drive.Schema.FileList>(),
+    list: jest.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileList>(),
     patch:
       jest.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.File,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
           fileId: string,
-        ) => GoogleAppsScript.Drive.Schema.File
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File
       >(),
     remove: jest.fn<(fileId: string) => void>(),
-    touch: jest.fn<(fileId: string) => GoogleAppsScript.Drive.Schema.File>(),
-    trash: jest.fn<(fileId: string) => GoogleAppsScript.Drive.Schema.File>(),
-    untrash: jest.fn<(fileId: string) => GoogleAppsScript.Drive.Schema.File>(),
+    touch: jest.fn<(fileId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File>(),
+    trash: jest.fn<(fileId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File>(),
+    untrash: jest.fn<(fileId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File>(),
     update:
       jest.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.File,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
           fileId: string,
           mediaData?: Blob,
-        ) => GoogleAppsScript.Drive.Schema.File
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File
       >(),
     watch:
       jest.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.Channel,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Channel,
           fileId: string,
-        ) => GoogleAppsScript.Drive.Schema.Channel
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Channel
       >(),
   };
 }
@@ -259,48 +259,48 @@ export function mockedHtmlTemplate(): GoogleAppsScript.HTML.HtmlTemplate {
   };
 }
 
-export function mockedRepliesCollection(): GoogleAppsScript.Drive.Collection.RepliesCollection {
+export function mockedRepliesCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.RepliesCollection {
   return {
     get: jest.fn<
       (
         fileId: string,
         commentId: string,
         replyId: string,
-      ) => GoogleAppsScript.Drive.Schema.CommentReply
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply
     >(),
     insert:
       jest.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.CommentReply,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply,
           fileId: string,
           commentId: string,
-        ) => GoogleAppsScript.Drive.Schema.CommentReply
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply
       >(),
     list: jest.fn<
       (
         fileId: string,
         commentId: string,
-      ) => GoogleAppsScript.Drive.Schema.CommentReplyList
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReplyList
     >(),
     patch:
       jest.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.CommentReply,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply,
           fileId: string,
           commentId: string,
           replyId: string,
-        ) => GoogleAppsScript.Drive.Schema.CommentReply
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply
       >(),
     remove:
       jest.fn<(fileId: string, commentId: string, replyId: string) => void>(),
     update:
       jest.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.CommentReply,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply,
           fileId: string,
           commentId: string,
           replyId: string,
-        ) => GoogleAppsScript.Drive.Schema.CommentReply
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply
       >(),
   };
 }

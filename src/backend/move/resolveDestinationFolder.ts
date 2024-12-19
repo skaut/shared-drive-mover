@@ -19,22 +19,22 @@ export function resolveDestinationFolder_(
     const existingFoldersWithSameName = listFoldersInFolder_(
       context.destinationID,
       driveService,
-    ).filter((folder) => folder.title === sourceFolder.title);
+    ).filter((folder) => folder.name === sourceFolder.name);
     if (existingFoldersWithSameName.length === 1) {
       return existingFoldersWithSameName[0];
     }
     if (existingFoldersWithSameName.length > 1) {
       state.logError(
-        context.path.concat([sourceFolder.title]),
+        context.path.concat([sourceFolder.name]),
         "Coudn't merge with existing folder as there are multiple existing directories with the same name",
       );
     }
   }
-  return driveService.Files.insert(
+  return driveService.Files.create(
     {
       mimeType: "application/vnd.google-apps.folder",
-      parents: [{ id: context.destinationID }],
-      title: sourceFolder.title,
+      name: sourceFolder.name,
+      parents: [context.destinationID],
     },
     { id: true },
     undefined,
