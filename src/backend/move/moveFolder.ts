@@ -29,7 +29,7 @@ export function moveFolder_(
       state.addPath(
         folder.id,
         destinationFolder.id,
-        context.path.concat([folder.title]),
+        context.path.concat([folder.name]),
       );
     }
   }

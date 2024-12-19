@@ -23,7 +23,7 @@ export function mockedSafeDriveService<
       insert:
         vi.fn<
           (
-            resource: GoogleAppsScript.Drive.Schema.Comment,
+            resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment,
             fileId: string,
           ) => SafeComment
         >(),
@@ -46,7 +46,7 @@ export function mockedSafeDriveService<
     Files: {
       copy: vi.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.File,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
           fileId: string,
           fields: F | null,
           optionalArgs?: { supportsAllDrives?: boolean },
@@ -61,7 +61,7 @@ export function mockedSafeDriveService<
       >(),
       insert: vi.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.File,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
           fields: F | null,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API
           mediaData?: any,
@@ -85,7 +85,7 @@ export function mockedSafeDriveService<
       remove: vi.fn<(fileId: string) => void>(),
       update: vi.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.File,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
           fileId: string,
           fields: F | null,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API

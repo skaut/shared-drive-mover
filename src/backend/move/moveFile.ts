@@ -21,7 +21,7 @@ export function moveFile_(
   }
   moveFileByCopy_(
     file.id,
-    file.title,
+    file.name,
     state,
     context,
     copyComments,
@@ -42,8 +42,8 @@ function moveFileByCopy_(
     () => {
       const copy = driveService.Files.copy(
         {
-          parents: [{ id: context.destinationID }],
-          title: name,
+          name,
+          parents: [context.destinationID],
         },
         fileID,
         { id: true },
@@ -62,9 +62,8 @@ function moveFileDirectly_(
   context: MoveContext,
   driveService: SafeDriveService_,
 ): void {
-  driveService.Files.update({}, fileID, null, {
+  driveService.Files.update({}, fileID, {}, undefined, {
     addParents: context.destinationID,
-    fields: "",
     removeParents: context.sourceID,
     supportsAllDrives: true,
   });

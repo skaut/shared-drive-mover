@@ -25,7 +25,7 @@ export function listSharedDrives(): ListResponse {
           },
         ),
       (listResponse) =>
-        listResponse.items.map((item) => ({ id: item.id, name: item.name })),
+        listResponse.drives.map((item) => ({ id: item.id, name: item.name })),
     );
     return {
       response,

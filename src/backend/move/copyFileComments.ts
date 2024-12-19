@@ -13,20 +13,17 @@ export function copyFileComments_(
 ): void {
   const comments = listFileComments_(sourceID, driveService);
   for (const comment of comments) {
-    if (!comment.author.isAuthenticatedUser) {
+    if (!comment.author.me) {
       comment.content = `*${comment.author.displayName}:*\n${comment.content}`;
     }
     const replies = comment.replies;
     comment.replies = [];
-    const commentId = driveService.Comments.insert(
-      comment,
-      destinationID,
-    ).commentId;
+    const commentId = driveService.Comments.create(comment, destinationID).id;
     for (const reply of replies) {
-      if (!reply.author.isAuthenticatedUser) {
+      if (!reply.author.me) {
         reply.content = `*${reply.author.displayName}:*\n${reply.content}`;
       }
-      driveService.Replies.insert(reply, destinationID, commentId);
+      driveService.Replies.create(reply, destinationID, commentId);
     }
   }
 }
@@ -39,10 +36,10 @@ function listFileComments_(
     (pageToken) =>
       driveService.Comments.list(fileID, {
         fields:
-          "nextPageToken, items(author(isAuthenticatedUser, displayName), content, status, context, anchor, replies(author(isAuthenticatedUser, displayName), content, verb))",
+          "nextPageToken, comments(author(me, displayName), content, resolved, quotedFileContent, anchor, replies(author(me, displayName), content, action))",
         maxResults: 100,
         pageToken,
       }),
-    (response) => response.items,
+    (response) => response.comments,
   );
 }
