@@ -42,8 +42,8 @@ function moveFileByCopy_(
     () => {
       const copy = driveService.Files.copy(
         {
-          parents: [{ id: context.destinationID }],
-          title: name,
+          name,
+          parents: [context.destinationID],
         },
         fileID,
         { id: true },

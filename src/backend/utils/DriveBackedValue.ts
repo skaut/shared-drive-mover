@@ -50,10 +50,10 @@ export class DriveBackedValue_<T> {
   }
 
   private createDriveFolder(): string {
-    const response = this.driveService.Files.insert(
+    const response = this.driveService.Files.create(
       {
         mimeType: "application/vnd.google-apps.folder",
-        title: DriveBackedValue_.driveFolderName,
+        name: DriveBackedValue_.driveFolderName,
       },
       {
         id: true,
@@ -89,10 +89,10 @@ export class DriveBackedValue_<T> {
       },
     );
     if (
-      response.items.length === 1 &&
-      typeof response.items[0].id === "string"
+      response.files.length === 1 &&
+      typeof response.files[0].id === "string"
     ) {
-      return response.items[0].id;
+      return response.files[0].id;
     }
     return null;
   }
@@ -106,10 +106,10 @@ export class DriveBackedValue_<T> {
       },
     );
     if (
-      response.items.length === 1 &&
-      typeof response.items[0].id === "string"
+      response.files.length === 1 &&
+      typeof response.files[0].id === "string"
     ) {
-      return response.items[0].id;
+      return response.files[0].id;
     }
     return null;
   }
@@ -126,15 +126,15 @@ export class DriveBackedValue_<T> {
         q: `"${folderId}" in parents and trashed = false`,
       },
     );
-    return response.items.length === 0;
+    return response.files.length === 0;
   }
 
   private saveAsNewDriveFile(folderId: string, value: T): void {
-    this.driveService.Files.insert(
+    this.driveService.Files.create(
       {
         mimeType: "application/json",
-        parents: [{ id: folderId }],
-        title: this.getFileName(),
+        name: this.getFileName(),
+        parents: [folderId],
       },
       {},
       Utilities.newBlob(JSON.stringify(value), "application/json"),
