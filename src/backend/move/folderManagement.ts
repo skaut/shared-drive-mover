@@ -10,7 +10,7 @@ import { paginationHelper_ } from "../utils/paginationHelper";
 export interface ListFolderContentsFields {
   capabilities: { canMoveItemOutOfDrive: true };
   id: true;
-  title: true;
+  name: true;
 }
 
 export function deleteFolderIfEmpty_(
@@ -21,12 +21,9 @@ export function deleteFolderIfEmpty_(
     return;
   }
   const response = driveService.Files.get(folderID, {
-    userPermission: { role: true },
+    capabilities: { canDelete: true },
   });
-  if (
-    response.userPermission.role === "owner" ||
-    response.userPermission.role === "organizer"
-  ) {
+  if (response.capabilities.canDelete) {
     driveService.Files.remove(folderID);
   }
 }
@@ -44,7 +41,7 @@ export function isFolderEmpty_(
       supportsAllDrives: true,
     },
   );
-  return response.items.length === 0;
+  return response.files.length === 0;
 }
 
 export function listFilesInFolder_(
@@ -83,7 +80,7 @@ function listFolderContents_(
         {
           capabilities: { canMoveItemOutOfDrive: true },
           id: true,
-          title: true,
+          name: true,
         },
         {
           includeItemsFromAllDrives: true,
@@ -93,6 +90,6 @@ function listFolderContents_(
           supportsAllDrives: true,
         },
       ),
-    (response) => response.items,
+    (response) => response.files,
   );
 }

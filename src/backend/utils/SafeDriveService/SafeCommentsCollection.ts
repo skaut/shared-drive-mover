@@ -1,42 +1,40 @@
 export interface SafeComment {
   author: SafeUser;
-  commentId: string;
   content: string;
-  replies: Array<SafeCommentReply>;
+  id: string;
+  replies: Array<SafeReply>;
 }
 
 export interface SafeCommentList {
-  items: Array<SafeComment>;
+  comments: Array<SafeComment>;
   nextPageToken?: string | undefined;
 }
 
-interface SafeCommentReply {
+interface SafeReply {
   author: SafeUser;
   content: string;
 }
 
 interface SafeUser {
   displayName: string;
-  isAuthenticatedUser: boolean;
+  me: boolean;
 }
 
 export class SafeCommentsCollection_ {
-  private readonly unsafeComments: GoogleAppsScript.Drive.Collection.CommentsCollection;
+  private readonly unsafeComments: GoogleAppsScript.Drive_v3.Drive.V3.Collection.CommentsCollection;
 
   public constructor() {
-    if (Drive.Comments === undefined) {
-      throw new Error();
-    }
+    // TODO: Remove and access directly
     this.unsafeComments = Drive.Comments;
   }
 
   private static commentIsSafe(
-    comment: GoogleAppsScript.Drive.Schema.Comment,
+    comment: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment,
   ): comment is SafeComment {
     return (
       comment.author !== undefined &&
       SafeCommentsCollection_.userIsSafe(comment.author) &&
-      comment.commentId !== undefined &&
+      comment.id !== undefined &&
       comment.content !== undefined &&
       comment.replies?.every((reply) =>
         SafeCommentsCollection_.commentReplyIsSafe(reply),
@@ -45,18 +43,18 @@ export class SafeCommentsCollection_ {
   }
 
   private static commentListIsSafe(
-    commentList: GoogleAppsScript.Drive.Schema.CommentList,
+    commentList: GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentList,
   ): commentList is SafeCommentList {
     return (
-      commentList.items?.every((comment) =>
+      commentList.comments?.every((comment) =>
         SafeCommentsCollection_.commentIsSafe(comment),
       ) === true
     );
   }
 
   private static commentReplyIsSafe(
-    commentReply: GoogleAppsScript.Drive.Schema.CommentReply,
-  ): commentReply is SafeCommentReply {
+    commentReply: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Reply,
+  ): commentReply is SafeReply {
     return (
       commentReply.author !== undefined &&
       SafeCommentsCollection_.userIsSafe(commentReply.author) &&
@@ -65,18 +63,16 @@ export class SafeCommentsCollection_ {
   }
 
   private static userIsSafe(
-    user: GoogleAppsScript.Drive.Schema.User,
+    user: GoogleAppsScript.Drive_v3.Drive.V3.Schema.User,
   ): user is SafeUser {
-    return (
-      user.isAuthenticatedUser !== undefined && user.displayName !== undefined
-    );
+    return user.me !== undefined && user.displayName !== undefined;
   }
 
-  public insert(
-    resource: GoogleAppsScript.Drive.Schema.Comment,
+  public create(
+    resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment,
     fileId: string,
   ): SafeComment {
-    const ret = this.unsafeComments.insert(resource, fileId);
+    const ret = this.unsafeComments.create(resource, fileId);
     if (!SafeCommentsCollection_.commentIsSafe(ret)) {
       throw new Error("");
     }

@@ -17,7 +17,7 @@ test("listFolders works correctly", () => {
   }
 
   const rawResponse = {
-    items: [
+    files: [
       { id: "ID1", title: "FOLDER1" },
       { id: "ID2", title: "FOLDER2" },
     ],
@@ -75,7 +75,7 @@ test("listFolders works correctly with shortcuts", () => {
   }
 
   const rawResponse = {
-    items: [
+    files: [
       {
         id: "ID1",
         mimeType: "application/vnd.google-apps.shortcut",
