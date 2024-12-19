@@ -307,7 +307,9 @@ test("DriveBackedValue loads a value - the folder exists, the value exists", () 
   const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.get.mockReturnValueOnce(
     // Incorrect upstream typings, string is actually permissible
-    JSON.stringify("VALUE") as unknown as GoogleAppsScript.Drive.Schema.File,
+    JSON.stringify(
+      "VALUE"
+    ) as unknown as GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
   );
   driveServiceMock.Files.list
     .mockReturnValueOnce(response1)

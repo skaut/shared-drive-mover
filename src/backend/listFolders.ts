@@ -37,7 +37,7 @@ export function listFolders(parentID: google.script.Parameter): ListResponse {
           },
         ),
       (listResponse) =>
-        listResponse.items
+        listResponse.files
           .sort((first, second) =>
             first.title.localeCompare(
               second.title,

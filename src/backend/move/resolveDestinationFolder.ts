@@ -30,11 +30,11 @@ export function resolveDestinationFolder_(
       );
     }
   }
-  return driveService.Files.insert(
+  return driveService.Files.create(
     {
       mimeType: "application/vnd.google-apps.folder",
-      parents: [{ id: context.destinationID }],
-      title: sourceFolder.title,
+      name: sourceFolder.title,
+      parents: [context.destinationID],
     },
     { id: true },
     undefined,

@@ -9,7 +9,7 @@ export interface SafeDrive {
 }
 
 export interface SafeDriveList<F extends DeepKeyof<SafeDrive>> {
-  items: Array<DeepPick<SafeDrive, F>>;
+  drives: Array<DeepPick<SafeDrive, F>>;
   nextPageToken?: string;
 }
 
@@ -19,7 +19,7 @@ const safeDriveKeys: DeepKeyof<SafeDrive> = {
 };
 
 export class SafeDrivesCollection_ {
-  private readonly unsafeDrives: GoogleAppsScript.Drive.Collection.DrivesCollection;
+  private readonly unsafeDrives: GoogleAppsScript.Drive_v3.Drive.V3.Collection.DrivesCollection;
 
   public constructor() {
     if (Drive.Drives === undefined) {
@@ -29,7 +29,7 @@ export class SafeDrivesCollection_ {
   }
 
   private static driveIsSafe<F extends DeepKeyof<SafeDrive>>(
-    drive: GoogleAppsScript.Drive.Schema.Drive,
+    drive: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive,
     keys: F | null,
   ): drive is typeof keys extends null ? SafeDrive : DeepPick<SafeDrive, F> {
     if (keys === null) {
@@ -47,13 +47,10 @@ export class SafeDrivesCollection_ {
   }
 
   private static driveListIsSafe<F extends DeepKeyof<SafeDrive>>(
-    driveList: GoogleAppsScript.Drive.Schema.DriveList,
+    driveList: GoogleAppsScript.Drive_v3.Drive.V3.Schema.DriveList,
     keys: F | null,
   ): driveList is SafeDriveList<F> {
-    if (driveList.items === undefined) {
-      return false;
-    }
-    return driveList.items.every((file) =>
+    return driveList.drives.every((file) =>
       SafeDrivesCollection_.driveIsSafe(file, keys),
     );
   }

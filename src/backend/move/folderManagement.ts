@@ -44,7 +44,7 @@ export function isFolderEmpty_(
       supportsAllDrives: true,
     },
   );
-  return response.items.length === 0;
+  return response.files.length === 0;
 }
 
 export function listFilesInFolder_(
@@ -93,6 +93,6 @@ function listFolderContents_(
           supportsAllDrives: true,
         },
       ),
-    (response) => response.items,
+    (response) => response.files,
   );
 }
