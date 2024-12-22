@@ -1,6 +1,7 @@
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 import { sveltePreprocess } from "svelte-preprocess";
+import TerserPlugin from "terser-webpack-plugin";
 
 export default (_, options) => ({
   entry: {
@@ -49,6 +50,13 @@ export default (_, options) => ({
           },
         ],
       },
+    ],
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        extractComments: false,
+      }),
     ],
   },
   output: {
