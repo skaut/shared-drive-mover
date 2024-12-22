@@ -1,6 +1,8 @@
+import HtmlInlineScriptPlugin from "html-inline-script-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 import { sveltePreprocess } from "svelte-preprocess";
+import TerserPlugin from "terser-webpack-plugin";
 
 export default (_, options) => ({
   entry: {
@@ -51,6 +53,13 @@ export default (_, options) => ({
       },
     ],
   },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        extractComments: false,
+      }),
+    ],
+  },
   output: {
     filename: "[name].js",
     publicPath: "",
@@ -64,6 +73,7 @@ export default (_, options) => ({
       minify: false,
       template: "src/frontend/index.html",
     }),
+    new HtmlInlineScriptPlugin(),
   ],
   resolve: {
     alias: {
