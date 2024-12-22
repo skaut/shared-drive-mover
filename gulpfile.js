@@ -15,7 +15,6 @@ gulp.task("build:frontend", () =>
     .src("src/frontend/index.ts")
     .pipe(webpack(frontendWebpackConfig(undefined, {})))
     .pipe(filter(["index.html"]))
-    .pipe(replace("\u0085", "\\u0085"))
     .pipe(gulp.dest("dist/")),
 );
 
