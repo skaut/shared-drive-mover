@@ -1,3 +1,4 @@
+import HtmlInlineScriptPlugin from "html-inline-script-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 import { sveltePreprocess } from "svelte-preprocess";
@@ -72,6 +73,7 @@ export default (_, options) => ({
       minify: false,
       template: "src/frontend/index.html",
     }),
+    new HtmlInlineScriptPlugin(),
   ],
   resolve: {
     alias: {

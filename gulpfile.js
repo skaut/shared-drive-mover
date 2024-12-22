@@ -1,5 +1,4 @@
 import gulp from "gulp";
-import filter from "gulp-filter";
 import webpack from "webpack-stream";
 
 import backendWebpackConfig from "./backend.webpack.config.js";
@@ -13,7 +12,6 @@ gulp.task("build:frontend", () =>
   gulp
     .src("src/frontend/index.ts")
     .pipe(webpack(frontendWebpackConfig(undefined, {})))
-    .pipe(filter(["index.html"]))
     .pipe(gulp.dest("dist/")),
 );
 
