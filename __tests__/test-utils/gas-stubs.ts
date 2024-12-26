@@ -135,7 +135,18 @@ export function mockedFilesCollection(): GoogleAppsScript.Drive.Collection.Files
     emptyTrash: jest.fn<() => void>(),
     export: jest.fn<(fileId: string, mimeType: string) => void>(),
     generateIds: jest.fn<() => GoogleAppsScript.Drive.Schema.GeneratedIds>(),
-    get: jest.fn<(fileId: string) => GoogleAppsScript.Drive.Schema.File>(),
+    get: jest.fn() as {
+      (
+        fileId: string,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From upstream types
+        optionalArgs?: Record<string, any> & { alt: "media" },
+      ): string;
+      (
+        fileId: string,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From upstream types
+        optionalArgs?: Record<string, any>,
+      ): GoogleAppsScript.Drive.Schema.File;
+    },
     insert:
       jest.fn<
         (
