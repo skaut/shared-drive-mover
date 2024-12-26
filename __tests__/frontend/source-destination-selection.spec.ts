@@ -7,7 +7,7 @@ test("works with folder selection", async ({ page }) => {
   const getCalls = await setup(page);
 
   await page.evaluate(() => {
-    window._endpointStubs.listFolders = [
+    window._endpointStubs["listFolders"] = [
       {
         status: "success",
         value: {
@@ -96,7 +96,7 @@ test("works with folder selection", async ({ page }) => {
         },
       },
     ];
-    window._endpointStubs.listSharedDrives = [
+    window._endpointStubs["listSharedDrives"] = [
       {
         status: "success",
         value: {
@@ -138,7 +138,7 @@ test("works with folder selection", async ({ page }) => {
         },
       },
     ];
-    window._endpointStubs.move = [
+    window._endpointStubs["move"] = [
       {
         status: "success",
         value: { response: { errors: [] }, status: "success" },

@@ -119,13 +119,9 @@
     google.script.run
       .withSuccessHandler(moveSuccessHandler)
       .withFailureHandler(moveErrorHandler)
-      .move(
-        source.id,
-        destination.id,
-        copyComments,
-        mergeFolders,
-        forceNonEmpty,
-      );
+      [
+        "move"
+      ](source.id, destination.id, copyComments, mergeFolders, forceNonEmpty);
   }
 
   function showErrorDialogWithEvent(

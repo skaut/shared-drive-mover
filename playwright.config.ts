@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  forbidOnly: process.env.CI !== undefined,
+  forbidOnly: process.env["CI"] !== undefined,
   fullyParallel: true,
   projects: [
     {
@@ -17,8 +17,8 @@ export default defineConfig({
       use: { ...devices["Desktop Safari"] },
     },
   ],
-  reporter: process.env.CI !== undefined ? "html" : "list",
-  retries: process.env.CI !== undefined ? 2 : 0,
+  reporter: process.env["CI"] !== undefined ? "html" : "list",
+  retries: process.env["CI"] !== undefined ? 2 : 0,
   testDir: "./__tests__/frontend",
   use: {
     baseURL: "http://127.0.0.1:8080",
@@ -26,9 +26,9 @@ export default defineConfig({
   },
   webServer: {
     command: "npm run start",
-    reuseExistingServer: process.env.CI === undefined,
+    reuseExistingServer: process.env["CI"] === undefined,
     url: "http://127.0.0.1:8080",
   },
   // Opt out of parallel tests on CI.
-  //workers: process.env.CI !== undefined ? 1 : undefined,
+  //workers: process.env["CI"] !== undefined ? 1 : undefined,
 });
