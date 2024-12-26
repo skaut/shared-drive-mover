@@ -7,7 +7,7 @@ import { move } from "./move";
 
 declare const global: google.script.PublicEndpoints;
 
-global.doGet = doGet;
-global.listFolders = listFolders;
-global.listSharedDrives = listSharedDrives;
-global.move = move;
+global["doGet"] = doGet;
+global["listFolders"] = listFolders;
+global["listSharedDrives"] = listSharedDrives;
+global["move"] = move;
