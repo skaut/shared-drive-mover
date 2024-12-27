@@ -2,30 +2,26 @@ import { vi } from "vitest";
 
 export function mockedCommentsCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.CommentsCollection {
   return {
+    create:
+      vi.fn<
+        (
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment,
+          fileId: string,
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment
+      >(),
     get: vi.fn<
       (
         fileId: string,
         commentId: string,
+        optionalArgs?: Record<string, any>,
       ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment
     >(),
-    insert:
-      vi.fn<
-        (
-          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment,
-          fileId: string,
-        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment
-      >(),
     list: vi.fn<
-      (fileId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentList
+      (
+        fileId: string,
+        optionalArgs?: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentList
     >(),
-    patch:
-      vi.fn<
-        (
-          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment,
-          fileId: string,
-          commentId: string,
-        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment
-      >(),
     remove: vi.fn<(fileId: string, commentId: string) => void>(),
     update:
       vi.fn<
@@ -40,40 +36,84 @@ export function mockedCommentsCollection(): GoogleAppsScript.Drive_v3.Drive.V3.C
 
 export function mockedDrive(): GoogleAppsScript.Drive {
   return {
-    newChannel: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Channel>(),
-    newChildReference:
-      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.ChildReference>(),
-    newComment: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment>(),
-    newCommentContext:
-      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentContext>(),
-    newCommentReply:
-      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply>(),
+    About: mockedAboutCollection(),
+    Apps: mockedAppsCollection(),
+    Changes: mockedChangesCollection(),
+    Channels: mockedChannelsCollection(),
+    Comments: mockedCommentsCollection(),
+    Drives: mockedDrivesCollection(),
+    Files: mockedFilesCollection(),
+    newChannel:
+      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Channel>(),
+    newComment:
+      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment>(),
+    newCommentQuotedFileContent:
+      vi.fn<
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentQuotedFileContent
+      >(),
+    newContentRestriction:
+      vi.fn<
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.ContentRestriction
+      >(),
     newDrive: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive>(),
     newDriveBackgroundImageFile:
-      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.DriveBackgroundImageFile>(),
+      vi.fn<
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.DriveBackgroundImageFile
+      >(),
     newDriveCapabilities:
-      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.DriveCapabilities>(),
+      vi.fn<
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.DriveCapabilities
+      >(),
     newDriveRestrictions:
-      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.DriveRestrictions>(),
+      vi.fn<
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.DriveRestrictions
+      >(),
     newFile: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File>(),
     newFileCapabilities:
       vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileCapabilities>(),
+    newFileContentHints:
+      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileContentHints>(),
+    newFileContentHintsThumbnail:
+      vi.fn<
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileContentHintsThumbnail
+      >(),
     newFileImageMediaMetadata:
-      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileImageMediaMetadata>(),
+      vi.fn<
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileImageMediaMetadata
+      >(),
     newFileImageMediaMetadataLocation:
       vi.fn<
         () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileImageMediaMetadataLocation
       >(),
-    newFileIndexableText:
-      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileIndexableText>(),
-    newFileLabels: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileLabels>(),
-    newFileThumbnail:
-      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileThumbnail>(),
+    newFileLabelInfo:
+      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileLabelInfo>(),
+    newFileLinkShareMetadata:
+      vi.fn<
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileLinkShareMetadata
+      >(),
+    newFileShortcutDetails:
+      vi.fn<
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileShortcutDetails
+      >(),
     newFileVideoMediaMetadata:
-      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileVideoMediaMetadata>(),
-    newParentReference:
-      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.ParentReference>(),
-    newPermission: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Permission>(),
+      vi.fn<
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileVideoMediaMetadata
+      >(),
+    newLabel: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Label>(),
+    newLabelFieldModification:
+      vi.fn<
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.LabelFieldModification
+      >(),
+    newLabelModification:
+      vi.fn<
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.LabelModification
+      >(),
+    newModifyLabelsRequest:
+      vi.fn<
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.ModifyLabelsRequest
+      >(),
+    newPermission:
+      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Permission>(),
     newPermissionPermissionDetails:
       vi.fn<
         () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.PermissionPermissionDetails
@@ -82,41 +122,68 @@ export function mockedDrive(): GoogleAppsScript.Drive {
       vi.fn<
         () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.PermissionTeamDrivePermissionDetails
       >(),
-    newProperty: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Property>(),
-    newRevision: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Revision>(),
-    newTeamDrive: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDrive>(),
+    newReply: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Reply>(),
+    newRevision:
+      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Revision>(),
+    newTeamDrive:
+      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDrive>(),
     newTeamDriveBackgroundImageFile:
       vi.fn<
         () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDriveBackgroundImageFile
       >(),
     newTeamDriveCapabilities:
-      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDriveCapabilities>(),
+      vi.fn<
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDriveCapabilities
+      >(),
     newTeamDriveRestrictions:
-      vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDriveRestrictions>(),
+      vi.fn<
+        () => GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDriveRestrictions
+      >(),
     newUser: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.User>(),
-    newUserPicture: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.UserPicture>(),
+    Operation: mockedOperationCollection(),
+    Operations: mockedOperationsCollection(),
+    Permissions: mockedPermissionsCollection(),
+    Replies: mockedRepliesCollection(),
+    Revisions: mockedRevisionsCollection(),
+    Teamdrives: mockedTeamdrivesCollection(),
   };
 }
 
 export function mockedDrivesCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.DrivesCollection {
   return {
-    get: vi.fn<(driveId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive>(),
-    hide: vi.fn<(driveId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive>(),
-    insert:
+    create:
       vi.fn<
         (
           resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive,
           requestId: string,
         ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive
       >(),
-    list: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.DriveList>(),
-    remove: vi.fn<(driveId: string) => void>(),
-    unhide: vi.fn<(driveId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive>(),
+    get: vi.fn<
+      (
+        driveId: string,
+        optionalArgs?: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive
+    >(),
+    hide: vi.fn<
+      (driveId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive
+    >(),
+    list: vi.fn<
+      (
+        optionalArgs?: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.DriveList
+    >(),
+    remove:
+      vi.fn<(driveId: string, optionalArgs?: Record<string, any>) => void>(),
+    unhide:
+      vi.fn<
+        (driveId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive
+      >(),
     update:
       vi.fn<
         (
           resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive,
           driveId: string,
+          optionalArgs?: Record<string, any>,
         ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive
       >(),
   };
@@ -128,48 +195,70 @@ export function mockedFilesCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Coll
       (
         resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
         fileId: string,
+        optionalArgs?: Record<string, any>,
       ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File
     >(),
-    emptyTrash: vi.fn<() => void>(),
+    create:
+      vi.fn<
+        (
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
+          mediaData?: GoogleAppsScript.Base.Blob,
+          optionalArgs?: Record<string, any>,
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File
+      >(),
+    download:
+      vi.fn<
+        (
+          fileId: string,
+          optionalArgs?: Record<string, any>,
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Operation
+      >(),
+    emptyTrash: vi.fn<(optionalArgs?: Record<string, any>) => void>(),
     export: vi.fn<(fileId: string, mimeType: string) => void>(),
-    generateIds: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.GeneratedIds>(),
+    generateIds:
+      vi.fn<
+        (
+          optionalArgs?: Record<string, any>,
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.GeneratedIds
+      >(),
     get: vi.fn() as {
       (
         fileId: string,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From upstream types
         optionalArgs?: Record<string, any> & { alt: "media" },
       ): string;
       (
         fileId: string,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From upstream types
         optionalArgs?: Record<string, any>,
       ): GoogleAppsScript.Drive_v3.Drive.V3.Schema.File;
     },
-    insert:
+    list: vi.fn<
+      (
+        optionalArgs?: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileList
+    >(),
+    listLabels:
       vi.fn<
         (
-          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
-          mediaData?: Blob,
-        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File
-      >(),
-    list: vi.fn<() => GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileList>(),
-    patch:
-      vi.fn<
-        (
-          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
           fileId: string,
-        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File
+          optionalArgs?: Record<string, any>,
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.LabelList
       >(),
-    remove: vi.fn<(fileId: string) => void>(),
-    touch: vi.fn<(fileId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File>(),
-    trash: vi.fn<(fileId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File>(),
-    untrash: vi.fn<(fileId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File>(),
+    modifyLabels:
+      vi.fn<
+        (
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.ModifyLabelsRequest,
+          fileId: string,
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.ModifyLabelsResponse
+      >(),
+    remove:
+      vi.fn<(fileId: string, optionalArgs?: Record<string, any>) => void>(),
     update:
       vi.fn<
         (
           resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
           fileId: string,
-          mediaData?: Blob,
+          mediaData?: GoogleAppsScript.Base.Blob,
+          optionalArgs?: Record<string, any>,
         ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.File
       >(),
     watch:
@@ -177,6 +266,7 @@ export function mockedFilesCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Coll
         (
           resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Channel,
           fileId: string,
+          optionalArgs?: Record<string, any>,
         ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Channel
       >(),
   };
@@ -258,46 +348,39 @@ export function mockedHtmlTemplate(): GoogleAppsScript.HTML.HtmlTemplate {
 
 export function mockedRepliesCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.RepliesCollection {
   return {
+    create:
+      vi.fn<
+        (
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Reply,
+          fileId: string,
+          commentId: string,
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Reply
+      >(),
     get: vi.fn<
       (
         fileId: string,
         commentId: string,
         replyId: string,
-      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply
+        optionalArgs?: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Reply
     >(),
-    insert:
-      vi.fn<
-        (
-          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply,
-          fileId: string,
-          commentId: string,
-        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply
-      >(),
     list: vi.fn<
       (
         fileId: string,
         commentId: string,
-      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReplyList
+        optionalArgs?: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.ReplyList
     >(),
-    patch:
-      vi.fn<
-        (
-          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply,
-          fileId: string,
-          commentId: string,
-          replyId: string,
-        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply
-      >(),
     remove:
       vi.fn<(fileId: string, commentId: string, replyId: string) => void>(),
     update:
       vi.fn<
         (
-          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Reply,
           fileId: string,
           commentId: string,
           replyId: string,
-        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentReply
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Reply
       >(),
   };
 }
@@ -411,7 +494,6 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
           format: string,
         ) => string
       >(),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
     formatString: vi.fn<(template: string, ...args: Array<any>) => string>(),
     getUuid: vi.fn<() => string>(),
     gzip: vi.fn<
@@ -420,9 +502,7 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
         name?: string,
       ) => GoogleAppsScript.Base.Blob
     >(),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
     jsonParse: vi.fn<(jsonString: string) => any>(),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- From Google apps script types
     jsonStringify: vi.fn<(obj: any) => string>(),
     MacAlgorithm: {
       HMAC_MD5: 0,
@@ -463,5 +543,183 @@ export function mockedUtilities(): GoogleAppsScript.Utilities.Utilities {
         name?: string,
       ) => GoogleAppsScript.Base.Blob
     >(),
+  };
+}
+
+function mockedAboutCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.AboutCollection {
+  return {
+    get: vi.fn<
+      (
+        optionalArgs: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.About
+    >(),
+  };
+}
+
+function mockedAppsCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.AppsCollection {
+  return {
+    get: vi.fn<
+      (appId: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.App
+    >(),
+    list: vi.fn<
+      (
+        optionalArgs?: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.AppList
+    >(),
+  };
+}
+
+function mockedChangesCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.ChangesCollection {
+  return {
+    getStartPageToken:
+      vi.fn<
+        (
+          optionalArgs?: Record<string, any>,
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.StartPageToken
+      >(),
+    list: vi.fn<
+      (
+        pageToken: string,
+        optionalArgs?: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.ChangeList
+    >(),
+    watch:
+      vi.fn<
+        (
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Channel,
+          pageToken: string,
+          optionalArgs?: Record<string, any>,
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Channel
+      >(),
+  };
+}
+
+function mockedChannelsCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.ChannelsCollection {
+  return {
+    stop: vi.fn<
+      (resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Channel) => void
+    >(),
+  };
+}
+
+function mockedOperationCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.OperationCollection {
+  return {
+    cancel: vi.fn<(name: string) => void>(),
+    remove: vi.fn<(name: string) => void>(),
+  };
+}
+
+function mockedOperationsCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.OperationsCollection {
+  return {
+    get: vi.fn<
+      (name: string) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Operation
+    >(),
+    list: vi.fn<
+      (
+        optionalArgs?: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.ListOperationsResponse
+    >(),
+  };
+}
+
+function mockedPermissionsCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.PermissionsCollection {
+  return {
+    create:
+      vi.fn<
+        (
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Permission,
+          fileId: string,
+          optionalArgs?: Record<string, any>,
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Permission
+      >(),
+    get: vi.fn<
+      (
+        fileId: string,
+        permissionId: string,
+        optionalArgs?: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Permission
+    >(),
+    list: vi.fn<
+      (
+        fileId: string,
+        optionalArgs?: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.PermissionList
+    >(),
+    remove:
+      vi.fn<
+        (
+          fileId: string,
+          permissionId: string,
+          optionalArgs?: Record<string, any>,
+        ) => void
+      >(),
+    update:
+      vi.fn<
+        (
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Permission,
+          fileId: string,
+          permissionId: string,
+          optionalArgs?: Record<string, any>,
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Permission
+      >(),
+  };
+}
+
+function mockedRevisionsCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.RevisionsCollection {
+  return {
+    get: vi.fn<
+      (
+        fileId: string,
+        revisionId: string,
+        optionalArgs?: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Revision
+    >(),
+    list: vi.fn<
+      (
+        fileId: string,
+        optionalArgs?: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.RevisionList
+    >(),
+    remove: vi.fn<(fileId: string, revisionId: string) => void>(),
+    update:
+      vi.fn<
+        (
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Revision,
+          fileId: string,
+          revisionId: string,
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.Revision
+      >(),
+  };
+}
+
+function mockedTeamdrivesCollection(): GoogleAppsScript.Drive_v3.Drive.V3.Collection.TeamdrivesCollection {
+  return {
+    create:
+      vi.fn<
+        (
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDrive,
+          requestId: string,
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDrive
+      >(),
+    get: vi.fn<
+      (
+        teamDriveId: string,
+        optionalArgs?: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDrive
+    >(),
+    list: vi.fn<
+      (
+        optionalArgs?: Record<string, any>,
+      ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDriveList
+    >(),
+    remove: vi.fn<(teamDriveId: string) => void>(),
+    update:
+      vi.fn<
+        (
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDrive,
+          teamDriveId: string,
+          optionalArgs?: Record<string, any>,
+        ) => GoogleAppsScript.Drive_v3.Drive.V3.Schema.TeamDrive
+      >(),
   };
 }
