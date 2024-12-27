@@ -20,7 +20,7 @@ export function mockedSafeDriveService<
   // eslint-disable-next-line vitest/prefer-vi-mocked -- Acceptable as return value
   return {
     Comments: {
-      insert:
+      create:
         vi.fn<
           (
             resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment,
@@ -52,14 +52,7 @@ export function mockedSafeDriveService<
           optionalArgs?: { supportsAllDrives?: boolean },
         ) => DeepPick<SafeFile, F>
       >(),
-      get: vi.fn<
-        (
-          fileId: string,
-          fields: F | null,
-          optionalArgs?: { alt?: string },
-        ) => DeepPick<SafeFile, F>
-      >(),
-      insert: vi.fn<
+      create: vi.fn<
         (
           resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
           fields: F | null,
@@ -68,6 +61,13 @@ export function mockedSafeDriveService<
           optionalArgs?: {
             supportsAllDrives?: boolean;
           },
+        ) => DeepPick<SafeFile, F>
+      >(),
+      get: vi.fn<
+        (
+          fileId: string,
+          fields: F | null,
+          optionalArgs?: { alt?: string },
         ) => DeepPick<SafeFile, F>
       >(),
       list: vi.fn<

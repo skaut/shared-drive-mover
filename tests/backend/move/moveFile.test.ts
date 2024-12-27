@@ -29,7 +29,7 @@ test("moveFile works correctly with a file that can be moved directly", () => {
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "SRC_FILE_ID",
-      title: "FILE_NAME",
+      name: "FILE_NAME",
     },
     state,
     {
@@ -46,24 +46,24 @@ test("moveFile works correctly with a file that can be moved directly", () => {
     "SRC_FILE_ID",
   );
   expect(
-    vi.mocked(driveServiceMock.Files.update).mock.calls[0][3],
+    vi.mocked(driveServiceMock.Files.update).mock.calls[0][4],
   ).toBeDefined();
   expect(
     (
       vi.mocked(driveServiceMock.Files.update).mock
-        .calls[0][3] as UpdateFileOptions
+        .calls[0][4] as UpdateFileOptions
     ).addParents,
   ).toContain("DEST_PARENT_ID");
   expect(
     (
       vi.mocked(driveServiceMock.Files.update).mock
-        .calls[0][3] as UpdateFileOptions
+        .calls[0][4] as UpdateFileOptions
     ).removeParents,
   ).toContain("SRC_PARENT_ID");
   expect(
     (
       vi.mocked(driveServiceMock.Files.update).mock
-        .calls[0][3] as UpdateFileOptions
+        .calls[0][4] as UpdateFileOptions
     ).supportsAllDrives,
   ).toBe(true);
 });
@@ -99,7 +99,7 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "SRC_FILE_ID",
-      title: "FILE_NAME",
+      name: "FILE_NAME",
     },
     state,
     {
@@ -116,24 +116,24 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
     "SRC_FILE_ID",
   );
   expect(
-    vi.mocked(driveServiceMock.Files.update).mock.calls[0][3],
+    vi.mocked(driveServiceMock.Files.update).mock.calls[0][4],
   ).toBeDefined();
   expect(
     (
       vi.mocked(driveServiceMock.Files.update).mock
-        .calls[0][3] as UpdateFileOptions
+        .calls[0][4] as UpdateFileOptions
     ).addParents,
   ).toContain("DEST_PARENT_ID");
   expect(
     (
       vi.mocked(driveServiceMock.Files.update).mock
-        .calls[0][3] as UpdateFileOptions
+        .calls[0][4] as UpdateFileOptions
     ).removeParents,
   ).toContain("SRC_PARENT_ID");
   expect(
     (
       vi.mocked(driveServiceMock.Files.update).mock
-        .calls[0][3] as UpdateFileOptions
+        .calls[0][4] as UpdateFileOptions
     ).supportsAllDrives,
   ).toBe(true);
   expect(vi.mocked(driveServiceMock.Files.copy).mock.calls).toHaveLength(1);
@@ -141,9 +141,9 @@ test("moveFile works correctly with a file that can be moved out of drive, yet c
     vi.mocked(driveServiceMock.Files.copy).mock.calls[0][0].parents,
   ).toHaveLength(1);
   expect(
-    vi.mocked(driveServiceMock.Files.copy).mock.calls[0][0].parents?.[0].id,
+    vi.mocked(driveServiceMock.Files.copy).mock.calls[0][0].parents?.[0],
   ).toBe("DEST_PARENT_ID");
-  expect(vi.mocked(driveServiceMock.Files.copy).mock.calls[0][0].title).toBe(
+  expect(vi.mocked(driveServiceMock.Files.copy).mock.calls[0][0].name).toBe(
     "FILE_NAME",
   );
   expect(vi.mocked(driveServiceMock.Files.copy).mock.calls[0][1]).toBe(
@@ -179,7 +179,7 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
     {
       capabilities: { canMoveItemOutOfDrive: false },
       id: "SRC_FILE_ID",
-      title: "FILE_NAME",
+      name: "FILE_NAME",
     },
     state,
     {
@@ -196,9 +196,9 @@ test("moveFile works correctly with a file that cannot be moved out of drive", (
     vi.mocked(driveServiceMock.Files.copy).mock.calls[0][0].parents,
   ).toHaveLength(1);
   expect(
-    vi.mocked(driveServiceMock.Files.copy).mock.calls[0][0].parents?.[0].id,
+    vi.mocked(driveServiceMock.Files.copy).mock.calls[0][0].parents?.[0],
   ).toBe("DEST_PARENT_ID");
-  expect(vi.mocked(driveServiceMock.Files.copy).mock.calls[0][0].title).toBe(
+  expect(vi.mocked(driveServiceMock.Files.copy).mock.calls[0][0].name).toBe(
     "FILE_NAME",
   );
   expect(vi.mocked(driveServiceMock.Files.copy).mock.calls[0][1]).toBe(
@@ -232,7 +232,7 @@ test("moveFile works correctly with a file that can be moved directly with comme
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "SRC_FILE_ID",
-      title: "FILE_NAME",
+      name: "FILE_NAME",
     },
     state,
     {
@@ -249,24 +249,24 @@ test("moveFile works correctly with a file that can be moved directly with comme
     "SRC_FILE_ID",
   );
   expect(
-    vi.mocked(driveServiceMock.Files.update).mock.calls[0][3],
+    vi.mocked(driveServiceMock.Files.update).mock.calls[0][4],
   ).toBeDefined();
   expect(
     (
       vi.mocked(driveServiceMock.Files.update).mock
-        .calls[0][3] as UpdateFileOptions
+        .calls[0][4] as UpdateFileOptions
     ).addParents,
   ).toContain("DEST_PARENT_ID");
   expect(
     (
       vi.mocked(driveServiceMock.Files.update).mock
-        .calls[0][3] as UpdateFileOptions
+        .calls[0][4] as UpdateFileOptions
     ).removeParents,
   ).toContain("SRC_PARENT_ID");
   expect(
     (
       vi.mocked(driveServiceMock.Files.update).mock
-        .calls[0][3] as UpdateFileOptions
+        .calls[0][4] as UpdateFileOptions
     ).supportsAllDrives,
   ).toBe(true);
 });
@@ -295,7 +295,7 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
     {
       capabilities: { canMoveItemOutOfDrive: false },
       id: "SRC_FILE_ID",
-      title: "FILE_NAME",
+      name: "FILE_NAME",
     },
     state,
     {
@@ -312,9 +312,9 @@ test("moveFile works correctly with a file that cannot be moved out of drive wit
     vi.mocked(driveServiceMock.Files.copy).mock.calls[0][0].parents,
   ).toHaveLength(1);
   expect(
-    vi.mocked(driveServiceMock.Files.copy).mock.calls[0][0].parents?.[0].id,
+    vi.mocked(driveServiceMock.Files.copy).mock.calls[0][0].parents?.[0],
   ).toBe("DEST_PARENT_ID");
-  expect(vi.mocked(driveServiceMock.Files.copy).mock.calls[0][0].title).toBe(
+  expect(vi.mocked(driveServiceMock.Files.copy).mock.calls[0][0].name).toBe(
     "FILE_NAME",
   );
   expect(vi.mocked(driveServiceMock.Files.copy).mock.calls[0][1]).toBe(
@@ -363,7 +363,7 @@ test("moveFile fails gracefully on error", () => {
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "SRC_FILE_ID",
-      title: "FILE_NAME",
+      name: "FILE_NAME",
     },
     state,
     {
