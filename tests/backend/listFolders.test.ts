@@ -18,8 +18,8 @@ test("listFolders works correctly", () => {
 
   const rawResponse = {
     files: [
-      { id: "ID1", title: "FOLDER1" },
-      { id: "ID2", title: "FOLDER2" },
+      { id: "ID1", name: "FOLDER1" },
+      { id: "ID2", name: "FOLDER2" },
     ],
     nextPageToken: undefined,
   };
@@ -79,12 +79,13 @@ test("listFolders works correctly with shortcuts", () => {
       {
         id: "ID1",
         mimeType: "application/vnd.google-apps.shortcut",
+        name: "FOLDER1",
         shortcutDetails: {
           targetId: "TRUE_ID1",
         },
         title: "FOLDER1",
       },
-      { id: "ID2", title: "FOLDER2" },
+      { id: "ID2", name: "FOLDER2" },
     ],
     nextPageToken: undefined,
   };
