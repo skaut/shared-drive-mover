@@ -18,27 +18,15 @@ test("SafeFilesCollection constructs correctly", () => {
   }).not.toThrow();
 });
 
-test("SafeFilesCollection throws an error without the Files collection", () => {
-  global.Drive = {
-    ...mockedDrive(),
-  };
-
-  expect(() => {
-    new SafeFilesCollection_();
-  }).toThrow("");
-});
-
 test("copy works", () => {
   const file = {
     capabilities: {
+      canDelete: false,
       canMoveItemOutOfDrive: true,
     },
     id: "FILE_ID",
     mimeType: "text/plain",
-    title: "FILE_TITLE",
-    userPermission: {
-      role: "reader" as const,
-    },
+    name: "FILE_TITLE",
   };
 
   global.Drive.Files = mockedFilesCollection();
@@ -57,14 +45,12 @@ test("copy works", () => {
 test("copy works with optional arguments", () => {
   const file = {
     capabilities: {
+      canDelete: false,
       canMoveItemOutOfDrive: true,
     },
     id: "FILE_ID",
     mimeType: "text/plain",
-    title: "FILE_TITLE",
-    userPermission: {
-      role: "reader" as const,
-    },
+    name: "FILE_TITLE",
   };
 
   global.Drive.Files = mockedFilesCollection();
@@ -115,12 +101,12 @@ test("copy works with selective fields", () => {
 
 test("copy throws and error on invalid file", () => {
   const file = {
+    capabilities: {
+      canDelete: false,
+    },
     id: "FILE_ID",
     mimeType: "text/plain",
-    title: "FILE_TITLE",
-    userPermission: {
-      role: "reader" as const,
-    },
+    name: "FILE_TITLE",
   };
 
   global.Drive.Files = mockedFilesCollection();
@@ -139,14 +125,12 @@ test("copy throws and error on invalid file", () => {
 test("get works", () => {
   const file = {
     capabilities: {
+      canDelete: false,
       canMoveItemOutOfDrive: true,
     },
     id: "FILE_ID",
     mimeType: "text/plain",
-    title: "FILE_TITLE",
-    userPermission: {
-      role: "reader" as const,
-    },
+    name: "FILE_TITLE",
   };
 
   global.Drive.Files = mockedFilesCollection();
@@ -164,14 +148,12 @@ test("get works", () => {
 test("get works with optional arguments", () => {
   const file = {
     capabilities: {
+      canDelete: false,
       canMoveItemOutOfDrive: true,
     },
     id: "FILE_ID",
     mimeType: "text/plain",
-    title: "FILE_TITLE",
-    userPermission: {
-      role: "reader" as const,
-    },
+    name: "FILE_TITLE",
   };
 
   global.Drive.Files = mockedFilesCollection();
@@ -189,7 +171,7 @@ test("get works with optional arguments", () => {
 test("get works with selective fields", () => {
   const file = {
     id: "FILE_ID",
-    title: "FILE_TITLE",
+    name: "FILE_TITLE",
   };
 
   global.Drive.Files = mockedFilesCollection();
@@ -197,23 +179,21 @@ test("get works with selective fields", () => {
 
   const filesCollection = new SafeFilesCollection_();
 
-  expect(filesCollection.get("FILE_ID", { id: true, title: true })).toBe(file);
+  expect(filesCollection.get("FILE_ID", { id: true, name: true })).toBe(file);
 
   expect(get.mock.calls).toHaveLength(1);
   expect(get.mock.calls[0][0]).toBe("FILE_ID");
-  expect(get.mock.calls[0][1]).toStrictEqual({ fields: "id, title" });
+  expect(get.mock.calls[0][1]).toStrictEqual({ fields: "id, name" });
 });
 
 test("get throws an error on invalid file", () => {
   const file = {
     capabilities: {
+      canDelete: false,
       canMoveItemOutOfDrive: true,
     },
     id: "FILE_ID",
-    title: "FILE_TITLE",
-    userPermission: {
-      role: "reader" as const,
-    },
+    name: "FILE_TITLE",
   };
 
   global.Drive.Files = mockedFilesCollection();
@@ -228,136 +208,127 @@ test("get throws an error on invalid file", () => {
   expect(get.mock.calls[0][1]).toStrictEqual({});
 });
 
-test("insert works", () => {
+test("create works", () => {
   const file = {
     capabilities: {
+      canDelete: false,
       canMoveItemOutOfDrive: true,
     },
     id: "FILE_ID",
     mimeType: "text/plain",
-    title: "FILE_TITLE",
-    userPermission: {
-      role: "reader" as const,
-    },
+    name: "FILE_TITLE",
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const insert = mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
+  const create = mocked(global.Drive.Files).create.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
-  expect(filesCollection.insert(file, null)).toBe(file);
+  expect(filesCollection.create(file, null)).toBe(file);
 
-  expect(insert.mock.calls).toHaveLength(1);
-  expect(insert.mock.calls[0][0]).toBe(file);
-  expect(insert.mock.calls[0][1]).toBeUndefined();
-  expect(insert.mock.calls[0][2]).toStrictEqual({});
+  expect(create.mock.calls).toHaveLength(1);
+  expect(create.mock.calls[0][0]).toBe(file);
+  expect(create.mock.calls[0][1]).toBeUndefined();
+  expect(create.mock.calls[0][2]).toStrictEqual({});
 });
 
-test("insert works with optional arguments", () => {
+test("create works with optional arguments", () => {
   const file = {
     capabilities: {
+      canDelete: false,
       canMoveItemOutOfDrive: true,
     },
     id: "FILE_ID",
     mimeType: "text/plain",
-    title: "FILE_TITLE",
-    userPermission: {
-      role: "reader" as const,
-    },
+    name: "FILE_TITLE",
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const insert = mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
+  const create = mocked(global.Drive.Files).create.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
   expect(
-    filesCollection.insert(file, null, undefined, { supportsAllDrives: true }),
+    filesCollection.create(file, null, undefined, { supportsAllDrives: true }),
   ).toBe(file);
 
-  expect(insert.mock.calls).toHaveLength(1);
-  expect(insert.mock.calls[0][0]).toBe(file);
-  expect(insert.mock.calls[0][1]).toBeUndefined();
-  expect(insert.mock.calls[0][2]).toStrictEqual({ supportsAllDrives: true });
+  expect(create.mock.calls).toHaveLength(1);
+  expect(create.mock.calls[0][0]).toBe(file);
+  expect(create.mock.calls[0][1]).toBeUndefined();
+  expect(create.mock.calls[0][2]).toStrictEqual({ supportsAllDrives: true });
 });
 
-test("insert works with selective fields", () => {
+test("create works with selective fields", () => {
   const file = {
-    title: "FILE_TITLE",
-    userPermission: {
-      role: "reader" as const,
+    capabilities: {
+      canDelete: false,
     },
+    name: "FILE_TITLE",
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const insert = mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
+  const create = mocked(global.Drive.Files).create.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
   expect(
-    filesCollection.insert(file, {
-      title: true,
-      userPermission: { role: true },
+    filesCollection.create(file, {
+      capabilities: { canDelete: true },
+      name: true,
     }),
   ).toBe(file);
 
-  expect(insert.mock.calls).toHaveLength(1);
-  expect(insert.mock.calls[0][0]).toBe(file);
-  expect(insert.mock.calls[0][1]).toBeUndefined();
-  expect(insert.mock.calls[0][2]).toStrictEqual({
-    fields: "title, userPermission(role)",
+  expect(create.mock.calls).toHaveLength(1);
+  expect(create.mock.calls[0][0]).toBe(file);
+  expect(create.mock.calls[0][1]).toBeUndefined();
+  expect(create.mock.calls[0][2]).toStrictEqual({
+    fields: "capabilities(canDelete), name",
   });
 });
 
-test("insert throws an error on invalid file", () => {
+test("create throws an error on invalid file", () => {
   const file = {
     capabilities: {
       canMoveItemOutOfDrive: true,
     },
     id: "FILE_ID",
     mimeType: "text/plain",
-    title: "FILE_TITLE",
-    userPermission: {},
+    name: "FILE_TITLE",
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const insert = mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
+  const create = mocked(global.Drive.Files).create.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
-  expect(() => filesCollection.insert(file, null)).toThrow("");
+  expect(() => filesCollection.create(file, null)).toThrow("");
 
-  expect(insert.mock.calls).toHaveLength(1);
-  expect(insert.mock.calls[0][0]).toBe(file);
-  expect(insert.mock.calls[0][1]).toBeUndefined();
-  expect(insert.mock.calls[0][2]).toStrictEqual({});
+  expect(create.mock.calls).toHaveLength(1);
+  expect(create.mock.calls[0][0]).toBe(file);
+  expect(create.mock.calls[0][1]).toBeUndefined();
+  expect(create.mock.calls[0][2]).toStrictEqual({});
 });
 
 test("list works", () => {
   const fileList = {
-    items: [
+    files: [
       {
         capabilities: {
+          canDelete: false,
           canMoveItemOutOfDrive: true,
         },
         id: "FILE1_ID",
         mimeType: "text/plain",
-        title: "FILE1_TITLE",
-        userPermission: {
-          role: "reader" as const,
-        },
+        name: "FILE1_TITLE",
       },
       {
         capabilities: {
+          canDelete: true,
           canMoveItemOutOfDrive: false,
         },
         id: "FILE2_ID",
         mimeType: "text/html",
-        title: "FILE2_TITLE",
-        userPermission: {
-          role: "owner" as const,
-        },
+        name: "FILE2_TITLE",
       },
     ],
   };
@@ -375,28 +346,24 @@ test("list works", () => {
 
 test("list works with optional arguments", () => {
   const fileList = {
-    items: [
+    files: [
       {
         capabilities: {
+          canDelete: false,
           canMoveItemOutOfDrive: true,
         },
         id: "FILE1_ID",
         mimeType: "text/plain",
-        title: "FILE1_TITLE",
-        userPermission: {
-          role: "reader" as const,
-        },
+        name: "FILE1_TITLE",
       },
       {
         capabilities: {
+          canDelete: true,
           canMoveItemOutOfDrive: false,
         },
         id: "FILE2_ID",
         mimeType: "text/html",
-        title: "FILE2_TITLE",
-        userPermission: {
-          role: "owner" as const,
-        },
+        name: "FILE2_TITLE",
       },
     ],
   };
@@ -422,7 +389,7 @@ test("list works with optional arguments", () => {
 
 test("list works with selective fields", () => {
   const fileList = {
-    items: [
+    files: [
       {
         capabilities: {
           canMoveItemOutOfDrive: true,
@@ -452,13 +419,13 @@ test("list works with selective fields", () => {
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toStrictEqual({
-    fields: "nextPageToken, items(capabilities(canMoveItemOutOfDrive), id)",
+    fields: "nextPageToken, files(capabilities(canMoveItemOutOfDrive), id)",
   });
 });
 
 test("list throws an error on invalid file", () => {
   const fileList = {
-    items: [
+    files: [
       {
         capabilities: {
           canMoveItemOutOfDrive: true,
@@ -467,14 +434,12 @@ test("list throws an error on invalid file", () => {
       },
       {
         capabilities: {
+          canDelete: true,
           canMoveItemOutOfDrive: false,
         },
         id: "FILE2_ID",
         mimeType: "text/html",
-        title: "FILE2_TITLE",
-        userPermission: {
-          role: "owner" as const,
-        },
+        name: "FILE2_TITLE",
       },
     ],
   };
@@ -522,14 +487,12 @@ test("remove works", () => {
 test("update works", () => {
   const file = {
     capabilities: {
+      canDelete: false,
       canMoveItemOutOfDrive: true,
     },
     id: "FILE_ID",
     mimeType: "text/plain",
-    title: "FILE_TITLE",
-    userPermission: {
-      role: "reader" as const,
-    },
+    name: "FILE_TITLE",
   };
 
   global.Drive.Files = mockedFilesCollection();
@@ -549,14 +512,12 @@ test("update works", () => {
 test("update works with optional arguments", () => {
   const file = {
     capabilities: {
+      canDelete: false,
       canMoveItemOutOfDrive: true,
     },
     id: "FILE_ID",
     mimeType: "text/plain",
-    title: "FILE_TITLE",
-    userPermission: {
-      role: "reader" as const,
-    },
+    name: "FILE_TITLE",
   };
 
   global.Drive.Files = mockedFilesCollection();

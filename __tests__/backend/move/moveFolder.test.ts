@@ -55,12 +55,12 @@ test("moveFolder moves files correctly", () => {
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "FILE1_ID",
-      title: "FILE1_TITLE",
+      name: "FILE1_TITLE",
     },
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "FILE2_ID",
-      title: "FILE2_TITLE",
+      name: "FILE2_TITLE",
     },
   ]);
   const listFoldersInFolder = mocked(
@@ -115,12 +115,12 @@ test("moveFolder adds subfolders to the state correctly", () => {
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "SRC_SUBFOLDER1_ID",
-      title: "SUBFOLDER1_NAME",
+      name: "SUBFOLDER1_NAME",
     },
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "SRC_SUBFOLDER2_ID",
-      title: "SUBFOLDER2_NAME",
+      name: "SUBFOLDER2_NAME",
     },
   ]);
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
@@ -191,12 +191,12 @@ test("moveFolder moves files correctly, even when listing folders throws", () =>
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "FILE1_ID",
-      title: "FILE1_TITLE",
+      name: "FILE1_TITLE",
     },
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "FILE2_ID",
-      title: "FILE2_TITLE",
+      name: "FILE2_TITLE",
     },
   ]);
   const listFoldersInFolder = mocked(
@@ -263,12 +263,12 @@ test("moveFolder adds subfolders to the state correctly, even when listing files
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "SRC_SUBFOLDER1_ID",
-      title: "SUBFOLDER1_NAME",
+      name: "SUBFOLDER1_NAME",
     },
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "SRC_SUBFOLDER2_ID",
-      title: "SUBFOLDER2_NAME",
+      name: "SUBFOLDER2_NAME",
     },
   ]);
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)
@@ -344,12 +344,12 @@ test("moveFolder passes copyComments correctly", () => {
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "FILE1_ID",
-      title: "FILE1_TITLE",
+      name: "FILE1_TITLE",
     },
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "FILE2_ID",
-      title: "FILE2_TITLE",
+      name: "FILE2_TITLE",
     },
   ]);
   const listFoldersInFolder = mocked(
@@ -405,12 +405,12 @@ test("moveFolder passes mergeFolders correctly", () => {
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "SRC_SUBFOLDER1_ID",
-      title: "SUBFOLDER1_NAME",
+      name: "SUBFOLDER1_NAME",
     },
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "SRC_SUBFOLDER2_ID",
-      title: "SUBFOLDER2_NAME",
+      name: "SUBFOLDER2_NAME",
     },
   ]);
   const resolveDestinationFolderFn = mocked(resolveDestinationFolder)

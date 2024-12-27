@@ -21,7 +21,7 @@ export function mockedSafeDriveService<
 >(): MockedObject<SafeDriveService_> {
   return {
     Comments: {
-      insert:
+      create:
         jest.fn<
           (
             resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment,
@@ -53,14 +53,7 @@ export function mockedSafeDriveService<
           optionalArgs?: { supportsAllDrives?: boolean },
         ) => DeepPick<SafeFile, F>
       >(),
-      get: jest.fn<
-        (
-          fileId: string,
-          fields: F | null,
-          optionalArgs?: { alt?: string },
-        ) => DeepPick<SafeFile, F>
-      >(),
-      insert: jest.fn<
+      create: jest.fn<
         (
           resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
           fields: F | null,
@@ -69,6 +62,13 @@ export function mockedSafeDriveService<
           optionalArgs?: {
             supportsAllDrives?: boolean;
           },
+        ) => DeepPick<SafeFile, F>
+      >(),
+      get: jest.fn<
+        (
+          fileId: string,
+          fields: F | null,
+          optionalArgs?: { alt?: string },
         ) => DeepPick<SafeFile, F>
       >(),
       list: jest.fn<

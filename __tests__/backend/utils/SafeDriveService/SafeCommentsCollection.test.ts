@@ -18,29 +18,19 @@ test("SafeCommentsCollection constructs correctly", () => {
   }).not.toThrow();
 });
 
-test("SafeCommentsCollection throws an error without the Comments collection", () => {
-  global.Drive = {
-    ...mockedDrive(),
-  };
-
-  expect(() => {
-    new SafeCommentsCollection_();
-  }).toThrow("");
-});
-
-test("insert works", () => {
+test("create works", () => {
   const comment = {
     author: {
       displayName: "COMMENT_AUTHOR",
-      isAuthenticatedUser: false,
+      me: false,
     },
-    commentId: "COMMENT1",
     content: "COMMENT_CONTENT",
+    id: "COMMENT1",
     replies: [
       {
         author: {
           displayName: "REPLY_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
         content: "REPLY_CONTENT",
       },
@@ -48,31 +38,31 @@ test("insert works", () => {
   };
 
   global.Drive.Comments = mockedCommentsCollection();
-  const insert = mocked(global.Drive.Comments).insert.mockReturnValueOnce(
+  const create = mocked(global.Drive.Comments).create.mockReturnValueOnce(
     comment,
   );
 
   const commentsCollection = new SafeCommentsCollection_();
 
-  expect(commentsCollection.insert(comment, "FILE_ID")).toStrictEqual(comment);
+  expect(commentsCollection.create(comment, "FILE_ID")).toStrictEqual(comment);
 
-  expect(insert.mock.calls).toHaveLength(1);
-  expect(insert.mock.calls[0][0]).toBe(comment);
-  expect(insert.mock.calls[0][1]).toBe("FILE_ID");
+  expect(create.mock.calls).toHaveLength(1);
+  expect(create.mock.calls[0][0]).toBe(comment);
+  expect(create.mock.calls[0][1]).toBe("FILE_ID");
 });
 
-test("insert throws an error on an invalid comment", () => {
+test("create throws an error on an invalid comment", () => {
   const comment = {
     author: {
       displayName: "COMMENT_AUTHOR",
-      isAuthenticatedUser: false,
+      me: false,
     },
-    commentId: "COMMENT1",
+    id: "COMMENT1",
     replies: [
       {
         author: {
           displayName: "REPLY_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
         content: "REPLY_CONTENT",
       },
@@ -80,34 +70,34 @@ test("insert throws an error on an invalid comment", () => {
   };
 
   global.Drive.Comments = mockedCommentsCollection();
-  const insert = mocked(global.Drive.Comments).insert.mockReturnValueOnce(
+  const create = mocked(global.Drive.Comments).create.mockReturnValueOnce(
     comment,
   );
 
   const commentsCollection = new SafeCommentsCollection_();
 
-  expect(() => commentsCollection.insert(comment, "FILE_ID")).toThrow("");
+  expect(() => commentsCollection.create(comment, "FILE_ID")).toThrow("");
 
-  expect(insert.mock.calls).toHaveLength(1);
-  expect(insert.mock.calls[0][0]).toBe(comment);
-  expect(insert.mock.calls[0][1]).toBe("FILE_ID");
+  expect(create.mock.calls).toHaveLength(1);
+  expect(create.mock.calls[0][0]).toBe(comment);
+  expect(create.mock.calls[0][1]).toBe("FILE_ID");
 });
 
 test("list works", () => {
   const commentList = {
-    items: [
+    comments: [
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT1",
         content: "COMMENT1_CONTENT",
+        id: "COMMENT1",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY1_CONTENT",
           },
@@ -116,15 +106,15 @@ test("list works", () => {
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT2",
         content: "COMMENT2_CONTENT",
+        id: "COMMENT2",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY2_CONTENT",
           },
@@ -149,19 +139,19 @@ test("list works", () => {
 
 test("list works with optional arguments", () => {
   const commentList = {
-    items: [
+    comments: [
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT1",
         content: "COMMENT1_CONTENT",
+        id: "COMMENT1",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY1_CONTENT",
           },
@@ -170,15 +160,15 @@ test("list works with optional arguments", () => {
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT2",
         content: "COMMENT2_CONTENT",
+        id: "COMMENT2",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY2_CONTENT",
           },
@@ -195,7 +185,7 @@ test("list works with optional arguments", () => {
   const commentsCollection = new SafeCommentsCollection_();
 
   const optionalArgs = {
-    fields: "items(id)",
+    fields: "comments(id)",
     maxResults: 100,
     pageToken: "TOKEN",
   };
@@ -211,18 +201,18 @@ test("list works with optional arguments", () => {
 
 test("list throws an error on an invalid comment", () => {
   const commentList = {
-    items: [
+    comments: [
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT1",
+        id: "COMMENT1",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY1_CONTENT",
           },
@@ -231,15 +221,15 @@ test("list throws an error on an invalid comment", () => {
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT2",
         content: "COMMENT2_CONTENT",
+        id: "COMMENT2",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY2_CONTENT",
           },
@@ -283,27 +273,27 @@ test("list throws an error on an invalid comment list", () => {
 
 test("list throws an error on missing replies", () => {
   const commentList = {
-    items: [
+    comments: [
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT1",
         content: "COMMENT1_CONTENT",
+        id: "COMMENT1",
       },
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT2",
         content: "COMMENT2_CONTENT",
+        id: "COMMENT2",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY2_CONTENT",
           },
@@ -328,19 +318,19 @@ test("list throws an error on missing replies", () => {
 
 test("list throws an error on an invalid reply", () => {
   const commentList = {
-    items: [
+    comments: [
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT1",
         content: "COMMENT1_CONTENT",
+        id: "COMMENT1",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
           },
         ],
@@ -348,15 +338,15 @@ test("list throws an error on an invalid reply", () => {
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT2",
         content: "COMMENT2_CONTENT",
+        id: "COMMENT2",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY2_CONTENT",
           },
