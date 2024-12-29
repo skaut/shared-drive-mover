@@ -2,16 +2,10 @@ import { expect, test } from "@jest/globals";
 import { mocked } from "jest-mock";
 
 import { SafeDrivesCollection_ } from "../../../../src/backend/utils/SafeDriveService/SafeDrivesCollection";
-import {
-  mockedDrive,
-  mockedDrivesCollection,
-} from "../../../test-utils/gas-stubs";
+import { mockedDrive } from "../../../test-utils/gas-stubs";
 
 test("SafeDrivesCollection constructs correctly", () => {
-  global.Drive = {
-    ...mockedDrive(),
-    Drives: mockedDrivesCollection(),
-  };
+  global.Drive = mockedDrive();
 
   expect(() => {
     new SafeDrivesCollection_();
@@ -32,7 +26,7 @@ test("list works", () => {
     ],
   };
 
-  global.Drive.Drives = mockedDrivesCollection();
+  global.Drive = mockedDrive();
   const list = mocked(global.Drive.Drives).list.mockReturnValueOnce(driveList);
 
   const drivesCollection = new SafeDrivesCollection_();
@@ -57,7 +51,7 @@ test("list works with optional parameters", () => {
     ],
   };
 
-  global.Drive.Drives = mockedDrivesCollection();
+  global.Drive = mockedDrive();
   const list = mocked(global.Drive.Drives).list.mockReturnValueOnce(driveList);
 
   const drivesCollection = new SafeDrivesCollection_();
@@ -98,7 +92,7 @@ test("list works with selective fields", () => {
     ],
   };
 
-  global.Drive.Drives = mockedDrivesCollection();
+  global.Drive = mockedDrive();
   const list = mocked(global.Drive.Drives)
     .list.mockReturnValueOnce(driveList1)
     .mockReturnValueOnce(driveList2);
@@ -131,7 +125,7 @@ test("list throws an error on an invalid drive", () => {
     ],
   };
 
-  global.Drive.Drives = mockedDrivesCollection();
+  global.Drive = mockedDrive();
   const list = mocked(global.Drive.Drives).list.mockReturnValueOnce(driveList);
 
   const drivesCollection = new SafeDrivesCollection_();
@@ -143,7 +137,7 @@ test("list throws an error on an invalid drive", () => {
 });
 
 test("list throws an error on an invalid drive list", () => {
-  global.Drive.Drives = mockedDrivesCollection();
+  global.Drive = mockedDrive();
   const list = mocked(global.Drive.Drives).list.mockReturnValueOnce({});
 
   const drivesCollection = new SafeDrivesCollection_();
