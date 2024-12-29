@@ -1,16 +1,10 @@
 import { expect, test, vi } from "vitest";
 
 import { SafeCommentsCollection_ } from "../../../../src/backend/utils/SafeDriveService/SafeCommentsCollection";
-import {
-  mockedCommentsCollection,
-  mockedDrive,
-} from "../../test-utils/gas-stubs";
+import { mockedDrive } from "../../test-utils/gas-stubs";
 
 test("SafeCommentsCollection constructs correctly", () => {
-  global.Drive = {
-    ...mockedDrive(),
-    Comments: mockedCommentsCollection(),
-  };
+  global.Drive = mockedDrive();
 
   expect(() => {
     new SafeCommentsCollection_();

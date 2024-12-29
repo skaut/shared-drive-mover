@@ -1,16 +1,10 @@
 import { expect, test, vi } from "vitest";
 
 import { SafeDrivesCollection_ } from "../../../../src/backend/utils/SafeDriveService/SafeDrivesCollection";
-import {
-  mockedDrive,
-  mockedDrivesCollection,
-} from "../../test-utils/gas-stubs";
+import { mockedDrive } from "../../test-utils/gas-stubs";
 
 test("SafeDrivesCollection constructs correctly", () => {
-  global.Drive = {
-    ...mockedDrive(),
-    Drives: mockedDrivesCollection(),
-  };
+  global.Drive = mockedDrive();
 
   expect(() => {
     new SafeDrivesCollection_();
@@ -149,7 +143,7 @@ test("list throws an error on an invalid drive", () => {
 });
 
 test("list throws an error on an invalid drive list", () => {
-  global.Drive.Drives = mockedDrivesCollection();
+  global.Drive = mockedDrive();
   const list = vi.mocked(global.Drive.Drives).list.mockReturnValueOnce({});
 
   const drivesCollection = new SafeDrivesCollection_();
