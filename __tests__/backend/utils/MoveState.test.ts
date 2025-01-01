@@ -6,11 +6,9 @@ import { MoveState_ } from "../../../src/backend/utils/MoveState";
 import { mockedDriveBackedValue } from "../../test-utils/DriveBackedValue-stub";
 import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
 
-// eslint-disable-next-line @typescript-eslint/naming-convention -- property is class name
 jest.mock<{ DriveBackedValue_: jest.Mock }>(
   "../../../src/backend/utils/DriveBackedValue",
   () => ({
-    // eslint-disable-next-line @typescript-eslint/naming-convention -- Mocking a class
     DriveBackedValue_: jest.fn(),
   }),
 );

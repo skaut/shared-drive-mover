@@ -6,14 +6,12 @@ import { SafeDriveService_ } from "../../src/backend/utils/SafeDriveService";
 import { mockedSession } from "../test-utils/gas-stubs";
 import { mockedSafeDriveService } from "../test-utils/SafeDriveService-stub";
 
-/* eslint-disable @typescript-eslint/naming-convention -- Properties are mock classes */
 jest.mock<{ SafeDriveService_: jest.Mock }>(
   "../../src/backend/utils/SafeDriveService",
   () => ({
     SafeDriveService_: jest.fn(),
   }),
 );
-/* eslint-enable */
 
 test("listFolders works correctly", () => {
   interface ListFilesOptions {
