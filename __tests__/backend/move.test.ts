@@ -10,7 +10,6 @@ import { mockedMoveState } from "../test-utils/MoveState-stub";
 
 jest.mock("../../src/backend/move/folderManagement");
 jest.mock("../../src/backend/move/moveFolder");
-/* eslint-disable @typescript-eslint/naming-convention -- Properties are mock classes */
 jest.mock<{ SafeDriveService_: jest.Mock }>(
   "../../src/backend/utils/SafeDriveService",
   () => ({
@@ -23,7 +22,6 @@ jest.mock<{ MoveState_: jest.Mock }>(
     MoveState_: jest.fn(),
   }),
 );
-/* eslint-enable */
 
 test("move works correctly", () => {
   mocked(folderManagement).isFolderEmpty_.mockReturnValueOnce(true);

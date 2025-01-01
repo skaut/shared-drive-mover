@@ -17,7 +17,6 @@ export default {
       resetMocks: true,
       testMatch: ["<rootDir>/__tests__/backend/**/*.test.ts"],
       transform: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention -- The key is a glob.
         "^.+\\.ts$": [
           "ts-jest",
           {
