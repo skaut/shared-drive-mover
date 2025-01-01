@@ -17,27 +17,27 @@ test("listFilesInFolder works correctly", () => {
     supportsAllDrives?: boolean;
   }
 
-  const items = [
+  const files = [
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "FILE1_ID",
-      title: "FILE1_TITLE",
+      name: "FILE1_TITLE",
     },
     {
       capabilities: { canMoveItemOutOfDrive: false },
       id: "FILE2_ID",
-      title: "FILE2_TITLE",
+      name: "FILE2_TITLE",
     },
   ];
   const rawResponse = {
-    items,
+    files,
     nextPageToken: undefined,
   };
   const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
 
   expect(listFilesInFolder_("FOLDER_ID", driveServiceMock)).toStrictEqual(
-    items,
+    files,
   );
 
   expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
@@ -63,7 +63,7 @@ test("listFilesInFolder works correctly", () => {
   expect(driveServiceMock.Files.list.mock.calls[0][0]).toStrictEqual({
     capabilities: { canMoveItemOutOfDrive: true },
     id: true,
-    title: true,
+    name: true,
   });
 });
 
@@ -76,27 +76,27 @@ test("listFoldersInFolder works correctly", () => {
     supportsAllDrives?: boolean;
   }
 
-  const items = [
+  const files = [
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "FILE1_ID",
-      title: "FILE1_TITLE",
+      name: "FILE1_TITLE",
     },
     {
       capabilities: { canMoveItemOutOfDrive: false },
       id: "FILE2_ID",
-      title: "FILE2_TITLE",
+      name: "FILE2_TITLE",
     },
   ];
   const rawResponse = {
-    items,
+    files,
     nextPageToken: undefined,
   };
   const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
 
   expect(listFoldersInFolder_("FOLDER_ID", driveServiceMock)).toStrictEqual(
-    items,
+    files,
   );
 
   expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
@@ -122,7 +122,7 @@ test("listFoldersInFolder works correctly", () => {
   expect(driveServiceMock.Files.list.mock.calls[0][0]).toStrictEqual({
     capabilities: { canMoveItemOutOfDrive: true },
     id: true,
-    title: true,
+    name: true,
   });
 });
 
@@ -135,7 +135,7 @@ test("isFolderEmpty works correctly with an empty folder", () => {
   }
 
   const rawResponse = {
-    items: [],
+    files: [],
   };
   const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
@@ -165,7 +165,7 @@ test("isFolderEmpty works correctly with a non-empty folder", () => {
   }
 
   const rawResponse = {
-    items: [{ id: "ID_FILE" }],
+    files: [{ id: "ID_FILE" }],
   };
   const driveServiceMock = mockedSafeDriveService();
   driveServiceMock.Files.list.mockReturnValueOnce(rawResponse);
@@ -186,55 +186,52 @@ test("isFolderEmpty works correctly with a non-empty folder", () => {
   ).toBe(true);
 });
 
-test.each(["owner", "organizer"] as Array<
-  "fileOrganizer" | "organizer" | "owner" | "reader" | "writer"
->)(
-  "deleteFolderIfEmpty works correctly",
-  (role: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer") => {
-    interface ListFilesOptions {
-      includeItemsFromAllDrives?: boolean;
-      maxResults?: number;
-      pageToken?: string;
-      q?: string;
-      supportsAllDrives?: boolean;
-    }
+test("deleteFolderIfEmpty works correctly", () => {
+  interface ListFilesOptions {
+    includeItemsFromAllDrives?: boolean;
+    maxResults?: number;
+    pageToken?: string;
+    q?: string;
+    supportsAllDrives?: boolean;
+  }
 
-    const getResponse = {
-      userPermission: { role },
-    };
-    const listResponse = {
-      items: [],
-      nextPageToken: undefined,
-    };
-    const driveServiceMock = mockedSafeDriveService();
-    driveServiceMock.Files.get.mockReturnValueOnce(getResponse);
-    driveServiceMock.Files.list.mockReturnValueOnce(listResponse);
+  const getResponse = {
+    capabilities: {
+      canDelete: true,
+    },
+  };
+  const listResponse = {
+    files: [],
+    nextPageToken: undefined,
+  };
+  const driveServiceMock = mockedSafeDriveService();
+  driveServiceMock.Files.get.mockReturnValueOnce(getResponse);
+  driveServiceMock.Files.list.mockReturnValueOnce(listResponse);
 
-    deleteFolderIfEmpty_("FOLDER_ID", driveServiceMock);
+  deleteFolderIfEmpty_("FOLDER_ID", driveServiceMock);
 
-    expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
-    expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
-    expect(
-      (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
-    ).toContain('"FOLDER_ID" in parents');
-    expect(
-      (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
-        .includeItemsFromAllDrives,
-    ).toBe(true);
-    expect(
-      (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
-        .supportsAllDrives,
-    ).toBe(true);
-    expect(driveServiceMock.Files.get.mock.calls).toHaveLength(1);
-    expect(driveServiceMock.Files.get.mock.calls[0][0]).toBe("FOLDER_ID");
-    expect(driveServiceMock.Files.get.mock.calls[0][1]).toBeDefined();
-    expect(driveServiceMock.Files.get.mock.calls[0][1]).toStrictEqual({
-      userPermission: { role: true },
-    });
-    expect(driveServiceMock.Files.remove.mock.calls).toHaveLength(1);
-    expect(driveServiceMock.Files.remove.mock.calls[0][0]).toBe("FOLDER_ID");
-  },
-);
+  expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
+  ).toContain('"FOLDER_ID" in parents');
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
+      .includeItemsFromAllDrives,
+  ).toBe(true);
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
+      .supportsAllDrives,
+  ).toBe(true);
+  expect(driveServiceMock.Files.get.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.get.mock.calls[0][0]).toBe("FOLDER_ID");
+  expect(driveServiceMock.Files.get.mock.calls[0][1]).toBeDefined();
+  expect(driveServiceMock.Files.get.mock.calls[0][1]).toStrictEqual({
+    capabilities: { canDelete: true },
+  });
+  expect(driveServiceMock.Files.remove.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.remove.mock.calls[0][0]).toBe("FOLDER_ID");
+});
 
 test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
   interface ListFilesOptions {
@@ -246,7 +243,7 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
   }
 
   const listResponse = {
-    items: [{ userPermission: { role: "reader" } }],
+    files: [{ userPermission: { role: "reader" } }],
     nextPageToken: undefined,
   };
   const driveServiceMock = mockedSafeDriveService();
@@ -271,51 +268,48 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
   expect(driveServiceMock.Files.remove.mock.calls).toHaveLength(0);
 });
 
-test.each(["fileOrganizer", "reader", "writer"] as Array<
-  "fileOrganizer" | "organizer" | "owner" | "reader" | "writer"
->)(
-  "deleteFolderIfEmpty doesn't try to delete a folder without permissions",
-  (role: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer") => {
-    interface ListFilesOptions {
-      includeItemsFromAllDrives?: boolean;
-      maxResults?: number;
-      pageToken?: string;
-      q?: string;
-      supportsAllDrives?: boolean;
-    }
+test("deleteFolderIfEmpty doesn't try to delete a folder without permissions", () => {
+  interface ListFilesOptions {
+    includeItemsFromAllDrives?: boolean;
+    maxResults?: number;
+    pageToken?: string;
+    q?: string;
+    supportsAllDrives?: boolean;
+  }
 
-    const getResponse = {
-      userPermission: { role },
-    };
-    const listResponse = {
-      items: [],
-      nextPageToken: undefined,
-    };
-    const driveServiceMock = mockedSafeDriveService();
-    driveServiceMock.Files.get.mockReturnValueOnce(getResponse);
-    driveServiceMock.Files.list.mockReturnValueOnce(listResponse);
+  const getResponse = {
+    capabilities: {
+      canDelete: false,
+    },
+  };
+  const listResponse = {
+    files: [],
+    nextPageToken: undefined,
+  };
+  const driveServiceMock = mockedSafeDriveService();
+  driveServiceMock.Files.get.mockReturnValueOnce(getResponse);
+  driveServiceMock.Files.list.mockReturnValueOnce(listResponse);
 
-    deleteFolderIfEmpty_("FOLDER_ID", driveServiceMock);
+  deleteFolderIfEmpty_("FOLDER_ID", driveServiceMock);
 
-    expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
-    expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
-    expect(
-      (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
-    ).toContain('"FOLDER_ID" in parents');
-    expect(
-      (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
-        .includeItemsFromAllDrives,
-    ).toBe(true);
-    expect(
-      (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
-        .supportsAllDrives,
-    ).toBe(true);
-    expect(driveServiceMock.Files.get.mock.calls).toHaveLength(1);
-    expect(driveServiceMock.Files.get.mock.calls[0][0]).toBe("FOLDER_ID");
-    expect(driveServiceMock.Files.get.mock.calls[0][1]).toBeDefined();
-    expect(driveServiceMock.Files.get.mock.calls[0][1]).toStrictEqual({
-      userPermission: { role: true },
-    });
-    expect(driveServiceMock.Files.remove.mock.calls).toHaveLength(0);
-  },
-);
+  expect(driveServiceMock.Files.list.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.list.mock.calls[0][0]).toBeDefined();
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions).q,
+  ).toContain('"FOLDER_ID" in parents');
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
+      .includeItemsFromAllDrives,
+  ).toBe(true);
+  expect(
+    (driveServiceMock.Files.list.mock.calls[0][1] as ListFilesOptions)
+      .supportsAllDrives,
+  ).toBe(true);
+  expect(driveServiceMock.Files.get.mock.calls).toHaveLength(1);
+  expect(driveServiceMock.Files.get.mock.calls[0][0]).toBe("FOLDER_ID");
+  expect(driveServiceMock.Files.get.mock.calls[0][1]).toBeDefined();
+  expect(driveServiceMock.Files.get.mock.calls[0][1]).toStrictEqual({
+    capabilities: { canDelete: true },
+  });
+  expect(driveServiceMock.Files.remove.mock.calls).toHaveLength(0);
+});

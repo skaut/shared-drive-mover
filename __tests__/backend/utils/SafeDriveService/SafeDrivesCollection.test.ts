@@ -2,35 +2,19 @@ import { expect, test } from "@jest/globals";
 import { mocked } from "jest-mock";
 
 import { SafeDrivesCollection_ } from "../../../../src/backend/utils/SafeDriveService/SafeDrivesCollection";
-import {
-  mockedDrive,
-  mockedDrivesCollection,
-} from "../../../test-utils/gas-stubs";
+import { mockedDrive } from "../../../test-utils/gas-stubs";
 
 test("SafeDrivesCollection constructs correctly", () => {
-  global.Drive = {
-    ...mockedDrive(),
-    Drives: mockedDrivesCollection(),
-  };
+  global.Drive = mockedDrive();
 
   expect(() => {
     new SafeDrivesCollection_();
   }).not.toThrow();
 });
 
-test("SafeDrivesCollection throws an error without the Drives collection", () => {
-  global.Drive = {
-    ...mockedDrive(),
-  };
-
-  expect(() => {
-    new SafeDrivesCollection_();
-  }).toThrow("");
-});
-
 test("list works", () => {
   const driveList = {
-    items: [
+    drives: [
       {
         id: "DRIVE1",
         name: "DRIVE1_NAME",
@@ -42,7 +26,7 @@ test("list works", () => {
     ],
   };
 
-  global.Drive.Drives = mockedDrivesCollection();
+  global.Drive = mockedDrive();
   const list = mocked(global.Drive.Drives).list.mockReturnValueOnce(driveList);
 
   const drivesCollection = new SafeDrivesCollection_();
@@ -55,7 +39,7 @@ test("list works", () => {
 
 test("list works with optional parameters", () => {
   const driveList = {
-    items: [
+    drives: [
       {
         id: "DRIVE1",
         name: "DRIVE1_NAME",
@@ -67,7 +51,7 @@ test("list works with optional parameters", () => {
     ],
   };
 
-  global.Drive.Drives = mockedDrivesCollection();
+  global.Drive = mockedDrive();
   const list = mocked(global.Drive.Drives).list.mockReturnValueOnce(driveList);
 
   const drivesCollection = new SafeDrivesCollection_();
@@ -86,7 +70,7 @@ test("list works with optional parameters", () => {
 
 test("list works with selective fields", () => {
   const driveList1 = {
-    items: [
+    drives: [
       {
         name: "DRIVE1_NAME",
       },
@@ -96,7 +80,7 @@ test("list works with selective fields", () => {
     ],
   };
   const driveList2 = {
-    items: [
+    drives: [
       {
         id: "DRIVE1",
         name: "DRIVE1_NAME",
@@ -108,7 +92,7 @@ test("list works with selective fields", () => {
     ],
   };
 
-  global.Drive.Drives = mockedDrivesCollection();
+  global.Drive = mockedDrive();
   const list = mocked(global.Drive.Drives)
     .list.mockReturnValueOnce(driveList1)
     .mockReturnValueOnce(driveList2);
@@ -122,16 +106,16 @@ test("list works with selective fields", () => {
 
   expect(list.mock.calls).toHaveLength(2);
   expect(list.mock.calls[0][0]).toStrictEqual({
-    fields: "nextPageToken, items(name)",
+    fields: "nextPageToken, drives(name)",
   });
   expect(list.mock.calls[1][0]).toStrictEqual({
-    fields: "nextPageToken, items(id, name)",
+    fields: "nextPageToken, drives(id, name)",
   });
 });
 
 test("list throws an error on an invalid drive", () => {
   const driveList = {
-    items: [
+    drives: [
       {
         name: "DRIVE1_NAME",
       },
@@ -141,7 +125,7 @@ test("list throws an error on an invalid drive", () => {
     ],
   };
 
-  global.Drive.Drives = mockedDrivesCollection();
+  global.Drive = mockedDrive();
   const list = mocked(global.Drive.Drives).list.mockReturnValueOnce(driveList);
 
   const drivesCollection = new SafeDrivesCollection_();
@@ -153,7 +137,7 @@ test("list throws an error on an invalid drive", () => {
 });
 
 test("list throws an error on an invalid drive list", () => {
-  global.Drive.Drives = mockedDrivesCollection();
+  global.Drive = mockedDrive();
   const list = mocked(global.Drive.Drives).list.mockReturnValueOnce({});
 
   const drivesCollection = new SafeDrivesCollection_();
