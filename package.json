@@ -77,7 +77,7 @@
     "build:backend": "webpack --config backend.webpack.config.js",
     "build:frontend": "webpack --config frontend.webpack.config.js",
     "build": "run-s -c build:*",
-    "lint:svelte:svelte-check": "svelte-check",
+    "lint:svelte:svelte-check": "FORCE_COLOR=1 svelte-check",
     "lint:svelte": "run-p -c lint:svelte:*",
     "lint:ts:eslint": "eslint \"src/**/*.svelte\" \"src/**/*.ts\" \"__tests__/**/*.ts\" \"*.config.{js,ts}\"",
     "lint:ts": "run-s -c lint:ts:*",
