@@ -1,22 +1,16 @@
-import { expect, jest, test } from "@jest/globals";
-import { mocked } from "jest-mock";
+import { expect, test, vi } from "vitest";
 
 import { DriveBackedValue_ } from "../../../src/backend/utils/DriveBackedValue";
 import { MoveState_ } from "../../../src/backend/utils/MoveState";
 import { mockedDriveBackedValue } from "../../test-utils/DriveBackedValue-stub";
 import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
 
-jest.mock<{ DriveBackedValue_: jest.Mock }>(
-  "../../../src/backend/utils/DriveBackedValue",
-  () => ({
-    DriveBackedValue_: jest.fn(),
-  }),
-);
+vi.mock("../../../src/backend/utils/DriveBackedValue");
 
 test("MoveState constructs correctly", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
   const driveServiceMock = mockedSafeDriveService();
-  mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
+  vi.mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
   const state = new MoveState_(
     "SRC_BASE_ID",
@@ -26,8 +20,8 @@ test("MoveState constructs correctly", () => {
     driveServiceMock,
   );
 
-  expect(mocked(DriveBackedValue_).mock.calls).toHaveLength(1);
-  expect(mocked(DriveBackedValue_).mock.calls[0][0]).toBe(
+  expect(vi.mocked(DriveBackedValue_).mock.calls).toHaveLength(1);
+  expect(vi.mocked(DriveBackedValue_).mock.calls[0][0]).toBe(
     JSON.stringify({
       copyComments: false,
       destinationID: "DEST_BASE_ID",
@@ -230,7 +224,7 @@ test("MoveState.tryOrLog works correctly", () => {
     driveServiceMock,
   );
 
-  const fn = jest.fn<() => void>().mockReturnValueOnce();
+  const fn = vi.fn<() => void>().mockReturnValueOnce();
 
   state.tryOrLog(context, fn);
 
@@ -275,7 +269,7 @@ test("MoveState.tryOrLog handles errors gracefully", () => {
     driveServiceMock,
   );
 
-  const fn = jest.fn<() => void>().mockImplementationOnce(() => {
+  const fn = vi.fn<() => void>().mockImplementationOnce(() => {
     throw new Error("ERROR_MESSAGE");
   });
 
@@ -304,7 +298,7 @@ test("MoveState.tryOrLog handles errors gracefully with a filename", () => {
     driveServiceMock,
   );
 
-  const fn = jest.fn<() => void>().mockImplementationOnce(() => {
+  const fn = vi.fn<() => void>().mockImplementationOnce(() => {
     throw new Error("ERROR_MESSAGE");
   });
 
@@ -321,7 +315,7 @@ test("MoveState.tryOrLog handles errors gracefully with a filename", () => {
 test("MoveState saves the state correctly", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
   const driveServiceMock = mockedSafeDriveService();
-  mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
+  vi.mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
   const state = new MoveState_(
     "SRC_BASE_ID",
@@ -380,7 +374,7 @@ test("MoveState saves the state correctly", () => {
 test("MoveState doesn't save empty state", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
   const driveServiceMock = mockedSafeDriveService();
-  mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
+  vi.mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
   const state = new MoveState_(
     "SRC_BASE_ID",
@@ -414,7 +408,7 @@ test("MoveState loads the state correctly", () => {
     pathsToProcess: [path],
   });
   const driveServiceMock = mockedSafeDriveService();
-  mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
+  vi.mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
   const state = new MoveState_(
     "SRC_BASE_ID",
@@ -435,7 +429,7 @@ test("MoveState handles empty state load correctly", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
   driveBackedValueMock.loadValue.mockReturnValueOnce(null);
   const driveServiceMock = mockedSafeDriveService();
-  mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
+  vi.mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
   const state = new MoveState_(
     "SRC_BASE_ID",
@@ -453,7 +447,7 @@ test("MoveState handles empty state load correctly", () => {
 test("MoveState destroys state correctly", () => {
   const driveBackedValueMock = mockedDriveBackedValue();
   const driveServiceMock = mockedSafeDriveService();
-  mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
+  vi.mocked(DriveBackedValue_).mockReturnValue(driveBackedValueMock);
 
   const state = new MoveState_(
     "SRC_BASE_ID",
