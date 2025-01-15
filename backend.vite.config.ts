@@ -12,4 +12,12 @@ export default defineConfig({
     outDir: "../dist",
   },
   root: "src",
+  test: {
+    coverage: {
+      include: ["src/backend/**/*.ts"],
+    },
+    dir: "tests/backend",
+    mockReset: true,
+    root: ".",
+  },
 });
