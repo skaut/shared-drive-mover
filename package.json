@@ -32,6 +32,7 @@
     "@types/google.script.client-side": "^0.1.5",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.2",
+    "@vitest/eslint-plugin": "^1.1.25",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jest": "^28.9.0",

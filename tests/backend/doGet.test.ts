@@ -15,7 +15,6 @@ test("doGet works correctly", () => {
     .setTitle.mockReturnValueOnce(outputWithTitle);
   global.HtmlService = mockedHtmlService();
   const htmlTemplate = mockedHtmlTemplate();
-  // eslint-disable-next-line @typescript-eslint/unbound-method -- vi.mocked is just a type wrapper
   vi.mocked(htmlTemplate.evaluate).mockReturnValueOnce(outputWithoutTitle);
   const createTemplateFromFile = vi
     .mocked(global.HtmlService)
