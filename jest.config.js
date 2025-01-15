@@ -21,7 +21,7 @@ export default {
           "ts-jest",
           {
             // ts-jest configuration goes here
-            tsconfig: "backend.tsconfig.json",
+            tsconfig: "test.backend.tsconfig.json",
           },
         ],
       },

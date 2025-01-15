@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html></html>
-<script>
-	<%= compilation.assets["index.js"].source().replace(/<\/script>/g, "<\\\/script>").replace(/<head>/g, "<x-head>").replace(/<Head>/g, "<x-Head>").replace(/<Body>/g, "<x-Body>") %>
-</script>
+<html>
+	<head>
+		<script type="module" src="./index.ts"></script>
+	</head>
+	<body></body>
+</html>

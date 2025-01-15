@@ -5,9 +5,9 @@ import { listFolders } from "./listFolders";
 import { listSharedDrives } from "./listSharedDrives";
 import { move } from "./move";
 
-declare const global: google.script.PublicEndpoints;
+declare const globalThis: google.script.PublicEndpoints;
 
-global.doGet = doGet;
-global.listFolders = listFolders;
-global.listSharedDrives = listSharedDrives;
-global.move = move;
+globalThis.doGet = doGet;
+globalThis.listFolders = listFolders;
+globalThis.listSharedDrives = listSharedDrives;
+globalThis.move = move;

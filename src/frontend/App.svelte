@@ -238,15 +238,21 @@
     --mdc-theme-secondary: #ff5252; /* Red A200 */
   }
 
-  :global(body) {
-    margin: 0;
-  }
-
   #tab {
     margin: 50px;
   }
 
-  .global-progress:global {
+  :global(body) {
+    margin: 0;
+  }
+
+  :global(.global-progress .mdc-linear-progress__bar-inner) {
+    border-color: var(--mdc-theme-secondary, #6200ee);
+  }
+
+  /* TODO: Try to fix this in newer Svelte with :global {}
+  :global(.global-progress) {
     @include linear-progress.bar-color(var(--mdc-theme-secondary));
   }
+  */
 </style>
