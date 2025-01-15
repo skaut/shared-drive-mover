@@ -3,6 +3,7 @@ import { type MockedObject, vi } from "vitest";
 import type { MoveState_ } from "../../../src/backend/utils/MoveState";
 
 export function mockedMoveState(): MockedObject<MoveState_> {
+  // eslint-disable-next-line vitest/prefer-vi-mocked -- Acceptable as return value
   return {
     addPath: vi.fn(),
     destroyState: vi.fn(),

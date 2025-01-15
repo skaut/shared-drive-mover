@@ -10,6 +10,7 @@ export function mockedDriveBackedValue(): MockedObject<
     pathsToProcess: Array<MoveContext>;
   }>
 > {
+  // eslint-disable-next-line vitest/prefer-vi-mocked -- Acceptable as return value
   return {
     deleteValue: vi.fn(),
     loadValue: vi.fn(),

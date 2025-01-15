@@ -17,6 +17,7 @@ export function mockedSafeDriveService<
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters -- No other way to pass F to vi.fn()
   F extends DeepKeyof<SafeFile>,
 >(): MockedObject<SafeDriveService_> {
+  // eslint-disable-next-line vitest/prefer-vi-mocked -- Acceptable as return value
   return {
     Comments: {
       insert:
