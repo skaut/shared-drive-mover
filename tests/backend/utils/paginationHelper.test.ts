@@ -1,4 +1,4 @@
-import { expect, jest, test } from "@jest/globals";
+import { expect, test, vi } from "vitest";
 
 import { paginationHelper_ } from "../../../src/backend/utils/paginationHelper";
 
@@ -11,10 +11,10 @@ test("paginationHelper works correctly", () => {
     a: "b",
   };
 
-  const request = jest
+  const request = vi
     .fn<(pageToken: string | undefined) => T>()
     .mockReturnValueOnce(rawResponse);
-  const transform = jest
+  const transform = vi
     .fn<(response: T) => Array<string>>()
     .mockReturnValueOnce(["first", "second"]);
 
@@ -45,12 +45,12 @@ test("paginationHelper works correctly with multiple pages", () => {
     a: "c",
   };
 
-  const request = jest
+  const request = vi
     .fn<(pageToken: string | undefined) => T>()
     .mockReturnValueOnce(rawResponse1)
     .mockReturnValueOnce(rawResponse2)
     .mockReturnValueOnce(rawResponse3);
-  const transform = jest
+  const transform = vi
     .fn<(response: T) => Array<string>>()
     .mockReturnValueOnce(["first", "second"])
     .mockReturnValueOnce(["third", "fourth"])
