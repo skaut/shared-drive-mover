@@ -5,7 +5,7 @@ import * as folderManagement from "../../src/backend/move/folderManagement";
 import * as moveFolder from "../../src/backend/move/moveFolder";
 import { MoveState_ } from "../../src/backend/utils/MoveState";
 import { SafeDriveService_ } from "../../src/backend/utils/SafeDriveService";
-import { mockedMoveState } from "../test-utils/MoveState-stub";
+import { mockedMoveState } from "./test-utils/MoveState-stub";
 
 vi.mock("../../src/backend/move/folderManagement");
 vi.mock("../../src/backend/move/moveFolder");

@@ -1,8 +1,8 @@
 import { expect, test, vi } from "vitest";
 
 import { DriveBackedValue_ } from "../../../src/backend/utils/DriveBackedValue";
-import { mockedUtilities } from "../../test-utils/gas-stubs";
-import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
+import { mockedUtilities } from "../test-utils/gas-stubs";
+import { mockedSafeDriveService } from "../test-utils/SafeDriveService-stub";
 
 test("DriveBackedValue constructs correctly", () => {
   const key = "SAVE_KEY";

@@ -2,8 +2,8 @@ import { expect, test, vi } from "vitest";
 
 import { DriveBackedValue_ } from "../../../src/backend/utils/DriveBackedValue";
 import { MoveState_ } from "../../../src/backend/utils/MoveState";
-import { mockedDriveBackedValue } from "../../test-utils/DriveBackedValue-stub";
-import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
+import { mockedDriveBackedValue } from "../test-utils/DriveBackedValue-stub";
+import { mockedSafeDriveService } from "../test-utils/SafeDriveService-stub";
 
 vi.mock("../../../src/backend/utils/DriveBackedValue");
 

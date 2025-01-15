@@ -2,7 +2,7 @@ import { expect, test, vi } from "vitest";
 
 import { listSharedDrives } from "../../src/backend/listSharedDrives";
 import { SafeDriveService_ } from "../../src/backend/utils/SafeDriveService";
-import { mockedSafeDriveService } from "../test-utils/SafeDriveService-stub";
+import { mockedSafeDriveService } from "./test-utils/SafeDriveService-stub";
 
 vi.mock("../../src/backend/utils/SafeDriveService");
 

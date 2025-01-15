@@ -1,8 +1,8 @@
 import { type MockedObject, vi } from "vitest";
 
-import type { DriveBackedValue_ } from "../../src/backend/utils/DriveBackedValue";
-import type { MoveContext } from "../../src/interfaces/MoveContext";
-import type { MoveError } from "../../src/interfaces/MoveError";
+import type { DriveBackedValue_ } from "../../../src/backend/utils/DriveBackedValue";
+import type { MoveContext } from "../../../src/interfaces/MoveContext";
+import type { MoveError } from "../../../src/interfaces/MoveError";
 
 export function mockedDriveBackedValue(): MockedObject<
   DriveBackedValue_<{

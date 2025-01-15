@@ -1,6 +1,6 @@
 import { type MockedObject, vi } from "vitest";
 
-import type { MoveState_ } from "../../src/backend/utils/MoveState";
+import type { MoveState_ } from "../../../src/backend/utils/MoveState";
 
 export function mockedMoveState(): MockedObject<MoveState_> {
   return {

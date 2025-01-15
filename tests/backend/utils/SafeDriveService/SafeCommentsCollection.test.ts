@@ -4,7 +4,7 @@ import { SafeCommentsCollection_ } from "../../../../src/backend/utils/SafeDrive
 import {
   mockedCommentsCollection,
   mockedDrive,
-} from "../../../test-utils/gas-stubs";
+} from "../../test-utils/gas-stubs";
 
 test("SafeCommentsCollection constructs correctly", () => {
   global.Drive = {

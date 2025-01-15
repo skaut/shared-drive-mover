@@ -7,7 +7,7 @@ import {
   mockedDrivesCollection,
   mockedFilesCollection,
   mockedRepliesCollection,
-} from "../../test-utils/gas-stubs";
+} from "../test-utils/gas-stubs";
 
 test("SafeDriveService constructs correctly", () => {
   global.Drive = {

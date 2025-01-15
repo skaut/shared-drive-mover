@@ -6,7 +6,7 @@ import {
   listFilesInFolder_,
   listFoldersInFolder_,
 } from "../../../src/backend/move/folderManagement";
-import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
+import { mockedSafeDriveService } from "../test-utils/SafeDriveService-stub";
 
 test("listFilesInFolder works correctly", () => {
   interface ListFilesOptions {

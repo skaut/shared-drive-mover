@@ -5,7 +5,7 @@ import {
   mockedHtmlOutput,
   mockedHtmlService,
   mockedHtmlTemplate,
-} from "../test-utils/gas-stubs";
+} from "./test-utils/gas-stubs";
 
 test("doGet works correctly", () => {
   const outputWithTitle = mockedHtmlOutput();

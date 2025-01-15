@@ -1,6 +1,6 @@
 import { expect, test } from "playwright-test-coverage";
 
-import { setup } from "../test-utils/stub-endpoints";
+import { setup } from "./test-utils/stub-endpoints";
 
 test("works with an unhandled move error", async ({ page }) => {
   await page.goto("/");

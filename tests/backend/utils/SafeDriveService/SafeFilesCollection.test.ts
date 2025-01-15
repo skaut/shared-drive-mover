@@ -1,10 +1,7 @@
 import { expect, test, vi } from "vitest";
 
 import { SafeFilesCollection_ } from "../../../../src/backend/utils/SafeDriveService/SafeFilesCollection";
-import {
-  mockedDrive,
-  mockedFilesCollection,
-} from "../../../test-utils/gas-stubs";
+import { mockedDrive, mockedFilesCollection } from "../../test-utils/gas-stubs";
 
 test("SafeFilesCollection constructs correctly", () => {
   global.Drive = {

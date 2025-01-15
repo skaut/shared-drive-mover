@@ -3,7 +3,7 @@ import { expect, test, vi } from "vitest";
 import * as folderManagement from "../../../src/backend/move/folderManagement";
 import { resolveDestinationFolder_ } from "../../../src/backend/move/resolveDestinationFolder";
 import { MoveState_ } from "../../../src/backend/utils/MoveState";
-import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
+import { mockedSafeDriveService } from "../test-utils/SafeDriveService-stub";
 
 vi.mock("../../../src/backend/utils/MoveState");
 vi.mock("../../../src/backend/move/folderManagement");

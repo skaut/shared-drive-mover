@@ -1,7 +1,7 @@
 import { expect, test, vi } from "vitest";
 
 import { copyFileComments_ } from "../../../src/backend/move/copyFileComments";
-import { mockedSafeDriveService } from "../../test-utils/SafeDriveService-stub";
+import { mockedSafeDriveService } from "../test-utils/SafeDriveService-stub";
 
 test("copyFileComments works correctly", () => {
   interface ListCommentsOptions {
