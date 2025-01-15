@@ -1,5 +1,4 @@
-import { expect, test } from "@jest/globals";
-import { mocked } from "jest-mock";
+import { expect, test, vi } from "vitest";
 
 import { SafeFilesCollection_ } from "../../../../src/backend/utils/SafeDriveService/SafeFilesCollection";
 import {
@@ -42,7 +41,7 @@ test("copy works", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const copy = mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
+  const copy = vi.mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -68,7 +67,7 @@ test("copy works with optional arguments", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const copy = mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
+  const copy = vi.mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -91,7 +90,7 @@ test("copy works with selective fields", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const copy = mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
+  const copy = vi.mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -124,7 +123,7 @@ test("copy throws and error on invalid file", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const copy = mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
+  const copy = vi.mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -150,7 +149,7 @@ test("get works", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const get = mocked(global.Drive.Files).get.mockReturnValueOnce(file);
+  const get = vi.mocked(global.Drive.Files).get.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -175,7 +174,7 @@ test("get works with optional arguments", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const get = mocked(global.Drive.Files).get.mockReturnValueOnce(file);
+  const get = vi.mocked(global.Drive.Files).get.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -193,7 +192,7 @@ test("get works with selective fields", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const get = mocked(global.Drive.Files).get.mockReturnValueOnce(file);
+  const get = vi.mocked(global.Drive.Files).get.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -217,7 +216,7 @@ test("get throws an error on invalid file", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const get = mocked(global.Drive.Files).get.mockReturnValueOnce(file);
+  const get = vi.mocked(global.Drive.Files).get.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -242,7 +241,7 @@ test("insert works", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const insert = mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
+  const insert = vi.mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -268,7 +267,7 @@ test("insert works with optional arguments", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const insert = mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
+  const insert = vi.mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -291,7 +290,7 @@ test("insert works with selective fields", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const insert = mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
+  const insert = vi.mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -322,7 +321,7 @@ test("insert throws an error on invalid file", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const insert = mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
+  const insert = vi.mocked(global.Drive.Files).insert.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -363,7 +362,7 @@ test("list works", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const list = mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
+  const list = vi.mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -402,7 +401,7 @@ test("list works with optional arguments", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const list = mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
+  const list = vi.mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -439,7 +438,7 @@ test("list works with selective fields", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const list = mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
+  const list = vi.mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -480,7 +479,7 @@ test("list throws an error on invalid file", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const list = mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
+  const list = vi.mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -494,7 +493,7 @@ test("list throws an error on invalid file list", () => {
   const fileList = {};
 
   global.Drive.Files = mockedFilesCollection();
-  const list = mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
+  const list = vi.mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -506,7 +505,7 @@ test("list throws an error on invalid file list", () => {
 
 test("remove works", () => {
   global.Drive.Files = mockedFilesCollection();
-  const remove = mocked(global.Drive.Files).remove.mockImplementationOnce(
+  const remove = vi.mocked(global.Drive.Files).remove.mockImplementationOnce(
     // eslint-disable-next-line @typescript-eslint/no-empty-function -- Implementation needed so the function is bound to local this
     () => {},
   );
@@ -533,7 +532,7 @@ test("update works", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const update = mocked(global.Drive.Files).update.mockReturnValueOnce(file);
+  const update = vi.mocked(global.Drive.Files).update.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -560,7 +559,7 @@ test("update works with optional arguments", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const update = mocked(global.Drive.Files).update.mockReturnValueOnce(file);
+  const update = vi.mocked(global.Drive.Files).update.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -589,7 +588,7 @@ test("update works with selective fields", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const update = mocked(global.Drive.Files).update.mockReturnValueOnce(file);
+  const update = vi.mocked(global.Drive.Files).update.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
@@ -614,7 +613,7 @@ test("update throws an error on invalid file", () => {
   };
 
   global.Drive.Files = mockedFilesCollection();
-  const update = mocked(global.Drive.Files).update.mockReturnValueOnce(file);
+  const update = vi.mocked(global.Drive.Files).update.mockReturnValueOnce(file);
 
   const filesCollection = new SafeFilesCollection_();
 
