@@ -1,4 +1,4 @@
-import { expect, test } from "@jest/globals";
+import { expect, test } from "vitest";
 
 import { SafeDriveService_ } from "../../../src/backend/utils/SafeDriveService";
 import {
