@@ -218,7 +218,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ["tests/**/*.ts"],
+    files: ["tests/backend/**/*.ts"],
     ...vitest.configs.recommended,
     rules: {
       ...vitest.configs.recommended.rules,
@@ -308,7 +308,7 @@ export default tseslint.config(
   },
   {
     ...playwright.configs["flat/recommended"],
-    files: ["__tests__/frontend/**/*.ts"],
+    files: ["tests/frontend/**/*.ts"],
     rules: {
       ...playwright.configs["flat/recommended"].rules,
       "playwright/no-commented-out-tests": "error",
