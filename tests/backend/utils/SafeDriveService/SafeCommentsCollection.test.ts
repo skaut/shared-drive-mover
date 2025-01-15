@@ -1,5 +1,4 @@
-import { expect, test } from "@jest/globals";
-import { mocked } from "jest-mock";
+import { expect, test, vi } from "vitest";
 
 import { SafeCommentsCollection_ } from "../../../../src/backend/utils/SafeDriveService/SafeCommentsCollection";
 import {
@@ -48,9 +47,9 @@ test("insert works", () => {
   };
 
   global.Drive.Comments = mockedCommentsCollection();
-  const insert = mocked(global.Drive.Comments).insert.mockReturnValueOnce(
-    comment,
-  );
+  const insert = vi
+    .mocked(global.Drive.Comments)
+    .insert.mockReturnValueOnce(comment);
 
   const commentsCollection = new SafeCommentsCollection_();
 
@@ -80,9 +79,9 @@ test("insert throws an error on an invalid comment", () => {
   };
 
   global.Drive.Comments = mockedCommentsCollection();
-  const insert = mocked(global.Drive.Comments).insert.mockReturnValueOnce(
-    comment,
-  );
+  const insert = vi
+    .mocked(global.Drive.Comments)
+    .insert.mockReturnValueOnce(comment);
 
   const commentsCollection = new SafeCommentsCollection_();
 
@@ -134,9 +133,9 @@ test("list works", () => {
   };
 
   global.Drive.Comments = mockedCommentsCollection();
-  const list = mocked(global.Drive.Comments).list.mockReturnValueOnce(
-    commentList,
-  );
+  const list = vi
+    .mocked(global.Drive.Comments)
+    .list.mockReturnValueOnce(commentList);
 
   const commentsCollection = new SafeCommentsCollection_();
 
@@ -188,9 +187,9 @@ test("list works with optional arguments", () => {
   };
 
   global.Drive.Comments = mockedCommentsCollection();
-  const list = mocked(global.Drive.Comments).list.mockReturnValueOnce(
-    commentList,
-  );
+  const list = vi
+    .mocked(global.Drive.Comments)
+    .list.mockReturnValueOnce(commentList);
 
   const commentsCollection = new SafeCommentsCollection_();
 
@@ -249,9 +248,9 @@ test("list throws an error on an invalid comment", () => {
   };
 
   global.Drive.Comments = mockedCommentsCollection();
-  const list = mocked(global.Drive.Comments).list.mockReturnValueOnce(
-    commentList,
-  );
+  const list = vi
+    .mocked(global.Drive.Comments)
+    .list.mockReturnValueOnce(commentList);
 
   const commentsCollection = new SafeCommentsCollection_();
 
@@ -268,9 +267,9 @@ test("list throws an error on an invalid comment list", () => {
   };
 
   global.Drive.Comments = mockedCommentsCollection();
-  const list = mocked(global.Drive.Comments).list.mockReturnValueOnce(
-    commentList,
-  );
+  const list = vi
+    .mocked(global.Drive.Comments)
+    .list.mockReturnValueOnce(commentList);
 
   const commentsCollection = new SafeCommentsCollection_();
 
@@ -313,9 +312,9 @@ test("list throws an error on missing replies", () => {
   };
 
   global.Drive.Comments = mockedCommentsCollection();
-  const list = mocked(global.Drive.Comments).list.mockReturnValueOnce(
-    commentList,
-  );
+  const list = vi
+    .mocked(global.Drive.Comments)
+    .list.mockReturnValueOnce(commentList);
 
   const commentsCollection = new SafeCommentsCollection_();
 
@@ -366,9 +365,9 @@ test("list throws an error on an invalid reply", () => {
   };
 
   global.Drive.Comments = mockedCommentsCollection();
-  const list = mocked(global.Drive.Comments).list.mockReturnValueOnce(
-    commentList,
-  );
+  const list = vi
+    .mocked(global.Drive.Comments)
+    .list.mockReturnValueOnce(commentList);
 
   const commentsCollection = new SafeCommentsCollection_();
 
