@@ -13,6 +13,9 @@ export default defineConfig({
   },
   root: "src",
   test: {
+    coverage: {
+      include: ["src/backend/**/*.ts"],
+    },
     dir: "tests/backend",
     mockReset: true,
     root: ".",

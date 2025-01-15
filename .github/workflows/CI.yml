@@ -81,7 +81,7 @@ jobs:
 
       - name: "Run tests"
         run: |
-          npm run test:backend
+          npm run test-coverage:backend
 
       - name: "Upload coverage results"
         uses: codecov/codecov-action@v5.1.2
