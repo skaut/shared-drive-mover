@@ -1,5 +1,4 @@
-import { expect, test } from "@jest/globals";
-import { mocked } from "jest-mock";
+import { expect, test, vi } from "vitest";
 
 import { SafeDrivesCollection_ } from "../../../../src/backend/utils/SafeDriveService/SafeDrivesCollection";
 import {
@@ -43,7 +42,9 @@ test("list works", () => {
   };
 
   global.Drive.Drives = mockedDrivesCollection();
-  const list = mocked(global.Drive.Drives).list.mockReturnValueOnce(driveList);
+  const list = vi
+    .mocked(global.Drive.Drives)
+    .list.mockReturnValueOnce(driveList);
 
   const drivesCollection = new SafeDrivesCollection_();
 
@@ -68,7 +69,9 @@ test("list works with optional parameters", () => {
   };
 
   global.Drive.Drives = mockedDrivesCollection();
-  const list = mocked(global.Drive.Drives).list.mockReturnValueOnce(driveList);
+  const list = vi
+    .mocked(global.Drive.Drives)
+    .list.mockReturnValueOnce(driveList);
 
   const drivesCollection = new SafeDrivesCollection_();
 
@@ -109,7 +112,8 @@ test("list works with selective fields", () => {
   };
 
   global.Drive.Drives = mockedDrivesCollection();
-  const list = mocked(global.Drive.Drives)
+  const list = vi
+    .mocked(global.Drive.Drives)
     .list.mockReturnValueOnce(driveList1)
     .mockReturnValueOnce(driveList2);
 
@@ -142,7 +146,9 @@ test("list throws an error on an invalid drive", () => {
   };
 
   global.Drive.Drives = mockedDrivesCollection();
-  const list = mocked(global.Drive.Drives).list.mockReturnValueOnce(driveList);
+  const list = vi
+    .mocked(global.Drive.Drives)
+    .list.mockReturnValueOnce(driveList);
 
   const drivesCollection = new SafeDrivesCollection_();
 
@@ -154,7 +160,7 @@ test("list throws an error on an invalid drive", () => {
 
 test("list throws an error on an invalid drive list", () => {
   global.Drive.Drives = mockedDrivesCollection();
-  const list = mocked(global.Drive.Drives).list.mockReturnValueOnce({});
+  const list = vi.mocked(global.Drive.Drives).list.mockReturnValueOnce({});
 
   const drivesCollection = new SafeDrivesCollection_();
 
