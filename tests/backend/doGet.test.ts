@@ -1,5 +1,4 @@
-import { expect, test } from "@jest/globals";
-import { mocked } from "jest-mock";
+import { expect, test, vi } from "vitest";
 
 import { doGet } from "../../src/backend/doGet";
 import {
@@ -11,14 +10,16 @@ import {
 test("doGet works correctly", () => {
   const outputWithTitle = mockedHtmlOutput();
   const outputWithoutTitle = mockedHtmlOutput();
-  const setTitle =
-    mocked(outputWithoutTitle).setTitle.mockReturnValueOnce(outputWithTitle);
+  const setTitle = vi
+    .mocked(outputWithoutTitle)
+    .setTitle.mockReturnValueOnce(outputWithTitle);
   global.HtmlService = mockedHtmlService();
   const htmlTemplate = mockedHtmlTemplate();
-  mocked(htmlTemplate).evaluate.mockReturnValueOnce(outputWithoutTitle);
-  const createTemplateFromFile = mocked(
-    global.HtmlService,
-  ).createTemplateFromFile.mockReturnValueOnce(htmlTemplate);
+  // eslint-disable-next-line @typescript-eslint/unbound-method -- vi.mocked is just a type wrapper
+  vi.mocked(htmlTemplate.evaluate).mockReturnValueOnce(outputWithoutTitle);
+  const createTemplateFromFile = vi
+    .mocked(global.HtmlService)
+    .createTemplateFromFile.mockReturnValueOnce(htmlTemplate);
 
   expect(doGet()).toBe(outputWithTitle);
   expect(createTemplateFromFile.mock.calls).toHaveLength(1);

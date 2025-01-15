@@ -58,7 +58,8 @@
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.19.1",
     "vite": "^5.4.11",
-    "vite-plugin-singlefile": "^2.1.0"
+    "vite-plugin-singlefile": "^2.1.0",
+    "vitest": "^2.1.8"
   },
   "scripts": {
     "clean": "rimraf dist/*",
@@ -72,11 +73,12 @@
     "lint:ts:typecheck:backend": "tsc --noEmit --project backend.tsconfig.json",
     "lint:ts:typecheck:frontend": "tsc --noEmit --project frontend.tsconfig.json",
     "lint:ts:typecheck": "run-p -c --aggregate-output lint:ts:typecheck:*",
-    "lint:ts:eslint": "eslint --color \"src/**/*.svelte\" \"src/**/*.ts\" \"__tests__/**/*.ts\" \"*.config.{js,ts}\"",
+    "lint:ts:eslint": "eslint --color \"src/**/*.svelte\" \"src/**/*.ts\" \"tests/**/*.ts\" \"__tests__/**/*.ts\" \"*.config.{js,ts}\"",
     "lint:ts": "run-p -c --aggregate-output lint:ts:*",
     "lint": "run-p -c --aggregate-output lint:*",
     "start": "vite --config frontend.vite.config.ts",
     "test:backend": "jest",
+    "vitest:backend": "vitest --config backend.vite.config.ts",
     "test:frontend": "nyc --reporter=lcov playwright test",
     "test": "run-p -c test:*",
     "playwright-interactive": "playwright test --ui"

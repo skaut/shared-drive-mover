@@ -217,6 +217,9 @@ export default tseslint.config(
     },
   },
   {
+    files: ["tests/**/*.test.ts", "tests/test-utils/gas-stubs.ts"],
+  },
+  {
     ...jest.configs["flat/recommended"],
     ...jest.configs["flat/style"],
     files: ["__tests__/**/*.test.ts", "__tests__/test-utils/gas-stubs.ts"],

@@ -12,4 +12,9 @@ export default defineConfig({
     outDir: "../dist",
   },
   root: "src",
+  test: {
+    dir: "tests/backend",
+    mockReset: true,
+    root: ".",
+  },
 });
