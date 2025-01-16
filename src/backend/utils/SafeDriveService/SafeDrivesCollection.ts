@@ -18,60 +18,49 @@ const safeDriveKeys: DeepKeyof<SafeDrive> = {
   name: true,
 };
 
-export class SafeDrivesCollection_ {
-  private readonly unsafeDrives: GoogleAppsScript.Drive_v3.Drive.V3.Collection.DrivesCollection;
-
-  public constructor() {
-    // TODO: Remove and access directly
-    this.unsafeDrives = Drive.Drives;
+function driveIsSafe_<F extends DeepKeyof<SafeDrive>>(
+  drive: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive,
+  keys: F | null,
+): drive is typeof keys extends null ? SafeDrive : DeepPick<SafeDrive, F> {
+  if (keys === null) {
+    return driveIsSafe_(drive, safeDriveKeys);
   }
-
-  private static driveIsSafe<F extends DeepKeyof<SafeDrive>>(
-    drive: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Drive,
-    keys: F | null,
-  ): drive is typeof keys extends null ? SafeDrive : DeepPick<SafeDrive, F> {
-    if (keys === null) {
-      return SafeDrivesCollection_.driveIsSafe(drive, safeDriveKeys);
+  for (const key in keys) {
+    if (!Object.prototype.hasOwnProperty.call(keys, key)) {
+      continue;
     }
-    for (const key in keys) {
-      if (!Object.prototype.hasOwnProperty.call(keys, key)) {
-        continue;
-      }
-      if (drive[key as keyof DeepKeyof<SafeDrive>] === undefined) {
-        return false;
-      }
+    if (drive[key as keyof DeepKeyof<SafeDrive>] === undefined) {
+      return false;
     }
-    return true;
   }
+  return true;
+}
 
-  private static driveListIsSafe<F extends DeepKeyof<SafeDrive>>(
-    driveList: GoogleAppsScript.Drive_v3.Drive.V3.Schema.DriveList,
-    keys: F | null,
-  ): driveList is SafeDriveList<F> {
-    return (
-      driveList.drives?.every((file) =>
-        SafeDrivesCollection_.driveIsSafe(file, keys),
-      ) === true
-    );
-  }
+function driveListIsSafe_<F extends DeepKeyof<SafeDrive>>(
+  driveList: GoogleAppsScript.Drive_v3.Drive.V3.Schema.DriveList,
+  keys: F | null,
+): driveList is SafeDriveList<F> {
+  return driveList.drives?.every((file) => driveIsSafe_(file, keys)) === true;
+}
 
-  public list<F extends DeepKeyof<SafeDrive>>(
+export const SafeDrivesCollection_ = {
+  list: <F extends DeepKeyof<SafeDrive>>(
     fields: F | null,
     optionalArgs: {
       maxResults?: number;
       orderBy?: string;
       pageToken?: string | undefined;
     } = {},
-  ): SafeDriveList<F> {
-    const ret = this.unsafeDrives.list({
+  ): SafeDriveList<F> => {
+    const ret = Drive.Drives.list({
       ...optionalArgs,
       ...(fields !== null && {
         fields: `nextPageToken, drives(${stringifyFields_(fields)})`,
       }),
     });
-    if (!SafeDrivesCollection_.driveListIsSafe(ret, fields)) {
+    if (!driveListIsSafe_(ret, fields)) {
       throw new Error("");
     }
     return ret;
-  }
-}
+  },
+};

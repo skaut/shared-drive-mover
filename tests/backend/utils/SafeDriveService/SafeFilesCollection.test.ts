@@ -3,14 +3,6 @@ import { expect, test, vi } from "vitest";
 import { SafeFilesCollection_ } from "../../../../src/backend/utils/SafeDriveService/SafeFilesCollection";
 import { mockedDrive } from "../../test-utils/gas-stubs";
 
-test("SafeFilesCollection constructs correctly", () => {
-  global.Drive = mockedDrive();
-
-  expect(() => {
-    new SafeFilesCollection_();
-  }).not.toThrow();
-});
-
 test("copy works", () => {
   const file = {
     capabilities: {
@@ -25,9 +17,7 @@ test("copy works", () => {
   global.Drive = mockedDrive();
   const copy = vi.mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
-  expect(filesCollection.copy(file, "TARGET_ID", null)).toBe(file);
+  expect(SafeFilesCollection_.copy(file, "TARGET_ID", null)).toBe(file);
 
   expect(copy.mock.calls).toHaveLength(1);
   expect(copy.mock.calls[0][0]).toBe(file);
@@ -49,10 +39,10 @@ test("copy works with optional arguments", () => {
   global.Drive = mockedDrive();
   const copy = vi.mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
   expect(
-    filesCollection.copy(file, "TARGET_ID", null, { supportsAllDrives: true }),
+    SafeFilesCollection_.copy(file, "TARGET_ID", null, {
+      supportsAllDrives: true,
+    }),
   ).toBe(file);
 
   expect(copy.mock.calls).toHaveLength(1);
@@ -72,10 +62,8 @@ test("copy works with selective fields", () => {
   global.Drive = mockedDrive();
   const copy = vi.mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
   expect(
-    filesCollection.copy(
+    SafeFilesCollection_.copy(
       file,
       "TARGET_ID",
       { capabilities: { canMoveItemOutOfDrive: true }, mimeType: true },
@@ -105,9 +93,7 @@ test("copy throws and error on invalid file", () => {
   global.Drive = mockedDrive();
   const copy = vi.mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
-  expect(() => filesCollection.copy(file, "TARGET_ID", null)).toThrow("");
+  expect(() => SafeFilesCollection_.copy(file, "TARGET_ID", null)).toThrow("");
 
   expect(copy.mock.calls).toHaveLength(1);
   expect(copy.mock.calls[0][0]).toBe(file);
@@ -129,9 +115,7 @@ test("get works", () => {
   global.Drive = mockedDrive();
   const get = vi.mocked(global.Drive.Files).get.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
-  expect(filesCollection.get("FILE_ID", null)).toBe(file);
+  expect(SafeFilesCollection_.get("FILE_ID", null)).toBe(file);
 
   expect(get.mock.calls).toHaveLength(1);
   expect(get.mock.calls[0][0]).toBe("FILE_ID");
@@ -152,9 +136,7 @@ test("get works with optional arguments", () => {
   global.Drive = mockedDrive();
   const get = vi.mocked(global.Drive.Files).get.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
-  expect(filesCollection.get("FILE_ID", null, { alt: "ALT" })).toBe(file);
+  expect(SafeFilesCollection_.get("FILE_ID", null, { alt: "ALT" })).toBe(file);
 
   expect(get.mock.calls).toHaveLength(1);
   expect(get.mock.calls[0][0]).toBe("FILE_ID");
@@ -170,9 +152,9 @@ test("get works with selective fields", () => {
   global.Drive = mockedDrive();
   const get = vi.mocked(global.Drive.Files).get.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
-  expect(filesCollection.get("FILE_ID", { id: true, name: true })).toBe(file);
+  expect(SafeFilesCollection_.get("FILE_ID", { id: true, name: true })).toBe(
+    file,
+  );
 
   expect(get.mock.calls).toHaveLength(1);
   expect(get.mock.calls[0][0]).toBe("FILE_ID");
@@ -192,9 +174,7 @@ test("get throws an error on invalid file", () => {
   global.Drive = mockedDrive();
   const get = vi.mocked(global.Drive.Files).get.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
-  expect(() => filesCollection.get("FILE_ID", null)).toThrow("");
+  expect(() => SafeFilesCollection_.get("FILE_ID", null)).toThrow("");
 
   expect(get.mock.calls).toHaveLength(1);
   expect(get.mock.calls[0][0]).toBe("FILE_ID");
@@ -215,9 +195,7 @@ test("create works", () => {
   global.Drive = mockedDrive();
   const create = vi.mocked(global.Drive.Files).create.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
-  expect(filesCollection.create(file, null)).toBe(file);
+  expect(SafeFilesCollection_.create(file, null)).toBe(file);
 
   expect(create.mock.calls).toHaveLength(1);
   expect(create.mock.calls[0][0]).toBe(file);
@@ -239,10 +217,10 @@ test("create works with optional arguments", () => {
   global.Drive = mockedDrive();
   const create = vi.mocked(global.Drive.Files).create.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
   expect(
-    filesCollection.create(file, null, undefined, { supportsAllDrives: true }),
+    SafeFilesCollection_.create(file, null, undefined, {
+      supportsAllDrives: true,
+    }),
   ).toBe(file);
 
   expect(create.mock.calls).toHaveLength(1);
@@ -262,10 +240,8 @@ test("create works with selective fields", () => {
   global.Drive = mockedDrive();
   const create = vi.mocked(global.Drive.Files).create.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
   expect(
-    filesCollection.create(file, {
+    SafeFilesCollection_.create(file, {
       capabilities: { canDelete: true },
       name: true,
     }),
@@ -292,9 +268,7 @@ test("create throws an error on invalid file", () => {
   global.Drive = mockedDrive();
   const create = vi.mocked(global.Drive.Files).create.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
-  expect(() => filesCollection.create(file, null)).toThrow("");
+  expect(() => SafeFilesCollection_.create(file, null)).toThrow("");
 
   expect(create.mock.calls).toHaveLength(1);
   expect(create.mock.calls[0][0]).toBe(file);
@@ -329,9 +303,7 @@ test("list works", () => {
   global.Drive = mockedDrive();
   const list = vi.mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
-  const filesCollection = new SafeFilesCollection_();
-
-  expect(filesCollection.list(null)).toBe(fileList);
+  expect(SafeFilesCollection_.list(null)).toBe(fileList);
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toStrictEqual({});
@@ -364,8 +336,6 @@ test("list works with optional arguments", () => {
   global.Drive = mockedDrive();
   const list = vi.mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
-  const filesCollection = new SafeFilesCollection_();
-
   const optionalArgs = {
     includeItemsFromAllDrives: false,
     maxResults: 42,
@@ -374,7 +344,7 @@ test("list works with optional arguments", () => {
     supportsAllDrives: true,
   };
 
-  expect(filesCollection.list(null, optionalArgs)).toBe(fileList);
+  expect(SafeFilesCollection_.list(null, optionalArgs)).toBe(fileList);
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toStrictEqual(optionalArgs);
@@ -401,10 +371,8 @@ test("list works with selective fields", () => {
   global.Drive = mockedDrive();
   const list = vi.mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
-  const filesCollection = new SafeFilesCollection_();
-
   expect(
-    filesCollection.list({
+    SafeFilesCollection_.list({
       capabilities: { canMoveItemOutOfDrive: true },
       id: true,
     }),
@@ -440,9 +408,7 @@ test("list throws an error on invalid file", () => {
   global.Drive = mockedDrive();
   const list = vi.mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
-  const filesCollection = new SafeFilesCollection_();
-
-  expect(() => filesCollection.list(null)).toThrow("");
+  expect(() => SafeFilesCollection_.list(null)).toThrow("");
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toStrictEqual({});
@@ -454,9 +420,7 @@ test("list throws an error on invalid file list", () => {
   global.Drive = mockedDrive();
   const list = vi.mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
-  const filesCollection = new SafeFilesCollection_();
-
-  expect(() => filesCollection.list(null)).toThrow("");
+  expect(() => SafeFilesCollection_.list(null)).toThrow("");
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toStrictEqual({});
@@ -469,9 +433,7 @@ test("remove works", () => {
     () => {},
   );
 
-  const filesCollection = new SafeFilesCollection_();
-
-  filesCollection.remove("FILE_ID");
+  SafeFilesCollection_.remove("FILE_ID");
 
   expect(remove.mock.calls).toHaveLength(1);
   expect(remove.mock.calls[0][0]).toBe("FILE_ID");
@@ -491,9 +453,7 @@ test("update works", () => {
   global.Drive = mockedDrive();
   const update = vi.mocked(global.Drive.Files).update.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
-  expect(filesCollection.update(file, "FILE_ID", null)).toBe(file);
+  expect(SafeFilesCollection_.update(file, "FILE_ID", null)).toBe(file);
 
   expect(update.mock.calls).toHaveLength(1);
   expect(update.mock.calls[0][0]).toBe(file);
@@ -516,8 +476,6 @@ test("update works with optional arguments", () => {
   global.Drive = mockedDrive();
   const update = vi.mocked(global.Drive.Files).update.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
   const optionalArgs = {
     addParents: "ADD_PARENT",
     removeParents: "REMOVE_PARENT",
@@ -525,7 +483,7 @@ test("update works with optional arguments", () => {
   };
 
   expect(
-    filesCollection.update(file, "FILE_ID", null, undefined, optionalArgs),
+    SafeFilesCollection_.update(file, "FILE_ID", null, undefined, optionalArgs),
   ).toBe(file);
 
   expect(update.mock.calls).toHaveLength(1);
@@ -545,10 +503,8 @@ test("update works with selective fields", () => {
   global.Drive = mockedDrive();
   const update = vi.mocked(global.Drive.Files).update.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
   expect(
-    filesCollection.update(file, "FILE_ID", {
+    SafeFilesCollection_.update(file, "FILE_ID", {
       capabilities: { canMoveItemOutOfDrive: true },
     }),
   ).toBe(file);
@@ -570,9 +526,7 @@ test("update throws an error on invalid file", () => {
   global.Drive = mockedDrive();
   const update = vi.mocked(global.Drive.Files).update.mockReturnValueOnce(file);
 
-  const filesCollection = new SafeFilesCollection_();
-
-  expect(() => filesCollection.update(file, "FILE_ID", null)).toThrow("");
+  expect(() => SafeFilesCollection_.update(file, "FILE_ID", null)).toThrow("");
 
   expect(update.mock.calls).toHaveLength(1);
   expect(update.mock.calls[0][0]).toBe(file);
