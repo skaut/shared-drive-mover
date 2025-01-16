@@ -20,10 +20,10 @@ export function mockedSafeDriveService<
   // eslint-disable-next-line vitest/prefer-vi-mocked -- Acceptable as return value
   return {
     Comments: {
-      insert:
+      create:
         vi.fn<
           (
-            resource: GoogleAppsScript.Drive.Schema.Comment,
+            resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment,
             fileId: string,
           ) => SafeComment
         >(),
@@ -46,10 +46,21 @@ export function mockedSafeDriveService<
     Files: {
       copy: vi.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.File,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
           fileId: string,
           fields: F | null,
           optionalArgs?: { supportsAllDrives?: boolean },
+        ) => DeepPick<SafeFile, F>
+      >(),
+      create: vi.fn<
+        (
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
+          fields: F | null,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API
+          mediaData?: any,
+          optionalArgs?: {
+            supportsAllDrives?: boolean;
+          },
         ) => DeepPick<SafeFile, F>
       >(),
       get: vi.fn<
@@ -57,17 +68,6 @@ export function mockedSafeDriveService<
           fileId: string,
           fields: F | null,
           optionalArgs?: { alt?: string },
-        ) => DeepPick<SafeFile, F>
-      >(),
-      insert: vi.fn<
-        (
-          resource: GoogleAppsScript.Drive.Schema.File,
-          fields: F | null,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API
-          mediaData?: any,
-          optionalArgs?: {
-            supportsAllDrives?: boolean;
-          },
         ) => DeepPick<SafeFile, F>
       >(),
       list: vi.fn<
@@ -85,7 +85,7 @@ export function mockedSafeDriveService<
       remove: vi.fn<(fileId: string) => void>(),
       update: vi.fn<
         (
-          resource: GoogleAppsScript.Drive.Schema.File,
+          resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
           fileId: string,
           fields: F | null,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API

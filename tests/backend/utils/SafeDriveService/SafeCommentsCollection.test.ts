@@ -1,112 +1,86 @@
 import { expect, test, vi } from "vitest";
 
 import { SafeCommentsCollection_ } from "../../../../src/backend/utils/SafeDriveService/SafeCommentsCollection";
-import {
-  mockedCommentsCollection,
-  mockedDrive,
-} from "../../test-utils/gas-stubs";
+import { mockedDrive } from "../../test-utils/gas-stubs";
 
-test("SafeCommentsCollection constructs correctly", () => {
-  global.Drive = {
-    ...mockedDrive(),
-    Comments: mockedCommentsCollection(),
-  };
-
-  expect(() => {
-    new SafeCommentsCollection_();
-  }).not.toThrow();
-});
-
-test("SafeCommentsCollection throws an error without the Comments collection", () => {
-  global.Drive = {
-    ...mockedDrive(),
-  };
-
-  expect(() => {
-    new SafeCommentsCollection_();
-  }).toThrow("");
-});
-
-test("insert works", () => {
+test("create works", () => {
   const comment = {
     author: {
       displayName: "COMMENT_AUTHOR",
-      isAuthenticatedUser: false,
+      me: false,
     },
-    commentId: "COMMENT1",
     content: "COMMENT_CONTENT",
+    id: "COMMENT1",
     replies: [
       {
         author: {
           displayName: "REPLY_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
         content: "REPLY_CONTENT",
       },
     ],
   };
 
-  global.Drive.Comments = mockedCommentsCollection();
-  const insert = vi
+  global.Drive = mockedDrive();
+  const create = vi
     .mocked(global.Drive.Comments)
-    .insert.mockReturnValueOnce(comment);
+    .create.mockReturnValueOnce(comment);
 
-  const commentsCollection = new SafeCommentsCollection_();
+  expect(SafeCommentsCollection_.create(comment, "FILE_ID")).toStrictEqual(
+    comment,
+  );
 
-  expect(commentsCollection.insert(comment, "FILE_ID")).toStrictEqual(comment);
-
-  expect(insert.mock.calls).toHaveLength(1);
-  expect(insert.mock.calls[0][0]).toBe(comment);
-  expect(insert.mock.calls[0][1]).toBe("FILE_ID");
+  expect(create.mock.calls).toHaveLength(1);
+  expect(create.mock.calls[0][0]).toBe(comment);
+  expect(create.mock.calls[0][1]).toBe("FILE_ID");
 });
 
-test("insert throws an error on an invalid comment", () => {
+test("create throws an error on an invalid comment", () => {
   const comment = {
     author: {
       displayName: "COMMENT_AUTHOR",
-      isAuthenticatedUser: false,
+      me: false,
     },
-    commentId: "COMMENT1",
+    id: "COMMENT1",
     replies: [
       {
         author: {
           displayName: "REPLY_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
         content: "REPLY_CONTENT",
       },
     ],
   };
 
-  global.Drive.Comments = mockedCommentsCollection();
-  const insert = vi
+  global.Drive = mockedDrive();
+  const create = vi
     .mocked(global.Drive.Comments)
-    .insert.mockReturnValueOnce(comment);
+    .create.mockReturnValueOnce(comment);
 
-  const commentsCollection = new SafeCommentsCollection_();
+  expect(() => SafeCommentsCollection_.create(comment, "FILE_ID")).toThrow("");
 
-  expect(() => commentsCollection.insert(comment, "FILE_ID")).toThrow("");
-
-  expect(insert.mock.calls).toHaveLength(1);
-  expect(insert.mock.calls[0][0]).toBe(comment);
-  expect(insert.mock.calls[0][1]).toBe("FILE_ID");
+  expect(create.mock.calls).toHaveLength(1);
+  expect(create.mock.calls[0][0]).toBe(comment);
+  expect(create.mock.calls[0][1]).toBe("FILE_ID");
 });
 
 test("list works", () => {
   const commentList = {
-    items: [
+    comments: [
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT1",
         content: "COMMENT1_CONTENT",
+        id: "COMMENT1",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY1_CONTENT",
           },
@@ -115,15 +89,15 @@ test("list works", () => {
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT2",
         content: "COMMENT2_CONTENT",
+        id: "COMMENT2",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY2_CONTENT",
           },
@@ -132,14 +106,12 @@ test("list works", () => {
     ],
   };
 
-  global.Drive.Comments = mockedCommentsCollection();
+  global.Drive = mockedDrive();
   const list = vi
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  const commentsCollection = new SafeCommentsCollection_();
-
-  expect(commentsCollection.list("FILE_ID")).toStrictEqual(commentList);
+  expect(SafeCommentsCollection_.list("FILE_ID")).toStrictEqual(commentList);
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("FILE_ID");
@@ -148,19 +120,19 @@ test("list works", () => {
 
 test("list works with optional arguments", () => {
   const commentList = {
-    items: [
+    comments: [
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT1",
         content: "COMMENT1_CONTENT",
+        id: "COMMENT1",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY1_CONTENT",
           },
@@ -169,15 +141,15 @@ test("list works with optional arguments", () => {
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT2",
         content: "COMMENT2_CONTENT",
+        id: "COMMENT2",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY2_CONTENT",
           },
@@ -186,20 +158,18 @@ test("list works with optional arguments", () => {
     ],
   };
 
-  global.Drive.Comments = mockedCommentsCollection();
+  global.Drive = mockedDrive();
   const list = vi
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  const commentsCollection = new SafeCommentsCollection_();
-
   const optionalArgs = {
-    fields: "items(id)",
+    fields: "comments(id)",
     maxResults: 100,
     pageToken: "TOKEN",
   };
 
-  expect(commentsCollection.list("FILE_ID", optionalArgs)).toStrictEqual(
+  expect(SafeCommentsCollection_.list("FILE_ID", optionalArgs)).toStrictEqual(
     commentList,
   );
 
@@ -210,18 +180,18 @@ test("list works with optional arguments", () => {
 
 test("list throws an error on an invalid comment", () => {
   const commentList = {
-    items: [
+    comments: [
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT1",
+        id: "COMMENT1",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY1_CONTENT",
           },
@@ -230,15 +200,15 @@ test("list throws an error on an invalid comment", () => {
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT2",
         content: "COMMENT2_CONTENT",
+        id: "COMMENT2",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY2_CONTENT",
           },
@@ -247,14 +217,12 @@ test("list throws an error on an invalid comment", () => {
     ],
   };
 
-  global.Drive.Comments = mockedCommentsCollection();
+  global.Drive = mockedDrive();
   const list = vi
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  const commentsCollection = new SafeCommentsCollection_();
-
-  expect(() => commentsCollection.list("FILE_ID")).toThrow("");
+  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow("");
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("FILE_ID");
@@ -266,14 +234,12 @@ test("list throws an error on an invalid comment list", () => {
     nextPageToken: "TOKEN",
   };
 
-  global.Drive.Comments = mockedCommentsCollection();
+  global.Drive = mockedDrive();
   const list = vi
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  const commentsCollection = new SafeCommentsCollection_();
-
-  expect(() => commentsCollection.list("FILE_ID")).toThrow("");
+  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow("");
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("FILE_ID");
@@ -282,27 +248,27 @@ test("list throws an error on an invalid comment list", () => {
 
 test("list throws an error on missing replies", () => {
   const commentList = {
-    items: [
+    comments: [
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT1",
         content: "COMMENT1_CONTENT",
+        id: "COMMENT1",
       },
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT2",
         content: "COMMENT2_CONTENT",
+        id: "COMMENT2",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY2_CONTENT",
           },
@@ -311,14 +277,12 @@ test("list throws an error on missing replies", () => {
     ],
   };
 
-  global.Drive.Comments = mockedCommentsCollection();
+  global.Drive = mockedDrive();
   const list = vi
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  const commentsCollection = new SafeCommentsCollection_();
-
-  expect(() => commentsCollection.list("FILE_ID")).toThrow("");
+  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow("");
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("FILE_ID");
@@ -327,19 +291,19 @@ test("list throws an error on missing replies", () => {
 
 test("list throws an error on an invalid reply", () => {
   const commentList = {
-    items: [
+    comments: [
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT1",
         content: "COMMENT1_CONTENT",
+        id: "COMMENT1",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
           },
         ],
@@ -347,15 +311,15 @@ test("list throws an error on an invalid reply", () => {
       {
         author: {
           displayName: "COMMENT1_AUTHOR",
-          isAuthenticatedUser: false,
+          me: false,
         },
-        commentId: "COMMENT2",
         content: "COMMENT2_CONTENT",
+        id: "COMMENT2",
         replies: [
           {
             author: {
               displayName: "REPLY_AUTHOR",
-              isAuthenticatedUser: false,
+              me: false,
             },
             content: "REPLY2_CONTENT",
           },
@@ -364,14 +328,12 @@ test("list throws an error on an invalid reply", () => {
     ],
   };
 
-  global.Drive.Comments = mockedCommentsCollection();
+  global.Drive = mockedDrive();
   const list = vi
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  const commentsCollection = new SafeCommentsCollection_();
-
-  expect(() => commentsCollection.list("FILE_ID")).toThrow("");
+  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow("");
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("FILE_ID");
