@@ -3,14 +3,6 @@ import { expect, test, vi } from "vitest";
 import { SafeDrivesCollection_ } from "../../../../src/backend/utils/SafeDriveService/SafeDrivesCollection";
 import { mockedDrive } from "../../test-utils/gas-stubs";
 
-test("SafeDrivesCollection constructs correctly", () => {
-  global.Drive = mockedDrive();
-
-  expect(() => {
-    new SafeDrivesCollection_();
-  }).not.toThrow();
-});
-
 test("list works", () => {
   const driveList = {
     drives: [
@@ -30,9 +22,7 @@ test("list works", () => {
     .mocked(global.Drive.Drives)
     .list.mockReturnValueOnce(driveList);
 
-  const drivesCollection = new SafeDrivesCollection_();
-
-  expect(drivesCollection.list(null)).toStrictEqual(driveList);
+  expect(SafeDrivesCollection_.list(null)).toStrictEqual(driveList);
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toStrictEqual({});
@@ -57,15 +47,15 @@ test("list works with optional parameters", () => {
     .mocked(global.Drive.Drives)
     .list.mockReturnValueOnce(driveList);
 
-  const drivesCollection = new SafeDrivesCollection_();
-
   const optionalArgs = {
     maxResults: 100,
     orderBy: "name",
     pageToken: "TOKEN",
   };
 
-  expect(drivesCollection.list(null, optionalArgs)).toStrictEqual(driveList);
+  expect(SafeDrivesCollection_.list(null, optionalArgs)).toStrictEqual(
+    driveList,
+  );
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toStrictEqual(optionalArgs);
@@ -101,10 +91,8 @@ test("list works with selective fields", () => {
     .list.mockReturnValueOnce(driveList1)
     .mockReturnValueOnce(driveList2);
 
-  const drivesCollection = new SafeDrivesCollection_();
-
-  expect(drivesCollection.list({ name: true })).toStrictEqual(driveList1);
-  expect(drivesCollection.list({ id: true, name: true })).toStrictEqual(
+  expect(SafeDrivesCollection_.list({ name: true })).toStrictEqual(driveList1);
+  expect(SafeDrivesCollection_.list({ id: true, name: true })).toStrictEqual(
     driveList2,
   );
 
@@ -134,9 +122,7 @@ test("list throws an error on an invalid drive", () => {
     .mocked(global.Drive.Drives)
     .list.mockReturnValueOnce(driveList);
 
-  const drivesCollection = new SafeDrivesCollection_();
-
-  expect(() => drivesCollection.list(null)).toThrow("");
+  expect(() => SafeDrivesCollection_.list(null)).toThrow("");
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toStrictEqual({});
@@ -146,9 +132,7 @@ test("list throws an error on an invalid drive list", () => {
   global.Drive = mockedDrive();
   const list = vi.mocked(global.Drive.Drives).list.mockReturnValueOnce({});
 
-  const drivesCollection = new SafeDrivesCollection_();
-
-  expect(() => drivesCollection.list(null)).toThrow("");
+  expect(() => SafeDrivesCollection_.list(null)).toThrow("");
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toStrictEqual({});

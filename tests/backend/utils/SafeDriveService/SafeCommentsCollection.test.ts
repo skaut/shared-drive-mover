@@ -3,14 +3,6 @@ import { expect, test, vi } from "vitest";
 import { SafeCommentsCollection_ } from "../../../../src/backend/utils/SafeDriveService/SafeCommentsCollection";
 import { mockedDrive } from "../../test-utils/gas-stubs";
 
-test("SafeCommentsCollection constructs correctly", () => {
-  global.Drive = mockedDrive();
-
-  expect(() => {
-    new SafeCommentsCollection_();
-  }).not.toThrow();
-});
-
 test("create works", () => {
   const comment = {
     author: {
@@ -35,9 +27,9 @@ test("create works", () => {
     .mocked(global.Drive.Comments)
     .create.mockReturnValueOnce(comment);
 
-  const commentsCollection = new SafeCommentsCollection_();
-
-  expect(commentsCollection.create(comment, "FILE_ID")).toStrictEqual(comment);
+  expect(SafeCommentsCollection_.create(comment, "FILE_ID")).toStrictEqual(
+    comment,
+  );
 
   expect(create.mock.calls).toHaveLength(1);
   expect(create.mock.calls[0][0]).toBe(comment);
@@ -67,9 +59,7 @@ test("create throws an error on an invalid comment", () => {
     .mocked(global.Drive.Comments)
     .create.mockReturnValueOnce(comment);
 
-  const commentsCollection = new SafeCommentsCollection_();
-
-  expect(() => commentsCollection.create(comment, "FILE_ID")).toThrow("");
+  expect(() => SafeCommentsCollection_.create(comment, "FILE_ID")).toThrow("");
 
   expect(create.mock.calls).toHaveLength(1);
   expect(create.mock.calls[0][0]).toBe(comment);
@@ -121,9 +111,7 @@ test("list works", () => {
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  const commentsCollection = new SafeCommentsCollection_();
-
-  expect(commentsCollection.list("FILE_ID")).toStrictEqual(commentList);
+  expect(SafeCommentsCollection_.list("FILE_ID")).toStrictEqual(commentList);
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("FILE_ID");
@@ -175,15 +163,13 @@ test("list works with optional arguments", () => {
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  const commentsCollection = new SafeCommentsCollection_();
-
   const optionalArgs = {
     fields: "comments(id)",
     maxResults: 100,
     pageToken: "TOKEN",
   };
 
-  expect(commentsCollection.list("FILE_ID", optionalArgs)).toStrictEqual(
+  expect(SafeCommentsCollection_.list("FILE_ID", optionalArgs)).toStrictEqual(
     commentList,
   );
 
@@ -236,9 +222,7 @@ test("list throws an error on an invalid comment", () => {
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  const commentsCollection = new SafeCommentsCollection_();
-
-  expect(() => commentsCollection.list("FILE_ID")).toThrow("");
+  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow("");
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("FILE_ID");
@@ -255,9 +239,7 @@ test("list throws an error on an invalid comment list", () => {
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  const commentsCollection = new SafeCommentsCollection_();
-
-  expect(() => commentsCollection.list("FILE_ID")).toThrow("");
+  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow("");
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("FILE_ID");
@@ -300,9 +282,7 @@ test("list throws an error on missing replies", () => {
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  const commentsCollection = new SafeCommentsCollection_();
-
-  expect(() => commentsCollection.list("FILE_ID")).toThrow("");
+  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow("");
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("FILE_ID");
@@ -353,9 +333,7 @@ test("list throws an error on an invalid reply", () => {
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  const commentsCollection = new SafeCommentsCollection_();
-
-  expect(() => commentsCollection.list("FILE_ID")).toThrow("");
+  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow("");
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("FILE_ID");
