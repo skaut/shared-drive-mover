@@ -28,7 +28,7 @@
     "@smui/list": "^7.0.0",
     "@smui/top-app-bar": "^7.0.0",
     "@sveltejs/vite-plugin-svelte": "^3.1.2",
-    "@types/google-apps-script": "^1.0.91",
+    "@types/google-apps-script": "^1.0.92",
     "@types/google.script.client-side": "^0.1.5",
     "@types/node": "^22.10.2",
     "@vitest/coverage-v8": "^2.1.8",
