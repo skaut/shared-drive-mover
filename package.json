@@ -31,7 +31,7 @@
     "@types/google-apps-script": "^1.0.92",
     "@types/google.script.client-side": "^0.1.5",
     "@types/node": "^22.10.2",
-    "@vitest/coverage-v8": "^2.1.8",
+    "@vitest/coverage-v8": "^2.1.9",
     "@vitest/eslint-plugin": "^1.1.25",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^9.1.0",
@@ -57,7 +57,7 @@
     "typescript-eslint": "^8.19.1",
     "vite": "^5.4.14",
     "vite-plugin-singlefile": "^2.1.0",
-    "vitest": "^2.1.8"
+    "vitest": "^2.1.9"
   },
   "scripts": {
     "clean": "rimraf dist/*",
