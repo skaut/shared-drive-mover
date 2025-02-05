@@ -122,7 +122,9 @@ test("list throws an error on an invalid drive", () => {
     .mocked(global.Drive.Drives)
     .list.mockReturnValueOnce(driveList);
 
-  expect(() => SafeDrivesCollection_.list(null)).toThrow("");
+  expect(() => SafeDrivesCollection_.list(null)).toThrow(
+    "Drives.list: Drive list is not safe.",
+  );
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toStrictEqual({});
@@ -132,7 +134,9 @@ test("list throws an error on an invalid drive list", () => {
   global.Drive = mockedDrive();
   const list = vi.mocked(global.Drive.Drives).list.mockReturnValueOnce({});
 
-  expect(() => SafeDrivesCollection_.list(null)).toThrow("");
+  expect(() => SafeDrivesCollection_.list(null)).toThrow(
+    "Drives.list: Drive list is not safe.",
+  );
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toStrictEqual({});

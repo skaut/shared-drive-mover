@@ -59,7 +59,7 @@ export const SafeDrivesCollection_ = {
       }),
     });
     if (!driveListIsSafe_(ret, fields)) {
-      throw new Error("");
+      throw new Error("Drives.list: Drive list is not safe.");
     }
     return ret;
   },

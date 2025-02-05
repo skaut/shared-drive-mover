@@ -107,7 +107,7 @@ export const SafeFilesCollection_ = {
       }),
     });
     if (!fileIsSafe_(ret, fields)) {
-      throw new Error("");
+      throw new Error("Files.copy: File is not safe.");
     }
     return ret;
   },
@@ -128,7 +128,7 @@ export const SafeFilesCollection_ = {
       }),
     });
     if (!fileIsSafe_(ret, fields)) {
-      throw new Error("");
+      throw new Error("Files.create: File is not safe.");
     }
     return ret;
   },
@@ -145,7 +145,7 @@ export const SafeFilesCollection_ = {
       }),
     });
     if (typeof ret !== "string" && !fileIsSafe_(ret, fields)) {
-      throw new Error("");
+      throw new Error("Files.get: File is not safe.");
     }
     return ret as unknown as GetReturn<F, A>;
   },
@@ -167,7 +167,7 @@ export const SafeFilesCollection_ = {
       }),
     });
     if (!fileListIsSafe_(ret, fields)) {
-      throw new Error("");
+      throw new Error("Files.list: File list is not safe.");
     }
     return ret;
   },
@@ -195,7 +195,7 @@ export const SafeFilesCollection_ = {
       }),
     });
     if (!fileIsSafe_(ret, fields)) {
-      throw new Error("");
+      throw new Error("Files.update: File is not safe.");
     }
     return ret;
   },

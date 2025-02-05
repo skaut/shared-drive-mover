@@ -93,7 +93,9 @@ test("copy throws and error on invalid file", () => {
   global.Drive = mockedDrive();
   const copy = vi.mocked(global.Drive.Files).copy.mockReturnValueOnce(file);
 
-  expect(() => SafeFilesCollection_.copy(file, "TARGET_ID", null)).toThrow("");
+  expect(() => SafeFilesCollection_.copy(file, "TARGET_ID", null)).toThrow(
+    "Files.copy: File is not safe.",
+  );
 
   expect(copy.mock.calls).toHaveLength(1);
   expect(copy.mock.calls[0][0]).toBe(file);
@@ -174,7 +176,9 @@ test("get throws an error on invalid file", () => {
   global.Drive = mockedDrive();
   const get = vi.mocked(global.Drive.Files).get.mockReturnValueOnce(file);
 
-  expect(() => SafeFilesCollection_.get("FILE_ID", null)).toThrow("");
+  expect(() => SafeFilesCollection_.get("FILE_ID", null)).toThrow(
+    "Files.get: File is not safe.",
+  );
 
   expect(get.mock.calls).toHaveLength(1);
   expect(get.mock.calls[0][0]).toBe("FILE_ID");
@@ -268,7 +272,9 @@ test("create throws an error on invalid file", () => {
   global.Drive = mockedDrive();
   const create = vi.mocked(global.Drive.Files).create.mockReturnValueOnce(file);
 
-  expect(() => SafeFilesCollection_.create(file, null)).toThrow("");
+  expect(() => SafeFilesCollection_.create(file, null)).toThrow(
+    "Files.create: File is not safe.",
+  );
 
   expect(create.mock.calls).toHaveLength(1);
   expect(create.mock.calls[0][0]).toBe(file);
@@ -408,7 +414,9 @@ test("list throws an error on invalid file", () => {
   global.Drive = mockedDrive();
   const list = vi.mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
-  expect(() => SafeFilesCollection_.list(null)).toThrow("");
+  expect(() => SafeFilesCollection_.list(null)).toThrow(
+    "Files.list: File list is not safe.",
+  );
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toStrictEqual({});
@@ -420,7 +428,9 @@ test("list throws an error on invalid file list", () => {
   global.Drive = mockedDrive();
   const list = vi.mocked(global.Drive.Files).list.mockReturnValueOnce(fileList);
 
-  expect(() => SafeFilesCollection_.list(null)).toThrow("");
+  expect(() => SafeFilesCollection_.list(null)).toThrow(
+    "Files.list: File list is not safe.",
+  );
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toStrictEqual({});
@@ -526,7 +536,9 @@ test("update throws an error on invalid file", () => {
   global.Drive = mockedDrive();
   const update = vi.mocked(global.Drive.Files).update.mockReturnValueOnce(file);
 
-  expect(() => SafeFilesCollection_.update(file, "FILE_ID", null)).toThrow("");
+  expect(() => SafeFilesCollection_.update(file, "FILE_ID", null)).toThrow(
+    "Files.update: File is not safe.",
+  );
 
   expect(update.mock.calls).toHaveLength(1);
   expect(update.mock.calls[0][0]).toBe(file);

@@ -59,7 +59,9 @@ test("create throws an error on an invalid comment", () => {
     .mocked(global.Drive.Comments)
     .create.mockReturnValueOnce(comment);
 
-  expect(() => SafeCommentsCollection_.create(comment, "FILE_ID")).toThrow("");
+  expect(() => SafeCommentsCollection_.create(comment, "FILE_ID")).toThrow(
+    "Comments.create: Comment is not safe.",
+  );
 
   expect(create.mock.calls).toHaveLength(1);
   expect(create.mock.calls[0][0]).toBe(comment);
@@ -222,7 +224,9 @@ test("list throws an error on an invalid comment", () => {
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow("");
+  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow(
+    "Comments.list: Comment list is not safe.",
+  );
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("FILE_ID");
@@ -239,7 +243,9 @@ test("list throws an error on an invalid comment list", () => {
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow("");
+  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow(
+    "Comments.list: Comment list is not safe.",
+  );
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("FILE_ID");
@@ -282,7 +288,9 @@ test("list throws an error on missing replies", () => {
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow("");
+  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow(
+    "Comments.list: Comment list is not safe.",
+  );
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("FILE_ID");
@@ -333,7 +341,9 @@ test("list throws an error on an invalid reply", () => {
     .mocked(global.Drive.Comments)
     .list.mockReturnValueOnce(commentList);
 
-  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow("");
+  expect(() => SafeCommentsCollection_.list("FILE_ID")).toThrow(
+    "Comments.list: Comment list is not safe.",
+  );
 
   expect(list.mock.calls).toHaveLength(1);
   expect(list.mock.calls[0][0]).toBe("FILE_ID");

@@ -63,7 +63,7 @@ export const SafeCommentsCollection_ = {
   ): SafeComment => {
     const ret = Drive.Comments.create(resource, fileId);
     if (!commentIsSafe_(ret)) {
-      throw new Error("");
+      throw new Error("Comments.create: Comment is not safe.");
     }
     return ret;
   },
@@ -78,7 +78,7 @@ export const SafeCommentsCollection_ = {
   ): SafeCommentList => {
     const ret = Drive.Comments.list(fileId, optionalArgs);
     if (!commentListIsSafe_(ret)) {
-      throw new Error("");
+      throw new Error("Comments.list: Comment list is not safe.");
     }
     return ret;
   },
