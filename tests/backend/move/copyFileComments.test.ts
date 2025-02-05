@@ -51,27 +51,26 @@ test("copyFileComments works correctly", () => {
   );
   expect(
     vi.mocked(driveServiceMock.Comments.list).mock.calls[0][1],
+  ).toStrictEqual({
+    anchor: true,
+    author: {
+      displayName: true,
+      me: true,
+    },
+    content: true,
+    quotedFileContent: true,
+    replies: true,
+    resolved: true,
+  });
+  expect(
+    vi.mocked(driveServiceMock.Comments.list).mock.calls[0][2],
   ).toBeDefined();
   expect(
     (
       vi.mocked(driveServiceMock.Comments.list).mock
-        .calls[0][1] as ListCommentsOptions
+        .calls[0][2] as ListCommentsOptions
     ).pageToken,
   ).toBeUndefined();
-  expect(
-    (
-      vi.mocked(driveServiceMock.Comments.list).mock
-        .calls[0][1] as ListCommentsOptions
-    ).fields,
-  ).toBeDefined();
-  expect(
-    (
-      vi.mocked(driveServiceMock.Comments.list).mock
-        .calls[0][1] as ListCommentsOptions
-    ).fields
-      ?.split(",")
-      .map((s) => s.trim()),
-  ).toContain("nextPageToken");
   expect(vi.mocked(driveServiceMock.Comments.create).mock.calls).toHaveLength(
     2,
   );
@@ -84,6 +83,9 @@ test("copyFileComments works correctly", () => {
   expect(vi.mocked(driveServiceMock.Comments.create).mock.calls[0][1]).toBe(
     "DEST_FILE_ID",
   );
+  expect(vi.mocked(driveServiceMock.Comments.create).mock.calls[0][2].id).toBe(
+    true,
+  );
   expect(
     vi.mocked(driveServiceMock.Comments.create).mock.calls[1][0].content,
   ).toBe("COM2_CONTENT");
@@ -92,6 +94,9 @@ test("copyFileComments works correctly", () => {
   ).toStrictEqual([]);
   expect(vi.mocked(driveServiceMock.Comments.create).mock.calls[1][1]).toBe(
     "DEST_FILE_ID",
+  );
+  expect(vi.mocked(driveServiceMock.Comments.create).mock.calls[1][2].id).toBe(
+    true,
   );
 });
 
@@ -140,27 +145,26 @@ test("copyFileComments works correctly with replies", () => {
   );
   expect(
     vi.mocked(driveServiceMock.Comments.list).mock.calls[0][1],
+  ).toStrictEqual({
+    anchor: true,
+    author: {
+      displayName: true,
+      me: true,
+    },
+    content: true,
+    quotedFileContent: true,
+    replies: true,
+    resolved: true,
+  });
+  expect(
+    vi.mocked(driveServiceMock.Comments.list).mock.calls[0][2],
   ).toBeDefined();
   expect(
     (
       vi.mocked(driveServiceMock.Comments.list).mock
-        .calls[0][1] as ListCommentsOptions
+        .calls[0][2] as ListCommentsOptions
     ).pageToken,
   ).toBeUndefined();
-  expect(
-    (
-      vi.mocked(driveServiceMock.Comments.list).mock
-        .calls[0][1] as ListCommentsOptions
-    ).fields,
-  ).toBeDefined();
-  expect(
-    (
-      vi.mocked(driveServiceMock.Comments.list).mock
-        .calls[0][1] as ListCommentsOptions
-    ).fields
-      ?.split(",")
-      .map((s) => s.trim()),
-  ).toContain("nextPageToken");
   expect(vi.mocked(driveServiceMock.Comments.create).mock.calls).toHaveLength(
     1,
   );
@@ -173,6 +177,9 @@ test("copyFileComments works correctly with replies", () => {
   expect(vi.mocked(driveServiceMock.Comments.create).mock.calls[0][1]).toBe(
     "DEST_FILE_ID",
   );
+  expect(vi.mocked(driveServiceMock.Comments.create).mock.calls[0][2].id).toBe(
+    true,
+  );
   expect(vi.mocked(driveServiceMock.Replies.create).mock.calls).toHaveLength(2);
   expect(
     vi.mocked(driveServiceMock.Replies.create).mock.calls[0][0].content,
@@ -184,6 +191,9 @@ test("copyFileComments works correctly with replies", () => {
     "DEST_COM_ID",
   );
   expect(
+    vi.mocked(driveServiceMock.Replies.create).mock.calls[0][3].fields,
+  ).toContain("id");
+  expect(
     vi.mocked(driveServiceMock.Replies.create).mock.calls[1][0].content,
   ).toBe("REPLY2_CONTENT");
   expect(vi.mocked(driveServiceMock.Replies.create).mock.calls[1][1]).toBe(
@@ -192,4 +202,7 @@ test("copyFileComments works correctly with replies", () => {
   expect(vi.mocked(driveServiceMock.Replies.create).mock.calls[1][2]).toBe(
     "DEST_COM_ID",
   );
+  expect(
+    vi.mocked(driveServiceMock.Replies.create).mock.calls[1][3].fields,
+  ).toContain("id");
 });

@@ -1,3 +1,4 @@
+import type { DeepPick } from "../utils/DeepPick";
 import type {
   SafeComment,
   SafeCommentList,
@@ -5,6 +6,18 @@ import type {
 } from "../utils/SafeDriveService";
 
 import { paginationHelper_ } from "../utils/paginationHelper";
+
+interface CommentKeys {
+  anchor: true;
+  author: {
+    displayName: true;
+    me: true;
+  };
+  content: true;
+  quotedFileContent: true;
+  replies: true;
+  resolved: true;
+}
 
 export function copyFileComments_(
   sourceID: string,
@@ -31,15 +44,30 @@ export function copyFileComments_(
 function listFileComments_(
   fileID: string,
   driveService: SafeDriveService_,
-): Array<SafeComment> {
-  return paginationHelper_<SafeCommentList, SafeComment>(
+): Array<DeepPick<SafeComment, CommentKeys>> {
+  return paginationHelper_<
+    SafeCommentList<CommentKeys>,
+    DeepPick<SafeComment, CommentKeys>
+  >(
     (pageToken) =>
-      driveService.Comments.list(fileID, {
-        fields:
-          "nextPageToken, comments(author(me, displayName), content, resolved, quotedFileContent, anchor, replies(author(me, displayName), content, action))",
-        maxResults: 100,
-        pageToken,
-      }),
+      driveService.Comments.list(
+        fileID,
+        {
+          anchor: true,
+          author: {
+            displayName: true,
+            me: true,
+          },
+          content: true,
+          quotedFileContent: true,
+          replies: true,
+          resolved: true,
+        },
+        {
+          maxResults: 100,
+          pageToken,
+        },
+      ),
     (response) => response.comments,
   );
 }

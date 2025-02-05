@@ -14,8 +14,10 @@ import type {
 import { mockedRepliesCollection } from "./gas-stubs";
 
 export function mockedSafeDriveService<
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters -- No other way to pass F to vi.fn()
-  F extends DeepKeyof<SafeFile>,
+  /* eslint-disable @typescript-eslint/no-unnecessary-type-parameters -- No other way to pass F to vi.fn() */
+  CommentKeyof extends DeepKeyof<SafeComment>,
+  FileKeyof extends DeepKeyof<SafeFile>,
+  /* eslint-enable */
 >(): MockedObject<SafeDriveService_> {
   // eslint-disable-next-line vitest/prefer-vi-mocked -- Acceptable as return value
   return {
@@ -25,22 +27,27 @@ export function mockedSafeDriveService<
           (
             resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment,
             fileId: string,
-          ) => SafeComment
+            fields: CommentKeyof,
+          ) => DeepPick<SafeComment, CommentKeyof>
         >(),
       list: vi.fn<
-        (fileId: string, optionalArgs: Record<never, never>) => SafeCommentList
+        (
+          fileId: string,
+          fields: CommentKeyof,
+          optionalArgs: { maxResults?: number; pageToken?: string | undefined },
+        ) => SafeCommentList<CommentKeyof>
       >(),
     },
     Drives: {
       list: vi.fn<
         (
-          fields: F | null,
+          fields: FileKeyof | null,
           optionalArgs?: {
             maxResults?: number;
             orderBy?: string;
             pageToken?: string;
           },
-        ) => SafeDriveList<F>
+        ) => SafeDriveList<FileKeyof>
       >(),
     },
     Files: {
@@ -48,31 +55,31 @@ export function mockedSafeDriveService<
         (
           resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
           fileId: string,
-          fields: F | null,
+          fields: FileKeyof | null,
           optionalArgs?: { supportsAllDrives?: boolean },
-        ) => DeepPick<SafeFile, F>
+        ) => DeepPick<SafeFile, FileKeyof>
       >(),
       create: vi.fn<
         (
           resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
-          fields: F | null,
+          fields: FileKeyof | null,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API
           mediaData?: any,
           optionalArgs?: {
             supportsAllDrives?: boolean;
           },
-        ) => DeepPick<SafeFile, F>
+        ) => DeepPick<SafeFile, FileKeyof>
       >(),
       get: vi.fn<
         (
           fileId: string,
-          fields: F | null,
+          fields: FileKeyof | null,
           optionalArgs?: { alt?: string },
-        ) => DeepPick<SafeFile, F>
+        ) => DeepPick<SafeFile, FileKeyof>
       >(),
       list: vi.fn<
         (
-          fields: F | null,
+          fields: FileKeyof | null,
           optionalArgs?: {
             includeItemsFromAllDrives?: boolean;
             maxResults?: number;
@@ -80,14 +87,14 @@ export function mockedSafeDriveService<
             q?: string;
             supportsAllDrives?: boolean;
           },
-        ) => SafeFileList<F>
+        ) => SafeFileList<FileKeyof>
       >(),
       remove: vi.fn<(fileId: string) => void>(),
       update: vi.fn<
         (
           resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
           fileId: string,
-          fields: F | null,
+          fields: FileKeyof | null,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required by the Drive API
           mediaData?: any,
           optionalArgs?: {
@@ -95,7 +102,7 @@ export function mockedSafeDriveService<
             removeParents?: string;
             supportsAllDrives?: boolean;
           },
-        ) => DeepPick<SafeFile, F>
+        ) => DeepPick<SafeFile, FileKeyof>
       >(),
     },
     Replies: mockedRepliesCollection(),
