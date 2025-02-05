@@ -77,7 +77,9 @@ export const SafeCommentsCollection_ = {
     fileId: string,
     fields: F,
   ): DeepPick<SafeComment, F> => {
-    const ret = Drive.Comments.create(resource, fileId);
+    const ret = Drive.Comments.create(resource, fileId, {
+      fields: stringifyFields_(fields),
+    });
     if (!commentIsSafe_(ret, fields)) {
       throw new Error("Comments.create: Comment is not safe.");
     }

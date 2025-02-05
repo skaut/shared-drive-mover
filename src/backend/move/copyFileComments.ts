@@ -31,12 +31,16 @@ export function copyFileComments_(
     }
     const replies = comment.replies;
     comment.replies = [];
-    const commentId = driveService.Comments.create(comment, destinationID).id;
+    const commentId = driveService.Comments.create(comment, destinationID, {
+      id: true,
+    }).id;
     for (const reply of replies) {
       if (!reply.author.me) {
         reply.content = `*${reply.author.displayName}:*\n${reply.content}`;
       }
-      driveService.Replies.create(reply, destinationID, commentId);
+      driveService.Replies.create(reply, destinationID, commentId, {
+        fields: "id",
+      });
     }
   }
 }
