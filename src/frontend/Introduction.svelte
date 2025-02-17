@@ -1,28 +1,30 @@
 <script lang="ts" strictEvents>
   import Checkbox from "@smui/checkbox";
   import FormField from "@smui/form-field";
-  import { _ } from "svelte-i18n";
 
+  import * as m from "./paraglide/messages";
   import StepHeader from "./StepHeader.svelte";
 
   export let copyComments: boolean;
   export let mergeFolders: boolean;
 </script>
 
-<StepHeader step="introduction" />
+<StepHeader>
+  {m.introduction_header()}
+</StepHeader>
 <p>
-  {$_("steps.introduction.welcome")}
+  {m.introduction_welcome()}
 </p>
 <h5>
-  {$_("steps.introduction.configuration.header")}
+  {m.introduction_configuration_header()}
 </h5>
 <FormField>
   <Checkbox bind:checked={copyComments} />
   <span slot="label">
     <div class="form-heading">
-      {$_("steps.introduction.configuration.copyComments.title")}
+      {m.introduction_configuration_copyComments_title()}
     </div>
-    {$_("steps.introduction.configuration.copyComments.description")}
+    {m.introduction_configuration_copyComments_description()}
   </span>
 </FormField>
 <br />
@@ -31,9 +33,9 @@
   <Checkbox bind:checked={mergeFolders} />
   <span slot="label">
     <div class="form-heading">
-      {$_("steps.introduction.configuration.mergeFolders.title")}
+      {m.introduction_configuration_mergeFolders_title()}
     </div>
-    {$_("steps.introduction.configuration.mergeFolders.description")}
+    {m.introduction_configuration_mergeFolders_description()}
   </span>
 </FormField>
 <br />

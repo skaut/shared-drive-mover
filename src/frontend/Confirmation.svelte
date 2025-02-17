@@ -1,11 +1,11 @@
 <script lang="ts" strictEvents>
   import Button, { Icon, Label } from "@smui/button";
   import { createEventDispatcher } from "svelte";
-  import { _ } from "svelte-i18n";
 
   import type { NamedRecord } from "../interfaces/NamedRecord";
 
   import BackButton from "./BackButton.svelte";
+  import * as m from "./paraglide/messages";
   import StepHeader from "./StepHeader.svelte";
 
   export let sourcePath: Array<NamedRecord> = [];
@@ -23,14 +23,17 @@
     (destination?.name ?? "");
 </script>
 
-<StepHeader step="confirmation" />
+<StepHeader>
+  {m.confirmation_header()}
+</StepHeader>
 <p>
-  {$_("steps.confirmation.introduction", {
-    values: { destination: destinationDisplay, source: sourceDisplay },
+  {m.confirmation_introduction({
+    destination: destinationDisplay,
+    source: sourceDisplay,
   })}
 </p>
 <BackButton on:previous={() => dispatch("previous")} />
 <Button variant="raised" on:click={() => dispatch("next")}>
-  <Label>{$_("steps.confirmation.buttonLabel")}</Label>
+  <Label>{m.confirmation_buttonLabel()}</Label>
   <Icon class="material-icons">cloud_done</Icon>
 </Button>

@@ -2,14 +2,18 @@
   import LinearProgress from "@smui/linear-progress";
   import List, { Item, Separator, Subheader, Text } from "@smui/list";
   import { createEventDispatcher } from "svelte";
-  import { _ } from "svelte-i18n";
 
   import type { ListResponse } from "../interfaces/ListResponse";
   import type { NamedRecord } from "../interfaces/NamedRecord";
 
+  import * as m from "./paraglide/messages";
   import StepHeader from "./StepHeader.svelte";
 
-  export let step: string;
+  interface $$Slots {
+    header: Record<string, never>;
+    introduction: Record<string, never>;
+  }
+
   export let path: Array<NamedRecord> = [];
   export let selected: NamedRecord | null = null;
 
@@ -21,17 +25,17 @@
     switch (type) {
       case "DriveAPIError":
         dispatch("error", {
-          message: $_("errorDialog.DriveAPIError"),
+          message: m.errorDialog_DriveAPIError(),
         });
         break;
       case "invalidParameter":
         dispatch("error", {
-          message: $_("errorDialog.InvalidParameterError"),
+          message: m.errorDialog_InvalidParameterError(),
         });
         break;
       default:
         dispatch("error", {
-          message: $_("errorDialog.unknownError"),
+          message: m.errorDialog_unknownError(),
         });
         break;
     }
@@ -42,12 +46,12 @@
       handleListError(response.type);
       return;
     }
-    items = [{ id: "root", name: $_("drive.myDrive") }, ...response.response];
+    items = [{ id: "root", name: m.drive_myDrive() }, ...response.response];
   }
 
   function handleError(response: Error): void {
     dispatch("error", {
-      message: $_("errorDialog.unknownErrorWithMessage") + response.message,
+      message: m.errorDialog_unknownErrorWithMessage() + response.message,
     });
   }
 
@@ -102,16 +106,18 @@
   getItems();
 </script>
 
-<StepHeader {step} />
+<StepHeader>
+  <slot name="header" />
+</StepHeader>
 <p>
-  {$_(`steps.${step}.introduction`)}
+  <slot name="introduction" />
 </p>
 <div>
   <List singleSelection>
     <Separator />
     <Subheader>
       <button class="breadcrumb" type="button" on:click={rootNavigation}>
-        {$_("drive.driveList")}
+        {m.drive_driveList()}
       </button>
       {#each path as segment (segment.id)}
         &nbsp; &gt; &nbsp;
