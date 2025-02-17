@@ -7,7 +7,6 @@
     Section,
     Title as TopAppBarTitle,
   } from "@smui/top-app-bar";
-  import { addMessages, init } from "svelte-i18n";
   import "svelte-material-ui/bare.css";
 
   import type { MoveError } from "../interfaces/MoveError";
@@ -20,18 +19,10 @@
   import Done from "./Done.svelte";
   import FolderSelection from "./FolderSelection.svelte";
   import Introduction from "./Introduction.svelte";
-  import cs from "./locales/cs.json";
-  import en from "./locales/en.json";
   import Moving from "./Moving.svelte";
   import * as m from "./paraglide/messages";
   import { baseLocale, defineGetLocale, isLocale } from "./paraglide/runtime";
 
-  addMessages("en", en);
-  addMessages("cs", cs);
-  void init({
-    fallbackLocale: "en",
-    initialLocale: "<?= Session.getActiveUserLocale() ?>",
-  });
   defineGetLocale(() => {
     const languageTag = "<?= Session.getActiveUserLocale() ?>"
       .replace(/^["']/u, "")
