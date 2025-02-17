@@ -24,7 +24,6 @@ export default tseslint.config(
       parserOptions: {
         extraFileExtensions: [".svelte"],
         projectService: {
-          allowDefaultProject: ["*.js"],
           defaultProject: "tsconfig.json",
         },
       },

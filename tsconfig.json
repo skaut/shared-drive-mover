@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "module": "es6",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "verbatimModuleSyntax": true,
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,

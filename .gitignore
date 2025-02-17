@@ -174,3 +174,6 @@ tags
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# Paraglide outDir
+src/frontend/paraglide/

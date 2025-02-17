@@ -23,12 +23,17 @@
   import cs from "./locales/cs.json";
   import en from "./locales/en.json";
   import Moving from "./Moving.svelte";
+  import { isLocale, defineGetLocale, baseLocale } from "./paraglide/runtime";
 
   addMessages("en", en);
   addMessages("cs", cs);
   void init({
     fallbackLocale: "en",
     initialLocale: "<?= Session.getActiveUserLocale() ?>",
+  });
+  defineGetLocale(() => {
+    const languageTag = "<?= Session.getActiveUserLocale() ?>".replace(/^["']/, "").replace(/["']$/, "");
+    return isLocale(languageTag) ? languageTag : baseLocale;
   });
 
   let currentTab:

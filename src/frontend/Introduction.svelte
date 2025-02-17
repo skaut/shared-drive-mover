@@ -1,6 +1,7 @@
 <script lang="ts" strictEvents>
   import Checkbox from "@smui/checkbox";
   import FormField from "@smui/form-field";
+  import * as m from "./paraglide/messages.js";
   import { _ } from "svelte-i18n";
 
   import StepHeader from "./StepHeader.svelte";
@@ -11,7 +12,7 @@
 
 <StepHeader step="introduction" />
 <p>
-  {$_("steps.introduction.welcome")}
+  {m.introduction_welcome()}
 </p>
 <h5>
   {$_("steps.introduction.configuration.header")}
