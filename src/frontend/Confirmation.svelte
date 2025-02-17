@@ -1,7 +1,6 @@
 <script lang="ts" strictEvents>
   import Button, { Icon, Label } from "@smui/button";
   import { createEventDispatcher } from "svelte";
-  import { _ } from "svelte-i18n";
 
   import type { NamedRecord } from "../interfaces/NamedRecord";
 
@@ -28,8 +27,9 @@
   {m.confirmation_header()}
 </StepHeader>
 <p>
-  {$_("steps.confirmation.introduction", {
-    values: { destination: destinationDisplay, source: sourceDisplay },
+  {m.confirmation_introduction({
+    destination: destinationDisplay,
+    source: sourceDisplay,
   })}
 </p>
 <BackButton on:previous={() => dispatch("previous")} />

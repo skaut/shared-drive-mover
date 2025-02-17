@@ -1,6 +1,5 @@
 <script lang="ts" strictEvents>
   import DataTable, { Body, Cell, Head, Row } from "@smui/data-table";
-  import { _ } from "svelte-i18n";
 
   import type { MoveError } from "../interfaces/MoveError";
 
@@ -19,10 +18,8 @@
 {#if errors !== null && errors.length > 0}
   <p class="mdc-typography--subtitle2">
     <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-    {@html $_("steps.done.errors.introduction", {
-      values: {
-        link: `<a href="https://github.com/skaut/shared-drive-mover/issues" target="_blank">${$_("steps.done.errors.github")}</a>`,
-      },
+    {@html m.done_errors_introduction({
+      link: `<a href="https://github.com/skaut/shared-drive-mover/issues" target="_blank">${m.done_errors_github()}</a>`,
     })}
   </p>
   <DataTable>
