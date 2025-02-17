@@ -2,7 +2,8 @@
   import Button, { Label } from "@smui/button";
   import Dialog, { Actions, Content, Title } from "@smui/dialog";
   import { createEventDispatcher } from "svelte";
-  import { _ } from "svelte-i18n";
+
+  import * as m from "./paraglide/messages";
 
   let nonEmptyDialogOpen: boolean;
 
@@ -17,7 +18,7 @@
 </script>
 
 <p>
-  {$_("steps.moving.introduction")}
+  {m.moving_introduction()}
 </p>
 <Dialog
   aria-describedby="content"
@@ -25,20 +26,20 @@
   bind:open={nonEmptyDialogOpen}
 >
   <Title id="title">
-    {$_("steps.moving.nonEmptyDialog.title")}
+    {m.moving_nonEmptyDialog_title()}
   </Title>
   <Content id="content">
-    {$_("steps.moving.nonEmptyDialog.content")}
+    {m.moving_nonEmptyDialog_content()}
   </Content>
   <Actions>
     <Button on:click={() => dispatch("nonEmptyDialogCancel")}>
       <Label>
-        {$_("steps.moving.nonEmptyDialog.cancel")}
+        {m.moving_nonEmptyDialog_cancel()}
       </Label>
     </Button>
     <Button on:click={() => dispatch("nonEmptyDialogConfirm")}>
       <Label>
-        {$_("steps.moving.nonEmptyDialog.confirm")}
+        {m.moving_nonEmptyDialog_confirm()}
       </Label>
     </Button>
   </Actions>

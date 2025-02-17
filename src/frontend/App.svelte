@@ -7,7 +7,7 @@
     Section,
     Title as TopAppBarTitle,
   } from "@smui/top-app-bar";
-  import { _, addMessages, init } from "svelte-i18n";
+  import { addMessages, init } from "svelte-i18n";
   import "svelte-material-ui/bare.css";
 
   import type { MoveError } from "../interfaces/MoveError";
@@ -23,7 +23,8 @@
   import cs from "./locales/cs.json";
   import en from "./locales/en.json";
   import Moving from "./Moving.svelte";
-  import { isLocale, defineGetLocale, baseLocale } from "./paraglide/runtime";
+  import * as m from "./paraglide/messages";
+  import { baseLocale, defineGetLocale, isLocale } from "./paraglide/runtime";
 
   addMessages("en", en);
   addMessages("cs", cs);
@@ -32,7 +33,9 @@
     initialLocale: "<?= Session.getActiveUserLocale() ?>",
   });
   defineGetLocale(() => {
-    const languageTag = "<?= Session.getActiveUserLocale() ?>".replace(/^["']/, "").replace(/["']$/, "");
+    const languageTag = "<?= Session.getActiveUserLocale() ?>"
+      .replace(/^["']/u, "")
+      .replace(/["']$/u, "");
     return isLocale(languageTag) ? languageTag : baseLocale;
   });
 
@@ -78,22 +81,22 @@
       switch (response.type) {
         case "DriveAPIError":
           currentTab = "confirmation";
-          showErrorDialog($_("errorDialog.DriveAPIError"));
+          showErrorDialog(m.errorDialog_DriveAPIError());
           break;
         case "invalidParameter":
           currentTab = "confirmation";
-          showErrorDialog($_("errorDialog.InvalidParameterError"));
+          showErrorDialog(m.errorDialog_InvalidParameterError());
           break;
         case "notEmpty":
           showNonEmptyDialog();
           break;
         case "sourceEqualsDestination":
           currentTab = "confirmation";
-          showErrorDialog($_("errorDialog.sourceEqualsDestination"));
+          showErrorDialog(m.errorDialog_sourceEqualsDestination());
           break;
         default:
           currentTab = "confirmation";
-          showErrorDialog($_("errorDialog.unknownError"));
+          showErrorDialog(m.errorDialog_unknownError());
           break;
       }
       return;
@@ -109,9 +112,7 @@
     }
     moving = false;
     currentTab = "confirmation";
-    showErrorDialog(
-      $_("errorDialog.unknownErrorWithMessage") + response.message,
-    );
+    showErrorDialog(m.errorDialog_unknownErrorWithMessage() + response.message);
   }
 
   function move(forceNonEmpty = false): void {
@@ -170,11 +171,17 @@
     />
   {:else if currentTab === "source-selection"}
     <FolderSelection
-      step="source-selection"
       on:error={showErrorDialogWithEvent}
       bind:path={sourcePath}
       bind:selected={source}
-    />
+    >
+      <div slot="header">
+        {m.sourceSelection_header()}
+      </div>
+      <div slot="introduction">
+        {m.sourceSelection_introduction()}
+      </div>
+    </FolderSelection>
     <BackButton on:previous={() => (currentTab = "introduction")} />
     <ContinueButton
       disabled={source === null}
@@ -182,11 +189,17 @@
     />
   {:else if currentTab === "destination-selection"}
     <FolderSelection
-      step="destination-selection"
       on:error={showErrorDialogWithEvent}
       bind:path={destinationPath}
       bind:selected={destination}
-    />
+    >
+      <div slot="header">
+        {m.destinationSelection_header()}
+      </div>
+      <div slot="introduction">
+        {m.destinationSelection_introduction()}
+      </div>
+    </FolderSelection>
     <BackButton on:previous={() => (currentTab = "source-selection")} />
     <ContinueButton
       disabled={destination === null}
@@ -220,7 +233,7 @@
     bind:open={errorDialogOpen}
   >
     <DialogTitle id="errorDialogTitle">
-      {$_("errorDialog.title")}
+      {m.errorDialog_title()}
     </DialogTitle>
     <Content id="errorDialogContent">
       {errorMessage}
@@ -228,7 +241,7 @@
     <Actions>
       <Button>
         <Label>
-          {$_("errorDialog.ok")}
+          {m.errorDialog_ok()}
         </Label>
       </Button>
     </Actions>

@@ -1,11 +1,11 @@
 <script lang="ts" strictEvents>
-  import { _ } from "svelte-i18n";
-
-  export let step: string;
+  interface $$Slots {
+    default: Record<string, never>;
+  }
 </script>
 
 <h2>
-  {$_(`steps.${step}.header`)}
+  <slot />
 </h2>
 
 <style lang="scss">
