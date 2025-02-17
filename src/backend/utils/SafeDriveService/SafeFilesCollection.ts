@@ -5,6 +5,7 @@ import { stringifyFields_ } from "./stringifyFields";
 
 export interface SafeFile {
   capabilities: {
+    canDelete: boolean;
     canMoveItemOutOfDrive: boolean;
   };
   id: string;
@@ -12,12 +13,9 @@ export interface SafeFile {
     aperture: number;
   };
   mimeType: string;
+  name: string;
   shortcutDetails?: {
     targetId: string;
-  };
-  title: string;
-  userPermission: {
-    role: "fileOrganizer" | "organizer" | "owner" | "reader" | "writer";
   };
 }
 
@@ -25,6 +23,7 @@ const safeFileOptionalKeys = ["imageMediaMetadata", "shortcutDetails"];
 
 const safeFileKeys: DeepKeyof<SafeFile> = {
   capabilities: {
+    canDelete: true,
     canMoveItemOutOfDrive: true,
   },
   id: true,
@@ -32,17 +31,14 @@ const safeFileKeys: DeepKeyof<SafeFile> = {
     aperture: true,
   },
   mimeType: true,
+  name: true,
   shortcutDetails: {
     targetId: true,
-  },
-  title: true,
-  userPermission: {
-    role: true,
   },
 };
 
 export interface SafeFileList<F extends DeepKeyof<SafeFile>> {
-  items: Array<DeepPick<SafeFile, F>>;
+  files: Array<DeepPick<SafeFile, F>>;
   nextPageToken?: string | undefined;
 }
 interface GetArg {
@@ -55,123 +51,106 @@ type GetReturn<F extends DeepKeyof<SafeFile>, A extends GetArg> = A extends {
   ? string
   : DeepPick<SafeFile, F>;
 
-export class SafeFilesCollection_ {
-  private readonly unsafeFiles: GoogleAppsScript.Drive.Collection.FilesCollection;
-
-  public constructor() {
-    if (Drive.Files === undefined) {
-      throw new Error();
-    }
-    this.unsafeFiles = Drive.Files;
+function fileIsSafe_<F extends DeepKeyof<SafeFile>>(
+  file: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
+  keys: F | null,
+): file is typeof keys extends null ? SafeFile : DeepPick<SafeFile, F> {
+  if (keys === null) {
+    return fileIsSafe_(file, safeFileKeys);
   }
-
-  private static fileIsSafe<F extends DeepKeyof<SafeFile>>(
-    file: GoogleAppsScript.Drive.Schema.File,
-    keys: F | null,
-  ): file is typeof keys extends null ? SafeFile : DeepPick<SafeFile, F> {
-    if (keys === null) {
-      return SafeFilesCollection_.fileIsSafe(file, safeFileKeys);
+  for (const key in keys) {
+    if (
+      !Object.prototype.hasOwnProperty.call(keys, key) ||
+      safeFileOptionalKeys.indexOf(key) > -1
+    ) {
+      continue;
     }
-    for (const key in keys) {
-      if (
-        !Object.prototype.hasOwnProperty.call(keys, key) ||
-        safeFileOptionalKeys.indexOf(key) > -1
-      ) {
-        continue;
-      }
-      if (file[key as keyof DeepKeyof<SafeFile>] === undefined) {
-        return false;
-      }
-      if (typeof keys[key] === "object") {
-        for (const innerKey in keys[key]) {
-          if (
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any -- On purpose, we want to support arbitrary objects
-            (file[key as keyof DeepKeyof<SafeFile>] as Record<string, any>)[
-              innerKey
-            ] === undefined
-          ) {
-            return false;
-          }
+    if (file[key as keyof DeepKeyof<SafeFile>] === undefined) {
+      return false;
+    }
+    if (typeof keys[key] === "object") {
+      for (const innerKey in keys[key]) {
+        if (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- On purpose, we want to support arbitrary objects
+          (file[key as keyof DeepKeyof<SafeFile>] as Record<string, any>)[
+            innerKey
+          ] === undefined
+        ) {
+          return false;
         }
       }
     }
-    return true;
   }
+  return true;
+}
 
-  private static fileListIsSafe<F extends DeepKeyof<SafeFile>>(
-    fileList: GoogleAppsScript.Drive.Schema.FileList,
-    keys: F | null,
-  ): fileList is SafeFileList<F> {
-    if (fileList.items === undefined) {
-      return false;
-    }
-    return fileList.items.every((file) =>
-      SafeFilesCollection_.fileIsSafe(file, keys),
-    );
-  }
+function fileListIsSafe_<F extends DeepKeyof<SafeFile>>(
+  fileList: GoogleAppsScript.Drive_v3.Drive.V3.Schema.FileList,
+  keys: F | null,
+): fileList is SafeFileList<F> {
+  return fileList.files?.every((file) => fileIsSafe_(file, keys)) === true;
+}
 
-  public copy<F extends DeepKeyof<SafeFile>>(
-    resource: GoogleAppsScript.Drive.Schema.File,
+export const SafeFilesCollection_ = {
+  copy: <F extends DeepKeyof<SafeFile>>(
+    resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
     fileId: string,
     fields: F | null,
     optionalArgs: {
       supportsAllDrives?: boolean;
     } = {},
-  ): DeepPick<SafeFile, F> {
-    const ret = this.unsafeFiles.copy(resource, fileId, {
+  ): DeepPick<SafeFile, F> => {
+    const ret = Drive.Files.copy(resource, fileId, {
       ...optionalArgs,
       ...(fields !== null && {
         fields: stringifyFields_(fields),
       }),
     });
-    if (!SafeFilesCollection_.fileIsSafe(ret, fields)) {
-      throw new Error("");
+    if (!fileIsSafe_(ret, fields)) {
+      throw new Error("Files.copy: File is not safe.");
     }
     return ret;
-  }
+  },
 
-  public get<F extends DeepKeyof<SafeFile>, A extends GetArg>(
+  create: <F extends DeepKeyof<SafeFile>>(
+    resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
+    fields: F | null,
+    mediaData?: GoogleAppsScript.Base.Blob,
+    optionalArgs: {
+      supportsAllDrives?: boolean;
+    } = {},
+  ): DeepPick<SafeFile, F> => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Due to strange optional arguments on upstream types
+    const ret = Drive.Files.create(resource, mediaData!, {
+      ...optionalArgs,
+      ...(fields !== null && {
+        fields: stringifyFields_(fields),
+      }),
+    });
+    if (!fileIsSafe_(ret, fields)) {
+      throw new Error("Files.create: File is not safe.");
+    }
+    return ret;
+  },
+
+  get: <F extends DeepKeyof<SafeFile>, A extends GetArg>(
     fileId: string,
     fields: F | null,
     optionalArgs: A = {} as A,
-  ): GetReturn<F, A> {
-    const ret = this.unsafeFiles.get(fileId, {
+  ): GetReturn<F, A> => {
+    const ret = Drive.Files.get(fileId, {
       ...optionalArgs,
       ...(fields !== null && {
         fields: stringifyFields_(fields),
       }),
     });
-    if (
-      typeof ret !== "string" &&
-      !SafeFilesCollection_.fileIsSafe(ret, fields)
-    ) {
-      throw new Error("");
+    if (typeof ret !== "string" && !fileIsSafe_(ret, fields)) {
+      throw new Error("Files.get: File is not safe.");
     }
     return ret as unknown as GetReturn<F, A>;
-  }
+  },
 
-  public insert<F extends DeepKeyof<SafeFile>>(
-    resource: GoogleAppsScript.Drive.Schema.File,
-    fields: F | null,
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any -- Required by the Drive API
-    mediaData?: any,
-    optionalArgs: {
-      supportsAllDrives?: boolean;
-    } = {},
-  ): DeepPick<SafeFile, F> {
-    const ret = this.unsafeFiles.insert(resource, mediaData, {
-      ...optionalArgs,
-      ...(fields !== null && {
-        fields: stringifyFields_(fields),
-      }),
-    });
-    if (!SafeFilesCollection_.fileIsSafe(ret, fields)) {
-      throw new Error("");
-    }
-    return ret;
-  }
-
-  public list<F extends DeepKeyof<SafeFile>>(
+  list: <F extends DeepKeyof<SafeFile>>(
     fields: F | null,
     optionalArgs: {
       includeItemsFromAllDrives?: boolean;
@@ -180,44 +159,44 @@ export class SafeFilesCollection_ {
       q?: string;
       supportsAllDrives?: boolean;
     } = {},
-  ): SafeFileList<F> {
-    const ret = this.unsafeFiles.list({
+  ): SafeFileList<F> => {
+    const ret = Drive.Files.list({
       ...optionalArgs,
       ...(fields !== null && {
-        fields: `nextPageToken, items(${stringifyFields_(fields)})`,
+        fields: `nextPageToken, files(${stringifyFields_(fields)})`,
       }),
     });
-    if (!SafeFilesCollection_.fileListIsSafe(ret, fields)) {
-      throw new Error("");
+    if (!fileListIsSafe_(ret, fields)) {
+      throw new Error("Files.list: File list is not safe.");
     }
     return ret;
-  }
+  },
 
-  public remove(fileId: string): void {
-    this.unsafeFiles.remove(fileId);
-  }
+  remove: (fileId: string): void => {
+    Drive.Files.remove(fileId);
+  },
 
-  public update<F extends DeepKeyof<SafeFile>>(
-    resource: GoogleAppsScript.Drive.Schema.File,
+  update: <F extends DeepKeyof<SafeFile>>(
+    resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.File,
     fileId: string,
     fields: F | null,
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any -- Required by the Drive API
-    mediaData?: any,
+    mediaData?: GoogleAppsScript.Base.Blob,
     optionalArgs: {
       addParents?: string;
       removeParents?: string;
       supportsAllDrives?: boolean;
     } = {},
-  ): DeepPick<SafeFile, F> {
-    const ret = this.unsafeFiles.update(resource, fileId, mediaData, {
+  ): DeepPick<SafeFile, F> => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Strange behaviour with optional arguments
+    const ret = Drive.Files.update(resource, fileId, mediaData!, {
       ...optionalArgs,
       ...(fields !== null && {
         fields: stringifyFields_(fields),
       }),
     });
-    if (!SafeFilesCollection_.fileIsSafe(ret, fields)) {
-      throw new Error("");
+    if (!fileIsSafe_(ret, fields)) {
+      throw new Error("Files.update: File is not safe.");
     }
     return ret;
-  }
-}
+  },
+};

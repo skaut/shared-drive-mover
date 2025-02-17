@@ -1,100 +1,106 @@
+import type { DeepKeyof } from "../DeepKeyof";
+import type { DeepPick } from "../DeepPick";
+
+import { stringifyFields_ } from "./stringifyFields";
+
 export interface SafeComment {
+  anchor: string;
   author: SafeUser;
-  commentId: string;
   content: string;
-  replies: Array<SafeCommentReply>;
+  id: string;
+  quotedFileContent: {
+    mimeType: string;
+    value: string;
+  };
+  replies: Array<SafeReply>;
+  resolved: boolean;
 }
 
-export interface SafeCommentList {
-  items: Array<SafeComment>;
+export interface SafeCommentList<F extends DeepKeyof<SafeComment>> {
+  comments: Array<DeepPick<SafeComment, F>>;
   nextPageToken?: string | undefined;
 }
 
-interface SafeCommentReply {
+interface SafeReply {
   author: SafeUser;
   content: string;
 }
 
 interface SafeUser {
   displayName: string;
-  isAuthenticatedUser: boolean;
+  me: boolean;
 }
 
-export class SafeCommentsCollection_ {
-  private readonly unsafeComments: GoogleAppsScript.Drive.Collection.CommentsCollection;
+function commentIsSafe_<F extends DeepKeyof<SafeComment>>(
+  comment: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment,
+  keys: F,
+): comment is DeepPick<SafeComment, F> {
+  return (
+    (keys.author !== true ||
+      (comment.author !== undefined && userIsSafe_(comment.author))) &&
+    (keys.id !== true || comment.id !== undefined) &&
+    (keys.content !== true || comment.content !== undefined) &&
+    (keys.replies !== true ||
+      comment.replies?.every((reply) => commentReplyIsSafe_(reply)) === true)
+  );
+}
 
-  public constructor() {
-    if (Drive.Comments === undefined) {
-      throw new Error();
-    }
-    this.unsafeComments = Drive.Comments;
-  }
+function commentListIsSafe_<F extends DeepKeyof<SafeComment>>(
+  commentList: GoogleAppsScript.Drive_v3.Drive.V3.Schema.CommentList,
+  keys: F,
+): commentList is SafeCommentList<F> {
+  return (
+    commentList.comments?.every((comment) => commentIsSafe_(comment, keys)) ===
+    true
+  );
+}
 
-  private static commentIsSafe(
-    comment: GoogleAppsScript.Drive.Schema.Comment,
-  ): comment is SafeComment {
-    return (
-      comment.author !== undefined &&
-      SafeCommentsCollection_.userIsSafe(comment.author) &&
-      comment.commentId !== undefined &&
-      comment.content !== undefined &&
-      comment.replies?.every((reply) =>
-        SafeCommentsCollection_.commentReplyIsSafe(reply),
-      ) === true
-    );
-  }
+function commentReplyIsSafe_(
+  commentReply: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Reply,
+): commentReply is SafeReply {
+  return (
+    commentReply.author !== undefined &&
+    userIsSafe_(commentReply.author) &&
+    commentReply.content !== undefined
+  );
+}
 
-  private static commentListIsSafe(
-    commentList: GoogleAppsScript.Drive.Schema.CommentList,
-  ): commentList is SafeCommentList {
-    return (
-      commentList.items?.every((comment) =>
-        SafeCommentsCollection_.commentIsSafe(comment),
-      ) === true
-    );
-  }
+function userIsSafe_(
+  user: GoogleAppsScript.Drive_v3.Drive.V3.Schema.User,
+): user is SafeUser {
+  return user.me !== undefined && user.displayName !== undefined;
+}
 
-  private static commentReplyIsSafe(
-    commentReply: GoogleAppsScript.Drive.Schema.CommentReply,
-  ): commentReply is SafeCommentReply {
-    return (
-      commentReply.author !== undefined &&
-      SafeCommentsCollection_.userIsSafe(commentReply.author) &&
-      commentReply.content !== undefined
-    );
-  }
-
-  private static userIsSafe(
-    user: GoogleAppsScript.Drive.Schema.User,
-  ): user is SafeUser {
-    return (
-      user.isAuthenticatedUser !== undefined && user.displayName !== undefined
-    );
-  }
-
-  public insert(
-    resource: GoogleAppsScript.Drive.Schema.Comment,
+export const SafeCommentsCollection_ = {
+  create: <F extends DeepKeyof<SafeComment>>(
+    resource: GoogleAppsScript.Drive_v3.Drive.V3.Schema.Comment,
     fileId: string,
-  ): SafeComment {
-    const ret = this.unsafeComments.insert(resource, fileId);
-    if (!SafeCommentsCollection_.commentIsSafe(ret)) {
-      throw new Error("");
+    fields: F,
+  ): DeepPick<SafeComment, F> => {
+    const ret = Drive.Comments.create(resource, fileId, {
+      fields: stringifyFields_(fields),
+    });
+    if (!commentIsSafe_(ret, fields)) {
+      throw new Error("Comments.create: Comment is not safe.");
     }
     return ret;
-  }
+  },
 
-  public list(
+  list: <F extends DeepKeyof<SafeComment>>(
     fileId: string,
+    fields: F,
     optionalArgs: {
-      fields?: string;
       maxResults?: number;
       pageToken?: string | undefined;
     } = {},
-  ): SafeCommentList {
-    const ret = this.unsafeComments.list(fileId, optionalArgs);
-    if (!SafeCommentsCollection_.commentListIsSafe(ret)) {
-      throw new Error("");
+  ): SafeCommentList<F> => {
+    const ret = Drive.Comments.list(fileId, {
+      ...optionalArgs,
+      fields: `nextPageToken, comments(${stringifyFields_(fields)})`,
+    });
+    if (!commentListIsSafe_(ret, fields)) {
+      throw new Error("Comments.list: Comment list is not safe.");
     }
     return ret;
-  }
-}
+  },
+};

@@ -16,18 +16,15 @@ export type {
 } from "./SafeDriveService/SafeFilesCollection";
 
 export class SafeDriveService_ {
-  public readonly Comments: SafeCommentsCollection_;
-  public readonly Drives: SafeDrivesCollection_;
-  public readonly Files: SafeFilesCollection_;
-  public readonly Replies: GoogleAppsScript.Drive.Collection.RepliesCollection;
+  public readonly Comments: typeof SafeCommentsCollection_;
+  public readonly Drives: typeof SafeDrivesCollection_;
+  public readonly Files: typeof SafeFilesCollection_;
+  public readonly Replies: GoogleAppsScript.Drive_v3.Drive.V3.Collection.RepliesCollection;
 
   public constructor() {
-    if (Drive.Replies === undefined) {
-      throw new Error();
-    }
-    this.Comments = new SafeCommentsCollection_();
-    this.Drives = new SafeDrivesCollection_();
-    this.Files = new SafeFilesCollection_();
+    this.Comments = SafeCommentsCollection_;
+    this.Drives = SafeDrivesCollection_;
+    this.Files = SafeFilesCollection_;
     this.Replies = Drive.Replies;
   }
 }

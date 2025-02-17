@@ -15,8 +15,8 @@ export function listFolders(parentID: google.script.Parameter): ListResponse {
       SafeFileList<{
         id: true;
         mimeType: true;
+        name: true;
         shortcutDetails: { targetId: true };
-        title: true;
       }>,
       NamedRecord
     >(
@@ -25,8 +25,8 @@ export function listFolders(parentID: google.script.Parameter): ListResponse {
           {
             id: true,
             mimeType: true,
+            name: true,
             shortcutDetails: { targetId: true },
-            title: true,
           },
           {
             includeItemsFromAllDrives: true,
@@ -37,10 +37,10 @@ export function listFolders(parentID: google.script.Parameter): ListResponse {
           },
         ),
       (listResponse) =>
-        listResponse.items
+        listResponse.files
           .sort((first, second) =>
-            first.title.localeCompare(
-              second.title,
+            first.name.localeCompare(
+              second.name,
               Session.getActiveUserLocale(),
             ),
           )
@@ -49,7 +49,7 @@ export function listFolders(parentID: google.script.Parameter): ListResponse {
               item.mimeType === "application/vnd.google-apps.shortcut"
                 ? (item.shortcutDetails?.targetId ?? item.id)
                 : item.id;
-            return { id, name: item.title };
+            return { id, name: item.name };
           }),
     );
     return {

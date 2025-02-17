@@ -14,9 +14,9 @@ test("resolveDestinationFolder corretly creates new folder", () => {
   }
 
   const driveServiceMock = mockedSafeDriveService();
-  vi.mocked(driveServiceMock.Files.insert).mockReturnValueOnce({
+  vi.mocked(driveServiceMock.Files.create).mockReturnValueOnce({
     id: "NEWLY_CREATED_FOLDER_ID",
-    title: "FOLDER_NAME",
+    name: "FOLDER_NAME",
   });
 
   const state = new MoveState_(
@@ -32,7 +32,7 @@ test("resolveDestinationFolder corretly creates new folder", () => {
       {
         capabilities: { canMoveItemOutOfDrive: true },
         id: "SRC_FOLDER_ID",
-        title: "FOLDER_NAME",
+        name: "FOLDER_NAME",
       },
       state,
       {
@@ -43,24 +43,24 @@ test("resolveDestinationFolder corretly creates new folder", () => {
       false,
       driveServiceMock,
     ),
-  ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
+  ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", name: "FOLDER_NAME" });
 
-  expect(vi.mocked(driveServiceMock.Files.insert).mock.calls).toHaveLength(1);
+  expect(vi.mocked(driveServiceMock.Files.create).mock.calls).toHaveLength(1);
   expect(
-    vi.mocked(driveServiceMock.Files.insert).mock.calls[0][0].mimeType,
+    vi.mocked(driveServiceMock.Files.create).mock.calls[0][0].mimeType,
   ).toBe("application/vnd.google-apps.folder");
   expect(
-    vi.mocked(driveServiceMock.Files.insert).mock.calls[0][0].parents,
-  ).toStrictEqual([{ id: "DEST_PARENT_ID" }]);
-  expect(vi.mocked(driveServiceMock.Files.insert).mock.calls[0][0].title).toBe(
+    vi.mocked(driveServiceMock.Files.create).mock.calls[0][0].parents,
+  ).toStrictEqual(["DEST_PARENT_ID"]);
+  expect(vi.mocked(driveServiceMock.Files.create).mock.calls[0][0].name).toBe(
     "FOLDER_NAME",
   );
   expect(
-    vi.mocked(driveServiceMock.Files.insert).mock.calls[0][3],
+    vi.mocked(driveServiceMock.Files.create).mock.calls[0][3],
   ).toBeDefined();
   expect(
     (
-      vi.mocked(driveServiceMock.Files.insert).mock
+      vi.mocked(driveServiceMock.Files.create).mock
         .calls[0][3] as InsertFileOptions
     ).supportsAllDrives,
   ).toBe(true);
@@ -76,13 +76,13 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "EXISTING_FOLDER_ID",
-      title: "FOLDER_NAME",
+      name: "FOLDER_NAME",
     },
   ]);
   const driveServiceMock = mockedSafeDriveService();
-  vi.mocked(driveServiceMock.Files.insert).mockReturnValueOnce({
+  vi.mocked(driveServiceMock.Files.create).mockReturnValueOnce({
     id: "NEWLY_CREATED_FOLDER_ID",
-    title: "FOLDER_NAME",
+    name: "FOLDER_NAME",
   });
 
   const state = new MoveState_(
@@ -98,7 +98,7 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
       {
         capabilities: { canMoveItemOutOfDrive: true },
         id: "SRC_FOLDER_ID",
-        title: "FOLDER_NAME",
+        name: "FOLDER_NAME",
       },
       state,
       {
@@ -109,24 +109,24 @@ test("resolveDestinationFolder corretly creates new folder when set not to merge
       false,
       driveServiceMock,
     ),
-  ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
+  ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", name: "FOLDER_NAME" });
 
-  expect(vi.mocked(driveServiceMock.Files.insert).mock.calls).toHaveLength(1);
+  expect(vi.mocked(driveServiceMock.Files.create).mock.calls).toHaveLength(1);
   expect(
-    vi.mocked(driveServiceMock.Files.insert).mock.calls[0][0].mimeType,
+    vi.mocked(driveServiceMock.Files.create).mock.calls[0][0].mimeType,
   ).toBe("application/vnd.google-apps.folder");
   expect(
-    vi.mocked(driveServiceMock.Files.insert).mock.calls[0][0].parents,
-  ).toStrictEqual([{ id: "DEST_PARENT_ID" }]);
-  expect(vi.mocked(driveServiceMock.Files.insert).mock.calls[0][0].title).toBe(
+    vi.mocked(driveServiceMock.Files.create).mock.calls[0][0].parents,
+  ).toStrictEqual(["DEST_PARENT_ID"]);
+  expect(vi.mocked(driveServiceMock.Files.create).mock.calls[0][0].name).toBe(
     "FOLDER_NAME",
   );
   expect(
-    vi.mocked(driveServiceMock.Files.insert).mock.calls[0][3],
+    vi.mocked(driveServiceMock.Files.create).mock.calls[0][3],
   ).toBeDefined();
   expect(
     (
-      vi.mocked(driveServiceMock.Files.insert).mock
+      vi.mocked(driveServiceMock.Files.create).mock
         .calls[0][3] as InsertFileOptions
     ).supportsAllDrives,
   ).toBe(true);
@@ -140,9 +140,9 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
 
   vi.mocked(folderManagement).listFoldersInFolder_.mockReturnValueOnce([]);
   const driveServiceMock = mockedSafeDriveService();
-  vi.mocked(driveServiceMock.Files.insert).mockReturnValueOnce({
+  vi.mocked(driveServiceMock.Files.create).mockReturnValueOnce({
     id: "NEWLY_CREATED_FOLDER_ID",
-    title: "FOLDER_NAME",
+    name: "FOLDER_NAME",
   });
 
   const state = new MoveState_(
@@ -158,7 +158,7 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
       {
         capabilities: { canMoveItemOutOfDrive: true },
         id: "SRC_FOLDER_ID",
-        title: "FOLDER_NAME",
+        name: "FOLDER_NAME",
       },
       state,
       {
@@ -169,24 +169,24 @@ test("resolveDestinationFolder corretly creates new folder when set to merge fol
       true,
       driveServiceMock,
     ),
-  ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", title: "FOLDER_NAME" });
+  ).toStrictEqual({ id: "NEWLY_CREATED_FOLDER_ID", name: "FOLDER_NAME" });
 
-  expect(vi.mocked(driveServiceMock.Files.insert).mock.calls).toHaveLength(1);
+  expect(vi.mocked(driveServiceMock.Files.create).mock.calls).toHaveLength(1);
   expect(
-    vi.mocked(driveServiceMock.Files.insert).mock.calls[0][0].mimeType,
+    vi.mocked(driveServiceMock.Files.create).mock.calls[0][0].mimeType,
   ).toBe("application/vnd.google-apps.folder");
   expect(
-    vi.mocked(driveServiceMock.Files.insert).mock.calls[0][0].parents,
-  ).toStrictEqual([{ id: "DEST_PARENT_ID" }]);
-  expect(vi.mocked(driveServiceMock.Files.insert).mock.calls[0][0].title).toBe(
+    vi.mocked(driveServiceMock.Files.create).mock.calls[0][0].parents,
+  ).toStrictEqual(["DEST_PARENT_ID"]);
+  expect(vi.mocked(driveServiceMock.Files.create).mock.calls[0][0].name).toBe(
     "FOLDER_NAME",
   );
   expect(
-    vi.mocked(driveServiceMock.Files.insert).mock.calls[0][3],
+    vi.mocked(driveServiceMock.Files.create).mock.calls[0][3],
   ).toBeDefined();
   expect(
     (
-      vi.mocked(driveServiceMock.Files.insert).mock
+      vi.mocked(driveServiceMock.Files.create).mock
         .calls[0][3] as InsertFileOptions
     ).supportsAllDrives,
   ).toBe(true);
@@ -198,17 +198,17 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "EXISTING_WRONG_FOLDER1_ID",
-      title: "DIFFERENT_FOLDER_NAME1",
+      name: "DIFFERENT_FOLDER_NAME1",
     },
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "EXISTING_FOLDER_ID",
-      title: "FOLDER_NAME",
+      name: "FOLDER_NAME",
     },
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "EXISTING_WRONG_FOLDER2_ID",
-      title: "DIFFERENT_FOLDER_NAME2",
+      name: "DIFFERENT_FOLDER_NAME2",
     },
   ]);
   const driveServiceMock = mockedSafeDriveService();
@@ -226,7 +226,7 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
       {
         capabilities: { canMoveItemOutOfDrive: true },
         id: "SRC_FOLDER_ID",
-        title: "FOLDER_NAME",
+        name: "FOLDER_NAME",
       },
       state,
       {
@@ -240,10 +240,10 @@ test("resolveDestinationFolder corretly uses an existing folder when set to merg
   ).toStrictEqual({
     capabilities: { canMoveItemOutOfDrive: true },
     id: "EXISTING_FOLDER_ID",
-    title: "FOLDER_NAME",
+    name: "FOLDER_NAME",
   });
 
-  expect(vi.mocked(driveServiceMock.Files.insert).mock.calls).toHaveLength(0);
+  expect(vi.mocked(driveServiceMock.Files.create).mock.calls).toHaveLength(0);
   expect(vi.mocked(state).logError.mock.calls).toHaveLength(0);
 });
 
@@ -256,28 +256,28 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "EXISTING_WRONG_FOLDER1_ID",
-      title: "DIFFERENT_FOLDER_NAME1",
+      name: "DIFFERENT_FOLDER_NAME1",
     },
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "EXISTING_FOLDER_ID1",
-      title: "FOLDER_NAME",
+      name: "FOLDER_NAME",
     },
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "EXISTING_FOLDER_ID2",
-      title: "FOLDER_NAME",
+      name: "FOLDER_NAME",
     },
     {
       capabilities: { canMoveItemOutOfDrive: true },
       id: "EXISTING_WRONG_FOLDER2_ID",
-      title: "DIFFERENT_FOLDER_NAME2",
+      name: "DIFFERENT_FOLDER_NAME2",
     },
   ]);
   const driveServiceMock = mockedSafeDriveService();
-  vi.mocked(driveServiceMock.Files.insert).mockReturnValueOnce({
+  vi.mocked(driveServiceMock.Files.create).mockReturnValueOnce({
     id: "NEWLY_CREATED_FOLDER_ID",
-    title: "FOLDER_NAME",
+    name: "FOLDER_NAME",
   });
 
   const state = new MoveState_(
@@ -293,7 +293,7 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
       {
         capabilities: { canMoveItemOutOfDrive: true },
         id: "SRC_FOLDER_ID",
-        title: "FOLDER_NAME",
+        name: "FOLDER_NAME",
       },
       state,
       {
@@ -306,25 +306,25 @@ test("resolveDestinationFolder fails gracefully on multiple existing folders wit
     ),
   ).toStrictEqual({
     id: "NEWLY_CREATED_FOLDER_ID",
-    title: "FOLDER_NAME",
+    name: "FOLDER_NAME",
   });
 
-  expect(vi.mocked(driveServiceMock.Files.insert).mock.calls).toHaveLength(1);
+  expect(vi.mocked(driveServiceMock.Files.create).mock.calls).toHaveLength(1);
   expect(
-    vi.mocked(driveServiceMock.Files.insert).mock.calls[0][0].mimeType,
+    vi.mocked(driveServiceMock.Files.create).mock.calls[0][0].mimeType,
   ).toBe("application/vnd.google-apps.folder");
   expect(
-    vi.mocked(driveServiceMock.Files.insert).mock.calls[0][0].parents,
-  ).toStrictEqual([{ id: "DEST_PARENT_ID" }]);
-  expect(vi.mocked(driveServiceMock.Files.insert).mock.calls[0][0].title).toBe(
+    vi.mocked(driveServiceMock.Files.create).mock.calls[0][0].parents,
+  ).toStrictEqual(["DEST_PARENT_ID"]);
+  expect(vi.mocked(driveServiceMock.Files.create).mock.calls[0][0].name).toBe(
     "FOLDER_NAME",
   );
   expect(
-    vi.mocked(driveServiceMock.Files.insert).mock.calls[0][3],
+    vi.mocked(driveServiceMock.Files.create).mock.calls[0][3],
   ).toBeDefined();
   expect(
     (
-      vi.mocked(driveServiceMock.Files.insert).mock
+      vi.mocked(driveServiceMock.Files.create).mock
         .calls[0][3] as InsertFileOptions
     ).supportsAllDrives,
   ).toBe(true);

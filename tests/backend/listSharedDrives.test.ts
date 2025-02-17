@@ -18,7 +18,7 @@ test("listSharedDrives works correctly", () => {
     { id: "ID2", name: "DRIVE2" },
   ];
   const rawResponse = {
-    items: response,
+    drives: response,
   };
   const driveServiceMock = mockedSafeDriveService();
   vi.mocked(driveServiceMock.Drives.list).mockReturnValueOnce(rawResponse);
