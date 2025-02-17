@@ -67,7 +67,7 @@
     "build:backend": "vite build --config backend.vite.config.ts",
     "prebuild:frontend": "npm run paraglide",
     "build:frontend": "vite build --config frontend.vite.config.ts",
-    "build": "run-s -c build:*",
+    "build": "run-p -c build:*",
     "lint:svelte:svelte-check": "FORCE_COLOR=1 svelte-check",
     "lint:svelte": "run-p -c --aggregate-output lint:svelte:*",
     "lint:ts:typecheck:backend": "tsc --noEmit --project backend.tsconfig.json",
