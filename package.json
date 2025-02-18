@@ -28,7 +28,7 @@
     "@smui/linear-progress": "^8.0.0-beta.3",
     "@smui/list": "^8.0.0-beta.3",
     "@smui/top-app-bar": "^8.0.0-beta.3",
-    "@sveltejs/vite-plugin-svelte": "^4.0.4",
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
     "@types/google-apps-script": "^1.0.96",
     "@types/google.script.client-side": "^0.1.5",
     "@types/node": "^22.10.2",
@@ -55,7 +55,7 @@
     "svelte-material-ui": "^8.0.0-beta.3",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.19.1",
-    "vite": "^5.4.14",
+    "vite": "^6.1.0",
     "vite-plugin-singlefile": "^2.1.0",
     "vitest": "^2.1.9"
   },
