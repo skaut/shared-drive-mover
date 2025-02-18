@@ -1,4 +1,4 @@
-<script lang="ts" strictEvents>
+<script lang="ts">
   import DataTable, { Body, Cell, Head, Row } from "@smui/data-table";
 
   import type { MoveError } from "../interfaces/MoveError";
@@ -6,7 +6,11 @@
   import * as m from "./paraglide/messages";
   import StepHeader from "./StepHeader.svelte";
 
-  export let errors: Array<MoveError> | null = [];
+  interface Props {
+    errors?: Array<MoveError> | null;
+  }
+
+  const { errors = [] }: Props = $props();
 </script>
 
 <StepHeader>

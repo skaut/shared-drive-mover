@@ -1,14 +1,17 @@
-<script lang="ts" strictEvents>
+<script lang="ts">
   import Button, { Icon, Label } from "@smui/button";
-  import { createEventDispatcher } from "svelte";
 
   import * as m from "./paraglide/messages";
 
-  const dispatch = createEventDispatcher<{ previous: null }>();
+  interface Props {
+    onclick(this: void): void;
+  }
+
+  const { onclick }: Props = $props();
 </script>
 
 <br />
-<Button variant="outlined" on:click={() => dispatch("previous")}>
+<Button {onclick} variant="outlined">
   <Icon class="material-icons">navigate_before</Icon>
   <Label>{m.back_buttonLabel()}</Label>
 </Button>

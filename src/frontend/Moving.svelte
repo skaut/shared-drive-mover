@@ -1,20 +1,21 @@
-<script lang="ts" strictEvents>
+<script lang="ts">
   import Button, { Label } from "@smui/button";
   import Dialog, { Actions, Content, Title } from "@smui/dialog";
-  import { createEventDispatcher } from "svelte";
 
   import * as m from "./paraglide/messages";
 
-  let nonEmptyDialogOpen: boolean;
+  interface Props {
+    onNonEmptyDialogCancel(this: void): void;
+    onNonEmptyDialogConfirm(this: void): void;
+  }
+
+  const { onNonEmptyDialogCancel, onNonEmptyDialogConfirm }: Props = $props();
+
+  let nonEmptyDialogOpen = $state(false);
 
   export function showNonEmptyDialog(): void {
     nonEmptyDialogOpen = true;
   }
-
-  const dispatch = createEventDispatcher<{
-    nonEmptyDialogCancel: null;
-    nonEmptyDialogConfirm: null;
-  }>();
 </script>
 
 <p>
@@ -32,12 +33,12 @@
     {m.moving_nonEmptyDialog_content()}
   </Content>
   <Actions>
-    <Button on:click={() => dispatch("nonEmptyDialogCancel")}>
+    <Button onclick={onNonEmptyDialogCancel}>
       <Label>
         {m.moving_nonEmptyDialog_cancel()}
       </Label>
     </Button>
-    <Button on:click={() => dispatch("nonEmptyDialogConfirm")}>
+    <Button onclick={onNonEmptyDialogConfirm}>
       <Label>
         {m.moving_nonEmptyDialog_confirm()}
       </Label>

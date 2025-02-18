@@ -1,6 +1,5 @@
-<script lang="ts" strictEvents>
+<script lang="ts">
   import Button, { Icon, Label } from "@smui/button";
-  import { createEventDispatcher } from "svelte";
 
   import type { NamedRecord } from "../interfaces/NamedRecord";
 
@@ -8,19 +7,31 @@
   import * as m from "./paraglide/messages";
   import StepHeader from "./StepHeader.svelte";
 
-  export let sourcePath: Array<NamedRecord> = [];
-  export let destinationPath: Array<NamedRecord> = [];
-  export let source: NamedRecord | null;
-  export let destination: NamedRecord | null;
+  interface Props {
+    destination: NamedRecord | null;
+    destinationPath?: Array<NamedRecord>;
+    onnext(this: void): void;
+    onprevious(this: void): void;
+    source: NamedRecord | null;
+    sourcePath?: Array<NamedRecord>;
+  }
+  const {
+    destination,
+    destinationPath = [],
+    onnext,
+    onprevious,
+    source,
+    sourcePath = [],
+  }: Props = $props();
 
-  const dispatch = createEventDispatcher<{ next: null; previous: null }>();
-
-  $: sourceDisplay =
+  let sourceDisplay = $derived(
     sourcePath.map((segment) => `${segment.name}/`).join("") +
-    (source?.name ?? "");
-  $: destinationDisplay =
+      (source?.name ?? ""),
+  );
+  let destinationDisplay = $derived(
     destinationPath.map((segment) => `${segment.name}/`).join("") +
-    (destination?.name ?? "");
+      (destination?.name ?? ""),
+  );
 </script>
 
 <StepHeader>
@@ -32,8 +43,8 @@
     source: sourceDisplay,
   })}
 </p>
-<BackButton on:previous={() => dispatch("previous")} />
-<Button variant="raised" on:click={() => dispatch("next")}>
+<BackButton onclick={onprevious} />
+<Button onclick={onnext} variant="raised">
   <Label>{m.confirmation_buttonLabel()}</Label>
   <Icon class="material-icons">cloud_done</Icon>
 </Button>

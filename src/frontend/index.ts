@@ -1,6 +1,7 @@
-/// <reference types="svelte"/>
+import { mount } from "svelte";
+
 import App from "./App.svelte";
 
-new App({
+mount(App, {
   target: document.body,
 });
