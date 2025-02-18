@@ -47,13 +47,13 @@
 <br />
 
 <style lang="scss">
-  @import "@material/typography/mdc-typography";
+  @use "@material/typography/mixins" as typography;
 
   h5 {
-    @include mdc-typography("headline5");
+    @include typography.typography("headline5");
   }
 
   .form-heading {
-    @include mdc-typography("subtitle2");
+    @include typography.typography("subtitle2");
   }
 </style>
