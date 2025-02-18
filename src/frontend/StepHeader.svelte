@@ -13,9 +13,9 @@
 </h2>
 
 <style lang="scss">
-  @import "@material/typography/mdc-typography";
+  @use "@material/typography/mixins" as typography;
 
   h2 {
-    @include mdc-typography("headline2");
+    @include typography.typography("headline2");
   }
 </style>
