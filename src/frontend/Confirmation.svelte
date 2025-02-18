@@ -1,6 +1,5 @@
 <script lang="ts">
   import Button, { Icon, Label } from "@smui/button";
-  import { createEventDispatcher } from "svelte";
 
   import type { NamedRecord } from "../interfaces/NamedRecord";
 
@@ -11,17 +10,19 @@
   interface Props {
     destination: NamedRecord | null;
     destinationPath?: Array<NamedRecord>;
+    onnext(this: void): void;
+    onprevious(this: void): void;
     source: NamedRecord | null;
     sourcePath?: Array<NamedRecord>;
   }
   const {
     destination,
     destinationPath = [],
+    onnext,
+    onprevious,
     source,
     sourcePath = [],
   }: Props = $props();
-
-  const dispatch = createEventDispatcher<{ next: null; previous: null }>();
 
   let sourceDisplay = $derived(
     sourcePath.map((segment) => `${segment.name}/`).join("") +
@@ -42,17 +43,8 @@
     source: sourceDisplay,
   })}
 </p>
-<BackButton
-  on:previous={(): void => {
-    dispatch("previous");
-  }}
-/>
-<Button
-  onclick={(): void => {
-    dispatch("next");
-  }}
-  variant="raised"
->
+<BackButton onclick={onprevious} />
+<Button onclick={onnext} variant="raised">
   <Label>{m.confirmation_buttonLabel()}</Label>
   <Icon class="material-icons">cloud_done</Icon>
 </Button>

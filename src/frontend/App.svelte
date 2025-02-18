@@ -125,12 +125,6 @@
         forceNonEmpty,
       );
   }
-
-  function showErrorDialogWithEvent(
-    event: CustomEvent<{ message: string }>,
-  ): void {
-    showErrorDialog(event.detail.message);
-  }
 </script>
 
 <svelte:head>
@@ -159,13 +153,13 @@
     <Introduction bind:copyComments bind:mergeFolders />
     <ContinueButton
       disabled={false}
-      on:next={(): void => {
+      onclick={(): void => {
         currentTab = "source-selection";
       }}
     />
   {:else if currentTab === "source-selection"}
     <FolderSelection
-      on:error={showErrorDialogWithEvent}
+      onerror={showErrorDialog}
       bind:path={sourcePath}
       bind:selected={source}
     >
@@ -177,19 +171,19 @@
       {/snippet}
     </FolderSelection>
     <BackButton
-      on:previous={(): void => {
+      onclick={(): void => {
         currentTab = "introduction";
       }}
     />
     <ContinueButton
       disabled={source === null}
-      on:next={(): void => {
+      onclick={(): void => {
         currentTab = "destination-selection";
       }}
     />
   {:else if currentTab === "destination-selection"}
     <FolderSelection
-      on:error={showErrorDialogWithEvent}
+      onerror={showErrorDialog}
       bind:path={destinationPath}
       bind:selected={destination}
     >
@@ -201,13 +195,13 @@
       {/snippet}
     </FolderSelection>
     <BackButton
-      on:previous={(): void => {
+      onclick={(): void => {
         currentTab = "source-selection";
       }}
     />
     <ContinueButton
       disabled={destination === null}
-      on:next={(): void => {
+      onclick={(): void => {
         currentTab = "confirmation";
       }}
     />
@@ -215,22 +209,22 @@
     <Confirmation
       {destination}
       {destinationPath}
-      {source}
-      {sourcePath}
-      on:previous={(): void => {
-        currentTab = "destination-selection";
-      }}
-      on:next={(): void => {
+      onnext={(): void => {
         move();
       }}
+      onprevious={(): void => {
+        currentTab = "destination-selection";
+      }}
+      {source}
+      {sourcePath}
     />
   {:else if currentTab === "moving"}
     <Moving
       bind:this={movingComponent}
-      on:nonEmptyDialogCancel={(): void => {
+      onNonEmptyDialogCancel={(): void => {
         currentTab = "destination-selection";
       }}
-      on:nonEmptyDialogConfirm={(): void => {
+      onNonEmptyDialogConfirm={(): void => {
         move(true);
       }}
     />

@@ -1,7 +1,8 @@
 <script lang="ts">
+  import type { Snippet } from "svelte";
+
   import LinearProgress from "@smui/linear-progress";
   import List, { Item, Separator, Subheader, Text } from "@smui/list";
-  import { createEventDispatcher, type Snippet } from "svelte";
 
   import type { ListResponse } from "../interfaces/ListResponse";
   import type { NamedRecord } from "../interfaces/NamedRecord";
@@ -12,36 +13,30 @@
   interface Props {
     header: Snippet;
     introduction: Snippet;
+    onerror(this: void, message: string): void;
     path?: Array<NamedRecord>;
     selected?: NamedRecord | null;
   }
   let {
     header,
     introduction,
+    onerror,
     path = $bindable([]),
     selected = $bindable(null),
   }: Props = $props();
-
-  const dispatch = createEventDispatcher<{ error: { message: string } }>();
 
   let items: Array<NamedRecord> | null = $state(null);
 
   function handleListError(type: string): void {
     switch (type) {
       case "DriveAPIError":
-        dispatch("error", {
-          message: m.errorDialog_DriveAPIError(),
-        });
+        onerror(m.errorDialog_DriveAPIError());
         break;
       case "invalidParameter":
-        dispatch("error", {
-          message: m.errorDialog_InvalidParameterError(),
-        });
+        onerror(m.errorDialog_InvalidParameterError());
         break;
       default:
-        dispatch("error", {
-          message: m.errorDialog_unknownError(),
-        });
+        onerror(m.errorDialog_unknownError());
         break;
     }
   }
@@ -55,9 +50,7 @@
   }
 
   function handleError(response: Error): void {
-    dispatch("error", {
-      message: m.errorDialog_unknownErrorWithMessage() + response.message,
-    });
+    onerror(m.errorDialog_unknownErrorWithMessage() + response.message);
   }
 
   function handleFolderResponse(response: ListResponse): void {

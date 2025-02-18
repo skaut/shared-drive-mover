@@ -44,6 +44,10 @@ export default tseslint.config(
       "@typescript-eslint/init-declarations": "error",
       "@typescript-eslint/method-signature-style": ["error", "method"],
       "@typescript-eslint/no-import-type-side-effects": "error",
+      "@typescript-eslint/no-invalid-void-type": [
+        "error",
+        { allowAsThisParameter: true },
+      ],
       "@typescript-eslint/no-shadow": "error",
       "@typescript-eslint/no-unnecessary-parameter-property-assignment":
         "error",
