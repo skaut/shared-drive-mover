@@ -1,4 +1,4 @@
-<script lang="ts" strictEvents>
+<script lang="ts">
   import Button, { Label } from "@smui/button";
   import Dialog, { Actions, Content, Title as DialogTitle } from "@smui/dialog";
   import LinearProgress from "@smui/linear-progress";
@@ -36,13 +36,13 @@
     | "done"
     | "introduction"
     | "moving"
-    | "source-selection" = "introduction";
-  let moving = false;
-  let showNonEmptyDialog: () => void;
-  let errorDialogOpen: boolean;
-  let errorMessage = "";
+    | "source-selection" = $state("introduction");
+  let moving = $state(false);
+  let movingComponent: Moving | undefined = $state();
+  let errorDialogOpen = $state(false);
+  let errorMessage = $state("");
 
-  $: progress =
+  let progress = $derived(
     currentTab === "introduction"
       ? 1 / 5
       : currentTab === "source-selection"
@@ -51,15 +51,16 @@
           ? 3 / 5
           : currentTab === "confirmation"
             ? 4 / 5
-            : 0;
+            : 0,
+  );
 
-  let copyComments = true;
-  let mergeFolders = true;
-  let sourcePath: Array<NamedRecord> = [];
-  let destinationPath: Array<NamedRecord> = [];
-  let source: NamedRecord | null = null;
-  let destination: NamedRecord | null = null;
-  let errors: Array<MoveError> | null = null;
+  let copyComments = $state(true);
+  let mergeFolders = $state(true);
+  let sourcePath: Array<NamedRecord> = $state([]);
+  let destinationPath: Array<NamedRecord> = $state([]);
+  let source: NamedRecord | null = $state(null);
+  let destination: NamedRecord | null = $state(null);
+  let errors: Array<MoveError> | null = $state(null);
 
   function showErrorDialog(message: string): void {
     errorMessage = message;
@@ -79,7 +80,7 @@
           showErrorDialog(m.errorDialog_InvalidParameterError());
           break;
         case "notEmpty":
-          showNonEmptyDialog();
+          (movingComponent?.showNonEmptyDialog as (() => void) | undefined)?.();
           break;
         case "sourceEqualsDestination":
           currentTab = "confirmation";
@@ -158,7 +159,9 @@
     <Introduction bind:copyComments bind:mergeFolders />
     <ContinueButton
       disabled={false}
-      on:next={() => (currentTab = "source-selection")}
+      on:next={(): void => {
+        currentTab = "source-selection";
+      }}
     />
   {:else if currentTab === "source-selection"}
     <FolderSelection
@@ -166,17 +169,23 @@
       bind:path={sourcePath}
       bind:selected={source}
     >
-      <div slot="header">
+      {#snippet header()}
         {m.sourceSelection_header()}
-      </div>
-      <div slot="introduction">
+      {/snippet}
+      {#snippet introduction()}
         {m.sourceSelection_introduction()}
-      </div>
+      {/snippet}
     </FolderSelection>
-    <BackButton on:previous={() => (currentTab = "introduction")} />
+    <BackButton
+      on:previous={(): void => {
+        currentTab = "introduction";
+      }}
+    />
     <ContinueButton
       disabled={source === null}
-      on:next={() => (currentTab = "destination-selection")}
+      on:next={(): void => {
+        currentTab = "destination-selection";
+      }}
     />
   {:else if currentTab === "destination-selection"}
     <FolderSelection
@@ -184,17 +193,23 @@
       bind:path={destinationPath}
       bind:selected={destination}
     >
-      <div slot="header">
+      {#snippet header()}
         {m.destinationSelection_header()}
-      </div>
-      <div slot="introduction">
+      {/snippet}
+      {#snippet introduction()}
         {m.destinationSelection_introduction()}
-      </div>
+      {/snippet}
     </FolderSelection>
-    <BackButton on:previous={() => (currentTab = "source-selection")} />
+    <BackButton
+      on:previous={(): void => {
+        currentTab = "source-selection";
+      }}
+    />
     <ContinueButton
       disabled={destination === null}
-      on:next={() => (currentTab = "confirmation")}
+      on:next={(): void => {
+        currentTab = "confirmation";
+      }}
     />
   {:else if currentTab === "confirmation"}
     <Confirmation
@@ -202,16 +217,20 @@
       {destinationPath}
       {source}
       {sourcePath}
-      on:previous={() => (currentTab = "destination-selection")}
-      on:next={() => {
+      on:previous={(): void => {
+        currentTab = "destination-selection";
+      }}
+      on:next={(): void => {
         move();
       }}
     />
   {:else if currentTab === "moving"}
     <Moving
-      bind:showNonEmptyDialog
-      on:nonEmptyDialogCancel={() => (currentTab = "destination-selection")}
-      on:nonEmptyDialogConfirm={() => {
+      bind:this={movingComponent}
+      on:nonEmptyDialogCancel={(): void => {
+        currentTab = "destination-selection";
+      }}
+      on:nonEmptyDialogConfirm={(): void => {
         move(true);
       }}
     />

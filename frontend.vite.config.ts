@@ -14,7 +14,7 @@ export default defineConfig({
         ) {
           return;
         }
-        defaultHandler?.(warning);
+        defaultHandler(warning);
       },
       preprocess: vitePreprocess(),
     }),

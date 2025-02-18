@@ -1,12 +1,17 @@
-<script lang="ts" strictEvents>
+<script lang="ts">
   import Checkbox from "@smui/checkbox";
   import FormField from "@smui/form-field";
 
   import * as m from "./paraglide/messages";
   import StepHeader from "./StepHeader.svelte";
 
-  export let copyComments: boolean;
-  export let mergeFolders: boolean;
+  interface Props {
+    copyComments: boolean;
+    mergeFolders: boolean;
+  }
+
+  let { copyComments = $bindable(), mergeFolders = $bindable() }: Props =
+    $props();
 </script>
 
 <StepHeader>
@@ -20,23 +25,23 @@
 </h5>
 <FormField>
   <Checkbox bind:checked={copyComments} />
-  <span slot="label">
+  {#snippet label()}
     <div class="form-heading">
       {m.introduction_configuration_copyComments_title()}
     </div>
     {m.introduction_configuration_copyComments_description()}
-  </span>
+  {/snippet}
 </FormField>
 <br />
 <br />
 <FormField>
   <Checkbox bind:checked={mergeFolders} />
-  <span slot="label">
+  {#snippet label()}
     <div class="form-heading">
       {m.introduction_configuration_mergeFolders_title()}
     </div>
     {m.introduction_configuration_mergeFolders_description()}
-  </span>
+  {/snippet}
 </FormField>
 <br />
 <br />

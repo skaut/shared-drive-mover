@@ -1,7 +1,7 @@
-<script lang="ts" strictEvents>
+<script lang="ts">
   import LinearProgress from "@smui/linear-progress";
   import List, { Item, Separator, Subheader, Text } from "@smui/list";
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, type Snippet } from "svelte";
 
   import type { ListResponse } from "../interfaces/ListResponse";
   import type { NamedRecord } from "../interfaces/NamedRecord";
@@ -9,17 +9,22 @@
   import * as m from "./paraglide/messages";
   import StepHeader from "./StepHeader.svelte";
 
-  interface $$Slots {
-    header: Record<string, never>;
-    introduction: Record<string, never>;
+  interface Props {
+    header: Snippet;
+    introduction: Snippet;
+    path?: Array<NamedRecord>;
+    selected?: NamedRecord | null;
   }
-
-  export let path: Array<NamedRecord> = [];
-  export let selected: NamedRecord | null = null;
+  let {
+    header,
+    introduction,
+    path = $bindable([]),
+    selected = $bindable(null),
+  }: Props = $props();
 
   const dispatch = createEventDispatcher<{ error: { message: string } }>();
 
-  let items: Array<NamedRecord> | null = null;
+  let items: Array<NamedRecord> | null = $state(null);
 
   function handleListError(type: string): void {
     switch (type) {
@@ -107,26 +112,26 @@
 </script>
 
 <StepHeader>
-  <slot name="header" />
+  {@render header()}
 </StepHeader>
 <p>
-  <slot name="introduction" />
+  {@render introduction()}
 </p>
 <div>
   <List singleSelection>
     <Separator />
     <Subheader>
-      <button class="breadcrumb" type="button" on:click={rootNavigation}>
+      <button class="breadcrumb" onclick={rootNavigation} type="button">
         {m.drive_driveList()}
       </button>
       {#each path as segment (segment.id)}
         &nbsp; &gt; &nbsp;
         <button
           class="breadcrumb"
-          type="button"
-          on:click={() => {
+          onclick={(): void => {
             breadcrumbNavigation(segment);
           }}
+          type="button"
         >
           {segment.name}
         </button>
@@ -138,20 +143,20 @@
     {:else}
       {#each items as item (item.id)}
         <Item
-          selected={selected !== null && selected.id === item.id}
-          on:dblclick={() => {
-            itemNavigation(item);
-          }}
-          on:keydown={(e) => {
-            handleItemKeydown(e, item);
-          }}
-          on:SMUI:action={() => {
+          onSMUIAction={(): void => {
             if (selected === item) {
               itemNavigation(item);
             } else {
               selected = item;
             }
           }}
+          ondblclick={(): void => {
+            itemNavigation(item);
+          }}
+          onkeydown={(e): void => {
+            handleItemKeydown(e, item);
+          }}
+          selected={selected !== null && selected.id === item.id}
         >
           <Text>
             {item.name}
