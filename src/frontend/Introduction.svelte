@@ -26,7 +26,7 @@
 <FormField>
   <Checkbox bind:checked={copyComments} />
   {#snippet label()}
-    <div class="form-heading">
+    <div>
       {m.introduction_configuration_copyComments_title()}
     </div>
     {m.introduction_configuration_copyComments_description()}
@@ -37,7 +37,7 @@
 <FormField>
   <Checkbox bind:checked={mergeFolders} />
   {#snippet label()}
-    <div class="form-heading">
+    <div>
       {m.introduction_configuration_mergeFolders_title()}
     </div>
     {m.introduction_configuration_mergeFolders_description()}
@@ -53,7 +53,7 @@
     @include typography.typography("headline5");
   }
 
-  .form-heading {
+  div {
     @include typography.typography("subtitle2");
   }
 </style>

@@ -114,13 +114,12 @@
   <List singleSelection>
     <Separator />
     <Subheader>
-      <button class="breadcrumb" onclick={rootNavigation} type="button">
+      <button onclick={rootNavigation} type="button">
         {m.drive_driveList()}
       </button>
       {#each path as segment (segment.id)}
         &nbsp; &gt; &nbsp;
         <button
-          class="breadcrumb"
           onclick={(): void => {
             breadcrumbNavigation(segment);
           }}
@@ -166,7 +165,7 @@
     user-select: none;
   }
 
-  .breadcrumb {
+  button {
     border: none;
     background-color: unset;
     cursor: pointer;
