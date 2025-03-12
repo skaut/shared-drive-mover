@@ -197,7 +197,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ["**/*.svelte", "*.svelte"],
+    files: ["**/*.svelte", "**/*.svelte.ts"],
     languageOptions: {
       globals: {
         google: "readonly",
