@@ -148,7 +148,7 @@
     <LinearProgress indeterminate />
   {/if}
 </div>
-<div id="tab">
+<div class="tab">
   {#if currentTab === "introduction"}
     <Introduction bind:copyComments bind:mergeFolders />
     <ContinueButton
@@ -260,7 +260,7 @@
     --mdc-theme-secondary: #ff5252; /* Red A200 */
   }
 
-  #tab {
+  .tab {
     margin: 50px;
   }
 
