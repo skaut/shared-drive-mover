@@ -49,7 +49,7 @@
     "prettier-plugin-svelte": "^3.3.3",
     "rimraf": "^6.0.1",
     "sass": "^1.85.1",
-    "svelte": "^5.22.6",
+    "svelte": "^5.23.1",
     "svelte-check": "^4.1.4",
     "svelte-eslint-parser": "^1.1.0",
     "svelte-material-ui": "^8.0.0-beta.3",
