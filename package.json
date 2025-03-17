@@ -51,7 +51,7 @@
     "sass": "^1.85.1",
     "svelte": "^5.22.6",
     "svelte-check": "^4.1.4",
-    "svelte-eslint-parser": "^1.0.1",
+    "svelte-eslint-parser": "^1.1.0",
     "svelte-material-ui": "^8.0.0-beta.3",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.26.1",
