@@ -21,9 +21,13 @@
   import Introduction from "./Introduction.svelte";
   import Moving from "./Moving.svelte";
   import * as m from "./paraglide/messages";
-  import { baseLocale, defineGetLocale, isLocale } from "./paraglide/runtime";
+  import {
+    baseLocale,
+    isLocale,
+    overwriteGetLocale,
+  } from "./paraglide/runtime";
 
-  defineGetLocale(() => {
+  overwriteGetLocale(() => {
     const languageTag = "<?= Session.getActiveUserLocale() ?>"
       .replace(/^["']/u, "")
       .replace(/["']$/u, "");
