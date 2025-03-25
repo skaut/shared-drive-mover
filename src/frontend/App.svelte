@@ -16,6 +16,7 @@
   import BackButton from "./BackButton.svelte";
   import Confirmation from "./Confirmation.svelte";
   import ContinueButton from "./ContinueButton.svelte";
+  import Details from "./Details.svelte";
   import Done from "./Done.svelte";
   import FolderSelection from "./FolderSelection.svelte";
   import Introduction from "./Introduction.svelte";
@@ -44,7 +45,8 @@
   let moving = $state(false);
   let movingComponent: Moving | undefined = $state();
   let errorDialogOpen = $state(false);
-  let errorMessage = $state("");
+  let errorDialogMessage = $state("");
+  let errorDialogDetail: string | undefined = $state(undefined);
 
   let progress = $derived(
     currentTab === "introduction"
@@ -66,8 +68,9 @@
   let destination: NamedRecord | null = $state(null);
   let errors: Array<MoveError> | null = $state(null);
 
-  function showErrorDialog(message: string): void {
-    errorMessage = message;
+  function showErrorDialog(message: string, details?: string): void {
+    errorDialogMessage = message;
+    errorDialogDetail = details;
     errorDialogOpen = true;
   }
 
@@ -77,7 +80,7 @@
       switch (response.type) {
         case "DriveAPIError":
           currentTab = "confirmation";
-          showErrorDialog(m.errorDialog_DriveAPIError());
+          showErrorDialog(m.errorDialog_DriveAPIError(), response.detail);
           break;
         case "invalidParameter":
           currentTab = "confirmation";
@@ -244,7 +247,16 @@
       {m.errorDialog_title()}
     </DialogTitle>
     <Content id="errorDialogContent">
-      {errorMessage}
+      {errorDialogMessage}
+      {#if errorDialogDetail !== undefined}
+        <br />
+        <br />
+        <Details>
+          <span>
+            {errorDialogDetail}
+          </span>
+        </Details>
+      {/if}
     </Content>
     <Actions>
       <Button>
@@ -262,6 +274,10 @@
   :root {
     --mdc-theme-primary: #448aff; /* Blue A200 */
     --mdc-theme-secondary: #ff5252; /* Red A200 */
+  }
+
+  span {
+    white-space: pre-line;
   }
 
   .tab {
