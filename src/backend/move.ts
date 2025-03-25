@@ -63,7 +63,17 @@ export function move(
     }
     state.destroyState();
     return { response: { errors }, status: "success" };
-  } catch (e) {
-    return { status: "error", type: "DriveAPIError" };
+  } catch (e: unknown) {
+    return {
+      detail:
+        typeof e === "object" &&
+        e !== null &&
+        "message" in e &&
+        typeof e.message === "string"
+          ? e.message
+          : undefined,
+      status: "error",
+      type: "DriveAPIError",
+    };
   }
 }

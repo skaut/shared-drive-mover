@@ -294,10 +294,11 @@ test("move detects and reports source matching destination", () => {
 
 test("move fails gracefully on error when checking folder emptiness", () => {
   vi.mocked(folderManagement).isFolderEmpty_.mockImplementationOnce(() => {
-    throw new Error();
+    throw new Error("ERROR_DETAIL");
   });
 
   expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
+    detail: "ERROR_DETAIL",
     status: "error",
     type: "DriveAPIError",
   });

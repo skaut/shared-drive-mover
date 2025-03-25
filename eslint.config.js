@@ -209,6 +209,9 @@ export default tseslint.config(
         parser: tseslint.parser,
       },
     },
+    rules: {
+      "@typescript-eslint/no-confusing-void-expression": "off",
+    },
   },
   {
     files: ["tests/backend/**/*.ts"],
