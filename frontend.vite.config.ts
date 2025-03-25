@@ -19,6 +19,16 @@ export default defineConfig({
       preprocess: vitePreprocess(),
     }),
     viteSingleFile({ removeViteModuleLoader: false }),
+    {
+      generateBundle: (_, bundle): void => {
+        for (const asset of Object.values(bundle)) {
+          if (asset.type === "chunk") {
+            asset.code = asset.code.replace(/:\/\//gu, ":\\/\\/");
+          }
+        }
+      },
+      name: "double-slash-fixer",
+    },
   ],
   root: "src/frontend/",
 });
