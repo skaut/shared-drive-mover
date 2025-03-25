@@ -1,9 +1,10 @@
 export type Response<RawResponse, ErrorType extends string> =
   | {
-      response: RawResponse;
-      status: "success";
-    }
-  | {
+      detail?: string;
       status: "error";
       type: ErrorType;
+    }
+  | {
+      response: RawResponse;
+      status: "success";
     };
