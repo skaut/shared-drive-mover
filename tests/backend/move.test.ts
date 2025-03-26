@@ -297,11 +297,12 @@ test("move fails gracefully on error when checking folder emptiness", () => {
     throw new Error("ERROR_DETAIL");
   });
 
-  expect(move("SRC_ID", "DEST_ID", false, false, false)).toStrictEqual({
-    detail: "ERROR_DETAIL",
-    status: "error",
-    type: "DriveAPIError",
-  });
+  const ret = move("SRC_ID", "DEST_ID", false, false, false);
+
+  expect(ret.status).toBe("error");
+  expect(ret).toHaveProperty("type", "DriveAPIError");
+  expect((ret as { detail: string }).detail).toContain("ERROR_DETAIL");
+  expect((ret as { detail: string }).detail).toContain("Stack trace");
 
   expect(vi.mocked(folderManagement).isFolderEmpty_.mock.calls).toHaveLength(1);
   expect(vi.mocked(folderManagement).isFolderEmpty_.mock.calls[0][0]).toBe(
