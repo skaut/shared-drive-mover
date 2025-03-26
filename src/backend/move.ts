@@ -70,7 +70,10 @@ export function move(
         e !== null &&
         "message" in e &&
         typeof e.message === "string"
-          ? e.message
+          ? e.message +
+            ("stack" in e && typeof e.stack === "string"
+              ? `\n\nStack trace:\n${e.stack}`
+              : "")
           : undefined,
       status: "error",
       type: "DriveAPIError",
