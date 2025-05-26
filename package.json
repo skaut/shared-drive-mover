@@ -36,7 +36,7 @@
     "@vitest/eslint-plugin": "^1.1.44",
     "eslint": "^9.27.0",
     "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-perfectionist": "^4.12.3",
+    "eslint-plugin-perfectionist": "^4.13.0",
     "eslint-plugin-playwright": "^2.2.0",
     "eslint-plugin-prefer-arrow-functions": "^3.6.2",
     "eslint-plugin-prettier": "^5.4.0",
