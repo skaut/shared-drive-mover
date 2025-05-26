@@ -46,7 +46,7 @@
     "playwright": "^1.52.0",
     "playwright-test-coverage": "^1.2.12",
     "prettier": "^3.5.2",
-    "prettier-plugin-svelte": "^3.3.3",
+    "prettier-plugin-svelte": "^3.4.0",
     "rimraf": "^6.0.1",
     "sass": "^1.89.0",
     "svelte": "^5.28.2",
