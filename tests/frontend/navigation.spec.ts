@@ -7,7 +7,7 @@ test("works with basic configuration", async ({ page }) => {
   const getCalls = await setup(page);
 
   await page.evaluate(() => {
-    window._endpointStubs.listSharedDrives = [
+    window._endpointStubs["listSharedDrives"] = [
       {
         status: "success",
         value: { response: [], status: "success" },
@@ -33,7 +33,7 @@ test("works with basic configuration", async ({ page }) => {
         value: { response: [], status: "success" },
       },
     ];
-    window._endpointStubs.move = [
+    window._endpointStubs["move"] = [
       {
         status: "success",
         value: { response: { errors: [] }, status: "success" },

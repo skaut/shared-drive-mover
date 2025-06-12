@@ -67,12 +67,12 @@
       google.script.run
         .withSuccessHandler(handleSharedDriveResponse)
         .withFailureHandler(handleError)
-        .listSharedDrives();
+        ["listSharedDrives"]();
     } else {
       google.script.run
         .withSuccessHandler(handleFolderResponse)
         .withFailureHandler(handleError)
-        .listFolders(path[path.length - 1].id);
+        ["listFolders"](path[path.length - 1].id);
     }
   }
 
