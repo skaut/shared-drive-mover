@@ -29,7 +29,7 @@
     "@smui/list": "^8.0.0-beta.3",
     "@smui/top-app-bar": "^8.0.0-beta.3",
     "@sveltejs/vite-plugin-svelte": "^5.1.0",
-    "@types/google-apps-script": "^1.0.97",
+    "@types/google-apps-script": "^1.0.99",
     "@types/google.script.client-side": "^0.1.5",
     "@types/node": "^22.15.30",
     "@vitest/coverage-v8": "^3.2.3",
