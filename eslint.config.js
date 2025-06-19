@@ -11,68 +11,19 @@ import svelteParser from "svelte-eslint-parser";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  js.configs.recommended,
-  prettierRecommended,
-  commentsConfig.recommended,
-  ...tseslint.configs.strictTypeChecked,
-  ...tseslint.configs.stylisticTypeChecked,
-  ...svelte.configs["flat/recommended"],
-  ...svelte.configs["flat/prettier"],
-  perfectionist.configs["recommended-natural"],
   {
-    languageOptions: {
-      parserOptions: {
-        extraFileExtensions: [".svelte"],
-        projectService: {
-          defaultProject: "tsconfig.json",
-        },
-      },
-    },
+    extends: [
+      js.configs.recommended,
+      prettierRecommended,
+      commentsConfig.recommended,
+      perfectionist.configs["recommended-natural"],
+    ],
+    files: ["**/*.js", "**/*.svelte", "**/*.ts"],
     plugins: {
       "eslint-comments": eslintComments,
       "prefer-arrow-functions": preferArrowFunctions,
     },
     rules: {
-      "@typescript-eslint/array-type": ["error", { default: "generic" }],
-      "@typescript-eslint/class-methods-use-this": "error",
-      "@typescript-eslint/consistent-type-exports": "error",
-      "@typescript-eslint/consistent-type-imports": "error",
-      "@typescript-eslint/default-param-last": "error",
-      "@typescript-eslint/explicit-function-return-type": "error",
-      "@typescript-eslint/explicit-member-accessibility": "error",
-      "@typescript-eslint/explicit-module-boundary-types": "error",
-      "@typescript-eslint/init-declarations": "error",
-      "@typescript-eslint/method-signature-style": ["error", "method"],
-      "@typescript-eslint/no-import-type-side-effects": "error",
-      "@typescript-eslint/no-invalid-void-type": [
-        "error",
-        { allowAsThisParameter: true },
-      ],
-      "@typescript-eslint/no-shadow": "error",
-      "@typescript-eslint/no-unnecessary-parameter-property-assignment":
-        "error",
-      "@typescript-eslint/no-unnecessary-qualifier": "error",
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        {
-          caughtErrors: "none",
-          varsIgnorePattern: "^\\$\\$Slots$",
-        },
-      ],
-      "@typescript-eslint/no-use-before-define": [
-        "error",
-        { functions: false },
-      ],
-      "@typescript-eslint/no-useless-empty-export": "error",
-      "@typescript-eslint/parameter-properties": "error",
-      "@typescript-eslint/prefer-enum-initializers": "error",
-      "@typescript-eslint/prefer-includes": "off", // Requires newer ES
-      "@typescript-eslint/prefer-readonly": "error",
-      "@typescript-eslint/promise-function-async": "error",
-      "@typescript-eslint/require-array-sort-compare": "error",
-      "@typescript-eslint/strict-boolean-expressions": "error",
-      "@typescript-eslint/switch-exhaustiveness-check": "error",
-      "@typescript-eslint/typedef": "error",
       "array-callback-return": "error",
       "arrow-body-style": ["error", "as-needed"],
       "block-scoped-var": "error",
@@ -148,7 +99,6 @@ export default tseslint.config(
           allowNamedFunctions: true,
         },
       ],
-      "prefer-const": "off",
       "prefer-exponentiation-operator": "error",
       "prefer-object-spread": "error",
       "prefer-regex-literals": "error",
@@ -157,6 +107,81 @@ export default tseslint.config(
       "require-atomic-updates": "error",
       "require-unicode-regexp": "error",
       strict: ["error", "never"],
+    },
+  },
+  {
+    extends: [
+      tseslint.configs.strictTypeChecked,
+      tseslint.configs.stylisticTypeChecked,
+    ],
+    files: ["**/*.svelte", "**/*.ts"],
+    languageOptions: {
+      parserOptions: {
+        extraFileExtensions: [".svelte"],
+        projectService: true,
+      },
+    },
+    rules: {
+      "@typescript-eslint/array-type": ["error", { default: "generic" }],
+      "@typescript-eslint/class-methods-use-this": "error",
+      "@typescript-eslint/consistent-type-exports": "error",
+      "@typescript-eslint/consistent-type-imports": "error",
+      "@typescript-eslint/default-param-last": "error",
+      "@typescript-eslint/explicit-function-return-type": "error",
+      "@typescript-eslint/explicit-member-accessibility": "error",
+      "@typescript-eslint/explicit-module-boundary-types": "error",
+      "@typescript-eslint/init-declarations": "error",
+      "@typescript-eslint/method-signature-style": ["error", "method"],
+      "@typescript-eslint/no-import-type-side-effects": "error",
+      "@typescript-eslint/no-invalid-void-type": [
+        "error",
+        { allowAsThisParameter: true },
+      ],
+      "@typescript-eslint/no-shadow": "error",
+      "@typescript-eslint/no-unnecessary-parameter-property-assignment":
+        "error",
+      "@typescript-eslint/no-unnecessary-qualifier": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          caughtErrors: "none",
+          varsIgnorePattern: "^\\$\\$Slots$",
+        },
+      ],
+      "@typescript-eslint/no-use-before-define": [
+        "error",
+        { functions: false },
+      ],
+      "@typescript-eslint/no-useless-empty-export": "error",
+      "@typescript-eslint/parameter-properties": "error",
+      "@typescript-eslint/prefer-enum-initializers": "error",
+      "@typescript-eslint/prefer-includes": "off", // Requires newer ES
+      "@typescript-eslint/prefer-readonly": "error",
+      "@typescript-eslint/promise-function-async": "error",
+      "@typescript-eslint/require-array-sort-compare": "error",
+      "@typescript-eslint/strict-boolean-expressions": "error",
+      "@typescript-eslint/switch-exhaustiveness-check": "error",
+      "@typescript-eslint/typedef": "error",
+    },
+  },
+  {
+    extends: [
+      svelte.configs["flat/recommended"],
+      svelte.configs["flat/prettier"],
+    ],
+    files: ["**/*.svelte", "**/*.svelte.ts"],
+    languageOptions: {
+      globals: {
+        google: "readonly",
+      },
+      parser: svelteParser,
+      parserOptions: {
+        parser: tseslint.parser,
+      },
+    },
+    rules: {
+      "@typescript-eslint/no-confusing-void-expression": "off",
+      "prefer-const": "off",
       "svelte/block-lang": [
         "error",
         {
@@ -203,25 +228,9 @@ export default tseslint.config(
     },
   },
   {
-    files: ["**/*.svelte", "**/*.svelte.ts"],
-    languageOptions: {
-      globals: {
-        google: "readonly",
-      },
-      parser: svelteParser,
-      parserOptions: {
-        parser: tseslint.parser,
-      },
-    },
-    rules: {
-      "@typescript-eslint/no-confusing-void-expression": "off",
-    },
-  },
-  {
+    extends: [vitest.configs.recommended],
     files: ["tests/backend/**/*.ts"],
-    ...vitest.configs.recommended,
     rules: {
-      ...vitest.configs.recommended.rules,
       "@typescript-eslint/unbound-method": "off",
       "vitest/consistent-test-it": ["error", { withinDescribe: "test" }],
       "vitest/no-alias-methods": "error",
@@ -269,10 +278,9 @@ export default tseslint.config(
     },
   },
   {
-    ...playwright.configs["flat/recommended"],
+    extends: [playwright.configs["flat/recommended"]],
     files: ["tests/frontend/**/*.ts"],
     rules: {
-      ...playwright.configs["flat/recommended"].rules,
       "playwright/no-commented-out-tests": "error",
       "playwright/no-duplicate-hooks": "error",
       "playwright/no-get-by-title": "error",
@@ -289,20 +297,6 @@ export default tseslint.config(
       "playwright/prefer-to-have-length": "error",
       "playwright/require-hook": "error",
       "playwright/require-to-throw-message": "error",
-    },
-  },
-  {
-    files: ["**/*.js"],
-    rules: {
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-unnecessary-condition": "off",
-      "@typescript-eslint/no-unsafe-argument": "off",
-      "@typescript-eslint/no-unsafe-assignment": "off",
-      "@typescript-eslint/no-unsafe-call": "off",
-      "@typescript-eslint/no-unsafe-member-access": "off",
-      "@typescript-eslint/no-unsafe-return": "off",
-      "@typescript-eslint/prefer-nullish-coalescing": "off",
     },
   },
 );
