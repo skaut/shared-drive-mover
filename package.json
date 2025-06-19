@@ -73,7 +73,7 @@
     "lint:ts:typecheck:backend": "tsc --noEmit --project backend.tsconfig.json",
     "lint:ts:typecheck:frontend": "tsc --noEmit --project frontend.tsconfig.json",
     "lint:ts:typecheck": "run-p -c --aggregate-output lint:ts:typecheck:*",
-    "lint:ts:eslint": "eslint --color \"src/**/*.svelte\" \"src/**/*.ts\" \"tests/**/*.ts\" \"*.config.{js,ts}\"",
+    "lint:eslint": "eslint --color",
     "lint:ts": "run-p -c --aggregate-output lint:ts:*",
     "prelint": "npm run paraglide",
     "lint": "run-p -c --aggregate-output lint:*",

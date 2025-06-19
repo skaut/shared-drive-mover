@@ -7,10 +7,12 @@ import playwright from "eslint-plugin-playwright";
 import preferArrowFunctions from "eslint-plugin-prefer-arrow-functions";
 import prettierRecommended from "eslint-plugin-prettier/recommended";
 import svelte from "eslint-plugin-svelte";
+import { globalIgnores } from "eslint/config";
 import svelteParser from "svelte-eslint-parser";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
+  globalIgnores(["coverage/", "dist/", "src/frontend/paraglide/"]),
   {
     extends: [
       js.configs.recommended,
