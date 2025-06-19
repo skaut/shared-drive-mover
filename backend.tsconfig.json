@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "types": ["google-apps-script", "google.script.client-side"],
+    "types": ["google-apps-script", "google.script.client-side"]
   },
   "include": [
     "src/backend/**/*.ts"
