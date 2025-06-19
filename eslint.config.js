@@ -3,6 +3,7 @@ import commentsConfig from "@eslint-community/eslint-plugin-eslint-comments/conf
 import js from "@eslint/js";
 import json from "@eslint/json";
 import vitest from "@vitest/eslint-plugin";
+import packageJson from "eslint-plugin-package-json";
 import perfectionist from "eslint-plugin-perfectionist";
 import playwright from "eslint-plugin-playwright";
 import preferArrowFunctions from "eslint-plugin-prefer-arrow-functions";
@@ -19,9 +20,11 @@ export default tseslint.config(
     "package-lock.json",
     "src/frontend/paraglide/",
   ]),
+  packageJson.configs.recommended,
   {
     extends: [json.configs.recommended],
     files: ["**/*.json"],
+    ignores: ["package.json"],
     language: "json/json",
   },
   {
