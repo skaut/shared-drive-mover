@@ -38,6 +38,8 @@ export default tseslint.config(
       js.configs.recommended,
       prettierRecommended,
       commentsConfig.recommended,
+      tseslint.configs.strict,
+      tseslint.configs.stylistic,
       perfectionist.configs["recommended-natural"],
     ],
     files: ["**/*.js", "**/*.svelte", "**/*.ts"],
