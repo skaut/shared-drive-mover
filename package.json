@@ -83,7 +83,7 @@
     "svelte-material-ui": "^8.0.0-beta.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.36.0",
-    "vite": "^7.0.4",
+    "vite": "^7.0.5",
     "vite-plugin-singlefile": "^2.3.0",
     "vitest": "^3.2.3"
   }
