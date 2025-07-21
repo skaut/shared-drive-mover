@@ -52,7 +52,7 @@
     "@smui/data-table": "^8.0.0-beta.3",
     "@smui/dialog": "^8.0.0-beta.3",
     "@smui/form-field": "^8.0.0-beta.3",
-    "@smui/linear-progress": "^8.0.0-beta.3",
+    "@smui/linear-progress": "^8.0.1",
     "@smui/list": "^8.0.0-beta.3",
     "@smui/top-app-bar": "^8.0.0-beta.3",
     "@sveltejs/vite-plugin-svelte": "^6.0.0",
