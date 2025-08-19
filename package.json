@@ -50,7 +50,7 @@
     "@smui/button": "^8.0.1",
     "@smui/checkbox": "^8.0.1",
     "@smui/data-table": "^8.0.1",
-    "@smui/dialog": "^8.0.1",
+    "@smui/dialog": "^8.0.3",
     "@smui/form-field": "^8.0.1",
     "@smui/linear-progress": "^8.0.1",
     "@smui/list": "^8.0.1",
