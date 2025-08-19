@@ -65,7 +65,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-package-json": "^0.54.0",
     "eslint-plugin-perfectionist": "^4.15.0",
-    "eslint-plugin-playwright": "^2.2.0",
+    "eslint-plugin-playwright": "^2.2.2",
     "eslint-plugin-prefer-arrow-functions": "^3.6.2",
     "eslint-plugin-prettier": "^5.5.3",
     "eslint-plugin-svelte": "^3.11.0",
