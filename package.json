@@ -48,7 +48,7 @@
     "@material/theme": "^14.0.0",
     "@playwright/test": "^1.54.1",
     "@smui/button": "^8.0.1",
-    "@smui/checkbox": "^8.0.1",
+    "@smui/checkbox": "^8.0.3",
     "@smui/data-table": "^8.0.1",
     "@smui/dialog": "^8.0.1",
     "@smui/form-field": "^8.0.1",
