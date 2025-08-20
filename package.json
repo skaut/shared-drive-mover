@@ -46,7 +46,7 @@
     "@google/clasp": "^2.5.0",
     "@inlang/paraglide-js": "2.2.0",
     "@material/theme": "^14.0.0",
-    "@playwright/test": "^1.54.1",
+    "@playwright/test": "^1.55.0",
     "@smui/button": "^8.0.3",
     "@smui/checkbox": "^8.0.1",
     "@smui/data-table": "^8.0.1",
