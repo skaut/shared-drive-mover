@@ -9,13 +9,13 @@ test("handles raw errors in source folder selection gracefully", async ({
   await setup(page);
 
   await page.evaluate(() => {
-    window._endpointStubs.listFolders = [
+    window._endpointStubs["listFolders"] = [
       {
         status: "failure",
         value: new Error("ERROR MESSAGE"),
       },
     ];
-    window._endpointStubs.listSharedDrives = [
+    window._endpointStubs["listSharedDrives"] = [
       {
         status: "success",
         value: {

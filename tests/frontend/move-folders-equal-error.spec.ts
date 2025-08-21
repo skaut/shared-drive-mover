@@ -9,7 +9,7 @@ test("works with source and destination folders being equal", async ({
   await setup(page);
 
   await page.evaluate(() => {
-    window._endpointStubs.listSharedDrives = [
+    window._endpointStubs["listSharedDrives"] = [
       {
         status: "success",
         value: { response: [], status: "success" },
@@ -19,7 +19,7 @@ test("works with source and destination folders being equal", async ({
         value: { response: [], status: "success" },
       },
     ];
-    window._endpointStubs.move = [
+    window._endpointStubs["move"] = [
       {
         status: "success",
         value: { status: "error", type: "sourceEqualsDestination" },
