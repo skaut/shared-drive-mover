@@ -75,9 +75,7 @@ export class DriveBackedValue_<T> {
   }
 
   private getExistingDriveFileContents(fileId: string): T {
-    return JSON.parse(
-      this.driveService.Files.get(fileId, null, { alt: "media" as const }),
-    ) as T;
+    return this.driveService.Files.get(fileId, null, { alt: "media" as const }) as T;
   }
 
   private getExistingDriveFileId(folderId: string): string | null {
