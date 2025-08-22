@@ -144,7 +144,7 @@ export const SafeFilesCollection_ = {
         fields: stringifyFields_(fields),
       }),
     });
-    if (typeof ret !== "string" && !fileIsSafe_(ret, fields)) {
+    if (typeof ret !== "string" && !fileIsSafe_(ret, fields) && !("alt" in optionalArgs && optionalArgs.alt === "media")) {
       throw new Error("Files.get: File is not safe.");
     }
     return ret as unknown as GetReturn<F, A>;
