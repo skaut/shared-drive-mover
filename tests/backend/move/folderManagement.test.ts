@@ -31,7 +31,6 @@ test("listFilesInFolder works correctly", () => {
   ];
   const rawResponse = {
     files,
-    nextPageToken: undefined,
   };
   const driveServiceMock = mockedSafeDriveService();
   vi.mocked(driveServiceMock.Files.list).mockReturnValueOnce(rawResponse);
@@ -104,7 +103,6 @@ test("listFoldersInFolder works correctly", () => {
   ];
   const rawResponse = {
     files,
-    nextPageToken: undefined,
   };
   const driveServiceMock = mockedSafeDriveService();
   vi.mocked(driveServiceMock.Files.list).mockReturnValueOnce(rawResponse);
@@ -244,7 +242,6 @@ test("deleteFolderIfEmpty works correctly", () => {
   };
   const listResponse = {
     files: [],
-    nextPageToken: undefined,
   };
   const driveServiceMock = mockedSafeDriveService();
   vi.mocked(driveServiceMock.Files.get).mockReturnValueOnce(getResponse);
@@ -297,7 +294,6 @@ test("deleteFolderIfEmpty doesn't delete a non-empty folder", () => {
 
   const listResponse = {
     files: [{ userPermission: { role: "reader" } }],
-    nextPageToken: undefined,
   };
   const driveServiceMock = mockedSafeDriveService();
   vi.mocked(driveServiceMock.Files.list).mockReturnValueOnce(listResponse);
@@ -344,7 +340,6 @@ test("deleteFolderIfEmpty doesn't try to delete a folder without permissions", (
   };
   const listResponse = {
     files: [],
-    nextPageToken: undefined,
   };
   const driveServiceMock = mockedSafeDriveService();
   vi.mocked(driveServiceMock.Files.get).mockReturnValueOnce(getResponse);

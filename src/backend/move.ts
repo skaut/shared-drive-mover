@@ -65,16 +65,16 @@ export function move(
     return { response: { errors }, status: "success" };
   } catch (e: unknown) {
     return {
-      detail:
-        typeof e === "object" &&
+      ...(typeof e === "object" &&
         e !== null &&
         "message" in e &&
-        typeof e.message === "string"
-          ? e.message +
+        typeof e.message === "string" && {
+          detail:
+            e.message +
             ("stack" in e && typeof e.stack === "string"
               ? `\n\nStack trace:\n${e.stack}`
-              : "")
-          : undefined,
+              : ""),
+        }),
       status: "error",
       type: "DriveAPIError",
     };

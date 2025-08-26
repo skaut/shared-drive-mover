@@ -39,7 +39,7 @@ const safeFileKeys: DeepKeyof<SafeFile> = {
 
 export interface SafeFileList<F extends DeepKeyof<SafeFile>> {
   files: Array<DeepPick<SafeFile, F>>;
-  nextPageToken?: string | undefined;
+  nextPageToken?: string;
 }
 interface GetArg {
   alt?: string;
