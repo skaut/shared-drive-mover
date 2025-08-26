@@ -377,9 +377,7 @@ test("DriveBackedValue loads a value - the folder exists, the value exists", () 
     ],
   };
   const driveServiceMock = mockedSafeDriveService();
-  vi.mocked(driveServiceMock.Files.get).mockReturnValueOnce(
-    JSON.stringify("VALUE"),
-  );
+  vi.mocked(driveServiceMock.Files.get).mockReturnValueOnce("VALUE");
   vi.mocked(driveServiceMock.Files.list)
     .mockReturnValueOnce(response1)
     .mockReturnValueOnce(response2);
