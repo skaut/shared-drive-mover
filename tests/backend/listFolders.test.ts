@@ -21,7 +21,6 @@ test("listFolders works correctly", () => {
       { id: "ID1", name: "FOLDER1" },
       { id: "ID2", name: "FOLDER2" },
     ],
-    nextPageToken: undefined,
   };
   const driveServiceMock = mockedSafeDriveService();
   vi.mocked(driveServiceMock.Files.list).mockReturnValueOnce(rawResponse);
@@ -87,7 +86,6 @@ test("listFolders works correctly with shortcuts", () => {
       },
       { id: "ID2", name: "FOLDER2" },
     ],
-    nextPageToken: undefined,
   };
   const driveServiceMock = mockedSafeDriveService();
   vi.mocked(driveServiceMock.Files.list).mockReturnValueOnce(rawResponse);

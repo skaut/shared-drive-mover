@@ -18,7 +18,7 @@ export interface SafeComment {
 
 export interface SafeCommentList<F extends DeepKeyof<SafeComment>> {
   comments: Array<DeepPick<SafeComment, F>>;
-  nextPageToken?: string | undefined;
+  nextPageToken?: string;
 }
 
 interface SafeReply {

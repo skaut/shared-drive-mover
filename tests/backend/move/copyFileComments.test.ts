@@ -25,7 +25,6 @@ test("copyFileComments works correctly", () => {
         replies: [],
       },
     ],
-    nextPageToken: undefined,
   };
   const driveServiceMock = mockedSafeDriveService();
   vi.mocked(driveServiceMock.Comments.create)
@@ -125,7 +124,6 @@ test("copyFileComments works correctly with replies", () => {
         ],
       },
     ],
-    nextPageToken: undefined,
   };
   const driveServiceMock = mockedSafeDriveService();
   vi.mocked(driveServiceMock.Comments.create).mockReturnValueOnce({
