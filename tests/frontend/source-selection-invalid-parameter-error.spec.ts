@@ -9,7 +9,7 @@ test("handles invalid parameter errors in source folder selection gracefully", a
   await setup(page);
 
   await page.evaluate(() => {
-    window._endpointStubs.listSharedDrives = [
+    window._endpointStubs["listSharedDrives"] = [
       {
         status: "success",
         value: { status: "error", type: "invalidParameter" },

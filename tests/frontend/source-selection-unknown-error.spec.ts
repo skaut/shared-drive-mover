@@ -9,7 +9,7 @@ test("handles raw errors in source folder selection gracefully", async ({
   await setup(page);
 
   await page.evaluate(() => {
-    window._endpointStubs.listSharedDrives = [
+    window._endpointStubs["listSharedDrives"] = [
       {
         status: "success",
         value: { status: "error", type: "unknown" },
