@@ -48,7 +48,8 @@ interface GetArg {
 type GetReturn<F extends DeepKeyof<SafeFile>, A extends GetArg> = A extends {
   alt: "media";
 }
-  ? string
+  ? // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Raw file can contain anything
+    any
   : DeepPick<SafeFile, F>;
 
 function fileIsSafe_<F extends DeepKeyof<SafeFile>>(
@@ -144,9 +145,13 @@ export const SafeFilesCollection_ = {
         fields: stringifyFields_(fields),
       }),
     });
-    if (typeof ret !== "string" && !fileIsSafe_(ret, fields) && !("alt" in optionalArgs && optionalArgs.alt === "media")) {
+    if (
+      !("alt" in optionalArgs && optionalArgs.alt === "media") &&
+      !fileIsSafe_(ret, fields)
+    ) {
       throw new Error("Files.get: File is not safe.");
     }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- Raw file can contain anything
     return ret as unknown as GetReturn<F, A>;
   },
 
